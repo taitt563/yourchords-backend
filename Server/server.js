@@ -14,6 +14,7 @@ const con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
+    database: "signup"
 })
 
 
@@ -26,8 +27,16 @@ con.connect(function (err) {
 })
 
 app.post('/login', (req, res) => {
+    const sql = "SELECT * FROM login Where username = ? AND  password = ?";
+    con.query(sql, [req.body.username, req.body.password], (err, result) => {
+        if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
+        if (result.length > 0) {
+            return res.json({ Status: "Success" })
+        } else {
+            return res.json({ Status: "Error", Error: "Wrong Username or Password" });
+        }
+    })
 })
-
-app.listen(8080, () => {
+app.listen(8081, () => {
     console.log("Running");
 })
