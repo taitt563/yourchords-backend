@@ -3,7 +3,7 @@ import mysql from 'mysql';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcrypt';
-import { jwt } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 const app = express();
 app.use(cors());
@@ -19,11 +19,10 @@ const con = mysql.createConnection({
 
 con.connect(function (err) {
     if (err) {
-        console.log("Error in connection");
+        console.log("Error in Connection");
     } else {
         console.log("Connected");
     }
-
 })
 
 app.listen(8081, () => {
