@@ -1,19 +1,19 @@
-import './style.css'
+import '../../src/style.css'
 import { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 
-function SignIn() {
+function SignInChordManager() {
     const navigate = useNavigate();
     const [values, setValues] = useState({
         username: '',
-        password: ''
+        password: '',
     })
     const handleSignin = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:8081/signin', values)
-        navigate("/login");
+        axios.post('http://localhost:8081/signInChordManager', values)
+        navigate("/loginChordManager");
     }
     return (
         <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
@@ -40,4 +40,4 @@ function SignIn() {
     )
 }
 
-export default SignIn;
+export default SignInChordManager;

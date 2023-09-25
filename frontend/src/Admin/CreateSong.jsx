@@ -2,6 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 import { TextField } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 function CreateSong() {
     const [data, setData] = useState({
         name: '',
@@ -15,6 +18,18 @@ function CreateSong() {
 
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + showDate.getMonth() + '-' + showDate.getDate();
+    // const VisuallyHiddenInput = styled('input')({
+    //     clip: 'rect(0 0 0 0)',
+    //     clipPath: 'inset(50%)',
+    //     height: 1,
+    //     overflow: 'hidden',
+    //     position: 'absolute',
+    //     bottom: 0,
+    //     left: 0,
+    //     whiteSpace: 'nowrap',
+    //     width: 1,
+    //     color: 'dark'
+    // });
     const handleSubmit = (event) => {
         event.preventDefault();
         const formData = new FormData();
@@ -55,9 +70,14 @@ function CreateSong() {
                         onChange={e => setData({ ...data, time: e.target.value })} />
                 </div>
                 <div className="col-12 mb-3">
-                    <label className="form-label">Select Image</label>
-                    <input type="file"
-                        onChange={e => setData({ ...data, image: e.target.files[0] })} />
+                    <label className="form-label">Select Image:</label>
+                    <br />
+                    {/* <input type="file"
+                        onChange={e => setData({ ...data, image: e.target.files[0] })} /> */}
+                    <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                        <input
+                            type="file" onChange={e => setData({ ...data, image: e.target.files[0] })} />
+                    </Button>
                 </div>
                 <section>
 

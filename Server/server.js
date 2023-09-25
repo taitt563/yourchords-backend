@@ -90,8 +90,19 @@ app.get('/logout', (req, res) => {
     res.clearCookie('token');
     return res.json({ Status: "Success" });
 })
-app.post('/signin', (req, res) => {
-    const sql = "INSERT INTO login (username, password) VALUES (?, ?)";
+app.post('/signInAdmin', (req, res) => {
+    const sql = "INSERT INTO login (username, password , role) VALUES (?, ?,'admin')";
+    con.query(sql, [req.body.username, req.body.password], (err, result) => {
+        if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
+        if (result.length > 0) {
+            return res.json({ Status: "Success" })
+        } else {
+            return res.json({ Status: "Error", Error: "Error" });
+        }
+    })
+})
+app.post('/signInChordManager', (req, res) => {
+    const sql = "INSERT INTO login (username, password , role) VALUES (?, ?,'chord')";
     con.query(sql, [req.body.username, req.body.password], (err, result) => {
         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
         if (result.length > 0) {
@@ -122,22 +133,24 @@ app.post('/createSong', upload.single('image'), (req, res) => {
 })
 app.get('/getProfile/:id', (req, res) => {
     const id = req.params.id;
-    const sql = "SELECT * FROM profile where id = ?";
+    const sql = "SELECT * FROM profile WHERE id = ?";
     con.query(sql, [id], (err, result) => {
         if (err) return res.json({ Error: "Get song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })
 })
 
-app.put('/updateProfile/:id', upload.single('image'), (req, res) => {
+app.put('/updateProfile/:id', (req, res) => {
     const id = req.params.id;
-    const sql = "UPDATE profile SET name= ? , email = ? WHERE id= ?";
+    const sql = "UPDATE profile set name = `?` , email = `?` , address = `?` WHERE id = ? ";
     const values = [
         req.body.name,
+        req.body.email,
+        req.body.address,
     ]
     con.query(sql, [values, id], (err, result) => {
         if (err) return res.json({ Error: "Inside singup query" });
-        return res.json({ Status: "Success" });
+        return res.json({ Status: "Success", Result: result });
     })
 })
 
@@ -230,25 +243,6 @@ app.put('/unBanAccount/:id', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
-// app.post('/createSong', upload.single('image'), (req, res) => {
-//     const sql = "INSERT INTO song (`name`,`image`,`lyric`) VALUES (?)";
-//     if (req.body.name.length > 0) {
-//         const values = [
-//             req.body.name,
-//             req.file.filename,
-//             req.body.lyric,
-
-//         ]
-//         con.query(sql, [values], (err, result) => {
-//             if (err) return res.json({ Error: "Error" });
-//             return res.json({ Status: "Success" });
-//         })
-//     }
-//     else {
-//         return false;
-//     }
-
-// })
 
 app.listen(8081, () => {
     console.log("Running");

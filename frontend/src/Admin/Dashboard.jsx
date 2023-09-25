@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -8,6 +8,7 @@ import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ModeIcon from '@mui/icons-material/Mode';
 import LogoutIcon from '@mui/icons-material/Logout';
+import Link from '@mui/material/Link';
 function Dashboard() {
     const [data, setData] = useState([]);
     const navigate = useNavigate();
@@ -27,12 +28,7 @@ function Dashboard() {
 
             .catch(err => console.log(err));
     }, [])
-    const handleLogout = () => {
-        axios.get('http://localhost:8081/logout')
-            .then(
-                navigate('/start')
-            ).catch(err => console.log(err));
-    }
+
     return (
 
         <div className="container-fluid"  >
@@ -53,23 +49,23 @@ function Dashboard() {
                                 <span type="text" className='fs-100  font pd-left' aria-readonly={true}>Date current: <b>{displaytodaysdate}</b> </span>
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                                     <li className='pd-top'>
-                                        <Link to="/manageAccount" className="nav-link px-0 align-middle text-dark">
-                                            <i className="fs-4"><ManageAccountsIcon color="primary" /></i> <span className="ms-1 d-none d-sm-inline">Manage Account</span></Link>
+                                        <Link href="/manageAccount" underline="hover" className="nav-link px-0 align-middle">
+                                            <i className="fs-4"><ManageAccountsIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Manage Account</span></Link>
                                     </li>
                                     <li className='pd-top'>
-                                        <Link to="/Song" className="nav-link px-0 align-middle text-dark">
+                                        <Link href="/Song" underline="hover" className="nav-link px-0 align-middle">
                                             <i className="fs-4"><QueueMusicIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Manage Song</span></Link>
                                     </li>
                                     <li className='pd-top'>
-                                        <Link to="/feedback" className="nav-link px-0 align-middle text-dark">
+                                        <Link href="/feedback" underline="hover" className="nav-link px-0 align-middle">
                                             <i className="fs-4"><ThumbUpAltIcon color="primary" /></i> <span className="ms-1 d-none d-sm-inline" >View Feedback</span> </Link>
                                     </li>
                                     <li className='pd-top'>
-                                        <Link to={`/profile/` + profile.id} className="nav-link px-0 align-middle text-dark">
+                                        <Link href={`/profile/` + profile.id} underline="hover" className="nav-link px-0 align-middle ">
                                             <i className="fs-4"><ModeIcon color="primary" /></i>  <span className="ms-1 d-none d-sm-inline">Edit profile</span></Link>
                                     </li>
-                                    <li className='pd-top' onClick={handleLogout}>
-                                        <Link className="nav-link px-0 align-middle text-dark">
+                                    <li className='pd-top'>
+                                        <Link href="/logInStart" underline="hover" className="nav-link px-0 align-middle ">
                                             <i className="fs-4"><LogoutIcon color="primary" /></i> <span className="ms-1 d-none d-sm-inline">Logout</span></Link>
                                     </li>
                                 </ul>

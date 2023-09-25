@@ -1,8 +1,9 @@
-import { Link, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Link from '@mui/material/Link';
 
 function DashboardChordManager() {
     const [data, setData] = useState([]);
@@ -25,7 +26,7 @@ function DashboardChordManager() {
     const handleLogout = () => {
         axios.get('http://localhost:8081/logout')
             .then(
-                navigate('/start')
+                navigate('/logInStart')
             ).catch(err => console.log(err));
     }
     return (
@@ -41,19 +42,19 @@ function DashboardChordManager() {
                                 <span type="text" className='fs-100  font pd-left' aria-readonly={true}>Date current: <b>{displaytodaysdate}</b> </span>
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                                     <li className='pd-top'>
-                                        <Link to="/viewFeedback" className="nav-link px-0 align-middle text-dark">
+                                        <Link href="/viewFeedback" underline="hover" className="nav-link px-0 align-middle">
                                             <i className="fs-4 bi-people"></i> <span className="ms-1 d-none d-sm-inline">Customer Feedback</span> </Link>
                                     </li>
                                     <li className='pd-top'>
-                                        <Link to={`/profileChord/` + profile.id} className="nav-link px-0 align-middle text-dark">
+                                        <Link href={`/profileChord/` + profile.id} underline="hover" className="nav-link px-0 align-middle">
                                             <i className="fs-4 bi-person"></i> <span className="ms-1 d-none d-sm-inline">Edit profile</span></Link>
                                     </li>
                                     <li className='pd-top'>
-                                        <Link to="/manageSong" className="nav-link px-0 align-middle text-dark">
+                                        <Link href="/manageSong" underline="hover" className="nav-link px-0 align-middle">
                                             <i className="fs-4 bi-music-note-beamed"></i> <span className="ms-1 d-none d-sm-inline">Verify Chord</span></Link>
                                     </li>
                                     <li className='pd-top' onClick={handleLogout}>
-                                        <Link className="nav-link px-0 align-middle text-dark">
+                                        <Link href="logInStart" className="nav-link px-0 align-middle">
                                             <i className="fs-4 bi-power"></i> <span className="ms-1 d-none d-sm-inline">Logout</span></Link>
                                     </li>
                                 </ul>
