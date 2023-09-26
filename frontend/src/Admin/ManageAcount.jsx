@@ -5,19 +5,18 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BlockIcon from '@mui/icons-material/Block';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 function ManageAccount() {
+    const [isDeleted, setIsDeleted] = useState(false);
+    const [isBanAccount, setIsBanAccount] = useState(false);
+    const [isUnBanAccount, setIsUnBanAccount] = useState(false);
+
     const [toggleState, setToggleState] = useState(1);
     const toggleTab = (index) => {
         setToggleState(index);
     };
     const [data, setData] = useState([])
-
-    axios.defaults.withCredentials = true;
-
-
-
-
-    axios.defaults.withCredentials = true;
 
     useEffect(() => {
         axios.get('http://localhost:8081/getAccount')
@@ -29,13 +28,17 @@ function ManageAccount() {
                 }
             })
             .catch(err => console.log(err));
-    }, [])
+    })
 
     const handleDelete = (id) => {
         axios.delete('http://localhost:8081/deleteAccount/' + id)
             .then(res => {
                 if (res.data.Status === "Success") {
-                    window.location.reload(true);
+                    // window.location.reload(true);
+                    setIsDeleted(true);
+                    setTimeout(() => {
+                        setIsDeleted(false);
+                    }, 2000);
                 }
             })
             .catch(err => console.log(err));
@@ -44,7 +47,10 @@ function ManageAccount() {
         axios.put('http://localhost:8081/banAccount/' + id)
             .then(res => {
                 if (res.data.Status === "Success") {
-                    window.location.reload(true);
+                    setIsBanAccount(true);
+                    setTimeout(() => {
+                        setIsBanAccount(false);
+                    }, 2000);
                 }
             })
             .catch(err => console.log(err));
@@ -53,7 +59,10 @@ function ManageAccount() {
         axios.put('http://localhost:8081/unBanAccount/' + id)
             .then(res => {
                 if (res.data.Status === "Success") {
-                    window.location.reload(true);
+                    setIsUnBanAccount(true);
+                    setTimeout(() => {
+                        setIsUnBanAccount(false);
+                    }, 2500);
                 }
             })
             .catch(err => console.log(err));
@@ -83,6 +92,21 @@ function ManageAccount() {
                         <div>
                             <h3 className="p-2 d-flex justify-content-center">User Account Management</h3>
                         </div>
+                        {isDeleted && (
+                            <Stack sx={{ width: '100%' }} spacing={2} >
+                                <Alert severity="success">Account deleted successfully !</Alert>
+                            </Stack>
+                        )}
+                        {isBanAccount && (
+                            <Stack sx={{ width: '100%' }} spacing={2} >
+                                <Alert severity="warning">Account disabled !</Alert>
+                            </Stack>
+                        )}
+                        {isUnBanAccount && (
+                            <Stack sx={{ width: '100%' }} spacing={2} >
+                                <Alert severity="info">Account enable !</Alert>
+                            </Stack>
+                        )}
                         <div className='mt-4'>
                             <table className='table'>
                                 <thead>
@@ -105,16 +129,16 @@ function ManageAccount() {
                                                 <td>
                                                     <Link to={`/viewAccount/` + userAccount.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                                     {userAccount.ban == "Enable" ?
-                                                        <button onClick={e => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
+                                                        <button onClick={() => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
                                                             <BlockIcon />
                                                         </button>
                                                         :
-                                                        <button onClick={e => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
+                                                        <button onClick={() => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
                                                             <LockOpenIcon />
                                                         </button>
                                                     }
 
-                                                    <button onClick={e => handleDelete(userAccount.id)} className='btn btn-sm btn-danger me-2'>
+                                                    <button onClick={() => handleDelete(userAccount.id)} className='btn btn-sm btn-danger me-2'>
                                                         <DeleteIcon />
                                                     </button>
 
@@ -134,6 +158,21 @@ function ManageAccount() {
                         <div>
                             <h3 className="p-2 d-flex justify-content-center">Admin Account Management</h3>
                         </div>
+                        {isDeleted && (
+                            <Stack sx={{ width: '100%' }} spacing={2} >
+                                <Alert severity="success">Account deleted successfully !</Alert>
+                            </Stack>
+                        )}
+                        {isBanAccount && (
+                            <Stack sx={{ width: '100%' }} spacing={2} >
+                                <Alert severity="warning">Account disabled !</Alert>
+                            </Stack>
+                        )}
+                        {isUnBanAccount && (
+                            <Stack sx={{ width: '100%' }} spacing={2} >
+                                <Alert severity="info">Account enable !</Alert>
+                            </Stack>
+                        )}
                         <div className='mt-4'>
                             <table className='table'>
                                 <thead>
@@ -157,16 +196,16 @@ function ManageAccount() {
                                                 <td>
                                                     <Link to={`/viewAccount/` + userAccount.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                                     {userAccount.ban == "Enable" ?
-                                                        <button onClick={e => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
+                                                        <button onClick={() => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
                                                             <BlockIcon />
                                                         </button>
                                                         :
-                                                        <button onClick={e => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
+                                                        <button onClick={() => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
                                                             <LockOpenIcon />
                                                         </button>
                                                     }
 
-                                                    <button onClick={e => handleDelete(userAccount.id)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
+                                                    <button onClick={() => handleDelete(userAccount.id)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
 
                                                 </td>
                                             </tr>
@@ -184,6 +223,21 @@ function ManageAccount() {
                         <div>
                             <h3 className="p-2 d-flex justify-content-center">Chord Manager Account Management</h3>
                         </div>
+                        {isDeleted && (
+                            <Stack sx={{ width: '100%' }} spacing={2} >
+                                <Alert severity="success">Account deleted successfully !</Alert>
+                            </Stack>
+                        )}
+                        {isBanAccount && (
+                            <Stack sx={{ width: '100%' }} spacing={2} >
+                                <Alert severity="warning">Account disabled !</Alert>
+                            </Stack>
+                        )}
+                        {isUnBanAccount && (
+                            <Stack sx={{ width: '100%' }} spacing={2} >
+                                <Alert severity="info">Account enable !</Alert>
+                            </Stack>
+                        )}
                         <div className='mt-4'>
                             <table className='table'>
                                 <thead>
@@ -209,16 +263,16 @@ function ManageAccount() {
                                                 <td>
                                                     <Link to={`/viewAccount/` + userAccount.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                                     {userAccount.ban == "Enable" ?
-                                                        <button onClick={e => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
+                                                        <button onClick={() => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
                                                             <BlockIcon />
                                                         </button>
                                                         :
-                                                        <button onClick={e => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
+                                                        <button onClick={() => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
                                                             <LockOpenIcon />
                                                         </button>
                                                     }
 
-                                                    <button onClick={e => handleDelete(userAccount.id)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
+                                                    <button onClick={() => handleDelete(userAccount.id)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
 
                                                 </td>
                                             </tr>
@@ -236,6 +290,21 @@ function ManageAccount() {
                         <div>
                             <h3 className="p-2 d-flex justify-content-center">Musician Account Management</h3>
                         </div>
+                        {isDeleted && (
+                            <Stack sx={{ width: '100%' }} spacing={2} >
+                                <Alert severity="success">Account deleted successfully !</Alert>
+                            </Stack>
+                        )}
+                        {isBanAccount && (
+                            <Stack sx={{ width: '100%' }} spacing={2} >
+                                <Alert severity="warning">Account disabled !</Alert>
+                            </Stack>
+                        )}
+                        {isUnBanAccount && (
+                            <Stack sx={{ width: '100%' }} spacing={2} >
+                                <Alert severity="info">Account enable !</Alert>
+                            </Stack>
+                        )}
                         <div className='mt-4'>
                             <table className='table'>
                                 <thead>
@@ -260,15 +329,15 @@ function ManageAccount() {
                                                 <td>
                                                     <Link to={`/viewAccount/` + userAccount.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                                     {userAccount.ban == "Enable" ?
-                                                        <button onClick={e => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
+                                                        <button onClick={() => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
                                                             <BlockIcon />
                                                         </button>
                                                         :
-                                                        <button onClick={e => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
+                                                        <button onClick={() => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
                                                             <LockOpenIcon />
                                                         </button>
                                                     }
-                                                    <button onClick={e => handleDelete(userAccount.id)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
+                                                    <button onClick={() => handleDelete(userAccount.id)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
 
                                                 </td>
                                             </tr>

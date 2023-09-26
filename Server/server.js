@@ -211,6 +211,13 @@ app.get('/getProfile', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
+app.get('/getFeedback', (req, res) => {
+    const sql = "SELECT * FROM feedback";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Get song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
 app.get('/getAccount', (req, res) => {
     const sql = "SELECT * FROM login";
     con.query(sql, (err, result) => {

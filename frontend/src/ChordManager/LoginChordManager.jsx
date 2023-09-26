@@ -2,7 +2,9 @@ import { useState } from 'react'
 import '../../src/style.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 function LoginChordManager() {
 
     const [values, setValues] = useState({
@@ -43,11 +45,12 @@ function LoginChordManager() {
     }
     return (
         <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
-            <div className='p-3 rounded w-25 border loginForm'>
+            <div className='bg-light p-3 rounded w-25 border'>
                 <div className='text-danger'>
                     {error && error}
                 </div>
-                <h2>Login</h2>
+
+                <h2 className='p-2 d-flex justify-content-center'>Login</h2>
                 <form onSubmit={handleSubmit}>
 
                     <div className='mb-3'>
@@ -65,7 +68,9 @@ function LoginChordManager() {
                             onChange={e => setValues({ ...values, password: e.target.value })} className='form-control rounded-0' />
                     </div>
                     <button type='submit' className='btn btn-success border w-100 rounded-0'> Log in</button>
-                    <p>You are agree to our terms and policies</p>
+                    <FormGroup>
+                        <FormControlLabel required control={<Checkbox />} label="You are agree to our terms and policies" />
+                    </FormGroup>
                 </form>
                 <form onSubmit={handleSignin}>
                     <button className='btn btn-default border w-100 bg-light rounded-0'> Create Account</button>

@@ -1,44 +1,44 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-function Profile() {
-    const [data, setData] = useState({
-        name: '',
-        email: '',
-        address: '',
-    })
-    const navigate = useNavigate()
-    const { id } = useParams();
+// import { useNavigate, useParams } from 'react-router-dom';
+// import axios from 'axios';
+// import { useState, useEffect } from 'react';
+function Home() {
+    // const [data, setData] = useState({
+    //     name: '',
+    //     email: '',
+    //     address: '',
+    // })
+    // const navigate = useNavigate()
+    // const { id } = useParams();
 
-    useEffect(() => {
-        axios.get('http://localhost:8081/getProfile/' + id)
-            .then(res => {
-                setData({
-                    ...data,
+    // useEffect(() => {
+    //     axios.get('http://localhost:8081/getProfile/' + id)
+    //         .then(res => {
+    //             setData({
+    //                 ...data,
 
-                    name: res.data.Result[0].name,
-                    email: res.data.Result[0].email,
-                    address: res.data.Result[0].address,
+    //                 name: res.data.Result[0].name,
+    //                 email: res.data.Result[0].email,
+    //                 address: res.data.Result[0].address,
 
 
-                })
-            })
-            .catch(err => console.log(err));
-    }, [])
+    //             })
+    //         })
+    //         .catch(err => console.log(err));
+    // }, [])
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        axios.put('http://localhost:8081/updateProfile/' + id, data)
-            .then(res => {
-                console.log(res)
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     axios.put('http://localhost:8081/updateProfile/' + id, data)
+    //         .then(res => {
+    //             console.log(res)
 
-                if (res.data.Status === "Success") {
-                    navigate('/')
+    //             if (res.data.Status === "Success") {
+    //                 navigate('/')
 
-                }
-            })
-            .catch(err => console.log(err));
-    }
+    //             }
+    //         })
+    //         .catch(err => console.log(err));
+    // }
 
     // const handleSubmit = (event) => {
     //     event.preventDefault();
@@ -53,8 +53,8 @@ function Profile() {
 
     return (
         <div className='d-flex flex-column align-items-center pt-4'>
-            <h2>Profile</h2>
-            <form className="row g-3 w-50" onSubmit={handleSubmit} >
+            <h2>Home</h2>
+            {/* <form className="row g-3 w-50" onSubmit={handleSubmit} >
                 <div className="col-12">
                     <label className="form-label">Name</label>
                     <input type="text" className="form-control" placeholder='Enter Name' autoComplete='off'
@@ -78,8 +78,8 @@ function Profile() {
                 <div className="col-12">
                     <button type="submit" className="btn btn-primary">Update</button>
                 </div>
-            </form>
+            </form> */}
         </div>
     )
 }
-export default Profile;
+export default Home;

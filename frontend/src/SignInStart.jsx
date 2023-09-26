@@ -7,8 +7,8 @@ function Start() {
             <div className='p-3 rounded w-25 border loginForm text-center'>
                 <h2>Register As</h2>
                 <div className='d-flex justify-content-between mt-5'>
-                    <button className='btn btn-primary btn-lg' onClick={e => navigate('/signInChordManager')}>Chord Manager</button>
-                    <button className='btn btn-success btn-lg' onClick={e => navigate('/signInAdmin')}>Admin</button>
+                    <button className='btn btn-primary btn-lg' onClick={() => navigate('/signInChordManager')}>Chord Manager</button>
+                    <button className='btn btn-success btn-lg' onClick={() => navigate('/signInAdmin')}>Admin</button>
                 </div>
             </div>
         </div>
