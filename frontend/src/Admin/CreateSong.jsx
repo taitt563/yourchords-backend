@@ -17,19 +17,8 @@ function CreateSong() {
 
 
     let showDate = new Date();
-    let displaytodaysdate = showDate.getFullYear() + '-' + showDate.getMonth() + '-' + showDate.getDate();
-    // const VisuallyHiddenInput = styled('input')({
-    //     clip: 'rect(0 0 0 0)',
-    //     clipPath: 'inset(50%)',
-    //     height: 1,
-    //     overflow: 'hidden',
-    //     position: 'absolute',
-    //     bottom: 0,
-    //     left: 0,
-    //     whiteSpace: 'nowrap',
-    //     width: 1,
-    //     color: 'dark'
-    // });
+    let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const formData = new FormData();

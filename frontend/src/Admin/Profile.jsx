@@ -1,50 +1,56 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+// import Button from '@mui/material/Button';
+// import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 function Profile() {
     const [data, setData] = useState({
         name: '',
         email: '',
         address: '',
+        // image: '',
     })
-    const navigate = useNavigate()
-    const { id } = useParams();
+    // const [baseImage, setBaseImage] = useState("");
 
+    const navigate = useNavigate()
+    const { userId } = useParams();
     useEffect(() => {
-        axios.get('http://localhost:8081/getProfile/' + id)
+        axios.get('http://localhost:8081/getProfile/' + userId)
             .then(res => {
                 setData({
                     ...data,
-
                     name: res.data.Result[0].name,
                     email: res.data.Result[0].email,
                     address: res.data.Result[0].address,
-
-
+                    // image: baseImage,
                 })
+
             })
             .catch(err => console.log(err));
     }, [])
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const formData = new FormData();
-        formData.append("name", data.name);
-        formData.append("email", data.email);
-        formData.append("address", data.address);
-        axios.put('http://localhost:8081/updateProfile/' + id, data)
-            .then(function (res) {
-                navigate("/homeAdmin")
-
+        axios.put('http://localhost:8081/updateProfile/' + userId, data)
+            .then(res => {
                 if (res.data.Status === "Success") {
                     navigate('/')
-
                 }
             })
             .catch(err => console.log(err));
     }
 
-
+    // const convertBase64 = (e) => {
+    //     console.log(e)
+    //     var reader = new FileReader();
+    //     reader.readAsDataURL(e.target.files[0]);
+    //     reader.onload = () => {
+    //         setBaseImage(reader.result);
+    //     };
+    //     reader.onerror = error => {
+    //         console.log("Error: ", error)
+    //     };
+    // };
     return (
         <div className='d-flex flex-column align-items-center pt-4'>
             <h2>Profile</h2>
@@ -64,11 +70,20 @@ function Profile() {
                     <input type="text" className="form-control" placeholder="Address" autoComplete='off'
                         onChange={e => setData({ ...data, address: e.target.value })} value={data.address} />
                 </div>
-                <div className="col-12 mb-3">
+                {/* <div className="col-12 mb-3">
                     <label className="form-label">Select Image</label>
-                    <input type="file" className="form-control"
-                        onChange={e => setData({ ...data, image: e.target.files[0] })} />
-                </div>
+                    <br />
+                    <Button variant="contained" startIcon={<CloudUploadIcon />}>
+                        <input
+                            type="file" name='image' onChange={convertBase64} />
+                    </Button>
+                    <br />
+                    <br />
+                    {baseImage == "" || baseImage == null ?
+                        ""
+                        :
+                        <img className="profile_image" width={100} height={100} src={baseImage} />}
+                </div> */}
                 <div className="col-12">
                     <button type="submit" className="btn btn-primary">Update</button>
                 </div>

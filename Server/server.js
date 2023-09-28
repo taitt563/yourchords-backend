@@ -23,7 +23,8 @@ const con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
-    database: "yourchord"
+    database: "yourchord",
+    multipleStatements: true,
 })
 
 
@@ -90,25 +91,14 @@ app.get('/logout', (req, res) => {
     res.clearCookie('token');
     return res.json({ Status: "Success" });
 })
-app.post('/signInAdmin', (req, res) => {
-    const sql = "INSERT INTO login (username, password , role) VALUES (?, ?,'admin')";
-    con.query(sql, [req.body.username, req.body.password], (err, result) => {
+app.post('/signup', (req, res) => {
+    let sql = "INSERT INTO login (username, password , role) VALUES (?, ?, ?);";
+    sql += "INSERT INTO profile (name, email , address, userId) VALUES (?, ?, ?, ?)";
+    console.log(req);
+    con.query(sql, [req.body.username, req.body.password, 'admin', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
         if (result.length > 0) {
-            return res.json({ Status: "Success" })
-        } else {
-            return res.json({ Status: "Error", Error: "Error" });
-        }
-    })
-})
-app.post('/signInChordManager', (req, res) => {
-    const sql = "INSERT INTO login (username, password , role) VALUES (?, ?,'chord')";
-    con.query(sql, [req.body.username, req.body.password], (err, result) => {
-        if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
-        if (result.length > 0) {
-            return res.json({ Status: "Success" })
-        } else {
-            return res.json({ Status: "Error", Error: "Error" });
+            return res.json({ Status: "Success" });
         }
     })
 })
@@ -131,27 +121,24 @@ app.post('/createSong', upload.single('image'), (req, res) => {
     }
 
 })
-app.get('/getProfile/:id', (req, res) => {
-    const id = req.params.id;
-    const sql = "SELECT * FROM profile WHERE id = ?";
-    con.query(sql, [id], (err, result) => {
+app.get('/getProfile/:userId', (req, res) => {
+    const userId = req.params.userId;
+    const sql = "SELECT * FROM profile WHERE userId = ?";
+    console.log(userId)
+    con.query(sql, [userId], (err, result) => {
         if (err) return res.json({ Error: "Get song error in sql" });
+        console.log(result)
         return res.json({ Status: "Success", Result: result })
     })
 })
 
-app.put('/updateProfile/:id', upload.single('image'), (req, res) => {
-    const id = req.params.id;
-    const sql = "UPDATE profile SET name = ? , email = ? WHERE id = ?";
-    const values = [
-        req.body.name,
-        req.body.email,
-
-
-    ]
-    con.query(sql, [values, id], (err, result) => {
+app.put('/updateProfile/:userId', upload.single("image"), (req, res) => {
+    const userId = req.params.userId;
+    const sql = "UPDATE profile SET name = ?, email = ?, address= ? WHERE userId = ?";
+    // const sql = "INSERT INTO profile (`name`,`email`,`address`, `image`, `userId`) VALUES (?,?,?,?,?)"
+    con.query(sql, [req.body.name, req.body.email, req.body.address, userId], (err, result) => {
         if (err) return res.json({ Error: "Error" });
-        return res.json({ Status: "Success" });
+        return res.json({ Status: "Success", Result: result });
     })
 })
 
