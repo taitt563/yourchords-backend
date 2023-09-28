@@ -12,6 +12,7 @@ import ViewSong from './Admin/ViewSong'
 import ManageAccount from './Admin/ManageAcount'
 import ViewAccount from './Admin/ViewAccount'
 import ManageFeedback from './Admin/ManageFeedback'
+import DashboardProfile from './component/DashboardProfile'
 /////MUSICIAN
 import LoginChordManager from './ChordManager/LoginChordManager'
 import DashboardChordManager from './ChordManager/DashboardChordManager'
@@ -25,8 +26,7 @@ function App() {
         {/* ADMIN ROLE */}
         <Route path='/' element={<Dashboard />}>
           <Route path='/homeAdmin' element={<Home />}></Route>
-
-          <Route path='/profile/:id' element={<Profile />}></Route>
+          <Route path='/profile' element={<Profile />}></Route>
           <Route path='/song' element={<Song />}></Route>
           <Route path='/manageAccount' element={<ManageAccount />}></Route>
           <Route path='/createSong' element={<CreateSong />}></Route>
@@ -35,6 +35,7 @@ function App() {
           <Route path='/viewSong/:id' element={<ViewSong />}></Route>
           <Route path='/viewAccount/:id' element={<ViewAccount />}></Route>
           <Route path='/manageFeedback' element={<ManageFeedback />}></Route>
+          <Route path='/:id' element={<DashboardProfile />}></Route>
 
         </Route>
         {/* CHORD MANAGER ROLE */}

@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 import { TextField } from '@material-ui/core';
-import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 function CreateSong() {
@@ -12,6 +11,7 @@ function CreateSong() {
         image: '',
         year: '',
         lyric: '',
+        author: '',
     })
     const navigate = useNavigate()
 
@@ -38,7 +38,7 @@ function CreateSong() {
         formData.append("dateYear", data.year);
         formData.append("image", data.image);
         formData.append("lyric", data.lyric);
-
+        formData.append("author", data.author);
         axios.post('http://localhost:8081/createSong', formData)
             .then(
                 navigate('/Song')
@@ -49,11 +49,7 @@ function CreateSong() {
         <div className='d-flex flex-column align-items-center pt-5'>
             <h2>New song</h2>
             <form className="row g-3 w-10" onSubmit={handleSubmit}>
-                {/* <div className="col-12">
-                    <label className="form-label">Name:</label>
-                    <input type="text" className="form-control" placeholder='Enter name song'
-                        onChange={e => setData({ ...data, name: e.target.value })} />
-                </div> */}
+
                 <div className="col-12">
                     <TextField
                         required
@@ -61,6 +57,15 @@ function CreateSong() {
                         label="Song name"
                         fullWidth
                         onChange={e => setData({ ...data, name: e.target.value })}
+                    />
+                </div>
+                <div className="col-12">
+                    <TextField
+                        required
+                        id="outlined-required"
+                        label="Author"
+                        fullWidth
+                        onChange={e => setData({ ...data, author: e.target.value })}
                     />
                 </div>
                 <div className="col-12">

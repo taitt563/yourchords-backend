@@ -28,9 +28,13 @@ function Profile() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const formData = new FormData();
+        formData.append("name", data.name);
+        formData.append("email", data.email);
+        formData.append("address", data.address);
         axios.put('http://localhost:8081/updateProfile/' + id, data)
-            .then(res => {
-                console.log(res)
+            .then(function (res) {
+                navigate("/homeAdmin")
 
                 if (res.data.Status === "Success") {
                     navigate('/')
@@ -40,16 +44,6 @@ function Profile() {
             .catch(err => console.log(err));
     }
 
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     axios.put('http://localhost:8081/updateProfile/' + id, data)
-    //         .then(res => {
-    //             if (res.data.Status === "Success") {
-    //                 navigate('/')
-    //             }
-    //         })
-    //         .catch(err => console.log(err));
-    // }
 
     return (
         <div className='d-flex flex-column align-items-center pt-4'>

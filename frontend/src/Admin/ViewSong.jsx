@@ -33,6 +33,8 @@ function ViewSong() {
             {data.map((viewSong, index) => {
                 return <div key={index}>
                     <span className="d-flex flex-column align-items-center pt-5 " ><b>{viewSong.name}</b></span>
+                    <span className="d-flex  align-items-center pt-5 " >Author: <b>{viewSong.author}</b></span>
+
 
                     <a className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
                         {

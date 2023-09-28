@@ -19,7 +19,7 @@ function Login() {
         axios.post('http://localhost:8081/login', values)
             .then(res => {
                 if (res.data.Status === 'Success') {
-                    navigate("/manageAccount");
+                    navigate("/homeAdmin");
                 } else {
                     setError(res.data.Error);
                 }
@@ -27,18 +27,12 @@ function Login() {
             .catch(err => console.log(err));
     }
 
-    // const handleSignin = (event) => {
-    //     event.preventDefault();
-    //     navigate("/signInAdmin");
-    // }
-
     return (
         <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
             <div className='bg-light p-3 rounded w-25 border'>
                 <div className='text-danger'>
                     {error && error}
                 </div>
-
                 <h2 className='p-2 d-flex justify-content-center'>Login</h2>
                 <form onSubmit={handleSubmit}>
 
@@ -61,9 +55,7 @@ function Login() {
                     </FormGroup>
                     <button type='submit' className='btn btn-success border w-100 rounded-0'> Log in</button>
                 </form>
-                {/* <form onSubmit={handleSignin}>
-                    <button className='btn btn-default border w-100 bg-light rounded-0'> Create Account</button>
-                </form> */}
+
             </div>
         </div>
     )

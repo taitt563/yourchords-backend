@@ -113,13 +113,13 @@ app.post('/signInChordManager', (req, res) => {
     })
 })
 app.post('/createSong', upload.single('image'), (req, res) => {
-    const sql = "INSERT INTO song (`name`,`image`,`lyric`) VALUES (?)";
+    const sql = "INSERT INTO song (`name`,`image`,`lyric`, `author`) VALUES (?)";
     if (req.body.name.length > 0) {
         const values = [
             req.body.name,
             req.file.filename,
             req.body.lyric,
-
+            req.body.author,
         ]
         con.query(sql, [values], (err, result) => {
             if (err) return res.json({ Error: "Error" });
@@ -140,17 +140,18 @@ app.get('/getProfile/:id', (req, res) => {
     })
 })
 
-app.put('/updateProfile/:id', (req, res) => {
+app.put('/updateProfile/:id', upload.single('image'), (req, res) => {
     const id = req.params.id;
-    const sql = "UPDATE profile set name = `?` , email = `?` , address = `?` WHERE id = ? ";
+    const sql = "UPDATE profile SET name = ? , email = ? WHERE id = ?";
     const values = [
         req.body.name,
         req.body.email,
-        req.body.address,
+
+
     ]
     con.query(sql, [values, id], (err, result) => {
-        if (err) return res.json({ Error: "Inside singup query" });
-        return res.json({ Status: "Success", Result: result });
+        if (err) return res.json({ Error: "Error" });
+        return res.json({ Status: "Success" });
     })
 })
 

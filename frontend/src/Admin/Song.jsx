@@ -39,6 +39,7 @@ function Song() {
                     <thead>
                         <tr>
                             <th>STT</th>
+                            <th>Author</th>
                             <th>Name song</th>
                             <th>Song lyrics</th>
                             <th>Date</th>
@@ -51,6 +52,7 @@ function Song() {
 
                             return <tr key={index}>
                                 <td>{song.id}</td>
+                                <td>{song.author}</td>
                                 <td>{song.name}</td>
                                 <td>{
                                     <img src={`http://localhost:8081/images/` + song.image} alt="" className='song_image' />

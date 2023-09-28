@@ -3,8 +3,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteIcon from '@mui/icons-material/Delete';
-import BlockIcon from '@mui/icons-material/Block';
+// import BlockIcon from '@mui/icons-material/Block';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockIcon from '@mui/icons-material/Lock';
+
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 function ManageAccount() {
@@ -107,7 +109,7 @@ function ManageAccount() {
                                 <Alert severity="info">Account enable !</Alert>
                             </Stack>
                         )}
-                        <div className='mt-4'>
+                        <div className='mt-4 pd-top pd-left'>
                             <table className='table'>
                                 <thead>
                                     <tr>
@@ -125,12 +127,17 @@ function ManageAccount() {
                                                 <td>{userAccount.id}</td>
                                                 <td>{userAccount.username}</td>
                                                 <td>{userAccount.role}</td>
-                                                <td>{userAccount.ban}</td>
+                                                {userAccount.ban == "Enable" ?
+                                                    <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
+                                                    :
+                                                    <td style={{ color: 'red' }}><b>{userAccount.ban}</b></td>
+
+                                                }
                                                 <td>
                                                     <Link to={`/viewAccount/` + userAccount.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                                     {userAccount.ban == "Enable" ?
                                                         <button onClick={() => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
-                                                            <BlockIcon />
+                                                            <LockIcon />
                                                         </button>
                                                         :
                                                         <button onClick={() => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
@@ -173,7 +180,7 @@ function ManageAccount() {
                                 <Alert severity="info">Account enable !</Alert>
                             </Stack>
                         )}
-                        <div className='mt-4'>
+                        <div className='mt-4 pd-top pd-left'>
                             <table className='table'>
                                 <thead>
                                     <tr>
@@ -191,13 +198,17 @@ function ManageAccount() {
                                                 <td>{userAccount.id}</td>
                                                 <td>{userAccount.username}</td>
                                                 <td>{userAccount.role}</td>
-                                                <td>{userAccount.ban}</td>
+                                                {userAccount.ban == "Enable" ?
+                                                    <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
+                                                    :
+                                                    <td style={{ color: 'red' }}><b>{userAccount.ban}</b></td>
 
+                                                }
                                                 <td>
                                                     <Link to={`/viewAccount/` + userAccount.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                                     {userAccount.ban == "Enable" ?
                                                         <button onClick={() => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
-                                                            <BlockIcon />
+                                                            <LockIcon />
                                                         </button>
                                                         :
                                                         <button onClick={() => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
@@ -238,7 +249,7 @@ function ManageAccount() {
                                 <Alert severity="info">Account enable !</Alert>
                             </Stack>
                         )}
-                        <div className='mt-4'>
+                        <div className='mt-4 pd-top pd-left'>
                             <table className='table'>
                                 <thead>
                                     <tr>
@@ -258,13 +269,17 @@ function ManageAccount() {
                                                 <td>{userAccount.id}</td>
                                                 <td>{userAccount.username}</td>
                                                 <td>{userAccount.role}</td>
-                                                <td>{userAccount.ban}</td>
+                                                {userAccount.ban == "Enable" ?
+                                                    <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
+                                                    :
+                                                    <td style={{ color: 'red' }}><b>{userAccount.ban}</b></td>
 
+                                                }
                                                 <td>
                                                     <Link to={`/viewAccount/` + userAccount.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                                     {userAccount.ban == "Enable" ?
                                                         <button onClick={() => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
-                                                            <BlockIcon />
+                                                            <LockIcon />
                                                         </button>
                                                         :
                                                         <button onClick={() => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
@@ -305,7 +320,7 @@ function ManageAccount() {
                                 <Alert severity="info">Account enable !</Alert>
                             </Stack>
                         )}
-                        <div className='mt-4'>
+                        <div className='mt-4 pd-top pd-left'>
                             <table className='table'>
                                 <thead>
                                     <tr>
@@ -324,13 +339,17 @@ function ManageAccount() {
                                                 <td>{userAccount.id}</td>
                                                 <td>{userAccount.username}</td>
                                                 <td>{userAccount.role}</td>
-                                                <td>{userAccount.ban}</td>
+                                                {userAccount.ban == "Enable" ?
+                                                    <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
+                                                    :
+                                                    <td style={{ color: 'red' }}><b>{userAccount.ban}</b></td>
 
+                                                }
                                                 <td>
                                                     <Link to={`/viewAccount/` + userAccount.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                                     {userAccount.ban == "Enable" ?
                                                         <button onClick={() => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
-                                                            <BlockIcon />
+                                                            <LockIcon />
                                                         </button>
                                                         :
                                                         <button onClick={() => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
