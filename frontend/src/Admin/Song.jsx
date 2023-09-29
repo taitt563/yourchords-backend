@@ -37,8 +37,8 @@ function Song() {
                     <h3 className="pd-bottom">List song</h3>
                 </div>
                 <Link to="/createSong" className="btn btn-success">ADD</Link>
-                <div className='mt-4'>
-                    <table className='table'>
+                <div className='mt-4' style={{ height: '550px', overflowY: 'scroll' }}>
+                    <table className='table' >
                         <thead>
                             <tr>
                                 <th>STT</th>
@@ -72,9 +72,8 @@ function Song() {
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div >
         </>
-
     )
 }
 export default Song;

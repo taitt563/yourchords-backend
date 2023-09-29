@@ -14,8 +14,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import HeadsetIcon from '@mui/icons-material/Headset';
-
-
+import PersonIcon from '@mui/icons-material/Person';
 
 function ManageAccount() {
     const [isDeleted, setIsDeleted] = useState(false);
@@ -161,7 +160,7 @@ function ManageAccount() {
                             <table className='table'>
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th></th>
                                         <th>Username</th>
                                         <th>Role</th>
                                         <th>Active</th>
@@ -177,7 +176,7 @@ function ManageAccount() {
                                         .map((userAccount, index) => {
                                             if (userAccount.role === "user") {
                                                 return <tr key={index}>
-                                                    <td>{userAccount.id}</td>
+                                                    <td><PersonIcon /></td>
                                                     <td>{userAccount.username}</td>
                                                     <td>{userAccount.role}</td>
                                                     {userAccount.ban == "Enable" ?
@@ -237,7 +236,7 @@ function ManageAccount() {
                             <table className='table'>
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th></th>
                                         <th>Username</th>
                                         <th>Role</th>
                                         <th>Active</th>
@@ -253,7 +252,7 @@ function ManageAccount() {
                                         .map((userAccount, index) => {
                                             if (userAccount.role === "admin") {
                                                 return <tr key={index}>
-                                                    <td>{userAccount.id}</td>
+                                                    <td><PersonIcon /></td>
                                                     <td>{userAccount.username}</td>
                                                     <td>{userAccount.role}</td>
                                                     {userAccount.ban == "Enable" ?
@@ -311,7 +310,7 @@ function ManageAccount() {
                             <table className='table'>
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th></th>
                                         <th>Username</th>
                                         <th>Role</th>
                                         <th>Active</th>
@@ -329,7 +328,7 @@ function ManageAccount() {
                                         .map((userAccount, index) => {
                                             if (userAccount.role === "chord") {
                                                 return <tr key={index}>
-                                                    <td>{userAccount.id}</td>
+                                                    <td><PersonIcon /></td>
                                                     <td>{userAccount.username}</td>
                                                     <td>{userAccount.role}</td>
                                                     {userAccount.ban == "Enable" ?
@@ -388,7 +387,7 @@ function ManageAccount() {
                             <table className='table'>
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th></th>
                                         <th>Username</th>
                                         <th>Role</th>
                                         <th>Active</th>
@@ -405,7 +404,7 @@ function ManageAccount() {
                                             if (userAccount.role === "musician") {
 
                                                 return <tr key={index}>
-                                                    <td>{userAccount.id}</td>
+                                                    <td><PersonIcon /></td>
                                                     <td>{userAccount.username}</td>
                                                     <td>{userAccount.role}</td>
                                                     {userAccount.ban == "Enable" ?

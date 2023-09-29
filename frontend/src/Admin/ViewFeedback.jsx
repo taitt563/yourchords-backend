@@ -2,12 +2,14 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import SearchAppBar from '../component/SearchAppBar';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import moment from 'moment'
+
 function ViewFeedback() {
     const [data, setData] = useState([])
 
     const { username } = useParams();
+    const navigate = useNavigate();
 
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + showDate.getMonth() + '-' + showDate.getDate();
@@ -22,7 +24,10 @@ function ViewFeedback() {
 
             .catch(err => console.log(err));
     }, [])
-
+    const handleClose = (event) => {
+        event.preventDefault();
+        navigate("/manageFeedback")
+    }
 
     return (
         <>
@@ -51,7 +56,7 @@ function ViewFeedback() {
                         </div>
                     })}
                     <div className="col-12">
-                        <button type="submit" className="btn btn-primary">Submit</button>
+                        <button onClick={handleClose} type="submit" className="btn btn-primary">Close</button>
                     </div>
                 </form>
             </div>
