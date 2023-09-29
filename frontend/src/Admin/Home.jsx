@@ -1,5 +1,8 @@
 // import { useNavigate, useParams } from 'react-router-dom';
 // import axios from 'axios';
+
+import SearchAppBar from "../component/SearchAppBar";
+
 // import { useState, useEffect } from 'react';
 function Home() {
     // const [data, setData] = useState({
@@ -52,11 +55,12 @@ function Home() {
     // }
 
     return (
+        <>
+            <SearchAppBar />
+            <div className='d-flex flex-column align-items-center pt-4'>
 
-        <div className='d-flex flex-column align-items-center pt-4'>
-
-            <h2>Home</h2>
-            {/* <form className="row g-3 w-50" onSubmit={handleSubmit} >
+                <h2>Home</h2>
+                {/* <form className="row g-3 w-50" onSubmit={handleSubmit} >
                 <div className="col-12">
                     <label className="form-label">Name</label>
                     <input type="text" className="form-control" placeholder='Enter Name' autoComplete='off'
@@ -81,7 +85,9 @@ function Home() {
                     <button type="submit" className="btn btn-primary">Update</button>
                 </div>
             </form> */}
-        </div>
+            </div>
+        </>
+
     )
 }
 export default Home;

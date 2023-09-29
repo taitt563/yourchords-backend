@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import SearchAppBar from '../component/SearchAppBar';
 // import Button from '@mui/material/Button';
 // import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 function Profile() {
@@ -52,25 +53,27 @@ function Profile() {
     //     };
     // };
     return (
-        <div className='d-flex flex-column align-items-center pt-4'>
-            <h2>Profile</h2>
-            <form className="row g-3 w-50" onSubmit={handleSubmit} >
-                <div className="col-12">
-                    <label className="form-label">Name</label>
-                    <input type="text" className="form-control" placeholder='Enter Name' autoComplete='off'
-                        onChange={e => setData({ ...data, name: e.target.value })} value={data.name} />
-                </div>
-                <div className="col-12">
-                    <label className="form-label">Email</label>
-                    <input type="email" className="form-control" placeholder='Enter Email' autoComplete='off'
-                        onChange={e => setData({ ...data, email: e.target.value })} value={data.email} />
-                </div>
-                <div className="col-12">
-                    <label className="form-label">Address</label>
-                    <input type="text" className="form-control" placeholder="Address" autoComplete='off'
-                        onChange={e => setData({ ...data, address: e.target.value })} value={data.address} />
-                </div>
-                {/* <div className="col-12 mb-3">
+        <>
+            <SearchAppBar />
+            <div className='d-flex flex-column align-items-center pt-4'>
+                <h2>Profile</h2>
+                <form className="row g-3 w-50" onSubmit={handleSubmit} >
+                    <div className="col-12">
+                        <label className="form-label">Name</label>
+                        <input type="text" className="form-control" placeholder='Enter Name' autoComplete='off'
+                            onChange={e => setData({ ...data, name: e.target.value })} value={data.name} />
+                    </div>
+                    <div className="col-12">
+                        <label className="form-label">Email</label>
+                        <input type="email" className="form-control" placeholder='Enter Email' autoComplete='off'
+                            onChange={e => setData({ ...data, email: e.target.value })} value={data.email} />
+                    </div>
+                    <div className="col-12">
+                        <label className="form-label">Address</label>
+                        <input type="text" className="form-control" placeholder="Address" autoComplete='off'
+                            onChange={e => setData({ ...data, address: e.target.value })} value={data.address} />
+                    </div>
+                    {/* <div className="col-12 mb-3">
                     <label className="form-label">Select Image</label>
                     <br />
                     <Button variant="contained" startIcon={<CloudUploadIcon />}>
@@ -84,11 +87,13 @@ function Profile() {
                         :
                         <img className="profile_image" width={100} height={100} src={baseImage} />}
                 </div> */}
-                <div className="col-12">
-                    <button type="submit" className="btn btn-primary">Update</button>
-                </div>
-            </form>
-        </div>
+                    <div className="col-12">
+                        <button type="submit" className="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </>
+
     )
 }
 export default Profile;

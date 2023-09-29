@@ -9,7 +9,6 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ModeIcon from '@mui/icons-material/Mode';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Link from '@mui/material/Link';
-import SearchAppBar from '../component/SearchAppBar';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -86,10 +85,7 @@ function Dashboard() {
                     </div>
                 </div>
                 <div className="col p-0 m-0">
-                    <SearchAppBar />
-                    <div className='pd-top'>
-                        <Outlet />
-                    </div>
+                    <Outlet />
                 </div>
             </div>
         </div>

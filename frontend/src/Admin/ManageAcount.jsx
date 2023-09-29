@@ -6,14 +6,22 @@ import DeleteIcon from '@mui/icons-material/Delete';
 // import BlockIcon from '@mui/icons-material/Block';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockIcon from '@mui/icons-material/Lock';
-
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import SearchIcon from '@mui/icons-material/Search';
+import HeadsetIcon from '@mui/icons-material/Headset';
+
+
+
 function ManageAccount() {
     const [isDeleted, setIsDeleted] = useState(false);
     const [isBanAccount, setIsBanAccount] = useState(false);
     const [isUnBanAccount, setIsUnBanAccount] = useState(false);
-
+    const [search, setSearch] = useState("");
     const [toggleState, setToggleState] = useState(1);
     const toggleTab = (index) => {
         setToggleState(index);
@@ -36,7 +44,6 @@ function ManageAccount() {
         axios.delete('http://localhost:8081/deleteAccount/' + id)
             .then(res => {
                 if (res.data.Status === "Success") {
-                    // window.location.reload(true);
                     setIsDeleted(true);
                     setTimeout(() => {
                         setIsDeleted(false);
@@ -69,9 +76,47 @@ function ManageAccount() {
             })
             .catch(err => console.log(err));
     }
-    return (
 
+    return (
         <>
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <Typography
+                            variant="h5"
+                            noWrap
+                            component="a"
+                            href="/homeAdmin"
+                            sx={{
+                                mr: 2,
+                                display: { xs: 'none', md: 'flex' },
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                            }}
+                        >
+                            <HeadsetIcon />
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+
+                            sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, fontFamily: 'monospace', flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
+                            <b>YOUR CHORD</b>
+                        </Typography>
+
+                        <input
+                            type="text"
+                            placeholder="Search.."
+                            onChange={(e) => setSearch(e.target.value)} />
+                        <SearchIcon />
+
+                    </Toolbar>
+                </AppBar>
+            </Box>
             <div className="bloc-tabs">
                 <button className={toggleState === 1 ? "tabs active-tabs" : "tabs"} onClick={() => toggleTab(1)}>
                     <b>User</b>
@@ -86,6 +131,8 @@ function ManageAccount() {
                     <b>Musician</b>
                 </button>
             </div>
+
+
             <div className="content-tabs">
                 <div
                     className={toggleState === 1 ? "content active-content" : "content"}>
@@ -109,6 +156,7 @@ function ManageAccount() {
                                 <Alert severity="info">Account enable !</Alert>
                             </Stack>
                         )}
+
                         <div className='mt-4 pd-top pd-left'>
                             <table className='table'>
                                 <thead>
@@ -121,38 +169,43 @@ function ManageAccount() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {data.map((userAccount, index) => {
-                                        if (userAccount.role === "user") {
-                                            return <tr key={index}>
-                                                <td>{userAccount.id}</td>
-                                                <td>{userAccount.username}</td>
-                                                <td>{userAccount.role}</td>
-                                                {userAccount.ban == "Enable" ?
-                                                    <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
-                                                    :
-                                                    <td style={{ color: 'red' }}><b>{userAccount.ban}</b></td>
-
-                                                }
-                                                <td>
-                                                    <Link to={`/viewAccount/` + userAccount.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                    {data.filter((userAccount) => {
+                                        return search.toLowerCase() === '' ? userAccount
+                                            :
+                                            userAccount.username.toLowerCase().includes(search);
+                                    })
+                                        .map((userAccount, index) => {
+                                            if (userAccount.role === "user") {
+                                                return <tr key={index}>
+                                                    <td>{userAccount.id}</td>
+                                                    <td>{userAccount.username}</td>
+                                                    <td>{userAccount.role}</td>
                                                     {userAccount.ban == "Enable" ?
-                                                        <button onClick={() => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
-                                                            <LockIcon />
-                                                        </button>
+                                                        <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
                                                         :
-                                                        <button onClick={() => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
-                                                            <LockOpenIcon />
-                                                        </button>
+                                                        <td style={{ color: 'red' }}><b>{userAccount.ban}</b></td>
+
                                                     }
+                                                    <td>
+                                                        <Link to={`/viewAccount/` + userAccount.username} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                        {userAccount.ban == "Enable" ?
+                                                            <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
+                                                                <LockIcon />
+                                                            </button>
+                                                            :
+                                                            <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
+                                                                <LockOpenIcon />
+                                                            </button>
+                                                        }
 
-                                                    <button onClick={() => handleDelete(userAccount.id)} className='btn btn-sm btn-danger me-2'>
-                                                        <DeleteIcon />
-                                                    </button>
+                                                        <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'>
+                                                            <DeleteIcon />
+                                                        </button>
 
-                                                </td>
-                                            </tr>
-                                        }
-                                    })}
+                                                    </td>
+                                                </tr>
+                                            }
+                                        })}
                                 </tbody>
                             </table>
                         </div>
@@ -192,36 +245,41 @@ function ManageAccount() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {data.map((userAccount, index) => {
-                                        if (userAccount.role === "admin") {
-                                            return <tr key={index}>
-                                                <td>{userAccount.id}</td>
-                                                <td>{userAccount.username}</td>
-                                                <td>{userAccount.role}</td>
-                                                {userAccount.ban == "Enable" ?
-                                                    <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
-                                                    :
-                                                    <td style={{ color: 'red' }}><b>{userAccount.ban}</b></td>
-
-                                                }
-                                                <td>
-                                                    <Link to={`/viewAccount/` + userAccount.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                    {data.filter((userAccount) => {
+                                        return search.toLowerCase() === '' ? userAccount
+                                            :
+                                            userAccount.username.toLowerCase().includes(search);
+                                    })
+                                        .map((userAccount, index) => {
+                                            if (userAccount.role === "admin") {
+                                                return <tr key={index}>
+                                                    <td>{userAccount.id}</td>
+                                                    <td>{userAccount.username}</td>
+                                                    <td>{userAccount.role}</td>
                                                     {userAccount.ban == "Enable" ?
-                                                        <button onClick={() => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
-                                                            <LockIcon />
-                                                        </button>
+                                                        <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
                                                         :
-                                                        <button onClick={() => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
-                                                            <LockOpenIcon />
-                                                        </button>
+                                                        <td style={{ color: 'red' }}><b>{userAccount.ban}</b></td>
+
                                                     }
+                                                    <td>
+                                                        <Link to={`/viewAccount/` + userAccount.username} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                        {userAccount.ban == "Enable" ?
+                                                            <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
+                                                                <LockIcon />
+                                                            </button>
+                                                            :
+                                                            <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
+                                                                <LockOpenIcon />
+                                                            </button>
+                                                        }
 
-                                                    <button onClick={() => handleDelete(userAccount.id)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
+                                                        <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
 
-                                                </td>
-                                            </tr>
-                                        }
-                                    })}
+                                                    </td>
+                                                </tr>
+                                            }
+                                        })}
                                 </tbody>
                             </table>
                         </div>
@@ -263,36 +321,41 @@ function ManageAccount() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {data.map((userAccount, index) => {
-                                        if (userAccount.role === "chord") {
-                                            return <tr key={index}>
-                                                <td>{userAccount.id}</td>
-                                                <td>{userAccount.username}</td>
-                                                <td>{userAccount.role}</td>
-                                                {userAccount.ban == "Enable" ?
-                                                    <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
-                                                    :
-                                                    <td style={{ color: 'red' }}><b>{userAccount.ban}</b></td>
-
-                                                }
-                                                <td>
-                                                    <Link to={`/viewAccount/` + userAccount.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                    {data.filter((userAccount) => {
+                                        return search.toLowerCase() === '' ? userAccount
+                                            :
+                                            userAccount.username.toLowerCase().includes(search);
+                                    })
+                                        .map((userAccount, index) => {
+                                            if (userAccount.role === "chord") {
+                                                return <tr key={index}>
+                                                    <td>{userAccount.id}</td>
+                                                    <td>{userAccount.username}</td>
+                                                    <td>{userAccount.role}</td>
                                                     {userAccount.ban == "Enable" ?
-                                                        <button onClick={() => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
-                                                            <LockIcon />
-                                                        </button>
+                                                        <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
                                                         :
-                                                        <button onClick={() => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
-                                                            <LockOpenIcon />
-                                                        </button>
+                                                        <td style={{ color: 'red' }}><b>{userAccount.ban}</b></td>
+
                                                     }
+                                                    <td>
+                                                        <Link to={`/viewAccount/` + userAccount.username} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                        {userAccount.ban == "Enable" ?
+                                                            <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
+                                                                <LockIcon />
+                                                            </button>
+                                                            :
+                                                            <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
+                                                                <LockOpenIcon />
+                                                            </button>
+                                                        }
 
-                                                    <button onClick={() => handleDelete(userAccount.id)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
+                                                        <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
 
-                                                </td>
-                                            </tr>
-                                        }
-                                    })}
+                                                    </td>
+                                                </tr>
+                                            }
+                                        })}
                                 </tbody>
                             </table>
                         </div>
@@ -301,6 +364,7 @@ function ManageAccount() {
                 <div
                     className={toggleState === 4 ? "content active-content" : "content"}>
                     {/* Manage account musician */}
+
                     <div className="px-2 py-5">
                         <div>
                             <h3 className="p-2 d-flex justify-content-center">Musician Account Management</h3>
@@ -332,36 +396,40 @@ function ManageAccount() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {data.map((userAccount, index) => {
-                                        if (userAccount.role === "musician") {
+                                    {data.filter((userAccount) => {
+                                        return search.toLowerCase() === '' ? userAccount
+                                            :
+                                            userAccount.username.toLowerCase().includes(search);
+                                    })
+                                        .map((userAccount, index) => {
+                                            if (userAccount.role === "musician") {
 
-                                            return <tr key={index}>
-                                                <td>{userAccount.id}</td>
-                                                <td>{userAccount.username}</td>
-                                                <td>{userAccount.role}</td>
-                                                {userAccount.ban == "Enable" ?
-                                                    <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
-                                                    :
-                                                    <td style={{ color: 'red' }}><b>{userAccount.ban}</b></td>
-
-                                                }
-                                                <td>
-                                                    <Link to={`/viewAccount/` + userAccount.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                return <tr key={index}>
+                                                    <td>{userAccount.id}</td>
+                                                    <td>{userAccount.username}</td>
+                                                    <td>{userAccount.role}</td>
                                                     {userAccount.ban == "Enable" ?
-                                                        <button onClick={() => handleBanAccount(userAccount.id)} className='btn btn-sm btn-warning me-2'>
-                                                            <LockIcon />
-                                                        </button>
+                                                        <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
                                                         :
-                                                        <button onClick={() => handleUnBanAccount(userAccount.id)} className='btn btn-sm btn-primary me-2'>
-                                                            <LockOpenIcon />
-                                                        </button>
-                                                    }
-                                                    <button onClick={() => handleDelete(userAccount.id)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
+                                                        <td style={{ color: 'red' }}><b>{userAccount.ban}</b></td>
 
-                                                </td>
-                                            </tr>
-                                        }
-                                    })}
+                                                    }
+                                                    <td>
+                                                        <Link to={`/viewAccount/` + userAccount.username} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                        {userAccount.ban == "Enable" ?
+                                                            <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
+                                                                <LockIcon />
+                                                            </button>
+                                                            :
+                                                            <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
+                                                                <LockOpenIcon />
+                                                            </button>
+                                                        }
+                                                        <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        })}
                                 </tbody>
                             </table>
                         </div>
@@ -369,7 +437,6 @@ function ManageAccount() {
                 </div>
             </div>
         </>
-
     )
 }
 export default ManageAccount;

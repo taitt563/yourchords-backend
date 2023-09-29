@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
+import SearchAppBar from '../component/SearchAppBar';
 function EditSong() {
     const [data, setData] = useState({
         name: '',
@@ -38,30 +39,33 @@ function EditSong() {
             .catch(err => console.log(err));
     }
     return (
-        <div className='d-flex flex-column align-items-center pt-4'>
-            <h2>Song</h2>
-            <form className="row g-3 w-50" onSubmit={handleSubmit}>
-                <div className="col-12">
-                    <label className="form-label">Name</label>
-                    <input type="text" className="form-control" id="inputName" placeholder='Enter Name' autoComplete='off'
-                        onChange={e => setData({ ...data, name: e.target.value })} value={data.name} />
-                </div>
-                <div className="col-12">
-                    <label className="form-label">Date:</label>
-                    <br />
-                    <input type="text" className="form-control" value={displaytodaysdate}
-                    />
-                </div>
-                <div className="col-12 mb-3">
-                    <label className="form-label">Select Image</label>
-                    <input type="file" className="form-control" id="inputGroupFile01"
-                        onChange={e => setData({ ...data, image: e.target.files[0] })} />
-                </div>
-                <div className="col-12">
-                    <button type="submit" className="btn btn-primary">Update</button>
-                </div>
-            </form>
-        </div>
+        <>
+            <SearchAppBar />
+            <div className='d-flex flex-column align-items-center pt-4'>
+                <h2>Song</h2>
+                <form className="row g-3 w-50" onSubmit={handleSubmit}>
+                    <div className="col-12">
+                        <label className="form-label">Name</label>
+                        <input type="text" className="form-control" id="inputName" placeholder='Enter Name' autoComplete='off'
+                            onChange={e => setData({ ...data, name: e.target.value })} value={data.name} />
+                    </div>
+                    <div className="col-12">
+                        <label className="form-label">Date:</label>
+                        <br />
+                        <input type="text" className="form-control" value={displaytodaysdate}
+                        />
+                    </div>
+                    <div className="col-12 mb-3">
+                        <label className="form-label">Select Image</label>
+                        <input type="file" className="form-control" id="inputGroupFile01"
+                            onChange={e => setData({ ...data, image: e.target.files[0] })} />
+                    </div>
+                    <div className="col-12">
+                        <button type="submit" className="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </>
     )
 }
 export default EditSong;

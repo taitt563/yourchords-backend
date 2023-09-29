@@ -5,13 +5,13 @@ import Login from './Login'
 import Home from './Admin/Home'
 import Profile from './Admin/Profile'
 import Song from './Admin/Song'
-import Feedback from './Admin/Feedback'
 import CreateSong from './Admin/CreateSong'
 import EditSong from './Admin/EditSong'
 import ViewSong from './Admin/ViewSong'
 import ManageAccount from './Admin/ManageAcount'
 import ViewAccount from './Admin/ViewAccount'
 import ManageFeedback from './Admin/ManageFeedback'
+import ViewFeedback from './Admin/ViewFeedback'
 /////MUSICIAN
 import LoginChordManager from './ChordManager/LoginChordManager'
 import DashboardChordManager from './ChordManager/DashboardChordManager'
@@ -29,11 +29,12 @@ function App() {
           <Route path='/song' element={<Song />}></Route>
           <Route path='/manageAccount' element={<ManageAccount />}></Route>
           <Route path='/createSong' element={<CreateSong />}></Route>
-          <Route path='/feedback' element={<Feedback />}></Route>
           <Route path='/editSong/:id' element={<EditSong />}></Route>
           <Route path='/viewSong/:id' element={<ViewSong />}></Route>
-          <Route path='/viewAccount/:id' element={<ViewAccount />}></Route>
+          <Route path='/viewAccount/:username' element={<ViewAccount />}></Route>
           <Route path='/manageFeedback' element={<ManageFeedback />}></Route>
+          <Route path='/viewFeedback/:username' element={<ViewFeedback />}></Route>
+
 
         </Route>
         {/* CHORD MANAGER ROLE */}
