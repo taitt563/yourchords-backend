@@ -3,6 +3,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import SearchAppBar from "../component/SearchAppBar";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import moment from 'moment';
+import ModeIcon from '@mui/icons-material/Mode';
 
 function ViewSong() {
     const [data, setData] = useState([]);
@@ -33,27 +36,56 @@ function ViewSong() {
             <SearchAppBar />
 
             <div className='d-flex flex-column align-items-center pt-5'>
-
                 {data.map((viewSong, index) => {
                     return <div key={index}>
-                        <span className="d-flex flex-column align-items-center pt-5 " ><b>{viewSong.name}</b></span>
-                        <span className="d-flex  align-items-center pt-5 " >Author: <b>{viewSong.author}</b></span>
+                        <p className="fs-100  font pd-left" >Name: <b>{viewSong.name}</b></p>
+                        <p className="fs-100  font pd-left" >Author:  <b>{viewSong.author}</b></p>
+                        <p className='font fs-100 font pd-left'>Date: <b>{moment(viewSong.date).format('YYYY-MM-DD')}</b></p>
+                        <div className='d-flex flex-column align-items-center pt-4'>
+                            <div className="container">
+                                <div className="px-2 py-5">
+                                    <div className="row">
+                                        <div className="card">
+                                            <div className="row">
+                                                <div className="pd-left">
+                                                    <a className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
+                                                        {
+                                                            <img src={`http://localhost:8081/images/` + viewSong.image} alt="" className='song_image_view' />
+                                                        }
+                                                        <div className="numbers pd-right">
+
+                                                            <span className="  pd-left font" >Lyric: </span>
+
+                                                            <p className="font"><strong>{viewSong.lyric}</strong></p>
+                                                            <i className="pd-left font"><ModeIcon /><span>Edit</span></i>
+
+                                                        </div>
 
 
-                        <a className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
-                            {
-                                <img src={`http://localhost:8081/images/` + viewSong.image} alt="" className='song_image_view ' />
+                                                    </a>
+                                                </div>
+                                                <div className="col-xs-7">
 
-                            }
-                            {/* <div className="top-element-formatting">
-                            <p className="second-word-formatting font">{viewSong.lyric}</p>
-                        </div> */}
-                            <p className="font pd-left-lyric">{viewSong.lyric}</p>
-                        </a>
 
+                                                </div>
+                                            </div>
+                                            <div className="footer">
+                                                <hr />
+                                                <div className="pd-bottom">
+                                                    <i className="pd-left"><CheckCircleIcon color='success' /><span>Verified</span></i>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
                 })}
+
+
 
 
                 <div className="col-12 d-flex flex-column align-items-center pt-4">

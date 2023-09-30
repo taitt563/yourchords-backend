@@ -42,7 +42,7 @@ export default function BottomAppBar() {
                 <ListItem>
                     <ListItemText primary="Today" />
                 </ListItem>
-                <List sx={{ mb: 2 }} style={{ height: '200px', overflowY: 'scroll' }}>
+                <List sx={{ mb: 2 }} style={{ height: '300px', overflowY: 'scroll' }}>
 
                     <div className='mt-3 pd-left'>
                         <table className='table'>
@@ -81,7 +81,7 @@ export default function BottomAppBar() {
                 <ListItem>
                     <ListItemText primary="Recently" />
                 </ListItem>
-                <List sx={{ mb: 2 }} style={{ height: '300px', overflowY: 'scroll' }}>
+                <List sx={{ mb: 2 }} style={{ height: '400px', overflowY: 'scroll' }}>
 
                     <div className='mt-3 pd-left'>
                         <table className='table'>

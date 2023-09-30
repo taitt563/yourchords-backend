@@ -127,3 +127,78 @@
 .active-content {
     display: block;
 }
+
+/* ///////////////// */
+
+.alert-success {
+    background-color: #8EF3C5;
+    color: #42A084;
+}
+
+.alert {
+    border: 0;
+    border-radius: 0;
+    color: #FFFFFF;
+    padding: 10px 15px;
+    font-size: 14px;
+}
+
+.ti-announcement:before {
+    content: "\e64f";
+}
+
+
+
+
+.card .numbers {
+    font-size: 20px;
+    text-align: right;
+}
+
+
+.footer {
+    background-attachment: fixed;
+    position: relative;
+    line-height: 20px;
+}
+
+.card .footer {
+    padding: 0;
+    line-height: 30px;
+}
+
+.card .footer hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+
+
+.card {
+    border-radius: border-radius-extreme;
+    box-shadow: 0 2px 2px rgba(204, 197, 185, 0.5);
+    background-color: #FFFFFF;
+    color: card-black-color;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+
+    h6 {
+        font-size: font-size-small;
+        margin: 0;
+    }
+
+    .icon-big {
+        font-size: 3em;
+        min-height: 64px;
+    }
+
+    .numbers {
+        font-size: 2em;
+        text-align: right;
+
+        p {
+            margin: 0;
+        }
+    }
+}

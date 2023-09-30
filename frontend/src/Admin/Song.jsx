@@ -34,11 +34,10 @@ function Song() {
             <div className="px-2 py-5">
 
                 <div>
-                    <h3 className="pd-bottom">List song</h3>
+                    <h3 className="d-flex flex-column align-items-center pt-4">List song</h3>
                 </div>
-                <Link to="/createSong" className="btn btn-success">ADD</Link>
-                <div className='mt-4' style={{ height: '550px', overflowY: 'scroll' }}>
-                    <table className='table' >
+                <div className='mt-4' style={{ height: '1000px', overflowY: 'scroll' }}>
+                    <table className='table'>
                         <thead>
                             <tr>
                                 <th>STT</th>
@@ -51,8 +50,6 @@ function Song() {
                         </thead>
                         <tbody>
                             {data.map((song, index) => {
-
-
                                 return <tr key={index}>
                                     <td>{song.id}</td>
                                     <td>{song.author}</td>
@@ -72,7 +69,9 @@ function Song() {
                         </tbody>
                     </table>
                 </div>
-            </div >
+                <Link to="/createSong" className="btn btn-primary">ADD</Link>
+
+            </div>
         </>
     )
 }

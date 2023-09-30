@@ -2,6 +2,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import SearchAppBar from '../component/SearchAppBar';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Button from '@mui/material/Button';
 // import Button from '@mui/material/Button';
 // import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 function Profile() {
@@ -72,6 +74,18 @@ function Profile() {
                         <label className="form-label">Address</label>
                         <input type="text" className="form-control" placeholder="Address" autoComplete='off'
                             onChange={e => setData({ ...data, address: e.target.value })} value={data.address} />
+                    </div>
+                    <div className="col-12 mb-3">
+                        <label className="form-label">Select Image:</label>
+                        <br />
+                        {/* <input type="file"
+                        onChange={e => setData({ ...data, image: e.target.files[0] })} /> */}
+
+                        <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                            <input
+                                type="file" onChange={e => setData({ ...data, image: e.target.files[0] })} />
+                        </Button>
+
                     </div>
                     {/* <div className="col-12 mb-3">
                     <label className="form-label">Select Image</label>
