@@ -6,7 +6,8 @@ import SearchAppBar from "../component/SearchAppBar";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import moment from 'moment';
 import ModeIcon from '@mui/icons-material/Mode';
-
+import Fab from '@mui/material/Fab';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 function ViewSong() {
     const [data, setData] = useState([]);
     const { id } = useParams();
@@ -36,6 +37,7 @@ function ViewSong() {
             <SearchAppBar />
 
             <div className='d-flex flex-column align-items-center pt-5'>
+
                 {data.map((viewSong, index) => {
                     return <div key={index}>
                         <p className="fs-100  font pd-left" >Name: <b>{viewSong.name}</b></p>
@@ -43,11 +45,15 @@ function ViewSong() {
                         <p className='font fs-100 font pd-left'>Date: <b>{moment(viewSong.date).format('YYYY-MM-DD')}</b></p>
                         <div className='d-flex flex-column align-items-center pt-4'>
                             <div className="container">
+
                                 <div className="px-2 py-5">
                                     <div className="row">
                                         <div className="card">
+
                                             <div className="row">
+
                                                 <div className="pd-left">
+
                                                     <a className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
                                                         {
                                                             <img src={`http://localhost:8081/images/` + viewSong.image} alt="" className='song_image_view' />
@@ -63,6 +69,7 @@ function ViewSong() {
 
 
                                                     </a>
+
                                                 </div>
                                                 <div className="col-xs-7">
 
@@ -70,8 +77,12 @@ function ViewSong() {
                                                 </div>
                                             </div>
                                             <div className="footer">
+
                                                 <hr />
-                                                <div className="pd-bottom">
+                                                <div className="pd-bottom flex-column">
+                                                    <Fab aria-label="like" color='error'>
+                                                        <FavoriteIcon />
+                                                    </Fab>
                                                     <i className="pd-left"><CheckCircleIcon color='success' /><span>Verified</span></i>
 
                                                 </div>

@@ -15,6 +15,16 @@ import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import HeadsetIcon from '@mui/icons-material/Headset';
 import PersonIcon from '@mui/icons-material/Person';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+        primary: {
+            main: '#F1F1FB',
+        },
+    },
+});
+
 
 function ManageAccount() {
     const [isDeleted, setIsDeleted] = useState(false);
@@ -79,42 +89,45 @@ function ManageAccount() {
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static">
-                    <Toolbar>
-                        <Typography
-                            variant="h5"
-                            noWrap
-                            component="a"
-                            href="/homeAdmin"
-                            sx={{
-                                mr: 2,
-                                display: { xs: 'none', md: 'flex' },
-                                fontFamily: 'monospace',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                            }}
-                        >
-                            <HeadsetIcon />
-                        </Typography>
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="div"
+                <ThemeProvider theme={darkTheme}>
+                    <AppBar position="static" color="primary" enableColorOnDark>
+                        <Toolbar>
+                            <Typography
+                                variant="h5"
+                                noWrap
+                                component="a"
+                                href="/homeAdmin"
+                                sx={{
+                                    mr: 2,
+                                    display: { xs: 'none', md: 'flex' },
+                                    fontFamily: 'monospace',
+                                    fontWeight: 700,
+                                    letterSpacing: '.3rem',
+                                    color: 'inherit',
+                                    textDecoration: 'none',
+                                }}
+                            >
+                                <HeadsetIcon />
+                            </Typography>
+                            <Typography
+                                variant="h6"
+                                noWrap
+                                component="div"
 
-                            sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, fontFamily: 'monospace', flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
-                            <b>YOUR CHORD</b>
-                        </Typography>
+                                sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, fontFamily: 'monospace', flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
+                                <b>YOUR CHORD</b>
+                            </Typography>
 
-                        <input
-                            type="text"
-                            placeholder="Search.."
-                            onChange={(e) => setSearch(e.target.value)} />
-                        <SearchIcon />
+                            <input
+                                type="text"
+                                className="input-box"
+                                placeholder="Search.."
+                                onChange={(e) => setSearch(e.target.value)} />
+                            <SearchIcon />
 
-                    </Toolbar>
-                </AppBar>
+                        </Toolbar>
+                    </AppBar>
+                </ThemeProvider>
             </Box>
             <div className="bloc-tabs">
                 <button className={toggleState === 1 ? "tabs active-tabs" : "tabs"} onClick={() => toggleTab(1)}>
