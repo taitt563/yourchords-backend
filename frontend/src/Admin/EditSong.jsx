@@ -21,7 +21,6 @@ function EditSong() {
                     ...data,
                     name: res.data.Result[0].name,
                 })
-                console.log(res);
             })
             .catch(err => console.log(err));
     }, [])

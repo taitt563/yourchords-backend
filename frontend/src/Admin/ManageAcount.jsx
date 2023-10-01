@@ -151,7 +151,7 @@ function ManageAccount() {
                     {/* Manage account user */}
                     <div className="px-2 py-5">
                         <div>
-                            <h3 className="p-2 d-flex justify-content-center">User Account Management</h3>
+                            <h3 className="p-2 d-flex justify-content-center">USER ACCOUNT MANAGEMENT</h3>
                         </div>
                         {isDeleted && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
@@ -228,7 +228,7 @@ function ManageAccount() {
                     {/* Manage account admin */}
                     <div className="px-2 py-5">
                         <div>
-                            <h3 className="p-2 d-flex justify-content-center">Admin Account Management</h3>
+                            <h3 className="p-2 d-flex justify-content-center">ADMIN ACCOUNT MANAGEMENT</h3>
                         </div>
                         {isDeleted && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
@@ -302,7 +302,7 @@ function ManageAccount() {
                     {/* Manage account Chord manager */}
                     <div className="px-2 py-5">
                         <div>
-                            <h3 className="p-2 d-flex justify-content-center">Chord Manager Account Management</h3>
+                            <h3 className="p-2 d-flex justify-content-center">CHORD MANAGER ACCOUNT MANAGEMENT</h3>
                         </div>
                         {isDeleted && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
@@ -379,7 +379,7 @@ function ManageAccount() {
 
                     <div className="px-2 py-5">
                         <div>
-                            <h3 className="p-2 d-flex justify-content-center">Musician Account Management</h3>
+                            <h3 className="p-2 d-flex justify-content-center">MUSICIAN ACCOUNT MANAGEMENT</h3>
                         </div>
                         {isDeleted && (
                             <Stack sx={{ width: '100%' }} spacing={2} >

@@ -106,6 +106,7 @@ app.post('/signup', (req, res) => {
         }
     })
 })
+
 app.post('/createSong', upload.single('image'), (req, res) => {
     const sql = "INSERT INTO song (`name`,`image`,`lyric`, `author`) VALUES (?)";
     if (req.body.name.length > 0) {
@@ -123,8 +124,8 @@ app.post('/createSong', upload.single('image'), (req, res) => {
     else {
         return false;
     }
-
 })
+
 app.get('/getProfile/:userId', (req, res) => {
     const userId = req.params.userId;
     const sql = "SELECT * FROM profile WHERE userId = ?";
@@ -218,6 +219,7 @@ app.get('/viewFeedback/:username', (req, res) => {
         }
     })
 })
+//manageAccountPage
 app.get('/getAccount', (req, res) => {
     const sql = "SELECT * FROM login";
     con.query(sql, (err, result) => {
@@ -250,7 +252,94 @@ app.put('/unBanAccount/:username', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
-
+//homePageAdminCount
+app.get('/adminCount', (req, res) => {
+    const sql = "Select count(username) as admin from login WHERE role = 'admin' ";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Error in runnig query" });
+        return res.json(result);
+    })
+})
+app.get('/adminCountActive', (req, res) => {
+    const sql = "Select count(username) as adminActive from login WHERE role = 'admin' AND ban = 'Enable' ";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Error in runnig query" });
+        return res.json(result);
+    })
+})
+app.get('/adminCountDisable', (req, res) => {
+    const sql = "Select count(username) as adminDisable from login WHERE role = 'admin' AND ban = 'Disable' ";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Error in runnig query" });
+        return res.json(result);
+    })
+})
+//homePageChordManagerCount
+app.get('/chordManagerCount', (req, res) => {
+    const sql = "Select count(username) as chordManager from login WHERE role = 'chord' ";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Error in runnig query" });
+        return res.json(result);
+    })
+})
+app.get('/chordManagerCountActive', (req, res) => {
+    const sql = "Select count(username) as chordManagerActive from login WHERE role = 'chord' AND ban = 'Enable' ";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Error in runnig query" });
+        return res.json(result);
+    })
+})
+app.get('/chordManagerCountDisable', (req, res) => {
+    const sql = "Select count(username) as chordManagerDisable from login WHERE role = 'chord' AND ban = 'Disable' ";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Error in runnig query" });
+        return res.json(result);
+    })
+})
+//homePageMusicianCount
+app.get('/musicianCount', (req, res) => {
+    const sql = "Select count(username) as musician from login WHERE role = 'musician' ";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Error in runnig query" });
+        return res.json(result);
+    })
+})
+app.get('/musicianCountActive', (req, res) => {
+    const sql = "Select count(username) as musicianActive from login WHERE role = 'musician' AND ban = 'Enable' ";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Error in runnig query" });
+        return res.json(result);
+    })
+})
+app.get('/musicianCountDisable', (req, res) => {
+    const sql = "Select count(username) as musicianDisable from login WHERE role = 'musician' AND ban = 'Disable' ";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Error in runnig query" });
+        return res.json(result);
+    })
+})
+//customerCount
+app.get('/customerCount', (req, res) => {
+    const sql = "Select count(username) as customer from login WHERE role = 'user' ";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Error in runnig query" });
+        return res.json(result);
+    })
+})
+app.get('/customerCountActive', (req, res) => {
+    const sql = "Select count(username) as customerActive from login WHERE role = 'user' AND ban = 'Enable' ";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Error in runnig query" });
+        return res.json(result);
+    })
+})
+app.get('/customerCountDisable', (req, res) => {
+    const sql = "Select count(username) as customerDisable from login WHERE role = 'user' AND ban = 'Disable' ";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Error in runnig query" });
+        return res.json(result);
+    })
+})
 app.listen(8081, () => {
     console.log("Running");
 })

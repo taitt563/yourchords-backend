@@ -13,9 +13,6 @@ const darkTheme = createTheme({
     },
 });
 
-
-
-
 export default function SearchAppBar() {
     return (
 
@@ -44,8 +41,7 @@ export default function SearchAppBar() {
                             variant="h6"
                             noWrap
                             component="div"
-
-                            sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, fontFamily: 'monospace', flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                            sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                         >
 
                             <b>YOUR CHORD</b>
