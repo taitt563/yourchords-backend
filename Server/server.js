@@ -139,7 +139,6 @@ app.post('/createSong', upload.single('image'), (req, res) => {
 app.get('/getProfile/:userId', (req, res) => {
     const userId = req.params.userId;
     const sql = "SELECT * FROM profile WHERE userId = ?";
-    console.log(userId)
     con.query(sql, [userId], (err, result) => {
         if (err) return res.json({ Error: "Get song error in sql" });
         console.log(result)
@@ -212,6 +211,7 @@ app.get('/getProfile', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
+
 app.get('/getFeedback', (req, res) => {
     const sql = "SELECT * FROM feedback";
     con.query(sql, (err, result) => {

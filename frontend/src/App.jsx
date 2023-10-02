@@ -16,7 +16,7 @@ import ViewFeedback from './Admin/ViewFeedback'
 import LoginChordManager from './ChordManager/LoginChordManager'
 import DashboardChordManager from './ChordManager/DashboardChordManager'
 import SignUpChordManager from './ChordManager/SignUpChordManager'
-
+import HomeChordManager from './ChordManager/HomeChordManager'
 function App() {
   return (
     <BrowserRouter>
@@ -36,16 +36,21 @@ function App() {
           <Route path='/viewFeedback/:username' element={<ViewFeedback />}></Route>
 
 
-        </Route>
-        {/* CHORD MANAGER ROLE */}
-        <Route path='/dashboardChordManager' element={<DashboardChordManager />}>
 
         </Route>
+        {/* CHORD MANAGER ROLE */}
+
+
+
+        <Route path='/' element={<DashboardChordManager />}>
+          <Route path='/homeChordManager' element={<HomeChordManager />}></Route>
+        </Route>
+
+
         <Route path='/login' element={<Login />}></Route>
         <Route path='/loginChordManager' element={<LoginChordManager />}></Route>
         <Route path='/signUpChordManager' element={<SignUpChordManager />}></Route>
         <Route path='/logInstart' element={<LoginStart />}></Route>
-
 
 
 

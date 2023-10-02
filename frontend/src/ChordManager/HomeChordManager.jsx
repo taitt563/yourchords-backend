@@ -8,7 +8,7 @@ import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ModeIcon from '@mui/icons-material/Mode';
 import { useState, useEffect } from 'react';
-function Home() {
+function HomeChordManager() {
 
     const [data, setData] = useState([]);
 
@@ -309,4 +309,4 @@ function Home() {
 
     )
 }
-export default Home;
+export default HomeChordManager;

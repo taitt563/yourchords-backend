@@ -13,7 +13,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import TextField from '@mui/material/TextField';
-
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 function Login() {
     const navigate = useNavigate();
     axios.defaults.withCredentials = true;
@@ -21,8 +22,9 @@ function Login() {
         username: '',
         password: ''
     })
-    const [error, setError] = useState('')
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoginFailed, setIsLoginFailed] = useState(false);
+
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -35,7 +37,10 @@ function Login() {
                     localStorage.setItem('id', values.username);
                     navigate("/homeAdmin");
                 } else {
-                    setError(res.data.Error);
+                    setIsLoginFailed(true);
+                    setTimeout(() => {
+                        setIsLoginFailed(false);
+                    }, 3000);
                 }
             })
             .catch(err => console.log(err));
@@ -44,10 +49,12 @@ function Login() {
     return (
         <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
             <div className='bg-light p-3 rounded w-25 border'>
-                <div className='text-danger'>
-                    {error && error}
-                </div>
                 <h2 className='p-2 d-flex justify-content-center'>Login</h2>
+                {isLoginFailed && (
+                    <Stack sx={{ width: '100%' }} spacing={2} >
+                        <Alert severity="error">Wrong username or password !</Alert>
+                    </Stack>
+                )}
                 <form onSubmit={handleSubmit}>
 
                     <FormControl sx={{ m: 1 }} variant="outlined" fullWidth>

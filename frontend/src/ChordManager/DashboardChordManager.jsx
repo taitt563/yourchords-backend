@@ -3,16 +3,17 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import HomeIcon from '@mui/icons-material/Home';
-import QueueMusicIcon from '@mui/icons-material/QueueMusic';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ModeIcon from '@mui/icons-material/Mode';
+// import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+// import QueueMusicIcon from '@mui/icons-material/QueueMusic';
+// import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+// import ModeIcon from '@mui/icons-material/Mode';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Link from '@mui/material/Link';
-// import SearchAppBar from '../component/SearchAppBar';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+
 function DashboardChordManager() {
     const [data, setData] = useState([]);
     axios.defaults.withCredentials = true;
@@ -26,6 +27,7 @@ function DashboardChordManager() {
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
+                    console.log(res.data.Result)
 
                 } else {
                     alert("Error")
@@ -56,21 +58,8 @@ function DashboardChordManager() {
                                 <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                                     <li className='pd-top'>
-                                        <b><Link underline="hover" className="nav-link px-0 align-middle">
+                                        <b><Link href="/homeAdmin" underline="hover" className="nav-link px-0 align-middle">
                                             <i className="fs-4"><HomeIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Home</span></Link></b>
-                                    </li>
-
-                                    <li className='pd-top'>
-                                        <b><Link underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><QueueMusicIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Verify Song</span></Link></b>
-                                    </li>
-                                    <li className='pd-top'>
-                                        <b><Link underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><ThumbUpAltIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Feedback</span></Link></b>
-                                    </li>
-                                    <li className='pd-top'>
-                                        <b><Link href={`/profile/` + profile.userId} underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><ModeIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Edit Profile</span></Link></b>
                                     </li>
                                     <li className='pd-top'>
                                         <b><Link href="/logInStart" underline="hover" className="nav-link px-0 align-middle ">
@@ -82,10 +71,7 @@ function DashboardChordManager() {
                     </div>
                 </div>
                 <div className="col p-0 m-0">
-                    {/* <SearchAppBar /> */}
-                    <div className='pd-top'>
-                        <Outlet />
-                    </div>
+                    <Outlet />
                 </div>
             </div>
         </div>

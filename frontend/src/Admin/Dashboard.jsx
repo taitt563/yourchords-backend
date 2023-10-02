@@ -15,7 +15,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 
 function Dashboard() {
-    const [data, setData] = useState([]);
+    const [datachord, setDataChord] = useState([]);
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
 
@@ -26,8 +26,7 @@ function Dashboard() {
         axios.get('http://localhost:8081/getProfile/' + userId)
             .then(res => {
                 if (res.data.Status === "Success") {
-                    setData(res.data.Result);
-
+                    setDataChord(res.data.Result);
                 } else {
                     alert("Error")
                 }
@@ -41,7 +40,7 @@ function Dashboard() {
             <div className="row flex-nowrap" >
                 <div className=" col-auto col-md-3 col-xl-2 px-sm-2 px-0 tabLeft">
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 text-white min-vh-100  ">
-                        {data.map((profile, index) => {
+                        {datachord.map((profile, index) => {
                             return <div key={index}>
                                 <ListItem >
                                     <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
