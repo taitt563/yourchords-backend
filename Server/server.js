@@ -95,7 +95,7 @@ app.get('/logout', (req, res) => {
     res.clearCookie('token');
     return res.json({ Status: "Success" });
 })
-app.post('/signup', (req, res) => {
+app.post('/signUpChordManager', (req, res) => {
     let sql = "INSERT INTO login (username, password , role) VALUES (?, ?, ?);";
     sql += "INSERT INTO profile (name, email , address, userId) VALUES (?, ?, ?, ?)";
     console.log(req);
@@ -106,7 +106,17 @@ app.post('/signup', (req, res) => {
         }
     })
 })
-
+// app.post('/signUpChordManager', (req, res) => {
+//     const sql = "INSERT INTO login (username, password , role) VALUES (?, ?,'chord')";
+//     con.query(sql, [req.body.username, req.body.password], (err, result) => {
+//         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
+//         if (result.length > 0) {
+//             return res.json({ Status: "Success" })
+//         } else {
+//             return res.json({ Status: "Error", Error: "Error" });
+//         }
+//     })
+// })
 app.post('/createSong', upload.single('image'), (req, res) => {
     const sql = "INSERT INTO song (`name`,`image`,`lyric`, `author`) VALUES (?)";
     if (req.body.name.length > 0) {

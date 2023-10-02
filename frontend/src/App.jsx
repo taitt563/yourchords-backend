@@ -15,7 +15,7 @@ import ViewFeedback from './Admin/ViewFeedback'
 /////MUSICIAN
 import LoginChordManager from './ChordManager/LoginChordManager'
 import DashboardChordManager from './ChordManager/DashboardChordManager'
-import SignInChordManager from './ChordManager/SignInChordManager'
+import SignUpChordManager from './ChordManager/SignUpChordManager'
 
 function App() {
   return (
@@ -43,7 +43,7 @@ function App() {
         </Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/loginChordManager' element={<LoginChordManager />}></Route>
-        <Route path='/signInChordManager' element={<SignInChordManager />}></Route>
+        <Route path='/signUpChordManager' element={<SignUpChordManager />}></Route>
         <Route path='/logInstart' element={<LoginStart />}></Route>
 
 

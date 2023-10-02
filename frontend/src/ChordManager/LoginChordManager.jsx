@@ -99,7 +99,10 @@ function LoginChordManagerimport() {
             })
             .catch(err => console.log(err));
     }
-
+    // const handleSignUp = (event) => {
+    //     event.preventDefault();
+    //     navigate('/signUpChordManager');
+    // }
     return (
         <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
             <div className='bg-light p-3 rounded w-25 border'>
@@ -123,10 +126,14 @@ function LoginChordManagerimport() {
                         <input type="password" placeholder='Enter Password' name='password'
                             onChange={e => setValues({ ...values, password: e.target.value })} className='form-control rounded-0' />
                     </div>
+
+                    <button type='submit' className='btn btn-success border w-100 rounded-0'> Log in</button>
                     <FormGroup>
                         <FormControlLabel required control={<Checkbox />} label="You are agree to our terms and policies" />
                     </FormGroup>
-                    <button type='submit' className='btn btn-success border w-100 rounded-0'> Log in</button>
+
+                    <button className='btn btn-default border w-100 bg-light rounded-0' onClick={() => navigate('/signUpChordManager')}> Create Account</button>
+
                 </form>
 
             </div>
