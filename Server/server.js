@@ -130,43 +130,14 @@ app.post('/signUpMusician', (req, res) => {
         }
     })
 })
-// app.post('/signUpChordManager', (req, res) => {
-//     const sql = "INSERT INTO user_acc (username, password , role) VALUES (?, ?,'chord')";
-//     con.query(sql, [req.body.username, req.body.password], (err, result) => {
-//         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
-//         if (result.length > 0) {
-//             return res.json({ Status: "Success" })
-//         } else {
-//             return res.json({ Status: "Error", Error: "Error" });
-//         }
-//     })
-// })
 
-
-// app.post('/createSong', upload.single('image'), (req, res) => {
-//     const sql = "INSERT INTO song (`name`,`image`,`lyric`, `author`) VALUES (?)";
-//     if (req.body.name.length > 0) {
-//         const values = [
-//             req.body.name,
-//             req.file.filename,
-//             req.body.lyric,
-//             req.body.author,
-//         ]
-//         con.query(sql, [values], (err, result) => {
-//             if (err) return res.json({ Error: "Error" });
-//             return res.json({ Status: "Success" });
-//         })
-//     }
-//     else {
-//         return false;
-//     }
-// })
-app.post('/createSong', upload.single('image'), (req, res) => {
-    const sql = "INSERT INTO song (`song_title`,`lyrics`) VALUES (?)";
+app.post('/createSong', upload.single('thumnail'), (req, res) => {
+    const sql = "INSERT INTO song (`song_title`,`lyrics`,`thumnail`) VALUES (?)";
     if (req.body.song_title.length > 0) {
         const values = [
             req.body.song_title,
             req.body.lyrics,
+            req.file.filename,
         ]
         con.query(sql, [values], (err, result) => {
             if (err) return res.json({ Error: "Error" });
@@ -177,6 +148,35 @@ app.post('/createSong', upload.single('image'), (req, res) => {
         return false;
     }
 })
+// app.post('/createSong', upload.single('image'), (req, res) => {
+//     const sql = "INSERT INTO song (`song_title`,`lyrics`,`image`) VALUES (?)";
+//     if (req.body.song_title.length > 0) {
+//         const values = [
+//             req.body.song_title,
+//             req.body.lyrics,
+//             req.file.filename,
+//         ]
+//         con.query(sql, [values], (err, result) => {
+//             if (err) return res.json({ Error: "Error" });
+//             return res.json({ Status: "Success" });
+//         })
+//     }
+//     else {
+//         return false;
+//     }
+
+// })
+// app.post('/signUpChordManager', (req, res) => {
+//     let sql = "INSERT INTO user_acc (username, password , role) VALUES (?, ?, ?);";
+//     sql += "INSERT INTO profile (name, email , address, userId) VALUES (?, ?, ?, ?)";
+//     console.log(req);
+//     con.query(sql, [req.body.username, req.body.password, 'chord', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
+//         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
+//         if (result.length > 0) {
+//             return res.json({ Status: "Success" });
+//         }
+//     })
+// })
 app.get('/getProfile/:userId', (req, res) => {
     const userId = req.params.userId;
     const sql = "SELECT * FROM profile WHERE userId = ?";
@@ -221,15 +221,24 @@ app.get('/getAccount/:username', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
-app.put('/updateSong/:song_title', (req, res) => {
+app.put('/updateSong/:song_title', upload.single("thumnail"), (req, res) => {
     const song_title = req.params.song_title;
-    const sql = "UPDATE song SET song_title = ? WHERE song_title = ?";
-    con.query(sql, [req.body.song_title, song_title], (err, result) => {
+    const sql = "UPDATE song SET song_title = ?, lyrics = ?, updated_at = CURRENT_TIMESTAMP WHERE song_title = ?";
+    con.query(sql, [req.body.song_title, req.body.lyrics, song_title], (err, result) => {
         if (err) return res.json({ Error: "update song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })
 
 })
+// app.put('/updateProfile/:userId', upload.single("image"), (req, res) => {
+//     const userId = req.params.userId;
+//     const sql = "UPDATE profile SET name = ?, email = ?, address= ? WHERE userId = ?";
+//     con.query(sql, [req.body.name, req.body.email, req.body.address, userId], (err, result) => {
+//         if (err) return res.json({ Error: "Error" });
+//         return res.json({ Status: "Success", Result: result });
+//     })
+// })
+
 app.delete('/delete/:id', (req, res) => {
     const id = req.params.id;
     const sql = "Delete FROM song WHERE id = ?";

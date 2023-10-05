@@ -5,6 +5,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment'
 import SearchAppBar from "../component/SearchAppBar";
+import EditIcon from '@mui/icons-material/Edit';
 function SongMusician() {
     const [data, setData] = useState([])
 
@@ -43,11 +44,13 @@ function SongMusician() {
                     <table className='table'>
                         <thead>
                             <tr>
-                                <th>STT</th>
-                                <th>Author</th>
+                                <th>ID</th>
+                                <th>Thumnail</th>
                                 <th>Name song</th>
-                                <th>Song lyrics</th>
-                                <th>Date</th>
+                                <th>Lyrics</th>
+                                <th>Date create</th>
+                                <th>Date updated</th>
+                                <th>Status</th>
                                 <th>Option</th>
                             </tr>
                         </thead>
@@ -55,17 +58,19 @@ function SongMusician() {
                             {data.map((song, index) => {
                                 return <tr key={index}>
                                     <td>{song.id}</td>
-                                    <td>{song.author}</td>
+                                    <td>{
+                                        <img src={`http://localhost:8081/images/` + song.thumnail} alt="" className='song_image' />
+                                    }</td>
                                     <td>{song.song_title}</td>
-                                    {/* <td>{
-                                        <img src={`http://localhost:8081/images/` + song.image} alt="" className='song_image' />
-                                    }</td> */}
                                     <td>{song.lyrics}</td>
 
                                     <td>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
+                                    <td>{moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
+                                    <td>{""}</td>
+
                                     <td>
                                         <Link to={`/viewSongMusician/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                        <Link to={`/editSongMusician/` + song.song_title} className='btn btn-primary btn-sm me-2'>Edit</Link>
+                                        <Link to={`/editSongMusician/` + song.song_title} className='btn btn-primary btn-sm me-2'><EditIcon /></Link>
                                         <button onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></button>
                                     </td>
                                 </tr>

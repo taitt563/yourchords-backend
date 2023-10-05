@@ -6,6 +6,7 @@ import SearchAppBar from '../component/SearchAppBar';
 function EditSongMusician() {
     const [data, setData] = useState({
         song_title: '',
+        lyrics: '',
     })
     const navigate = useNavigate()
 
@@ -19,6 +20,8 @@ function EditSongMusician() {
                 setData({
                     ...data,
                     song_title: res.data.Result[0].song_title,
+                    lyrics: res.data.Result[0].lyrics,
+
                 })
             })
             .catch(err => console.log(err));
@@ -48,16 +51,21 @@ function EditSongMusician() {
                             onChange={e => setData({ ...data, song_title: e.target.value })} value={data.song_title} />
                     </div>
                     <div className="col-12">
+                        <label className="form-label">Name</label>
+                        <input type="text" className="form-control" id="inputName" placeholder='Enter Name' autoComplete='off'
+                            onChange={e => setData({ ...data, lyrics: e.target.value })} value={data.lyrics} />
+                    </div>
+                    <div className="col-12">
                         <label className="form-label">Date:</label>
                         <br />
                         <input type="text" className="form-control" value={displaytodaysdate}
                         />
                     </div>
-                    <div className="col-12 mb-3">
+                    {/* <div className="col-12 mb-3">
                         <label className="form-label">Select Image</label>
                         <input type="file" className="form-control" id="inputGroupFile01"
                             onChange={e => setData({ ...data, image: e.target.files[0] })} />
-                    </div>
+                    </div> */}
                     <div className="col-12">
                         <button type="submit" className="btn btn-primary">Update</button>
                     </div>

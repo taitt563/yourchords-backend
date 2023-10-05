@@ -6,8 +6,6 @@ import SearchAppBar from "../component/SearchAppBar";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import moment from 'moment';
 import ModeIcon from '@mui/icons-material/Mode';
-// import Fab from '@mui/material/Fab';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
 function ViewSongMusician() {
     const [data, setData] = useState([]);
     const { song_title } = useParams();
@@ -43,10 +41,11 @@ function ViewSongMusician() {
                         {/* <Fab aria-label="like" color='error'>
                             <FavoriteIcon />
                         </Fab> */}
-                        <p className="fs-100  font pd-left" >STT: <b>{viewSong.id}</b></p>
+                        <p className="fs-100  font pd-left" >ID: <b>{viewSong.id}</b></p>
                         <p className="fs-100  font pd-left" >Name: <b>{viewSong.song_title}</b></p>
+                        <p className="fs-100  font pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
+                        <p className="fs-100  font pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                         <p className="fs-100  font pd-left" >Author:  <b>{viewSong.author}</b></p>
-                        <p className='font fs-100 font pd-left'>Date: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                         <div className='d-flex flex-column align-items-center pt-4'>
                             <div className="container">
                                 <div className="px-2 py-5">
@@ -56,7 +55,7 @@ function ViewSongMusician() {
                                                 <div className="pd-left">
                                                     <a className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
                                                         {
-                                                            <img src={`http://localhost:8081/images/` + viewSong.image} alt="" className='song_image_view' />
+                                                            <img src={`http://localhost:8081/images/` + viewSong.thumnail} alt="" className='song_image_view' />
                                                         }
                                                         <div className="numbers pd-right">
 
