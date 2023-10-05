@@ -8,6 +8,7 @@ function LoginStart() {
                 <h2>Login As</h2>
                 <div className='d-flex justify-content-between mt-5'>
                     <button className='btn btn-primary btn-lg' onClick={() => navigate('/loginChordManager')}>Chord Manager</button>
+                    <button className='btn btn-success btn-lg' onClick={() => navigate('/loginMusician')}>Musician</button>
                     <button className='btn btn-success btn-lg' onClick={() => navigate('/login')}>Admin</button>
                 </div>
             </div>

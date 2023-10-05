@@ -2,16 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 import { TextField } from '@material-ui/core';
-import Button from '@mui/material/Button';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 function CreateSong() {
     const [data, setData] = useState({
-        name: '',
-        time: '',
-        image: '',
-        year: '',
-        lyric: '',
-        author: '',
+        song_title: '',
+        lyrics: '',
     })
     const navigate = useNavigate()
 
@@ -22,15 +16,12 @@ function CreateSong() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const formData = new FormData();
-        formData.append("name", data.name);
-        formData.append("time", data.time);
-        formData.append("dateYear", data.year);
-        formData.append("image", data.image);
-        formData.append("lyric", data.lyric);
-        formData.append("author", data.author);
+        formData.append("song_title", data.song_title);
+
+        formData.append("lyric", data.lyrics);
         axios.post('http://localhost:8081/createSong', formData)
             .then(
-                navigate('/Song')
+                navigate('/SongMusician')
             )
             .catch(err => console.log(err));
     }
@@ -45,10 +36,10 @@ function CreateSong() {
                         id="outlined-required"
                         label="Song name"
                         fullWidth
-                        onChange={e => setData({ ...data, name: e.target.value })}
+                        onChange={e => setData({ ...data, song_title: e.target.value })}
                     />
                 </div>
-                <div className="col-12">
+                {/* <div className="col-12">
                     <TextField
                         required
                         id="outlined-required"
@@ -56,7 +47,7 @@ function CreateSong() {
                         fullWidth
                         onChange={e => setData({ ...data, author: e.target.value })}
                     />
-                </div>
+                </div> */}
                 <div className="col-12">
                     <label className="form-label">Date:</label>
                     <br />
@@ -64,14 +55,14 @@ function CreateSong() {
                         onChange={e => setData({ ...data, time: e.target.value })} />
                 </div>
                 <div className="col-12 mb-3">
-                    <label className="form-label">Select Image:</label>
+                    {/* <label className="form-label">Select Image:</label> */}
                     <br />
                     {/* <input type="file"
                         onChange={e => setData({ ...data, image: e.target.files[0] })} /> */}
-                    <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                    {/* <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                         <input
                             type="file" onChange={e => setData({ ...data, image: e.target.files[0] })} />
-                    </Button>
+                    </Button> */}
                 </div>
                 <section>
 
@@ -83,7 +74,7 @@ function CreateSong() {
                             multiline
                             maxRows={100}
                             fullWidth
-                            onChange={e => setData({ ...data, lyric: e.target.value })}
+                            onChange={e => setData({ ...data, lyrics: e.target.value })}
                         />
 
                     </div>

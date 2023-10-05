@@ -3,7 +3,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import HomeIcon from '@mui/icons-material/Home';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ModeIcon from '@mui/icons-material/Mode';
@@ -14,7 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 
-function DashboardChordManager() {
+function DashboardMusician() {
     const [data, setData] = useState([]);
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
@@ -41,7 +40,7 @@ function DashboardChordManager() {
         <div className="container-fluid"  >
             <div className="row flex-nowrap" >
                 <div className=" col-auto col-md-3 col-xl-2 px-sm-2 px-0 tabLeft">
-                    <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 text-white min-vh-100  ">
+                    <div className="d-flex flex-column align-items-center align-items-sm-start px-1 pt-3 text-white min-vh-100  ">
                         {data.map((profile, index) => {
                             return <div key={index}>
                                 <ListItem >
@@ -52,30 +51,23 @@ function DashboardChordManager() {
                                             }
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText className="font" primary={<b>{profile.name}</b>} secondary={"Email: " + profile.email} />
+                                    <ListItemText className="font pd-right-profile" primary={<b>{profile.name}</b>} secondary={"Email: " + profile.email} />
                                 </ListItem>
                                 <br />
                                 <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                                     <li className='pd-top'>
-                                        <b><Link href="/homeChordManager" underline="hover" className="nav-link px-0 align-middle">
+                                        <b><Link href="/homeMusician" underline="hover" className="nav-link px-0 align-middle">
                                             <i className="fs-4"><HomeIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Home</span></Link></b>
                                     </li>
                                     <li className='pd-top'>
-                                        <b><Link underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><ManageAccountsIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Manage Account</span></Link></b>
+                                        <b><Link href="/songMusician" underline="hover" className="nav-link px-0 align-middle">
+                                            <i className="fs-4"><QueueMusicIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Manage Song</span></Link></b>
                                     </li>
+
                                     <li className='pd-top'>
                                         <b><Link underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><QueueMusicIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Song</span></Link></b>
-                                    </li>
-                                    <li className='pd-top'>
-                                        <b><Link underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><QueueMusicIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Verify Song</span></Link></b>
-                                    </li>
-                                    <li className='pd-top'>
-                                        <b><Link underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><ThumbUpAltIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Manage feedback</span></Link></b>
+                                            <i className="fs-4"><ThumbUpAltIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Feedback</span></Link></b>
                                     </li>
                                     <li className='pd-top'>
                                         <b><Link underline="hover" className="nav-link px-0 align-middle">
@@ -98,4 +90,4 @@ function DashboardChordManager() {
     )
 }
 
-export default DashboardChordManager
+export default DashboardMusician

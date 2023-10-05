@@ -8,13 +8,13 @@ import moment from 'moment';
 import ModeIcon from '@mui/icons-material/Mode';
 // import Fab from '@mui/material/Fab';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
-function ViewSong() {
+function ViewSongMusician() {
     const [data, setData] = useState([]);
-    const { id } = useParams();
+    const { song_title } = useParams();
     const navigate = useNavigate();
     useEffect(() => {
 
-        axios.get('http://localhost:8081/getSong/' + id, data)
+        axios.get('http://localhost:8081/getSong/' + song_title, data)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
@@ -29,7 +29,7 @@ function ViewSong() {
     const handleLogout = () => {
         axios.get('http://localhost:8081/logout')
             .then(
-                navigate('/Song')
+                navigate('/songMusician')
             ).catch(err => console.log(err));
     }
     return (
@@ -105,4 +105,4 @@ function ViewSong() {
 
     )
 }
-export default ViewSong;
+export default ViewSongMusician;

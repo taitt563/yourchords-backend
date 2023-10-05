@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import multer from 'multer';
 import path from 'path';
+// import { SqlClient} from 'msnodesqlv8';
 
 const app = express();
 app.use(cors(
@@ -23,7 +24,7 @@ const con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
-    database: "yourchord",
+    database: "your_chord",
     multipleStatements: true,
 })
 
@@ -43,6 +44,7 @@ const storage = multer.diskStorage({
         cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
     }
 })
+
 const upload = multer({
     storage: storage
 })
@@ -66,8 +68,7 @@ app.get('/', verifyUser, (req, res) => {
 })
 app.post('/login', (req, res) => {
     console.log(req.body.username)
-
-    const sql = "SELECT * FROM login Where username = ? AND password = ? AND role = 'admin' AND ban = 'Enable'";
+    const sql = "SELECT * FROM user_acc Where username = ? AND password = ? AND role = 'admin' AND ban = 'Enable'";
     con.query(sql, [req.body.username, req.body.password, req.body.ban], (err, result) => {
         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
         if (result.length > 0) {
@@ -79,11 +80,11 @@ app.post('/login', (req, res) => {
     })
 })
 app.post('/loginChordManager', (req, res) => {
-    const sql = "SELECT * FROM login Where username = ? AND password = ? AND role = 'chord' AND ban = 'Enable'";
+    const sql = "SELECT * FROM user_acc Where username = ? AND password = ? AND role = 'chord' AND ban = 'Enable'";
     con.query(sql, [req.body.username, req.body.password], (err, result) => {
         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
         if (result.length > 0) {
-            return res.json({ Status: "Success" })
+            return res.json({ Status: "Success", Result: result })
         }
         else {
             return res.json({ Status: "Error", Error: "Wrong username or password" });
@@ -96,7 +97,7 @@ app.get('/logout', (req, res) => {
     return res.json({ Status: "Success" });
 })
 app.post('/signUpChordManager', (req, res) => {
-    let sql = "INSERT INTO login (username, password , role) VALUES (?, ?, ?);";
+    let sql = "INSERT INTO user_acc (username, password , role) VALUES (?, ?, ?);";
     sql += "INSERT INTO profile (name, email , address, userId) VALUES (?, ?, ?, ?)";
     console.log(req);
     con.query(sql, [req.body.username, req.body.password, 'chord', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
@@ -106,8 +107,31 @@ app.post('/signUpChordManager', (req, res) => {
         }
     })
 })
+app.post('/loginMusician', (req, res) => {
+    const sql = "SELECT * FROM user_acc Where username = ? AND password = ? AND role = 'musician' AND ban = 'Enable'";
+    con.query(sql, [req.body.username, req.body.password], (err, result) => {
+        if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
+        if (result.length > 0) {
+            return res.json({ Status: "Success", Result: result })
+        }
+        else {
+            return res.json({ Status: "Error", Error: "Wrong username or password" });
+        }
+    })
+})
+app.post('/signUpMusician', (req, res) => {
+    let sql = "INSERT INTO user_acc (username, password , role) VALUES (?, ?, ?);";
+    sql += "INSERT INTO profile (name, email , address, userId) VALUES (?, ?, ?, ?)";
+    console.log(req);
+    con.query(sql, [req.body.username, req.body.password, 'musician', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
+        if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
+        if (result.length > 0) {
+            return res.json({ Status: "Success" });
+        }
+    })
+})
 // app.post('/signUpChordManager', (req, res) => {
-//     const sql = "INSERT INTO login (username, password , role) VALUES (?, ?,'chord')";
+//     const sql = "INSERT INTO user_acc (username, password , role) VALUES (?, ?,'chord')";
 //     con.query(sql, [req.body.username, req.body.password], (err, result) => {
 //         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
 //         if (result.length > 0) {
@@ -117,14 +141,32 @@ app.post('/signUpChordManager', (req, res) => {
 //         }
 //     })
 // })
+
+
+// app.post('/createSong', upload.single('image'), (req, res) => {
+//     const sql = "INSERT INTO song (`name`,`image`,`lyric`, `author`) VALUES (?)";
+//     if (req.body.name.length > 0) {
+//         const values = [
+//             req.body.name,
+//             req.file.filename,
+//             req.body.lyric,
+//             req.body.author,
+//         ]
+//         con.query(sql, [values], (err, result) => {
+//             if (err) return res.json({ Error: "Error" });
+//             return res.json({ Status: "Success" });
+//         })
+//     }
+//     else {
+//         return false;
+//     }
+// })
 app.post('/createSong', upload.single('image'), (req, res) => {
-    const sql = "INSERT INTO song (`name`,`image`,`lyric`, `author`) VALUES (?)";
-    if (req.body.name.length > 0) {
+    const sql = "INSERT INTO song (`song_title`,`lyrics`) VALUES (?)";
+    if (req.body.song_title.length > 0) {
         const values = [
-            req.body.name,
-            req.file.filename,
-            req.body.lyric,
-            req.body.author,
+            req.body.song_title,
+            req.body.lyrics,
         ]
         con.query(sql, [values], (err, result) => {
             if (err) return res.json({ Error: "Error" });
@@ -135,7 +177,6 @@ app.post('/createSong', upload.single('image'), (req, res) => {
         return false;
     }
 })
-
 app.get('/getProfile/:userId', (req, res) => {
     const userId = req.params.userId;
     const sql = "SELECT * FROM profile WHERE userId = ?";
@@ -164,26 +205,26 @@ app.get('/get/:id', (req, res) => {
     })
 })
 
-app.get('/getSong/:id', (req, res) => {
-    const id = req.params.id;
-    const sql = "SELECT * FROM song where id = ?";
-    con.query(sql, [id], (err, result) => {
+app.get('/getSong/:song_title', (req, res) => {
+    const song_title = req.params.song_title;
+    const sql = "SELECT * FROM song where song_title = ?";
+    con.query(sql, [song_title], (err, result) => {
         if (err) return res.json({ Error: "Get song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })
 })
 app.get('/getAccount/:username', (req, res) => {
     const username = req.params.username;
-    const sql = "SELECT * FROM login where username = ?";
+    const sql = "SELECT * FROM user_acc where username = ?";
     con.query(sql, [username], (err, result) => {
         if (err) return res.json({ Error: "Get song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })
 })
-app.put('/updateSong/:id', (req, res) => {
-    const id = req.params.id;
-    const sql = "UPDATE song SET name = ? WHERE id = ?";
-    con.query(sql, [req.body.name, id], (err, result) => {
+app.put('/updateSong/:song_title', (req, res) => {
+    const song_title = req.params.song_title;
+    const sql = "UPDATE song SET song_title = ? WHERE song_title = ?";
+    con.query(sql, [req.body.song_title, song_title], (err, result) => {
         if (err) return res.json({ Error: "update song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })
@@ -231,7 +272,7 @@ app.get('/viewFeedback/:username', (req, res) => {
 })
 //manageAccountPage
 app.get('/getAccount', (req, res) => {
-    const sql = "SELECT * FROM login";
+    const sql = "SELECT * FROM user_acc";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Get song error in sql" });
         return res.json({ Status: "Success", Result: result })
@@ -239,7 +280,7 @@ app.get('/getAccount', (req, res) => {
 })
 app.delete('/deleteAccount/:id', (req, res) => {
     const id = req.params.id;
-    const sql = "Delete FROM login WHERE id = ?";
+    const sql = "Delete FROM user_acc WHERE id = ?";
     con.query(sql, [id], (err, result) => {
         if (err) return res.json({ Error: "delete song error in sql" });
         return res.json({ Status: "Success", Result: result })
@@ -248,7 +289,7 @@ app.delete('/deleteAccount/:id', (req, res) => {
 
 app.put('/banAccount/:username', (req, res) => {
     const username = req.params.username;
-    const sql = "UPDATE login SET ban = 'Disable' WHERE username = ?";
+    const sql = "UPDATE user_acc SET ban = 'Disable' WHERE username = ?";
     con.query(sql, [username], (err, result) => {
         if (err) return res.json({ Error: "update song error in sql" });
         return res.json({ Status: "Success", Result: result })
@@ -256,7 +297,7 @@ app.put('/banAccount/:username', (req, res) => {
 })
 app.put('/unBanAccount/:username', (req, res) => {
     const username = req.params.username;
-    const sql = "UPDATE login SET ban = 'Enable' WHERE username = ?";
+    const sql = "UPDATE user_acc SET ban = 'Enable' WHERE username = ?";
     con.query(sql, [username], (err, result) => {
         if (err) return res.json({ Error: "update song error in sql" });
         return res.json({ Status: "Success", Result: result })
@@ -264,21 +305,21 @@ app.put('/unBanAccount/:username', (req, res) => {
 })
 //homePageAdminCount
 app.get('/adminCount', (req, res) => {
-    const sql = "Select count(username) as admin from login WHERE role = 'admin' ";
+    const sql = "Select count(username) as admin from user_acc WHERE role = 'admin' ";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Error in runnig query" });
         return res.json(result);
     })
 })
 app.get('/adminCountActive', (req, res) => {
-    const sql = "Select count(username) as adminActive from login WHERE role = 'admin' AND ban = 'Enable' ";
+    const sql = "Select count(username) as adminActive from user_acc WHERE role = 'admin' AND ban = 'Enable' ";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Error in runnig query" });
         return res.json(result);
     })
 })
 app.get('/adminCountDisable', (req, res) => {
-    const sql = "Select count(username) as adminDisable from login WHERE role = 'admin' AND ban = 'Disable' ";
+    const sql = "Select count(username) as adminDisable from user_acc WHERE role = 'admin' AND ban = 'Disable' ";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Error in runnig query" });
         return res.json(result);
@@ -286,21 +327,21 @@ app.get('/adminCountDisable', (req, res) => {
 })
 //homePageChordManagerCount
 app.get('/chordManagerCount', (req, res) => {
-    const sql = "Select count(username) as chordManager from login WHERE role = 'chord' ";
+    const sql = "Select count(username) as chordManager from user_acc WHERE role = 'chord' ";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Error in runnig query" });
         return res.json(result);
     })
 })
 app.get('/chordManagerCountActive', (req, res) => {
-    const sql = "Select count(username) as chordManagerActive from login WHERE role = 'chord' AND ban = 'Enable' ";
+    const sql = "Select count(username) as chordManagerActive from user_acc WHERE role = 'chord' AND ban = 'Enable' ";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Error in runnig query" });
         return res.json(result);
     })
 })
 app.get('/chordManagerCountDisable', (req, res) => {
-    const sql = "Select count(username) as chordManagerDisable from login WHERE role = 'chord' AND ban = 'Disable' ";
+    const sql = "Select count(username) as chordManagerDisable from user_acc WHERE role = 'chord' AND ban = 'Disable' ";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Error in runnig query" });
         return res.json(result);
@@ -308,21 +349,21 @@ app.get('/chordManagerCountDisable', (req, res) => {
 })
 //homePageMusicianCount
 app.get('/musicianCount', (req, res) => {
-    const sql = "Select count(username) as musician from login WHERE role = 'musician' ";
+    const sql = "Select count(username) as musician from user_acc WHERE role = 'musician' ";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Error in runnig query" });
         return res.json(result);
     })
 })
 app.get('/musicianCountActive', (req, res) => {
-    const sql = "Select count(username) as musicianActive from login WHERE role = 'musician' AND ban = 'Enable' ";
+    const sql = "Select count(username) as musicianActive from user_acc WHERE role = 'musician' AND ban = 'Enable' ";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Error in runnig query" });
         return res.json(result);
     })
 })
 app.get('/musicianCountDisable', (req, res) => {
-    const sql = "Select count(username) as musicianDisable from login WHERE role = 'musician' AND ban = 'Disable' ";
+    const sql = "Select count(username) as musicianDisable from user_acc WHERE role = 'musician' AND ban = 'Disable' ";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Error in runnig query" });
         return res.json(result);
@@ -330,21 +371,21 @@ app.get('/musicianCountDisable', (req, res) => {
 })
 //customerCount
 app.get('/customerCount', (req, res) => {
-    const sql = "Select count(username) as customer from login WHERE role = 'user' ";
+    const sql = "Select count(username) as customer from user_acc WHERE role = 'user' ";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Error in runnig query" });
         return res.json(result);
     })
 })
 app.get('/customerCountActive', (req, res) => {
-    const sql = "Select count(username) as customerActive from login WHERE role = 'user' AND ban = 'Enable' ";
+    const sql = "Select count(username) as customerActive from user_acc WHERE role = 'user' AND ban = 'Enable' ";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Error in runnig query" });
         return res.json(result);
     })
 })
 app.get('/customerCountDisable', (req, res) => {
-    const sql = "Select count(username) as customerDisable from login WHERE role = 'user' AND ban = 'Disable' ";
+    const sql = "Select count(username) as customerDisable from user_acc WHERE role = 'user' AND ban = 'Disable' ";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Error in runnig query" });
         return res.json(result);

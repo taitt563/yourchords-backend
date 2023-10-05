@@ -3,7 +3,7 @@
 import SearchAppBar from "../component/SearchAppBar";
 
 // import { useState, useEffect } from 'react';
-function HomeChordManager() {
+function HomeMusician() {
 
     // const [data, setData] = useState([]);
 
@@ -26,10 +26,10 @@ function HomeChordManager() {
         <>
             <SearchAppBar />
             <div className="px-2 py-5">
-                <p>Home</p>
+                <p>Home Musician</p>
             </div>
         </>
 
     )
 }
-export default HomeChordManager;
+export default HomeMusician;

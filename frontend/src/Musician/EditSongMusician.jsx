@@ -3,23 +3,22 @@ import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import SearchAppBar from '../component/SearchAppBar';
-function EditSong() {
+function EditSongMusician() {
     const [data, setData] = useState({
-        name: '',
-        image: '',
+        song_title: '',
     })
     const navigate = useNavigate()
 
-    const { id } = useParams();
+    const { song_title } = useParams();
     let time = new Date();
     let displaytodaysdate = time.getFullYear() + '-' + time.getMonth() + '-' + time.getDate();
 
     useEffect(() => {
-        axios.get('http://localhost:8081/get/' + id)
+        axios.get('http://localhost:8081/getSong/' + song_title)
             .then(res => {
                 setData({
                     ...data,
-                    name: res.data.Result[0].name,
+                    song_title: res.data.Result[0].song_title,
                 })
             })
             .catch(err => console.log(err));
@@ -28,11 +27,11 @@ function EditSong() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        axios.put('http://localhost:8081/updateSong/' + id, data)
+        axios.put('http://localhost:8081/updateSong/' + song_title, data)
 
             .then(res => {
                 if (res.data.Status === "Success") {
-                    navigate('/')
+                    navigate('/songMusician')
                 }
             })
             .catch(err => console.log(err));
@@ -46,7 +45,7 @@ function EditSong() {
                     <div className="col-12">
                         <label className="form-label">Name</label>
                         <input type="text" className="form-control" id="inputName" placeholder='Enter Name' autoComplete='off'
-                            onChange={e => setData({ ...data, name: e.target.value })} value={data.name} />
+                            onChange={e => setData({ ...data, song_title: e.target.value })} value={data.song_title} />
                     </div>
                     <div className="col-12">
                         <label className="form-label">Date:</label>
@@ -67,4 +66,4 @@ function EditSong() {
         </>
     )
 }
-export default EditSong;
+export default EditSongMusician;
