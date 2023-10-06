@@ -3,10 +3,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import SearchAppBar from "../component/SearchAppBar";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import moment from 'moment';
 import ModeIcon from '@mui/icons-material/Mode';
-function ViewSong() {
+function ViewSongChordManager() {
     const [data, setData] = useState([]);
     const { song_title } = useParams();
     const navigate = useNavigate();
@@ -27,7 +27,7 @@ function ViewSong() {
     const handleLogout = () => {
         axios.get('http://localhost:8081/logout')
             .then(
-                navigate('/Song')
+                navigate('/verifySong')
             ).catch(err => console.log(err));
     }
     return (
@@ -86,11 +86,11 @@ function ViewSong() {
                                             <div className="footer">
 
                                                 <hr />
-                                                <div className="pd-bottom flex-column">
+                                                {/* <div className="pd-bottom flex-column">
 
-                                                    <i className="pd-left"><CheckCircleIcon style={{ color: 'green' }} /><span style={{ color: 'green' }}>Verified</span></i>
+                                                    <i className="pd-left"><CheckCircleIcon color='dark' /><span>Verified</span></i>
 
-                                                </div>
+                                                </div> */}
 
                                             </div>
                                         </div>
@@ -112,4 +112,4 @@ function ViewSong() {
 
     )
 }
-export default ViewSong;
+export default ViewSongChordManager;

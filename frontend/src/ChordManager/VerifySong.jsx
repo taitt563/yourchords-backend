@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import moment from 'moment'
 import SearchAppBar from "../component/SearchAppBar";
-function Song() {
+function VerifySong() {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:8081/getSongAdmin')
+        axios.get('http://localhost:8081/getSongChordManager')
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
@@ -19,15 +19,15 @@ function Song() {
             })
             .catch(err => console.log(err));
     }, [])
-    // const handleDelete = (id) => {
-    //     axios.delete('http://localhost:8081/delete/' + id)
-    //         .then(res => {
-    //             if (res.data.Status === "Success") {
-    //                 window.location.reload(true);
-    //             }
-    //         })
-    //         .catch(err => console.log(err));
-    // }
+    const handleVerify = (id) => {
+        axios.put('http://localhost:8081/verifySong/' + id)
+            .then(res => {
+                if (res.data.Status === "Success") {
+                    window.location.reload(true);
+                }
+            })
+            .catch(err => console.log(err));
+    }
     return (
         <>
             <SearchAppBar />
@@ -67,13 +67,13 @@ function Song() {
                                         <td>{moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
                                         : <td>Not update</td>
                                     }
-                                    {song.status === 1 &&
-                                        <td style={{ color: 'green' }}><b>Verified</b></td>
+                                    {song.status === 0 &&
+                                        <td className="text-warning"><b>Not approved</b></td>
                                     }
                                     <td>
-                                        <Link to={`/viewSong/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                        {/* <Link to={`/editSong/` + song.id} className='btn btn-primary btn-sm me-2'>Edit</Link>
-                                        <button onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></button> */}
+                                        <Link to={`/viewSongChordManager/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                        {/* <Link to={`/editSong/` + song.id} className='btn btn-primary btn-sm me-2'>Edit</Link> */}
+                                        <button onClick={() => handleVerify(song.id)} className='btn btn-sm btn-success'>Approve</button>
                                     </td>
                                 </tr>
                             })}
@@ -86,4 +86,4 @@ function Song() {
         </>
     )
 }
-export default Song;
+export default VerifySong;

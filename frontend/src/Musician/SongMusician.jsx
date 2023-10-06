@@ -67,16 +67,23 @@ function SongMusician() {
                                     <td>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
                                     {song.updated_at != null ?
                                         <td>{moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
-                                        : <td>Not update</td>
+                                        :
+                                        <td>Not update</td>
                                     }
-                                    {song.status === 0 &&
-                                        <td style={{ color: 'blue' }}><b>Awaiting approval</b></td>
+                                    {song.status === 0 ?
+                                        <td className="text-warning"><b>Not approved</b></td>
+                                        :
+                                        <td style={{ color: 'green' }}><b>Approved</b></td>
+
                                     }
 
                                     <td>
                                         <Link to={`/viewSongMusician/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                         <Link to={`/editSongMusician/` + song.song_title} className='btn btn-primary btn-sm me-2'><EditIcon /></Link>
-                                        <button onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></button>
+                                        {song.status === 0 ?
+                                            <button onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></button>
+                                            : ""
+                                        }
                                     </td>
                                 </tr>
                             })}

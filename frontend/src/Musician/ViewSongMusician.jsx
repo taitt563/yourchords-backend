@@ -52,6 +52,8 @@ function ViewSongMusician() {
                             <p className="fs-100  font pd-left" >Status: <b>Awaiting approval</b></p>
                         }
                         <p className="fs-100  font pd-left" >Artist:  <b>{viewSong.author}</b></p>
+                        <p className="fs-100  font pd-left" >Link:  <b>{viewSong.link}</b></p>
+
                         <div className='d-flex flex-column align-items-center pt-4'>
                             <div className="container">
                                 <div className="px-2 py-5">

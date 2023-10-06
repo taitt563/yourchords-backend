@@ -148,35 +148,7 @@ app.post('/createSong', upload.single('thumnail'), (req, res) => {
         return false;
     }
 })
-// app.post('/createSong', upload.single('image'), (req, res) => {
-//     const sql = "INSERT INTO song (`song_title`,`lyrics`,`image`) VALUES (?)";
-//     if (req.body.song_title.length > 0) {
-//         const values = [
-//             req.body.song_title,
-//             req.body.lyrics,
-//             req.file.filename,
-//         ]
-//         con.query(sql, [values], (err, result) => {
-//             if (err) return res.json({ Error: "Error" });
-//             return res.json({ Status: "Success" });
-//         })
-//     }
-//     else {
-//         return false;
-//     }
 
-// })
-// app.post('/signUpChordManager', (req, res) => {
-//     let sql = "INSERT INTO user_acc (username, password , role) VALUES (?, ?, ?);";
-//     sql += "INSERT INTO profile (name, email , address, userId) VALUES (?, ?, ?, ?)";
-//     console.log(req);
-//     con.query(sql, [req.body.username, req.body.password, 'chord', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
-//         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
-//         if (result.length > 0) {
-//             return res.json({ Status: "Success" });
-//         }
-//     })
-// })
 app.get('/getProfile/:userId', (req, res) => {
     const userId = req.params.userId;
     const sql = "SELECT * FROM profile WHERE userId = ?";
@@ -204,11 +176,31 @@ app.get('/get/:id', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
-
+app.get('/getSong/', (req, res) => {
+    const sql = "SELECT * FROM song";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Get song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
+app.get('/getSongChordManager/', (req, res) => {
+    const sql = "SELECT * FROM song WHERE status = 0";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Get song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
 app.get('/getSong/:song_title', (req, res) => {
     const song_title = req.params.song_title;
     const sql = "SELECT * FROM song where song_title = ?";
     con.query(sql, [song_title], (err, result) => {
+        if (err) return res.json({ Error: "Get song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
+app.get('/getSongAdmin/', (req, res) => {
+    const sql = "SELECT * FROM song WHERE status = '1'";
+    con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Get song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })
@@ -230,14 +222,7 @@ app.put('/updateSong/:song_title', upload.single("thumnail"), (req, res) => {
     })
 
 })
-// app.put('/updateProfile/:userId', upload.single("image"), (req, res) => {
-//     const userId = req.params.userId;
-//     const sql = "UPDATE profile SET name = ?, email = ?, address= ? WHERE userId = ?";
-//     con.query(sql, [req.body.name, req.body.email, req.body.address, userId], (err, result) => {
-//         if (err) return res.json({ Error: "Error" });
-//         return res.json({ Status: "Success", Result: result });
-//     })
-// })
+
 
 app.delete('/delete/:id', (req, res) => {
     const id = req.params.id;
@@ -247,13 +232,22 @@ app.delete('/delete/:id', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
-app.get('/getSong', (req, res) => {
-    const sql = "SELECT * FROM song";
-    con.query(sql, (err, result) => {
-        if (err) return res.json({ Error: "Get song error in sql" });
+app.put('/verifySong/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "UPDATE song SET status = true WHERE id = ?";
+    con.query(sql, [id], (err, result) => {
+        if (err) return res.json({ Error: "delete song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })
 })
+// app.put('/unBanAccount/:username', (req, res) => {
+//     const username = req.params.username;
+//     const sql = "UPDATE user_acc SET ban = 'Enable' WHERE username = ?";
+//     con.query(sql, [username], (err, result) => {
+//         if (err) return res.json({ Error: "update song error in sql" });
+//         return res.json({ Status: "Success", Result: result })
+//     })
+// })
 app.get('/getProfile', (req, res) => {
     const sql = "SELECT * FROM profile";
     con.query(sql, (err, result) => {
