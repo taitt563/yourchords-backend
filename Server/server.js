@@ -2,12 +2,14 @@ import express from 'express';
 import mysql from 'mysql';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import bcrypt from 'bcrypt';
+import bcrypt, { hash } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import multer from 'multer';
 import path from 'path';
-// import { SqlClient} from 'msnodesqlv8';
 
+
+
+const salt = 10;
 const app = express();
 app.use(cors(
     {
@@ -80,16 +82,28 @@ app.post('/login', (req, res) => {
     })
 })
 app.post('/loginChordManager', (req, res) => {
-    const sql = "SELECT * FROM user_acc Where username = ? AND password = ? AND role = 'chord' AND ban = 'Enable'";
-    con.query(sql, [req.body.username, req.body.password], (err, result) => {
+    const password = req.body.password;
+
+    const sql = "SELECT * FROM user_acc Where username = ? AND role = 'chord' AND ban = 'Enable'";
+
+    con.query(sql, [req.body.username], (err, result) => {
         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
         if (result.length > 0) {
-            return res.json({ Status: "Success", Result: result })
+            bcrypt.compare(req.body.password.toString(), result[0].password, (err, response) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (response) {
+                    return res.json({ Status: "Success", Result: result })
+                }
+                return res.json("Error");
+            })
         }
         else {
             return res.json({ Status: "Error", Error: "Wrong username or password" });
         }
     })
+
 })
 
 app.get('/logout', (req, res) => {
@@ -99,20 +113,34 @@ app.get('/logout', (req, res) => {
 app.post('/signUpChordManager', (req, res) => {
     let sql = "INSERT INTO user_acc (username, password , role) VALUES (?, ?, ?);";
     sql += "INSERT INTO profile (name, email , address, userId) VALUES (?, ?, ?, ?)";
-    console.log(req);
-    con.query(sql, [req.body.username, req.body.password, 'chord', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
-        if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
-        if (result.length > 0) {
-            return res.json({ Status: "Success" });
+    const password = req.body.password;
+    bcrypt.hash(password.toString(), salt, (err, hash) => {
+        if (err) {
+            console.log(err);
         }
+
+        con.query(sql, [req.body.username, hash, 'chord', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
+            if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
+            if (result.length > 0) {
+                return res.json({ Status: "Success" });
+            }
+        })
     })
 })
 app.post('/loginMusician', (req, res) => {
-    const sql = "SELECT * FROM user_acc Where username = ? AND password = ? AND role = 'musician' AND ban = 'Enable'";
-    con.query(sql, [req.body.username, req.body.password], (err, result) => {
+    const sql = "SELECT * FROM user_acc Where username = ? AND role = 'musician' AND ban = 'Enable'";
+    con.query(sql, [req.body.username], (err, result) => {
         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
         if (result.length > 0) {
-            return res.json({ Status: "Success", Result: result })
+            bcrypt.compare(req.body.password.toString(), result[0].password, (err, response) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (response) {
+                    return res.json({ Status: "Success", Result: result })
+                }
+                return res.json("Error");
+            })
         }
         else {
             return res.json({ Status: "Error", Error: "Wrong username or password" });
@@ -122,12 +150,17 @@ app.post('/loginMusician', (req, res) => {
 app.post('/signUpMusician', (req, res) => {
     let sql = "INSERT INTO user_acc (username, password , role) VALUES (?, ?, ?);";
     sql += "INSERT INTO profile (name, email , address, userId) VALUES (?, ?, ?, ?)";
-    console.log(req);
-    con.query(sql, [req.body.username, req.body.password, 'musician', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
-        if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
-        if (result.length > 0) {
-            return res.json({ Status: "Success" });
+    const password = req.body.password;
+    bcrypt.hash(password.toString(), salt, (err, hash) => {
+        if (err) {
+            console.log(err);
         }
+        con.query(sql, [req.body.username, hash, 'musician', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
+            if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
+            if (result.length > 0) {
+                return res.json({ Status: "Success" });
+            }
+        })
     })
 })
 
