@@ -26,8 +26,6 @@ function DashboardMusician() {
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
-                    console.log(res.data.Result)
-
                 } else {
                     alert("Error")
                 }

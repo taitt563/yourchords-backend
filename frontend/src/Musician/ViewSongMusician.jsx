@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import SearchAppBar from "../component/SearchAppBar";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import moment from 'moment';
 import ModeIcon from '@mui/icons-material/Mode';
 function ViewSongMusician() {
@@ -44,8 +44,14 @@ function ViewSongMusician() {
                         <p className="fs-100  font pd-left" >ID: <b>{viewSong.id}</b></p>
                         <p className="fs-100  font pd-left" >Name: <b>{viewSong.song_title}</b></p>
                         <p className="fs-100  font pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
-                        <p className="fs-100  font pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
-                        <p className="fs-100  font pd-left" >Author:  <b>{viewSong.author}</b></p>
+                        {viewSong.updated_at != null ?
+                            <p className="fs-100  font pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
+                            : <p className="fs-100  font pd-left" >Date updated: <b>Not update</b></p>
+                        }
+                        {viewSong.status === 0 &&
+                            <p className="fs-100  font pd-left" >Status: <b>Awaiting approval</b></p>
+                        }
+                        <p className="fs-100  font pd-left" >Artist:  <b>{viewSong.author}</b></p>
                         <div className='d-flex flex-column align-items-center pt-4'>
                             <div className="container">
                                 <div className="px-2 py-5">
@@ -78,11 +84,11 @@ function ViewSongMusician() {
                                             <div className="footer">
 
                                                 <hr />
-                                                <div className="pd-bottom flex-column">
+                                                {/* <div className="pd-bottom flex-column">
 
-                                                    <i className="pd-left"><CheckCircleIcon color='success' /><span>Verified</span></i>
+                                                    <i className="pd-left"><CheckCircleIcon color='dark' /><span>Verified</span></i>
 
-                                                </div>
+                                                </div> */}
 
                                             </div>
                                         </div>

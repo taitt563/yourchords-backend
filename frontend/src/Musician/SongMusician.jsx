@@ -8,7 +8,7 @@ import SearchAppBar from "../component/SearchAppBar";
 import EditIcon from '@mui/icons-material/Edit';
 function SongMusician() {
     const [data, setData] = useState([])
-
+    console.log(data)
     useEffect(() => {
         axios.get('http://localhost:8081/getSong')
             .then(res => {
@@ -65,8 +65,13 @@ function SongMusician() {
                                     <td>{song.lyrics}</td>
 
                                     <td>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
-                                    <td>{moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
-                                    <td>{""}</td>
+                                    {song.updated_at != null ?
+                                        <td>{moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
+                                        : <td>Not update</td>
+                                    }
+                                    {song.status === 0 &&
+                                        <td style={{ color: 'blue' }}><b>Awaiting approval</b></td>
+                                    }
 
                                     <td>
                                         <Link to={`/viewSongMusician/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>

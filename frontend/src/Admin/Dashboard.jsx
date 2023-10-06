@@ -65,7 +65,7 @@ function Dashboard() {
                                     </li>
                                     <li className='pd-top'>
                                         <b><Link href="/Song" underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><QueueMusicIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Manage Song</span></Link></b>
+                                            <i className="fs-4"><QueueMusicIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Song</span></Link></b>
                                     </li>
                                     <li className='pd-top'>
                                         <b><Link href="/manageFeedback" underline="hover" className="nav-link px-0 align-middle">
