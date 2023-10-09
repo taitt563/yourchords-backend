@@ -17,7 +17,7 @@ import SignUpChordManager from './ChordManager/SignUpChordManager'
 import HomeChordManager from './ChordManager/HomeChordManager'
 import VerifySong from './ChordManager/VerifySong'
 import ViewSongChordManager from './ChordManager/ViewSongChordManager'
-
+import ProfileChordManager from './ChordManager/ProfileChordManager'
 /////MUSICIAN
 import LoginMusician from './Musician/LoginMusician'
 import DashboardMusician from './Musician/DashboardMusician'
@@ -27,6 +27,7 @@ import SongMusician from './Musician/SongMusician'
 import ViewSongMusician from './Musician/ViewSongMusician'
 import CreateSong from './Musician/CreateSong'
 import EditSongMusician from './Musician/EditSongMusician'
+import ProfileMusician from './Musician/ProfileMusician'
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
           <Route path='/homeChordManager' element={<HomeChordManager />}></Route>
           <Route path='/verifySong' element={<VerifySong />}></Route>
           <Route path='/viewSongChordManager/:song_title' element={<ViewSongChordManager />}></Route>
+          <Route path='/profileChordManager/:userId' element={<ProfileChordManager />}></Route>
 
         </Route>
 
@@ -65,6 +67,7 @@ function App() {
           <Route path='/viewSongMusician/:song_title' element={<ViewSongMusician />}></Route>
           <Route path='/createSong' element={<CreateSong />}></Route>
           <Route path='/editSongMusician/:song_title' element={<EditSongMusician />}></Route>
+          <Route path='/profileMusician/:userId' element={<ProfileMusician />}></Route>
 
         </Route>
 

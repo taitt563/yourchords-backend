@@ -71,7 +71,7 @@ function SongMusician() {
                                         <td>Not update</td>
                                     }
                                     {song.status === 0 ?
-                                        <td className="text-warning"><b>Not approved</b></td>
+                                        <td className="text-warning"><b>Waiting approve</b></td>
                                         :
                                         <td style={{ color: 'green' }}><b>Approved</b></td>
 
@@ -79,7 +79,10 @@ function SongMusician() {
 
                                     <td>
                                         <Link to={`/viewSongMusician/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                        <Link to={`/editSongMusician/` + song.song_title} className='btn btn-primary btn-sm me-2'><EditIcon /></Link>
+                                        {song.status === 0 ?
+                                            <Link to={`/editSongMusician/` + song.song_title} className='btn btn-primary btn-sm me-2'><EditIcon /></Link>
+                                            : ""
+                                        }
                                         {song.status === 0 ?
                                             <button onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></button>
                                             : ""

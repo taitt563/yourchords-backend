@@ -287,7 +287,7 @@ function Home() {
                 </div>
 
                 {/* List of admin  */}
-                <div className='mt-4 px-5 pt-3'>
+                {/* <div className='mt-4 px-5 pt-3'>
                     <h3>List of Admins</h3>
                     <table className='table'>
                         <thead>
@@ -303,7 +303,7 @@ function Home() {
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> */}
             </div>
         </>
 

@@ -25,7 +25,6 @@ function DashboardChordManager() {
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
-                    console.log(res.data.Result)
 
                 } else {
                     alert("Error")
@@ -50,7 +49,7 @@ function DashboardChordManager() {
                                             }
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText className="font" primary={<b>{profile.name}</b>} secondary={"Email: " + profile.email} />
+                                    <ListItemText className="font" primary={<b>{profile.name}</b>} secondary={<b>{profile.email}</b>} />
                                 </ListItem>
                                 <br />
                                 <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
@@ -69,7 +68,7 @@ function DashboardChordManager() {
                                             <i className="fs-4"><QueueMusicIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Verify Song</span></Link></b>
                                     </li>
                                     <li className='pd-top'>
-                                        <b><Link underline="hover" className="nav-link px-0 align-middle">
+                                        <b><Link href={`/profileChordManager/` + profile.userId} underline="hover" className="nav-link px-0 align-middle">
                                             <i className="fs-4"><ModeIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Edit Profile</span></Link></b>
                                     </li>
                                     <li className='pd-top'>

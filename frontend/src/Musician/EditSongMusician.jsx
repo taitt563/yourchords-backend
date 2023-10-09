@@ -51,7 +51,7 @@ function EditSongMusician() {
                             onChange={e => setData({ ...data, song_title: e.target.value })} value={data.song_title} />
                     </div>
                     <div className="col-12">
-                        <label className="form-label">Name</label>
+                        <label className="form-label">Lyrics: </label>
                         <input type="text" className="form-control" id="inputName" placeholder='Enter Name' autoComplete='off'
                             onChange={e => setData({ ...data, lyrics: e.target.value })} value={data.lyrics} />
                     </div>

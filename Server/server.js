@@ -124,6 +124,9 @@ app.post('/signUpChordManager', (req, res) => {
             if (result.length > 0) {
                 return res.json({ Status: "Success" });
             }
+            if (result) {
+                return res.json("Error");
+            }
         })
     })
 })
@@ -159,6 +162,9 @@ app.post('/signUpMusician', (req, res) => {
             if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
             if (result.length > 0) {
                 return res.json({ Status: "Success" });
+            }
+            if (result) {
+                return res.json("Error");
             }
         })
     })
@@ -306,6 +312,17 @@ app.get('/viewFeedback/:username', (req, res) => {
         }
     })
 })
+app.put('/viewSeenFeedback/:username', (req, res) => {
+    const username = req.params.username;
+    let sql = "UPDATE feedback SET status = 1 WHERE username = ?";
+    con.query(sql, [username], (err, result) => {
+        if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
+        if (result.length > 0) {
+            return res.json({ Status: "Success", Result: result });
+        }
+    })
+})
+
 //manageAccountPage
 app.get('/getAccount', (req, res) => {
     const sql = "SELECT * FROM user_acc";

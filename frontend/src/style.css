@@ -94,6 +94,9 @@ textarea {
 .bloc-tabs {
     display: flex;
     height: 40px;
+    box-shadow: 0 2px 2px rgba(204, 197, 185, 0.5);
+    position: relative;
+
 
 }
 

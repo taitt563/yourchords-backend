@@ -10,7 +10,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import TextField from '@mui/material/TextField';
-
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -28,16 +29,31 @@ function SignUpMusician() {
     })
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const [isAccountExisted, setIsAccountExisted] = useState(false);
     const handleSignin = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:8081/signUpMusician', values),
-            navigate("/loginMusician")
+        axios.post('http://localhost:8081/signUpMusician', values)
+            .then(res => {
+                if (res.data.Status === 'Success') {
+                    navigate("/loginMusician");
+                } else {
+                    setIsAccountExisted(true);
+                    setTimeout(() => {
+                        setIsAccountExisted(false);
+                    }, 3500);
+                }
+            })
+            .catch(err => console.log(err));
     }
     return (
         <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
             <div className='bg-light p-3 rounded w-25 border'>
                 <h2>Register Account</h2>
-
+                {isAccountExisted && (
+                    <Stack sx={{ width: '100%' }} spacing={2} >
+                        <Alert severity="warning">Username already exists, please try again !</Alert>
+                    </Stack>
+                )}
                 <form onSubmit={handleSignin}>
                     <FormControl sx={{ m: 1 }} variant="outlined" fullWidth>
                         <TextField

@@ -23,11 +23,16 @@ function ViewFeedback() {
 
             .catch(err => console.log(err));
     }, [])
-    const handleClose = (event) => {
-        event.preventDefault();
-        navigate("/manageFeedback")
+    // const handleClose = (event) => {
+    //     event.preventDefault();
+    //     navigate("/manageFeedback")
+    // }
+    const handleSeenfeedback = (username) => {
+        axios.put('http://localhost:8081/viewSeenFeedback/' + username)
+            .then(
+                navigate('/manageFeedback')
+            ).catch(err => console.log(err));
     }
-
     return (
         <>
             <SearchAppBar />
@@ -72,7 +77,7 @@ function ViewFeedback() {
                                 </div>
                             </div>
                             <div className="col-12">
-                                <button onClick={handleClose} type="submit" className="btn btn-primary">Close</button>
+                                <button onClick={() => handleSeenfeedback(userFeedback.username)} type="submit" className="btn btn-primary">Close</button>
                             </div>
                         </div>
                     </div>

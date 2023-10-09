@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 export default function BottomAppBar() {
 
     const [data, setData] = useState([]);
+
     axios.defaults.withCredentials = true;
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
@@ -51,6 +52,7 @@ export default function BottomAppBar() {
                                     <th></th>
                                     <th>Username</th>
                                     <th>Date</th>
+                                    <th>Status</th>
                                     <th>View</th>
                                 </tr>
                             </thead>
@@ -60,15 +62,23 @@ export default function BottomAppBar() {
                                     const date2 = (moment(feedbackUser.date).format("YYYY-MM-DD"));
                                     if (date1 == date2) {
                                         return <tr key={index}>
-                                            <td>{
-                                                <img src={`http://localhost:8081/images/` + feedbackUser.image} alt="" className='song_image' />
-                                            }</td>
+                                            <td>
+                                                {
+                                                    <img src={`http://localhost:8081/images/` + feedbackUser.image} alt="" className='song_image' />
+                                                }
+                                            </td>
                                             <td>{feedbackUser.username}</td>
 
                                             <td>{moment(feedbackUser.date).format('YYYY-MM-DD')}</td>
+                                            {feedbackUser.status == true ?
+                                                <td style={{ color: 'green' }}><b>Seen</b></td>
+                                                :
+                                                <td className="text-warning"><b>Not seen</b></td>
+                                            }
                                             <td>
                                                 <Link to={`/viewFeedback/` + feedbackUser.username} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                             </td>
+
                                         </tr>
                                     }
                                 })}
@@ -90,6 +100,7 @@ export default function BottomAppBar() {
                                     <th></th>
                                     <th>Username</th>
                                     <th>Date</th>
+                                    <th>Status</th>
                                     <th>View</th>
                                 </tr>
                             </thead>
@@ -105,6 +116,11 @@ export default function BottomAppBar() {
                                             <td>{feedbackUser.username}</td>
 
                                             <td>{moment(feedbackUser.date).format('YYYY-MM-DD')}</td>
+                                            {feedbackUser.status == true ?
+                                                <td style={{ color: 'green' }}><b>Seen</b></td>
+                                                :
+                                                <td className="text-warning"><b>Not seen</b></td>
+                                            }
                                             <td>
                                                 <Link to={`/viewFeedback/` + feedbackUser.username} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                             </td>

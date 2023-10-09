@@ -50,7 +50,7 @@ function Dashboard() {
                                             }
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText className="font" primary={<b>{profile.name}</b>} secondary={"Email: " + profile.email} />
+                                    <ListItemText className="font" primary={<b>{profile.name}</b>} secondary={<b>{profile.email}</b>} />
                                 </ListItem>
                                 <br />
                                 <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
