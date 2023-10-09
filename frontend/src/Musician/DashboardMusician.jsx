@@ -37,7 +37,7 @@ function DashboardMusician() {
 
         <div className="container-fluid"  >
             <div className="row flex-nowrap" >
-                <div className=" col-auto col-md-3 col-xl-2 px-sm-1 px-0 tabLeft">
+                <div className=" col-auto col-md-3 col-xl-2 px-sm-3 px-0 tabLeft">
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 text-white min-vh-100  ">
                         {data.map((profile, index) => {
                             return <div key={index}>
@@ -55,22 +55,29 @@ function DashboardMusician() {
                                 <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                                     <li className='pd-top'>
-                                        <b><Link href="/homeChordManager" underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><HomeIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Home</span></Link></b>
+                                        <b><Link href="/homeMusician" underline="hover" className="nav-link px-0 align-middle">
+                                            <i className="fs-4"><HomeIcon color="primary" fontSize='large' /></i><span className="ms-1 d-none d-sm-inline"> Home</span></Link></b>
                                     </li>
 
                                     <li className='pd-top'>
                                         <b><Link href="/songMusician" underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><QueueMusicIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Song</span></Link></b>
+                                            <i className="fs-4"><QueueMusicIcon color="primary" fontSize='large' /></i><span className="ms-1 d-none d-sm-inline"> Manage Song</span></Link></b>
                                     </li>
-
+                                    <li className='pd-top'>
+                                        <b><Link href="/songMusician" underline="hover" className="nav-link px-0 align-middle">
+                                            <i className="fs-4"><QueueMusicIcon color="primary" fontSize='large' /></i><span className="ms-1 d-none d-sm-inline"> Manage Chord</span></Link></b>
+                                    </li>
+                                    <li className='pd-top'>
+                                        <b><Link href="/songMusician" underline="hover" className="nav-link px-0 align-middle">
+                                            <i className="fs-4"><QueueMusicIcon color="primary" fontSize='large' /></i><span className="ms-1 d-none d-sm-inline"> Manage Beat</span></Link></b>
+                                    </li>
                                     <li className='pd-top'>
                                         <b><Link href={`/profileMusician/` + profile.userId} underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><ModeIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Edit Profile</span></Link></b>
+                                            <i className="fs-4"><ModeIcon color="primary" fontSize='large' /></i><span className="ms-1 d-none d-sm-inline"> Edit Profile</span></Link></b>
                                     </li>
                                     <li className='pd-top'>
                                         <b><Link href="/logInStart" underline="hover" className="nav-link px-0 align-middle ">
-                                            <i className="fs-4"><LogoutIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Logout</span></Link></b>
+                                            <i className="fs-4"><LogoutIcon color="primary" fontSize='large' /></i><span className="ms-1 d-none d-sm-inline"> Logout</span></Link></b>
                                     </li>
                                 </ul>
                             </div>
@@ -78,7 +85,7 @@ function DashboardMusician() {
                     </div>
                 </div>
                 <div className="col p-0 m-0">
-                    <Outlet />
+                    <Outlet style={{ height: '500px', overflowY: 'scroll' }} />
                 </div>
             </div>
         </div>

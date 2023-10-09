@@ -9,19 +9,22 @@ function CreateSong() {
     const [data, setData] = useState({
         song_title: '',
         lyrics: '',
+        link: '',
         thumnail: '',
     })
     const navigate = useNavigate()
 
 
     let showDate = new Date();
-    let displaytodaysdate = showDate.getFullYear() + '-' + showDate.getMonth() + '-' + showDate.getDate();
+    let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
     const handleSubmit = (event) => {
         event.preventDefault();
         const formData = new FormData();
         formData.append("song_title", data.song_title);
         formData.append("lyrics", data.lyrics);
         formData.append("thumnail", data.thumnail);
+        formData.append("link", data.link);
+
 
         axios.post('http://localhost:8081/createSong', formData)
             .then(
@@ -62,6 +65,14 @@ function CreateSong() {
 
                     </div>
                 </section>
+                <div className="col-12">
+                    <TextField
+                        id="outlined-required"
+                        label="Link"
+                        fullWidth
+                        onChange={e => setData({ ...data, link: e.target.value })}
+                    />
+                </div>
 
                 <div className="col-12">
                     <label className="form-label">Date:</label>

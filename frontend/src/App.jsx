@@ -18,6 +18,7 @@ import HomeChordManager from './ChordManager/HomeChordManager'
 import VerifySong from './ChordManager/VerifySong'
 import ViewSongChordManager from './ChordManager/ViewSongChordManager'
 import ProfileChordManager from './ChordManager/ProfileChordManager'
+import SongChordManager from './ChordManager/SongChordManager'
 /////MUSICIAN
 import LoginMusician from './Musician/LoginMusician'
 import DashboardMusician from './Musician/DashboardMusician'
@@ -57,6 +58,7 @@ function App() {
           <Route path='/verifySong' element={<VerifySong />}></Route>
           <Route path='/viewSongChordManager/:song_title' element={<ViewSongChordManager />}></Route>
           <Route path='/profileChordManager/:userId' element={<ProfileChordManager />}></Route>
+          <Route path='/songChordManager' element={<SongChordManager />}></Route>
 
         </Route>
 

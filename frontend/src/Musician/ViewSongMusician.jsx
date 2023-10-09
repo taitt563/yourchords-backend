@@ -1,11 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import SearchAppBar from "../component/SearchAppBar";
 // import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import moment from 'moment';
-import ModeIcon from '@mui/icons-material/Mode';
+// import ModeIcon from '@mui/icons-material/Mode';
 function ViewSongMusician() {
     const [data, setData] = useState([]);
     const { song_title } = useParams();
@@ -52,8 +52,11 @@ function ViewSongMusician() {
                             <p className="fs-100  font pd-left" >Status: <b>Awaiting approval</b></p>
                         }
                         <p className="fs-100  font pd-left" >Artist:  <b>{viewSong.author}</b></p>
-                        <p className="fs-100  font pd-left" >Link:  <b>{viewSong.link}</b></p>
+                        {viewSong.link != null ?
+                            <p className="fs-100  font pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
+                            : <p className="fs-100  font pd-left" >Link:  <b>Still update...</b></p>
 
+                        }
                         <div className='d-flex flex-column align-items-center pt-4'>
                             <div className="container">
                                 <div className="px-2 py-5">
@@ -67,10 +70,10 @@ function ViewSongMusician() {
                                                         }
                                                         <div className="numbers pd-right">
 
-                                                            <span className="  pd-left font" >Lyric: </span>
+                                                            <span className="pd-left font" >Lyric: </span>
 
                                                             <p className="font"><strong>{viewSong.lyrics}</strong></p>
-                                                            <i className="pd-left font"><ModeIcon /><span>Edit</span></i>
+                                                            {/* <i className="pd-left font"><ModeIcon /><span>Edit</span></i> */}
 
                                                         </div>
 

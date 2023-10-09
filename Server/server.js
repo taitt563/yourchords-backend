@@ -69,7 +69,6 @@ app.get('/', verifyUser, (req, res) => {
     return res.json({ Status: "Success", role: req.role, id: req.id })
 })
 app.post('/login', (req, res) => {
-    console.log(req.body.username)
     const sql = "SELECT * FROM user_acc Where username = ? AND password = ? AND role = 'admin' AND ban = 'Enable'";
     con.query(sql, [req.body.username, req.body.password, req.body.ban], (err, result) => {
         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
@@ -82,7 +81,6 @@ app.post('/login', (req, res) => {
     })
 })
 app.post('/loginChordManager', (req, res) => {
-    const password = req.body.password;
 
     const sql = "SELECT * FROM user_acc Where username = ? AND role = 'chord' AND ban = 'Enable'";
 
@@ -171,12 +169,14 @@ app.post('/signUpMusician', (req, res) => {
 })
 
 app.post('/createSong', upload.single('thumnail'), (req, res) => {
-    const sql = "INSERT INTO song (`song_title`,`lyrics`,`thumnail`) VALUES (?)";
+    const sql = "INSERT INTO song (`song_title`,`lyrics`,`thumnail`,`link`) VALUES (?)";
     if (req.body.song_title.length > 0) {
         const values = [
             req.body.song_title,
             req.body.lyrics,
             req.file.filename,
+            req.body.link,
+
         ]
         con.query(sql, [values], (err, result) => {
             if (err) return res.json({ Error: "Error" });

@@ -40,14 +40,14 @@ function SongMusician() {
                 </div>
                 <Link to="/createSong" className="btn btn-primary">ADD</Link>
 
-                <div className='mt-4' style={{ height: '500px', overflowY: 'scroll' }}>
+                <div className='mt-4'>
                     <table className='table'>
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Thumnail</th>
                                 <th>Name song</th>
-                                <th>Lyrics</th>
+                                <th>Link</th>
                                 <th>Date create</th>
                                 <th>Date updated</th>
                                 <th>Status</th>
@@ -62,8 +62,11 @@ function SongMusician() {
                                         <img src={`http://localhost:8081/images/` + song.thumnail} alt="" className='song_image' />
                                     }</td>
                                     <td>{song.song_title}</td>
-                                    <td>{song.lyrics}</td>
+                                    {song.link != null ?
+                                        <td><b><Link to={song.link}>{song.link}</Link></b></td>
+                                        : <td className="text-warning"><b>Updating</b></td>
 
+                                    }
                                     <td>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
                                     {song.updated_at != null ?
                                         <td>{moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</td>

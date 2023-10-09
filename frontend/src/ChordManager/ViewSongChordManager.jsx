@@ -27,7 +27,7 @@ function ViewSongChordManager() {
     const handleLogout = () => {
         axios.get('http://localhost:8081/logout')
             .then(
-                navigate('/verifySong')
+                navigate(-1)
             ).catch(err => console.log(err));
     }
     return (

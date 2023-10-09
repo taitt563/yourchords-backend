@@ -7,12 +7,13 @@ function EditSongMusician() {
     const [data, setData] = useState({
         song_title: '',
         lyrics: '',
+        link: '',
     })
     const navigate = useNavigate()
 
     const { song_title } = useParams();
     let time = new Date();
-    let displaytodaysdate = time.getFullYear() + '-' + time.getMonth() + '-' + time.getDate();
+    let displaytodaysdate = time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate();
 
     useEffect(() => {
         axios.get('http://localhost:8081/getSong/' + song_title)
@@ -21,6 +22,8 @@ function EditSongMusician() {
                     ...data,
                     song_title: res.data.Result[0].song_title,
                     lyrics: res.data.Result[0].lyrics,
+                    link: res.data.Result[0].link,
+
 
                 })
             })
@@ -54,6 +57,11 @@ function EditSongMusician() {
                         <label className="form-label">Lyrics: </label>
                         <input type="text" className="form-control" id="inputName" placeholder='Enter Name' autoComplete='off'
                             onChange={e => setData({ ...data, lyrics: e.target.value })} value={data.lyrics} />
+                    </div>
+                    <div className="col-12">
+                        <label className="form-label">Link: </label>
+                        <input type="text" className="form-control" id="inputName" placeholder='Enter Name' autoComplete='off'
+                            onChange={e => setData({ ...data, link: e.target.value })} value={data.link} />
                     </div>
                     <div className="col-12">
                         <label className="form-label">Date:</label>

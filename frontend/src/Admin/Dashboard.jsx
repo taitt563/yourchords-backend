@@ -13,7 +13,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-
 function Dashboard() {
     const [datachord, setDataChord] = useState([]);
     axios.defaults.withCredentials = true;
@@ -53,31 +52,59 @@ function Dashboard() {
                                     <ListItemText className="font" primary={<b>{profile.name}</b>} secondary={<b>{profile.email}</b>} />
                                 </ListItem>
                                 <br />
-                                <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
+                                <span type="text" className='fs-100  font pd-left '>Date current: <b>{displaytodaysdate}</b></span>
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+
+
                                     <li className='pd-top'>
-                                        <b><Link href="/homeAdmin" underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><HomeIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Home</span></Link></b>
+                                        <b>
+                                            <Link href="/homeAdmin" underline="hover" className="nav-link px-0 align-middle justify-content-between">
+                                                <i className="fs-4"><HomeIcon color="primary" fontSize='large' /></i>
+                                                <span className="ms-1 d-none d-sm-inline"> Home</span>
+                                            </Link>
+                                        </b>
+                                    </li>
+                                    <li className='pd-top' >
+
+                                        <b>
+                                            <Link href="/manageAccount" underline="hover" className="nav-link px-0 align-middle">
+                                                <i className="fs-4"><ManageAccountsIcon color="primary" fontSize='large' /></i>
+                                                <span className="ms-1 d-none d-sm-inline"> Manage Account </span>
+                                            </Link>
+                                        </b>
                                     </li>
                                     <li className='pd-top'>
-                                        <b><Link href="/manageAccount" underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><ManageAccountsIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Manage Account</span></Link></b>
+                                        <b>
+                                            <Link href="/Song" underline="hover" className="nav-link px-0 align-middle">
+                                                <i className="fs-4"><QueueMusicIcon color="primary" fontSize='large' /></i>
+                                                <span className="ms-1 d-none d-sm-inline"> Song</span>
+                                            </Link>
+                                        </b>
+                                    </li>
+
+                                    <li className='pd-top'>
+                                        <b>
+                                            <Link href="/manageFeedback" underline="hover" className="nav-link px-0 align-middle">
+                                                <i className="fs-4"><ThumbUpAltIcon color="primary" fontSize='large' /></i>
+                                                <span className="ms-1 d-none d-sm-inline"> Manage feedback</span>
+                                            </Link>
+                                        </b>
                                     </li>
                                     <li className='pd-top'>
-                                        <b><Link href="/Song" underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><QueueMusicIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Song</span></Link></b>
+                                        <b>
+                                            <Link href={`/profile/` + profile.userId} underline="hover" className="nav-link px-0 align-middle">
+                                                <i className="fs-4"><ModeIcon color="primary" fontSize='large' /></i>
+                                                <span className="ms-1 d-none d-sm-inline"> Edit Profile</span>
+                                            </Link>
+                                        </b>
                                     </li>
                                     <li className='pd-top'>
-                                        <b><Link href="/manageFeedback" underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><ThumbUpAltIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Manage feedback</span></Link></b>
-                                    </li>
-                                    <li className='pd-top'>
-                                        <b><Link href={`/profile/` + profile.userId} underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><ModeIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Edit Profile</span></Link></b>
-                                    </li>
-                                    <li className='pd-top'>
-                                        <b><Link href="/logInStart" underline="hover" className="nav-link px-0 align-middle ">
-                                            <i className="fs-4"><LogoutIcon color="primary" /></i><span className="ms-1 d-none d-sm-inline"> Logout</span></Link></b>
+                                        <b>
+                                            <Link href="/logInStart" underline="hover" className="nav-link px-0 align-middle ">
+                                                <i className="fs-4"><LogoutIcon color="primary" fontSize='large' /></i>
+                                                <span className="ms-1 d-none d-sm-inline"> Logout</span>
+                                            </Link>
+                                        </b>
                                     </li>
                                 </ul>
                             </div>
