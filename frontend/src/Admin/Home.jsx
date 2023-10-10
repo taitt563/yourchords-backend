@@ -30,7 +30,7 @@ function Home() {
     const [customerActive, setCustomerActive] = useState();
     const [customerDisable, setCustomerDisable] = useState();
     useEffect(() => {
-        const userId = localStorage.getItem('id');
+        const userId = localStorage.getItem('id_admin');
         axios.get('http://localhost:8081/getProfile/' + userId)
             .then(res => {
                 if (res.data.Status === "Success") {

@@ -35,7 +35,7 @@ function LoginChordManagerimport() {
         axios.post('http://localhost:8081/loginChordManager', values)
             .then(res => {
                 if (res.data.Status === 'Success') {
-                    localStorage.setItem('id', values.username);
+                    localStorage.setItem('id_chordManager', values.username);
                     navigate("/homeChordManager");
                 } else {
                     setIsLoginFailed(true);

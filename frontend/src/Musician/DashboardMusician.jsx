@@ -16,11 +16,11 @@ function DashboardMusician() {
     const [data, setData] = useState([]);
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
-
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
     useEffect(() => {
-        const userId = localStorage.getItem('id');
+        const userId = localStorage.getItem('id_musician');
+
         axios.get('http://localhost:8081/getProfile/' + userId)
             .then(res => {
                 if (res.data.Status === "Success") {
@@ -67,11 +67,11 @@ function DashboardMusician() {
                                             <i className="fs-4"><QueueMusicIcon color="primary" fontSize='large' /></i><span className="ms-1 d-none d-sm-inline"> Manage Song</span></Link></b>
                                     </li>
                                     <li className='pd-top'>
-                                        <b><Link href="/songMusician" underline="hover" className="nav-link px-0 align-middle">
+                                        <b><Link href="/chordMusician" underline="hover" className="nav-link px-0 align-middle">
                                             <i className="fs-4"><QueueMusicIcon color="primary" fontSize='large' /></i><span className="ms-1 d-none d-sm-inline"> Manage Chord</span></Link></b>
                                     </li>
                                     <li className='pd-top'>
-                                        <b><Link href="/songMusician" underline="hover" className="nav-link px-0 align-middle">
+                                        <b><Link href="/beatMusician" underline="hover" className="nav-link px-0 align-middle">
                                             <i className="fs-4"><QueueMusicIcon color="primary" fontSize='large' /></i><span className="ms-1 d-none d-sm-inline"> Manage Beat</span></Link></b>
                                     </li>
                                     <li className='pd-top'>

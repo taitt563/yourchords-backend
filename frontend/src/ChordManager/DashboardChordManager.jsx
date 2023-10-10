@@ -20,7 +20,7 @@ function DashboardChordManager() {
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
     useEffect(() => {
-        const userId = localStorage.getItem('id');
+        const userId = localStorage.getItem('id_chordManager');
         axios.get('http://localhost:8081/getProfile/' + userId)
             .then(res => {
                 if (res.data.Status === "Success") {

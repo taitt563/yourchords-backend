@@ -65,7 +65,6 @@ function SongMusician() {
                                     {song.link != null ?
                                         <td><b><Link to={song.link}>{song.link}</Link></b></td>
                                         : <td className="text-warning"><b>Updating</b></td>
-
                                     }
                                     <td>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
                                     {song.updated_at != null ?
