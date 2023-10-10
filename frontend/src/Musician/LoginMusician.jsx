@@ -14,6 +14,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+
 function LoginMusician() {
     const navigate = useNavigate();
     axios.defaults.withCredentials = true;
@@ -96,8 +98,15 @@ function LoginMusician() {
                         <FormControlLabel required control={<Checkbox />} label="You are agree to our terms and policies" />
                     </FormGroup>
 
-                    <button className='btn btn-default border w-100 bg-light rounded-0' onClick={() => navigate('/signUpMusician')}> Create Account</button>
+                    <div className='text-neutral-500 text-center mt-4 font-light'>
+                        <div className='justify-center items-center gap-2'>
+                            <div>
+                                Already have an account? <Link href="/signUpMusician">Sign up</Link>
 
+                            </div>
+
+                        </div>
+                    </div>
                 </form>
 
             </div>

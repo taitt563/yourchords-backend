@@ -37,7 +37,8 @@ function ProfileChordManager() {
         axios.put('http://localhost:8081/updateProfile/' + userId, data)
             .then(res => {
                 if (res.data.Status === "Success") {
-                    navigate('/')
+                    navigate('/profileChordManager/' + userId);
+                    window.location.reload(true);
                 }
             })
             .catch(err => console.log(err));

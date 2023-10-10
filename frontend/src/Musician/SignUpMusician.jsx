@@ -48,7 +48,7 @@ function SignUpMusician() {
     return (
         <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
             <div className='bg-light p-3 rounded w-25 border'>
-                <h2>Register Account</h2>
+                <h2 className='p-2 d-flex justify-content-center'>Register</h2>
                 {isAccountExisted && (
                     <Stack sx={{ width: '100%' }} spacing={2} >
                         <Alert severity="warning">Username already exists, please try again !</Alert>

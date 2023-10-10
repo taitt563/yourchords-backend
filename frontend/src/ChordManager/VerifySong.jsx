@@ -40,8 +40,7 @@ function VerifySong() {
                     <table className='table'>
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Thumnail</th>
+                                <th></th>
                                 <th>Name song</th>
                                 <th>Link</th>
                                 <th>Date create</th>
@@ -51,15 +50,12 @@ function VerifySong() {
                             </tr>
                         </thead>
                         <tbody>
-
                             {data.map((song, index) => {
                                 return <tr key={index}>
-                                    <td>{song.id}</td>
                                     <td>{
                                         <img src={`http://localhost:8081/images/` + song.thumnail} alt="" className='song_image' />
                                     }</td>
                                     <td>{song.song_title}</td>
-
                                     {song.link != null ?
                                         <td><b><Link to={song.link}>{song.link}</Link></b></td>
                                         : <td className="text-warning"><b>Updating</b></td>

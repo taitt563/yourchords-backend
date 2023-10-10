@@ -14,7 +14,7 @@ const app = express();
 app.use(cors(
     {
         origin: ["http://localhost:5173"],
-        methods: ["POST", "GET", "PUT"],
+        methods: ["POST", "GET", "PUT", "DELETE"],
         credentials: true
     }
 ));
@@ -331,10 +331,10 @@ app.get('/getAccount', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
-app.delete('/deleteAccount/:id', (req, res) => {
-    const id = req.params.id;
-    const sql = "Delete FROM user_acc WHERE id = ?";
-    con.query(sql, [id], (err, result) => {
+app.delete('/deleteAccount/:username', (req, res) => {
+    const username = req.params.username;
+    const sql = "Delete FROM user_acc WHERE username = ?";
+    con.query(sql, [username], (err, result) => {
         if (err) return res.json({ Error: "delete song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })
