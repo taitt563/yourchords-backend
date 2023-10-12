@@ -34,9 +34,9 @@ function Song() {
             <div className="px-2 py-5">
 
                 <div>
-                    <h3 className="d-flex flex-column align-items-center pt-4">List song</h3>
+                    <h3 className="d-flex justify-content-center">SONG</h3>
                 </div>
-                <div className='mt-4' style={{ height: '1000px', overflowY: 'scroll' }}>
+                <div className="px-3 py-5" style={{ height: '550px', overflowY: 'scroll' }} >
                     <table className='table'>
                         <thead>
                             <tr>

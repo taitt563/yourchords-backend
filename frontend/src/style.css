@@ -177,6 +177,7 @@ textarea {
     background-attachment: fixed;
     position: relative;
     line-height: 20px;
+    font-weight: bold;
 }
 
 .card .footer {

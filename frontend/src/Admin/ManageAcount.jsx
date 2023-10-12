@@ -161,10 +161,10 @@ function ManageAccount() {
                 <div
                     className={toggleState === 1 ? "content active-content" : "content"}>
                     {/* Manage account user */}
-                    <div className="px-2 py-5">
-                        <div>
-                            <h3 className="p-2 d-flex justify-content-center">USER ACCOUNT MANAGEMENT</h3>
-                        </div>
+                    <div>
+                        <h3 className="d-flex justify-content-center">USER ACCOUNT MANAGEMENT</h3>
+                    </div>
+                    <div className="px-2 py-1" style={{ height: '550px', overflowY: 'scroll' }} >
                         {isDeleted && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
                                 <Alert severity="success">Account deleted successfully !</Alert>
@@ -238,10 +238,10 @@ function ManageAccount() {
                 <div
                     className={toggleState === 2 ? "content active-content" : "content"}>
                     {/* Manage account admin */}
-                    <div className="px-2 py-5">
-                        <div>
-                            <h3 className="p-2 d-flex justify-content-center">ADMIN ACCOUNT MANAGEMENT</h3>
-                        </div>
+                    <div>
+                        <h3 className="d-flex justify-content-center">ADMIN ACCOUNT MANAGEMENT</h3>
+                    </div>
+                    <div className="px-2 py-1" style={{ height: '550px', overflowY: 'scroll' }} >
                         {isDeleted && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
                                 <Alert severity="success">Account deleted successfully !</Alert>
@@ -312,10 +312,10 @@ function ManageAccount() {
                 <div
                     className={toggleState === 3 ? "content active-content" : "content"}>
                     {/* Manage account Chord manager */}
-                    <div className="px-2 py-5">
-                        <div>
-                            <h3 className="p-2 d-flex justify-content-center">CHORD MANAGER ACCOUNT MANAGEMENT</h3>
-                        </div>
+                    <div>
+                        <h3 className="d-flex justify-content-center">CHORD MANAGER ACCOUNT MANAGEMENT</h3>
+                    </div>
+                    <div className="px-2 py-1" style={{ height: '550px', overflowY: 'scroll' }} >
                         {isDeleted && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
                                 <Alert severity="success">Account deleted successfully !</Alert>
@@ -331,7 +331,7 @@ function ManageAccount() {
                                 <Alert severity="info">Account enable !</Alert>
                             </Stack>
                         )}
-                        <div className='mt-4 pd-top pd-left'>
+                        <div className=' pd-top pd-left'>
                             <table className='table'>
                                 <thead>
                                     <tr>
@@ -389,10 +389,11 @@ function ManageAccount() {
                     className={toggleState === 4 ? "content active-content" : "content"}>
                     {/* Manage account musician */}
 
-                    <div className="px-2 py-5">
-                        <div>
-                            <h3 className="p-2 d-flex justify-content-center">MUSICIAN ACCOUNT MANAGEMENT</h3>
-                        </div>
+                    <div>
+                        <h3 className="d-flex justify-content-center">MUSICIAN ACCOUNT MANAGEMENT</h3>
+                    </div>
+                    <div className="px-2 py-1" style={{ height: '550px', overflowY: 'scroll' }} >
+
                         {isDeleted && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
                                 <Alert severity="success">Account deleted successfully !</Alert>

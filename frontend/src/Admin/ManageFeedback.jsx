@@ -37,7 +37,7 @@ export default function BottomAppBar() {
             <React.Fragment>
                 <CssBaseline />
                 <div className='d-flex flex-column align-items-center pt-4'>
-                    <h2>Feedback</h2>
+                    <h2>FEEDBACK</h2>
                 </div>
                 {/* LIST TODAY */}
                 <ListItem>
