@@ -6,9 +6,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment'
 import SearchAppBar from "../component/SearchAppBar";
 import EditIcon from '@mui/icons-material/Edit';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 function SongMusician() {
     const [data, setData] = useState([])
-    console.log(data)
     useEffect(() => {
         axios.get('http://localhost:8081/getSong')
             .then(res => {
@@ -45,13 +46,13 @@ function SongMusician() {
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Thumnail</th>
+                                <th></th>
                                 <th>Name song</th>
                                 <th>Link</th>
-                                <th>Date create</th>
-                                <th>Date updated</th>
+                                <th><CalendarMonthIcon /> Date create</th>
+                                <th><CalendarMonthIcon /> Date updated</th>
                                 <th>Status</th>
-                                <th>Option</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,10 +62,10 @@ function SongMusician() {
                                     <td>{
                                         <img src={`http://localhost:8081/images/` + song.thumnail} alt="" className='song_image' />
                                     }</td>
-                                    <td>{song.song_title}</td>
+                                    <td><b>{song.song_title}</b></td>
                                     {song.link != null ?
-                                        <td><b><Link to={song.link}>{song.link}</Link></b></td>
-                                        : <td className="text-warning"><b>Updating</b></td>
+                                        <td><Link to={song.link}>{song.link}</Link></td>
+                                        : <td className="text-warning">Updating...</td>
                                     }
                                     <td>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
                                     {song.updated_at != null ?
@@ -75,7 +76,7 @@ function SongMusician() {
                                     {song.status === 0 ?
                                         <td className="text-warning"><b>Waiting approve</b></td>
                                         :
-                                        <td style={{ color: 'green' }}><b>Approved</b></td>
+                                        <td style={{ color: 'green' }}><CheckCircleIcon /></td>
 
                                     }
 

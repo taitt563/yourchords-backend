@@ -16,6 +16,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import HeadsetIcon from '@mui/icons-material/Headset';
 import PersonIcon from '@mui/icons-material/Person';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import moment from 'moment'
+
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
@@ -37,17 +39,6 @@ function ManageAccount() {
     };
     const [data, setData] = useState([])
 
-    // useEffect(() => {
-    //     axios.get('http://localhost:8081/getAccount')
-    //         .then(res => {
-    //             if (res.data.Status === "Success") {
-    //                 setData(res.data.Result);
-    //             } else {
-    //                 alert("Error")
-    //             }
-    //         })
-    //         .catch(err => console.log(err));
-    // })
     useEffect(() => {
         axios.get('http://localhost:8081/getAccount')
             .then(res => {
@@ -64,34 +55,37 @@ function ManageAccount() {
             .then(res => {
                 if (res.data.Status === "Success") {
                     window.location.reload(true);
-
                     setIsDeleted(true);
                     setTimeout(() => {
                         setIsDeleted(false);
-                    }, 2000);
+                    }, 2500);
                 }
             })
             .catch(err => console.log(err));
     }
-    const handleBanAccount = (id) => {
-        axios.put('http://localhost:8081/banAccount/' + id)
+    const handleBanAccount = (username) => {
+        axios.put('http://localhost:8081/banAccount/' + username)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setIsBanAccount(true);
                     setTimeout(() => {
                         setIsBanAccount(false);
-                    }, 2000);
+                        window.location.reload(true);
+                    }, 2500);
                 }
             })
             .catch(err => console.log(err));
     }
-    const handleUnBanAccount = (id) => {
-        axios.put('http://localhost:8081/unBanAccount/' + id)
+    const handleUnBanAccount = (username) => {
+        axios.put('http://localhost:8081/unBanAccount/' + username)
             .then(res => {
                 if (res.data.Status === "Success") {
+
                     setIsUnBanAccount(true);
                     setTimeout(() => {
                         setIsUnBanAccount(false);
+                        window.location.reload(true);
+
                     }, 2500);
                 }
             })
@@ -119,7 +113,7 @@ function ManageAccount() {
                                     textDecoration: 'none',
                                 }}
                             >
-                                <HeadsetIcon />
+                                <HeadsetIcon fontSize="large" />
                             </Typography>
                             <Typography
                                 variant="h6"
@@ -188,8 +182,10 @@ function ManageAccount() {
                                         <th></th>
                                         <th>Username</th>
                                         <th>Role</th>
+                                        <th>Register date</th>
                                         <th>Active</th>
-                                        <th>Option</th>
+                                        <th></th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -204,6 +200,7 @@ function ManageAccount() {
                                                     <td><PersonIcon /></td>
                                                     <td>{userAccount.username}</td>
                                                     <td>{userAccount.role}</td>
+                                                    <td>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</td>
                                                     {userAccount.ban == "Enable" ?
                                                         <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
                                                         :
@@ -264,8 +261,10 @@ function ManageAccount() {
                                         <th></th>
                                         <th>Username</th>
                                         <th>Role</th>
+                                        <th>Register date</th>
                                         <th>Active</th>
-                                        <th>Option</th>
+                                        <th></th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -280,6 +279,7 @@ function ManageAccount() {
                                                     <td><PersonIcon /></td>
                                                     <td>{userAccount.username}</td>
                                                     <td>{userAccount.role}</td>
+                                                    <td>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</td>
                                                     {userAccount.ban == "Enable" ?
                                                         <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
                                                         :
@@ -338,8 +338,10 @@ function ManageAccount() {
                                         <th></th>
                                         <th>Username</th>
                                         <th>Role</th>
+                                        <th>Register date</th>
                                         <th>Active</th>
-                                        <th>Option</th>
+                                        <th></th>
+
 
 
                                     </tr>
@@ -356,6 +358,7 @@ function ManageAccount() {
                                                     <td><PersonIcon /></td>
                                                     <td>{userAccount.username}</td>
                                                     <td>{userAccount.role}</td>
+                                                    <td>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</td>
                                                     {userAccount.ban == "Enable" ?
                                                         <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
                                                         :
@@ -416,8 +419,9 @@ function ManageAccount() {
                                         <th></th>
                                         <th>Username</th>
                                         <th>Role</th>
+                                        <th>Register date</th>
                                         <th>Active</th>
-                                        <th>Option</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -433,6 +437,8 @@ function ManageAccount() {
                                                     <td><PersonIcon /></td>
                                                     <td>{userAccount.username}</td>
                                                     <td>{userAccount.role}</td>
+                                                    <td>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</td>
+
                                                     {userAccount.ban == "Enable" ?
                                                         <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
                                                         :

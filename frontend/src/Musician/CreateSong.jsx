@@ -77,8 +77,7 @@ function CreateSong() {
                 <div className="col-12">
                     <label className="form-label">Date:</label>
                     <br />
-                    <input type="text" className="form-control" value={displaytodaysdate} aria-readonly={true}
-                        onChange={e => setData({ ...data, time: e.target.value })} />
+                    <input type="text" className="form-control" value={displaytodaysdate} aria-readonly={true} />
                 </div>
                 <div className="col-12 mb-3">
                     <label className="form-label">Select Image:</label>

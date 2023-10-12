@@ -59,24 +59,24 @@ function DashboardChordManager() {
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                                     <li className='pd-top'>
                                         <b><Link href="/homeChordManager" underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><HomeIcon color="primary" fontSize='large' /></i><span className="ms-1 d-none d-sm-inline"> Home</span></Link></b>
+                                            <i className="fs-4"><HomeIcon color="primary" fontSize='medium' /></i><span className="ms-1 d-none d-sm-inline"> Home</span></Link></b>
                                     </li>
 
                                     <li className='pd-top'>
                                         <b><Link href="/songChordManager" underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><QueueMusicIcon color="primary" fontSize='large' /></i><span className="ms-1 d-none d-sm-inline"> Song</span></Link></b>
+                                            <i className="fs-4"><QueueMusicIcon color="primary" fontSize='medium' /></i><span className="ms-1 d-none d-sm-inline"> Song</span></Link></b>
                                     </li>
                                     <li className='pd-top'>
                                         <b><Link href="/verifySong" underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><VerifiedUserIcon color="primary" fontSize='large' /></i><span className="ms-1 d-none d-sm-inline"> Verify Song</span></Link></b>
+                                            <i className="fs-4"><VerifiedUserIcon color="primary" fontSize='medium' /></i><span className="ms-1 d-none d-sm-inline"> Verify Song</span></Link></b>
                                     </li>
                                     <li className='pd-top'>
                                         <b><Link href={`/profileChordManager/` + profile.userId} underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><ModeIcon color="primary" fontSize='large' /></i><span className="ms-1 d-none d-sm-inline"> Edit Profile</span></Link></b>
+                                            <i className="fs-4"><ModeIcon color="primary" fontSize='medium' /></i><span className="ms-1 d-none d-sm-inline"> Edit Profile</span></Link></b>
                                     </li>
                                     <li className='pd-top'>
                                         <b><Link href="/logInStart" underline="hover" className="nav-link px-0 align-middle ">
-                                            <i className="fs-4"><LogoutIcon color="primary" fontSize='large' /></i><span className="ms-1 d-none d-sm-inline"> Logout</span></Link></b>
+                                            <i className="fs-4"><LogoutIcon color="primary" fontSize='medium' /></i><span className="ms-1 d-none d-sm-inline"> Logout</span></Link></b>
                                     </li>
                                 </ul>
                             </div>

@@ -63,7 +63,7 @@ function Dashboard() {
                                     <li className='pd-top'>
                                         <b>
                                             <Link href="/homeAdmin" underline="hover" className="nav-link px-0 align-middle justify-content-between">
-                                                <i className="fs-4"><HomeIcon color="primary" fontSize='large' /></i>
+                                                <i className="fs-4"><HomeIcon color="primary" fontSize='medium' /></i>
                                                 <span className="ms-1 d-none d-sm-inline"> Home</span>
                                             </Link>
                                         </b>
@@ -72,7 +72,7 @@ function Dashboard() {
 
                                         <b>
                                             <Link href="/manageAccount" underline="hover" className="nav-link px-0 align-middle">
-                                                <i className="fs-4"><ManageAccountsIcon color="primary" fontSize='large' /></i>
+                                                <i className="fs-4"><ManageAccountsIcon color="primary" fontSize='medium' /></i>
                                                 <span className="ms-1 d-none d-sm-inline"> Manage Account </span>
                                             </Link>
                                         </b>
@@ -80,7 +80,7 @@ function Dashboard() {
                                     <li className='pd-top'>
                                         <b>
                                             <Link href="/Song" underline="hover" className="nav-link px-0 align-middle">
-                                                <i className="fs-4"><QueueMusicIcon color="primary" fontSize='large' /></i>
+                                                <i className="fs-4"><QueueMusicIcon color="primary" fontSize='medium' /></i>
                                                 <span className="ms-1 d-none d-sm-inline"> Song</span>
                                             </Link>
                                         </b>
@@ -89,7 +89,7 @@ function Dashboard() {
                                     <li className='pd-top'>
                                         <b>
                                             <Link href="/manageFeedback" underline="hover" className="nav-link px-0 align-middle">
-                                                <i className="fs-4"><ThumbUpAltIcon color="primary" fontSize='large' /></i>
+                                                <i className="fs-4"><ThumbUpAltIcon color="primary" fontSize='medium' /></i>
                                                 <span className="ms-1 d-none d-sm-inline"> Manage feedback</span>
                                             </Link>
                                         </b>
@@ -97,7 +97,7 @@ function Dashboard() {
                                     <li className='pd-top'>
                                         <b>
                                             <Link href={`/profile/` + profile.userId} underline="hover" className="nav-link px-0 align-middle">
-                                                <i className="fs-4"><ModeIcon color="primary" fontSize='large' /></i>
+                                                <i className="fs-4"><ModeIcon color="primary" fontSize='medium' /></i>
                                                 <span className="ms-1 d-none d-sm-inline"> Edit Profile</span>
                                             </Link>
                                         </b>
@@ -105,7 +105,7 @@ function Dashboard() {
                                     <li className='pd-top'>
                                         <b>
                                             <Link href="/logInStart" underline="hover" className="nav-link px-0 align-middle ">
-                                                <i className="fs-4"><LogoutIcon color="primary" fontSize='large' /></i>
+                                                <i className="fs-4"><LogoutIcon color="primary" fontSize='medium' /></i>
                                                 <span className="ms-1 d-none d-sm-inline"> Logout</span>
                                             </Link>
                                         </b>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import moment from 'moment'
 import SearchAppBar from "../component/SearchAppBar";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 function VerifySong() {
     const [data, setData] = useState([])
 
@@ -43,10 +44,10 @@ function VerifySong() {
                                 <th></th>
                                 <th>Name song</th>
                                 <th>Link</th>
-                                <th>Date create</th>
-                                <th>Date updated</th>
+                                <th><CalendarMonthIcon /> Date create</th>
+                                <th><CalendarMonthIcon /> Date updated</th>
                                 <th>Status</th>
-                                <th>Option</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,8 +58,8 @@ function VerifySong() {
                                     }</td>
                                     <td>{song.song_title}</td>
                                     {song.link != null ?
-                                        <td><b><Link to={song.link}>{song.link}</Link></b></td>
-                                        : <td className="text-warning"><b>Updating</b></td>
+                                        <td><Link to={song.link}>{song.link}</Link></td>
+                                        : <td className="text-warning">Updating...</td>
 
                                     }
                                     <td>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
@@ -67,7 +68,7 @@ function VerifySong() {
                                         : <td>Not update</td>
                                     }
                                     {song.status === 0 &&
-                                        <td className="text-warning"><b>Not approved</b></td>
+                                        <td className="text-warning"><b>Waiting approve</b></td>
                                     }
                                     <td>
                                         <Link to={`/viewSongChordManager/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>

@@ -35,7 +35,7 @@ export default function SearchAppBar() {
                                 textDecoration: 'none',
                             }}
                         >
-                            <HeadsetIcon />
+                            <HeadsetIcon fontSize="large" />
                         </Typography>
                         <Typography
                             variant="h6"

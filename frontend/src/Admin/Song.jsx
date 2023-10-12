@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import moment from 'moment'
 import SearchAppBar from "../component/SearchAppBar";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 function Song() {
     const [data, setData] = useState([])
 
@@ -41,13 +43,13 @@ function Song() {
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Thumnail</th>
+                                <th></th>
                                 <th>Name song</th>
                                 <th>Link</th>
-                                <th>Date create</th>
-                                <th>Date updated</th>
+                                <th><CalendarMonthIcon /> Date create</th>
+                                <th><CalendarMonthIcon /> Date updated</th>
                                 <th>Status</th>
-                                <th>Option</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,11 +60,11 @@ function Song() {
                                     <td>{
                                         <img src={`http://localhost:8081/images/` + song.thumnail} alt="" className='song_image' />
                                     }</td>
-                                    <td>{song.song_title}</td>
+                                    <td><b>{song.song_title}</b></td>
 
                                     {song.link != null ?
-                                        <td><b><Link to={song.link}>{song.link}</Link></b></td>
-                                        : <td className="text-warning"><b>Updating...</b></td>
+                                        <td><Link to={song.link}>{song.link}</Link></td>
+                                        : <td className="text-warning">Updating...</td>
 
                                     }
                                     <td>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
@@ -71,7 +73,7 @@ function Song() {
                                         : <td>Not update</td>
                                     }
                                     {song.status === 1 &&
-                                        <td style={{ color: 'green' }}><b>Verified</b></td>
+                                        <td style={{ color: 'green' }}><CheckCircleIcon /></td>
                                     }
                                     <td>
                                         <Link to={`/viewSong/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
