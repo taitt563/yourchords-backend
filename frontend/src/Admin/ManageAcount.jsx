@@ -16,6 +16,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import HeadsetIcon from '@mui/icons-material/Headset';
 import PersonIcon from '@mui/icons-material/Person';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 import moment from 'moment'
 
 const darkTheme = createTheme({
@@ -33,11 +37,12 @@ function ManageAccount() {
     const [isBanAccount, setIsBanAccount] = useState(false);
     const [isUnBanAccount, setIsUnBanAccount] = useState(false);
     const [search, setSearch] = useState("");
-    const [toggleState, setToggleState] = useState(1);
-    const toggleTab = (index) => {
-        setToggleState(index);
-    };
     const [data, setData] = useState([])
+    const [value, setValue] = useState('1');
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
 
     useEffect(() => {
         axios.get('http://localhost:8081/getAccount')
@@ -70,7 +75,7 @@ function ManageAccount() {
                     setIsBanAccount(true);
                     setTimeout(() => {
                         setIsBanAccount(false);
-                        window.location.reload(true);
+                        // window.location.reload(true);
                     }, 2500);
                 }
             })
@@ -84,7 +89,7 @@ function ManageAccount() {
                     setIsUnBanAccount(true);
                     setTimeout(() => {
                         setIsUnBanAccount(false);
-                        window.location.reload(true);
+                        // window.location.reload(true);
 
                     }, 2500);
                 }
@@ -135,26 +140,18 @@ function ManageAccount() {
                     </AppBar>
                 </ThemeProvider>
             </Box>
-            <div className="bloc-tabs">
-                <button className={toggleState === 1 ? "tabs active-tabs" : "tabs"} onClick={() => toggleTab(1)}>
-                    <b>User</b>
-                </button>
-                <button className={toggleState === 2 ? "tabs active-tabs" : "tabs"} onClick={() => toggleTab(2)}>
-                    <b>Admin</b>
-                </button>
-                <button className={toggleState === 3 ? "tabs active-tabs" : "tabs"} onClick={() => toggleTab(3)}>
-                    <b>Chord Manager</b>
-                </button>
-                <button className={toggleState === 4 ? "tabs active-tabs" : "tabs"} onClick={() => toggleTab(4)}>
-                    <b>Musician</b>
-                </button>
-            </div>
-
-
-            <div className="content-tabs">
-                <div
-                    className={toggleState === 1 ? "content active-content" : "content"}>
-                    {/* Manage account user */}
+            <TabContext value={value}>
+                <Box sx={{
+                    borderBottom: 1, borderColor: 'divider'
+                }}>
+                    <TabList onChange={handleChange} centered>
+                        <Tab label="User" value="1" />
+                        <Tab label="Admin" value="2" />
+                        <Tab label="Chord Manager" value="3" />
+                        <Tab label="Musician" value="4" />
+                    </TabList>
+                </Box>
+                <TabPanel value="1">
                     <div>
                         <h3 className="d-flex justify-content-center">USER ACCOUNT MANAGEMENT</h3>
                     </div>
@@ -231,10 +228,8 @@ function ManageAccount() {
                             </table>
                         </div>
                     </div>
-                </div>
-                <div
-                    className={toggleState === 2 ? "content active-content" : "content"}>
-                    {/* Manage account admin */}
+                </TabPanel>
+                <TabPanel value="2">
                     <div>
                         <h3 className="d-flex justify-content-center">ADMIN ACCOUNT MANAGEMENT</h3>
                     </div>
@@ -308,10 +303,8 @@ function ManageAccount() {
                             </table>
                         </div>
                     </div>
-                </div>
-                <div
-                    className={toggleState === 3 ? "content active-content" : "content"}>
-                    {/* Manage account Chord manager */}
+                </TabPanel>
+                <TabPanel value="3">
                     <div>
                         <h3 className="d-flex justify-content-center">CHORD MANAGER ACCOUNT MANAGEMENT</h3>
                     </div>
@@ -387,11 +380,8 @@ function ManageAccount() {
                             </table>
                         </div>
                     </div>
-                </div>
-                <div
-                    className={toggleState === 4 ? "content active-content" : "content"}>
-                    {/* Manage account musician */}
-
+                </TabPanel>
+                <TabPanel value="4">
                     <div>
                         <h3 className="d-flex justify-content-center">MUSICIAN ACCOUNT MANAGEMENT</h3>
                     </div>
@@ -465,8 +455,8 @@ function ManageAccount() {
                             </table>
                         </div>
                     </div>
-                </div>
-            </div>
+                </TabPanel>
+            </TabContext>
         </>
     )
 }
