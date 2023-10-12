@@ -100,122 +100,121 @@ function Home() {
     return (
         <>
             <SearchAppBar />
+            <div className='px-2 py-5'>
 
-            <div className="px-2 py-5">
                 <div className="alert alert-success">
                     <strong><span><CampaignIcon sx={{ fontSize: 30 }} /></span></strong> <strong>&nbsp;&nbsp;Welcome to your Admin Dashboard!!</strong>.
                 </div>
-                <div className="row">
-                    <div className="col-lg-3 col-sm-6">
-                        <div className="card">
+            </div>
 
-                            <div className="row">
-                                <div className="col-xs-5">
-                                    <div className="pd-left">
-                                        <ManageAccountsIcon color="primary" sx={{ fontSize: 50 }} />
-                                    </div>
-                                </div>
-                                <div className="col-xs-7">
-                                    <div className="numbers pd-right">
-                                        <p><strong>Account</strong></p>
-                                    </div>
+            <div className='p-3 d-flex justify-content-around mt-2'>
+                <div className="col-3 pd-right">
+                    <div className="card">
+
+                        <div className="row">
+                            <div className="col-xs-5">
+                                <div className="pd-left">
+                                    <ManageAccountsIcon color="primary" sx={{ fontSize: 50 }} />
                                 </div>
                             </div>
-                            <a href="/manageAccount">
-                                <div className="footer">
-                                    <hr />
-                                    <div className="stats">
-                                        <i className="pd-left"><ArrowForwardIcon /></i>
-                                        View
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div className="col-lg-3 col-sm-6">
-                        <div className="card">
-
-                            <div className="row">
-                                <div className="col-xs-5">
-                                    <div className="pd-left">
-                                        <QueueMusicIcon color="primary" sx={{ fontSize: 50 }} />
-                                    </div>
-                                </div>
-                                <div className="col-xs-7">
-                                    <div className="numbers pd-right">
-                                        <p><strong>Song</strong></p>
-                                    </div>
+                            <div className="col-xs-7">
+                                <div className="numbers pd-right">
+                                    <p><strong>Account</strong></p>
                                 </div>
                             </div>
-                            <a href="/Song">
-                                <div className="footer">
-                                    <hr />
-                                    <div className="stats">
-                                        <i className="pd-left"><ArrowForwardIcon /></i>
-                                        View
-                                    </div>
-                                </div>
-                            </a>
                         </div>
-                    </div>
-                    <div className="col-lg-3 col-sm-6">
-                        <div className="card">
-
-                            <div className="row">
-                                <div className="col-xs-5">
-                                    <div className="pd-left">
-                                        <ThumbUpAltIcon color="primary" sx={{ fontSize: 50 }} />
-                                    </div>
-                                </div>
-                                <div className="col-xs-7">
-                                    <div className="numbers pd-right">
-                                        <p><strong>Feedback</strong></p>
-                                    </div>
+                        <a href="/manageAccount">
+                            <div className="footer">
+                                <hr />
+                                <div className="stats">
+                                    <i className="pd-left"><ArrowForwardIcon /></i>
+                                    View
                                 </div>
                             </div>
-                            <a href="/manageFeedback">
-                                <div className="footer">
-                                    <hr />
-                                    <div className="stats">
-                                        <i className="pd-left"><ArrowForwardIcon /></i>
-                                        View
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div className="col-lg-3 col-sm-6">
-                        <div className="card">
-                            {data.map((profile, index) => {
-                                return <div key={index}>
-                                    <div className="row">
-                                        <div className="col-xs-5">
-                                            <div className="pd-left">
-                                                <ModeIcon color="primary" sx={{ fontSize: 50 }} />
-                                            </div>
-                                        </div>
-                                        <div className="col-xs-7">
-                                            <div className="numbers pd-right">
-                                                <p><strong>Profile</strong></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href={`/profile/` + profile.userId}>
-                                        <div className="footer">
-                                            <hr />
-                                            <div className="stats">
-                                                <i className="pd-left"><ArrowForwardIcon /></i>
-                                                View
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            })}
-                        </div>
+                        </a>
                     </div>
                 </div>
+                <div className="col-3 pd-right">
+                    <div className="card">
 
+                        <div className="row">
+                            <div className="col-xs-5">
+                                <div className="pd-left">
+                                    <QueueMusicIcon color="primary" sx={{ fontSize: 50 }} />
+                                </div>
+                            </div>
+                            <div className="col-xs-7">
+                                <div className="numbers pd-right">
+                                    <p><strong>Song</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/Song">
+                            <div className="footer">
+                                <hr />
+                                <div className="stats">
+                                    <i className="pd-left"><ArrowForwardIcon /></i>
+                                    View
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div className="col-3 pd-right">
+                    <div className="card">
+
+                        <div className="row">
+                            <div className="col-xs-5">
+                                <div className="pd-left">
+                                    <ThumbUpAltIcon color="primary" sx={{ fontSize: 50 }} />
+                                </div>
+                            </div>
+                            <div className="col-xs-7">
+                                <div className="numbers pd-right">
+                                    <p><strong>Feedback</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/manageFeedback">
+                            <div className="footer">
+                                <hr />
+                                <div className="stats">
+                                    <i className="pd-left"><ArrowForwardIcon /></i>
+                                    View
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div className="col-3 pd-right">
+                    <div className="card">
+                        {data.map((profile, index) => {
+                            return <div key={index}>
+                                <div className="row">
+                                    <div className="col-xs-5">
+                                        <div className="pd-left">
+                                            <ModeIcon color="primary" sx={{ fontSize: 50 }} />
+                                        </div>
+                                    </div>
+                                    <div className="col-xs-7">
+                                        <div className="numbers pd-right">
+                                            <p><strong>Profile</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href={`/profile/` + profile.userId}>
+                                    <div className="footer">
+                                        <hr />
+                                        <div className="stats">
+                                            <i className="pd-left"><ArrowForwardIcon /></i>
+                                            View
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        })}
+                    </div>
+                </div>
             </div>
 
             <div>

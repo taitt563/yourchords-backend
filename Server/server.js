@@ -193,10 +193,11 @@ app.get('/getProfile/:userId', (req, res) => {
     const sql = "SELECT * FROM profile WHERE userId = ?";
     con.query(sql, [userId], (err, result) => {
         if (err) return res.json({ Error: "Get song error in sql" });
-        console.log(result)
         return res.json({ Status: "Success", Result: result })
     })
 })
+
+
 
 app.put('/updateProfile/:userId', upload.single("image"), (req, res) => {
     const userId = req.params.userId;
@@ -246,12 +247,13 @@ app.get('/getSongAdmin/', (req, res) => {
 })
 app.get('/getAccount/:username', (req, res) => {
     const username = req.params.username;
-    const sql = "SELECT * FROM user_acc where username = ?";
+    let sql = "SELECT * FROM profile LEFT JOIN user_acc ON profile.userId = user_acc.username WHERE username = ?";
     con.query(sql, [username], (err, result) => {
         if (err) return res.json({ Error: "Get song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })
 })
+
 app.put('/updateSong/:song_title', upload.single("thumnail"), (req, res) => {
     const song_title = req.params.song_title;
     const sql = "UPDATE song SET song_title = ?, lyrics = ?, updated_at = CURRENT_TIMESTAMP WHERE song_title = ?";

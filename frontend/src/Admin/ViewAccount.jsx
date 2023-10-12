@@ -7,6 +7,7 @@ import SearchAppBar from "../component/SearchAppBar";
 function ViewAccount() {
     const [data, setData] = useState([]);
     const { username } = useParams();
+
     const navigate = useNavigate();
     useEffect(() => {
 
@@ -35,7 +36,7 @@ function ViewAccount() {
                 {data.map((viewAccount, index) => {
                     return <div key={index}>
                         <span className="d-flex flex-column align-items-center pt-5 " ><b>ID: {viewAccount.id}</b></span>
-                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Username: {viewAccount.username}</b></span>
+                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Email: {viewAccount.email}</b></span>
                         <span className="d-flex flex-column align-items-center pt-5 " ><b>Role: {viewAccount.role}</b></span>
                         <span className="d-flex flex-column align-items-center pt-5 " ><b>Active: {viewAccount.ban}</b></span>
 
