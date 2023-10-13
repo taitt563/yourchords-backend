@@ -1,14 +1,11 @@
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import SearchAppBar from "../component/SearchAppBar";
 
 function ViewAccount() {
     const [data, setData] = useState([]);
     const { username } = useParams();
 
-    const navigate = useNavigate();
     useEffect(() => {
 
         axios.get('http://localhost:8081/getAccount/' + username, data)
@@ -23,15 +20,14 @@ function ViewAccount() {
             })
             .catch(err => console.log(err));
     }, [])
-    const handleLogout = () => {
-        axios.get('http://localhost:8081/logout')
-            .then(
-                navigate('/manageAccount')
-            ).catch(err => console.log(err));
-    }
+    // const handleLogout = () => {
+    //     axios.get('http://localhost:8081/logout')
+    //         .then(
+    //             navigate('/manageAccount')
+    //         ).catch(err => console.log(err));
+    // }
     return (
         <>
-            <SearchAppBar />
             <div className='d-flex flex-column align-items-center pt-5'>
                 {data.map((viewAccount, index) => {
                     return <div key={index}>
@@ -48,9 +44,7 @@ function ViewAccount() {
                     </div>
 
                 })}
-                <div className="col-12 d-flex flex-column align-items-center pt-4">
-                    <button onClick={handleLogout} type="submit" className="btn btn-primary">Close</button>
-                </div>
+
             </div>
         </>
     )

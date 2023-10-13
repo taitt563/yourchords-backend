@@ -21,7 +21,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import moment from 'moment'
-
+import Modal from '@mui/material/Modal';
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
@@ -30,15 +30,32 @@ const darkTheme = createTheme({
         },
     },
 });
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 700,
+    height: 700,
 
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
 
 function ManageAccount() {
     const [isDeleted, setIsDeleted] = useState(false);
     const [isBanAccount, setIsBanAccount] = useState(false);
     const [isUnBanAccount, setIsUnBanAccount] = useState(false);
     const [search, setSearch] = useState("");
-    const [data, setData] = useState([])
+    const [data, setData] = useState([]);
+    const [dataProfile, setDataProfile] = useState([]);
     const [value, setValue] = useState('1');
+    const [open, setOpen] = useState(false);
+    // const [username, setUsername] = useState('');
+    // const handleOpen = () => setOpen(true);
+    // const handleClose = () => setOpen(false);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -54,6 +71,7 @@ function ManageAccount() {
                 }
             })
             .catch(err => console.log(err));
+
     }, [])
     const handleDelete = (username) => {
         axios.delete('http://localhost:8081/deleteAccount/' + username)
@@ -75,7 +93,7 @@ function ManageAccount() {
                     setIsBanAccount(true);
                     setTimeout(() => {
                         setIsBanAccount(false);
-                        // window.location.reload(true);
+                        window.location.reload(true);
                     }, 2500);
                 }
             })
@@ -89,9 +107,36 @@ function ManageAccount() {
                     setIsUnBanAccount(true);
                     setTimeout(() => {
                         setIsUnBanAccount(false);
-                        // window.location.reload(true);
-
+                        window.location.reload(true);
                     }, 2500);
+                }
+            })
+            .catch(err => console.log(err));
+    }
+
+    // useEffect(() => {
+    //     console.log(username)
+    //     console.log('http://localhost:8081/getAccount/' + username);
+    //     axios.get('http://localhost:8081/getAccount/' + username)
+    //         .then(res => {
+    //             if (res.data.Status === "Success") {
+    //                 setDataProfile(res.data);
+    //                 console.log(res.data);
+    //             } else {
+    //                 alert("Error")
+    //             }
+    //         })
+    //         .catch(err => console.log(err));
+    // }, [open, username])
+    const handleProfile = (username) => {
+        setOpen(true);
+        axios.get('http://localhost:8081/getAccount/' + username)
+            .then(res => {
+                if (res.data.Status === "Success") {
+                    setDataProfile(res.data.Result);
+                    console.log(res.data.Result);
+                } else {
+                    alert("Error")
                 }
             })
             .catch(err => console.log(err));
@@ -155,6 +200,7 @@ function ManageAccount() {
                     <div>
                         <h3 className="d-flex justify-content-center">USER ACCOUNT MANAGEMENT</h3>
                     </div>
+
                     <div className="px-2 py-1" style={{ height: '550px', overflowY: 'scroll' }} >
                         {isDeleted && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
@@ -205,7 +251,32 @@ function ManageAccount() {
 
                                                     }
                                                     <td>
-                                                        <Link to={`/viewAccount/` + userAccount.username} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                        <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon />
+                                                        </Link>
+
+                                                        <Modal
+                                                            open={open}
+                                                            onClose={() => { setOpen(false) }}
+                                                            aria-labelledby="modal-modal-title"
+                                                            aria-describedby="modal-modal-description"
+
+                                                        >
+                                                            <Box sx={style} >
+                                                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                                    Profile
+                                                                </Typography>
+                                                                {dataProfile.map((viewAccount, index) => {
+                                                                    return <div key={index}>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>ID: {viewAccount.id}</b></span>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Email: {viewAccount.email}</b></span>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Role: {viewAccount.role}</b></span>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Active: {viewAccount.ban}</b></span>
+
+                                                                    </div>
+
+                                                                })}
+                                                            </Box>
+                                                        </Modal>
                                                         {userAccount.ban == "Enable" ?
                                                             <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
                                                                 <LockIcon />
@@ -282,7 +353,31 @@ function ManageAccount() {
 
                                                     }
                                                     <td>
-                                                        <Link to={`/viewAccount/` + userAccount.username} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                        <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon />
+                                                        </Link>
+                                                        <Modal
+                                                            open={open}
+                                                            onClose={() => { setOpen(false) }}
+                                                            aria-labelledby="modal-modal-title"
+                                                            aria-describedby="modal-modal-description"
+
+                                                        >
+                                                            <Box sx={style} >
+                                                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                                    Profile
+                                                                </Typography>
+                                                                {dataProfile.map((viewAccount, index) => {
+                                                                    return <div key={index}>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>ID: {viewAccount.id}</b></span>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Email: {viewAccount.email}</b></span>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Role: {viewAccount.role}</b></span>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Active: {viewAccount.ban}</b></span>
+
+                                                                    </div>
+
+                                                                })}
+                                                            </Box>
+                                                        </Modal>
                                                         {userAccount.ban == "Enable" ?
                                                             <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
                                                                 <LockIcon />
@@ -359,7 +454,31 @@ function ManageAccount() {
 
                                                     }
                                                     <td>
-                                                        <Link to={`/viewAccount/` + userAccount.username} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                        <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon />
+                                                        </Link>
+                                                        <Modal
+                                                            open={open}
+                                                            onClose={() => { setOpen(false) }}
+                                                            aria-labelledby="modal-modal-title"
+                                                            aria-describedby="modal-modal-description"
+
+                                                        >
+                                                            <Box sx={style} >
+                                                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                                    Profile
+                                                                </Typography>
+                                                                {dataProfile.map((viewAccount, index) => {
+                                                                    return <div key={index}>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>ID: {viewAccount.id}</b></span>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Email: {viewAccount.email}</b></span>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Role: {viewAccount.role}</b></span>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Active: {viewAccount.ban}</b></span>
+
+                                                                    </div>
+
+                                                                })}
+                                                            </Box>
+                                                        </Modal>
                                                         {userAccount.ban == "Enable" ?
                                                             <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
                                                                 <LockIcon />
@@ -436,7 +555,31 @@ function ManageAccount() {
 
                                                     }
                                                     <td>
-                                                        <Link to={`/viewAccount/` + userAccount.username} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                        <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon />
+                                                        </Link>
+                                                        <Modal
+                                                            open={open}
+                                                            onClose={() => { setOpen(false) }}
+                                                            aria-labelledby="modal-modal-title"
+                                                            aria-describedby="modal-modal-description"
+
+                                                        >
+                                                            <Box sx={style} >
+                                                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                                    Profile
+                                                                </Typography>
+                                                                {dataProfile.map((viewAccount, index) => {
+                                                                    return <div key={index}>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>ID: {viewAccount.id}</b></span>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Email: {viewAccount.email}</b></span>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Role: {viewAccount.role}</b></span>
+                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Active: {viewAccount.ban}</b></span>
+
+                                                                    </div>
+
+                                                                })}
+                                                            </Box>
+                                                        </Modal>
                                                         {userAccount.ban == "Enable" ?
                                                             <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
                                                                 <LockIcon />
