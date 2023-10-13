@@ -22,6 +22,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import moment from 'moment'
 import Modal from '@mui/material/Modal';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
@@ -53,10 +54,6 @@ function ManageAccount() {
     const [dataProfile, setDataProfile] = useState([]);
     const [value, setValue] = useState('1');
     const [open, setOpen] = useState(false);
-    // const [username, setUsername] = useState('');
-    // const handleOpen = () => setOpen(true);
-    // const handleClose = () => setOpen(false);
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -130,6 +127,7 @@ function ManageAccount() {
     // }, [open, username])
     const handleProfile = (username) => {
         setOpen(true);
+        console.log('http://localhost:8081/getAccount/' + username)
         axios.get('http://localhost:8081/getAccount/' + username)
             .then(res => {
                 if (res.data.Status === "Success") {
@@ -253,25 +251,70 @@ function ManageAccount() {
                                                     <td>
                                                         <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon />
                                                         </Link>
-
                                                         <Modal
                                                             open={open}
                                                             onClose={() => { setOpen(false) }}
                                                             aria-labelledby="modal-modal-title"
                                                             aria-describedby="modal-modal-description"
-
                                                         >
                                                             <Box sx={style} >
-                                                                <Typography id="modal-modal-title" variant="h6" component="h2">
-                                                                    Profile
-                                                                </Typography>
+
                                                                 {dataProfile.map((viewAccount, index) => {
                                                                     return <div key={index}>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>ID: {viewAccount.id}</b></span>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Email: {viewAccount.email}</b></span>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Role: {viewAccount.role}</b></span>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Active: {viewAccount.ban}</b></span>
+                                                                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                                            Profile - <b>{viewAccount.name}</b>
+                                                                        </Typography>
+                                                                        <div className="container rounded bg-white mt-6 mb-5">
+                                                                            <div className="row">
+                                                                                <div className="col-md-4 border-right">
+                                                                                    <div className="d-flex flex-column align-items-center text-center p-3 py-5">
 
+                                                                                        <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+                                                                                            {viewAccount.image != "" ?
+                                                                                                <img className="rounded-circle mt-6 border" src={`http://localhost:8081/images/` + viewAccount.image} width="150px" />
+                                                                                                :
+                                                                                                <AccountCircleIcon fontSize="large" />
+
+                                                                                            }
+                                                                                        </div>
+                                                                                        <span className="text-black-50">{viewAccount.email}</span>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="col-md-7 border-right">
+                                                                                    <div className="py-5">
+                                                                                        <div className="row mt-2">
+
+                                                                                            <div className="col-md-6"><label><b>First</b></label><input className="form-control" value={viewAccount.name} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Sur name</b></label><input className="form-control" value={viewAccount.surname} readOnly /></div>
+                                                                                        </div>
+                                                                                        <div className="row mt-4">
+                                                                                            <div className="col-md-6"><label><b>Active</b></label>
+                                                                                                {viewAccount.ban == "Enable" ?
+                                                                                                    <p style={{ color: 'green' }}><b>{userAccount.ban}</b></p>
+                                                                                                    :
+                                                                                                    <p style={{ color: 'red' }}><b>{userAccount.ban}</b></p>
+                                                                                                }
+
+                                                                                            </div>
+                                                                                            <div className="col-md-6"><label><b>Register date</b></label><p>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
+                                                                                            <div className="col-md-6"><label><b>Username</b></label><p>{viewAccount.username}</p></div>
+
+                                                                                            <div className="col-md-6"><label><b>Role</b></label><p>{viewAccount.role}</p></div>
+
+                                                                                            <div className="col-md-12"><label>Phone number</label><input className="form-control" value={viewAccount.surname} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Address Line</label><input className="form-control" value={viewAccount.address} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Email</label><input className="form-control" value={viewAccount.email} readOnly /></div>
+
+                                                                                        </div>
+                                                                                        <div className="row mt-4">
+                                                                                            <div className="col-md-12"><label>State/Region</label><input className="form-control" value={viewAccount.state} readOnly /></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
 
                                                                 })}
@@ -360,19 +403,64 @@ function ManageAccount() {
                                                             onClose={() => { setOpen(false) }}
                                                             aria-labelledby="modal-modal-title"
                                                             aria-describedby="modal-modal-description"
-
                                                         >
                                                             <Box sx={style} >
-                                                                <Typography id="modal-modal-title" variant="h6" component="h2">
-                                                                    Profile
-                                                                </Typography>
+
                                                                 {dataProfile.map((viewAccount, index) => {
                                                                     return <div key={index}>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>ID: {viewAccount.id}</b></span>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Email: {viewAccount.email}</b></span>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Role: {viewAccount.role}</b></span>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Active: {viewAccount.ban}</b></span>
+                                                                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                                            Profile - <b>{viewAccount.name}</b>
+                                                                        </Typography>
+                                                                        <div className="container rounded bg-white mt-6 mb-5">
+                                                                            <div className="row">
+                                                                                <div className="col-md-4 border-right">
+                                                                                    <div className="d-flex flex-column align-items-center text-center p-3 py-5">
 
+                                                                                        <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+                                                                                            {viewAccount.image != null ?
+                                                                                                <img className="rounded-circle mt-6 border" src={`http://localhost:8081/images/` + viewAccount.image} width="150px" />
+                                                                                                :
+                                                                                                <img className="rounded-circle mt-6 border" width="150px" ><AccountCircleIcon /></img>
+                                                                                            }
+                                                                                        </div>
+                                                                                        <span className="text-black-50">{viewAccount.email}</span>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="col-md-7 border-right">
+                                                                                    <div className="py-5">
+                                                                                        <div className="row mt-2">
+
+                                                                                            <div className="col-md-6"><label><b>First</b></label><input className="form-control" value={viewAccount.name} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Sur name</b></label><input className="form-control" value={viewAccount.surname} readOnly /></div>
+                                                                                        </div>
+                                                                                        <div className="row mt-4">
+                                                                                            <div className="col-md-6"><label><b>Active</b></label>
+                                                                                                {viewAccount.ban == "Enable" ?
+                                                                                                    <p style={{ color: 'green' }}><b>{userAccount.ban}</b></p>
+                                                                                                    :
+                                                                                                    <p style={{ color: 'red' }}><b>{userAccount.ban}</b></p>
+                                                                                                }
+
+                                                                                            </div>
+                                                                                            <div className="col-md-6"><label><b>Register date</b></label><p>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
+                                                                                            <div className="col-md-6"><label><b>Username</b></label><p>{viewAccount.username}</p></div>
+
+                                                                                            <div className="col-md-6"><label><b>Role</b></label><p>{viewAccount.role}</p></div>
+
+                                                                                            <div className="col-md-12"><label>Phone number</label><input className="form-control" value={viewAccount.surname} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Address Line</label><input className="form-control" value={viewAccount.address} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Email</label><input className="form-control" value={viewAccount.email} readOnly /></div>
+
+                                                                                        </div>
+                                                                                        <div className="row mt-4">
+                                                                                            <div className="col-md-12"><label>State/Region</label><input className="form-control" value={viewAccount.state} readOnly /></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
 
                                                                 })}
@@ -389,8 +477,8 @@ function ManageAccount() {
                                                         }
 
                                                         <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
-
                                                     </td>
+
                                                 </tr>
                                             }
                                         })}
@@ -461,19 +549,65 @@ function ManageAccount() {
                                                             onClose={() => { setOpen(false) }}
                                                             aria-labelledby="modal-modal-title"
                                                             aria-describedby="modal-modal-description"
-
                                                         >
                                                             <Box sx={style} >
-                                                                <Typography id="modal-modal-title" variant="h6" component="h2">
-                                                                    Profile
-                                                                </Typography>
+
                                                                 {dataProfile.map((viewAccount, index) => {
                                                                     return <div key={index}>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>ID: {viewAccount.id}</b></span>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Email: {viewAccount.email}</b></span>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Role: {viewAccount.role}</b></span>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Active: {viewAccount.ban}</b></span>
+                                                                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                                            Profile - <b>{viewAccount.name}</b>
+                                                                        </Typography>
+                                                                        <div className="container rounded bg-white mt-6 mb-5">
+                                                                            <div className="row">
+                                                                                <div className="col-md-4 border-right">
+                                                                                    <div className="d-flex flex-column align-items-center text-center p-3 py-5">
 
+                                                                                        <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+                                                                                            {viewAccount.image != "" ?
+                                                                                                <img className="rounded-circle mt-6 border" src={`http://localhost:8081/images/` + viewAccount.image} width="150px" />
+                                                                                                :
+                                                                                                <AccountCircleIcon fontSize="large" />
+
+                                                                                            }
+                                                                                        </div>
+                                                                                        <span className="text-black-50">{viewAccount.email}</span>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="col-md-7 border-right">
+                                                                                    <div className="py-5">
+                                                                                        <div className="row mt-2">
+
+                                                                                            <div className="col-md-6"><label><b>First</b></label><input className="form-control" value={viewAccount.name} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Sur name</b></label><input className="form-control" value={viewAccount.surname} readOnly /></div>
+                                                                                        </div>
+                                                                                        <div className="row mt-4">
+                                                                                            <div className="col-md-6"><label><b>Active</b></label>
+                                                                                                {viewAccount.ban == "Enable" ?
+                                                                                                    <p style={{ color: 'green' }}><b>{userAccount.ban}</b></p>
+                                                                                                    :
+                                                                                                    <p style={{ color: 'red' }}><b>{userAccount.ban}</b></p>
+                                                                                                }
+
+                                                                                            </div>
+                                                                                            <div className="col-md-6"><label><b>Register date</b></label><p>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
+                                                                                            <div className="col-md-6"><label><b>Username</b></label><p>{viewAccount.username}</p></div>
+
+                                                                                            <div className="col-md-6"><label><b>Role</b></label><p>{viewAccount.role}</p></div>
+
+                                                                                            <div className="col-md-12"><label>Phone number</label><input className="form-control" value={viewAccount.surname} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Address Line</label><input className="form-control" value={viewAccount.address} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Email</label><input className="form-control" value={viewAccount.email} readOnly /></div>
+
+                                                                                        </div>
+                                                                                        <div className="row mt-4">
+                                                                                            <div className="col-md-12"><label>State/Region</label><input className="form-control" value={viewAccount.state} readOnly /></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
 
                                                                 })}
@@ -490,7 +624,6 @@ function ManageAccount() {
                                                         }
 
                                                         <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
-
                                                     </td>
                                                 </tr>
                                             }
@@ -562,19 +695,65 @@ function ManageAccount() {
                                                             onClose={() => { setOpen(false) }}
                                                             aria-labelledby="modal-modal-title"
                                                             aria-describedby="modal-modal-description"
-
                                                         >
                                                             <Box sx={style} >
-                                                                <Typography id="modal-modal-title" variant="h6" component="h2">
-                                                                    Profile
-                                                                </Typography>
+
                                                                 {dataProfile.map((viewAccount, index) => {
                                                                     return <div key={index}>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>ID: {viewAccount.id}</b></span>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Email: {viewAccount.email}</b></span>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Role: {viewAccount.role}</b></span>
-                                                                        <span className="d-flex flex-column align-items-center pt-5 " ><b>Active: {viewAccount.ban}</b></span>
+                                                                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                                            Profile - <b>{viewAccount.name}</b>
+                                                                        </Typography>
+                                                                        <div className="container rounded bg-white mt-6 mb-5">
+                                                                            <div className="row">
+                                                                                <div className="col-md-4 border-right">
+                                                                                    <div className="d-flex flex-column align-items-center text-center p-3 py-5">
 
+                                                                                        <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+                                                                                            {viewAccount.image != "" ?
+                                                                                                <img className="rounded-circle mt-6 border" src={`http://localhost:8081/images/` + viewAccount.image} width="150px" />
+                                                                                                :
+                                                                                                <AccountCircleIcon fontSize="large" />
+
+                                                                                            }
+                                                                                        </div>
+                                                                                        <span className="text-black-50">{viewAccount.email}</span>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="col-md-7 border-right">
+                                                                                    <div className="py-5">
+                                                                                        <div className="row mt-2">
+
+                                                                                            <div className="col-md-6"><label><b>First</b></label><input className="form-control" value={viewAccount.name} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Sur name</b></label><input className="form-control" value={viewAccount.surname} readOnly /></div>
+                                                                                        </div>
+                                                                                        <div className="row mt-4">
+                                                                                            <div className="col-md-6"><label><b>Active</b></label>
+                                                                                                {viewAccount.ban == "Enable" ?
+                                                                                                    <p style={{ color: 'green' }}><b>{userAccount.ban}</b></p>
+                                                                                                    :
+                                                                                                    <p style={{ color: 'red' }}><b>{userAccount.ban}</b></p>
+                                                                                                }
+
+                                                                                            </div>
+                                                                                            <div className="col-md-6"><label><b>Register date</b></label><p>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
+                                                                                            <div className="col-md-6"><label><b>Username</b></label><p>{viewAccount.username}</p></div>
+
+                                                                                            <div className="col-md-6"><label><b>Role</b></label><p>{viewAccount.role}</p></div>
+
+                                                                                            <div className="col-md-12"><label>Phone number</label><input className="form-control" value={viewAccount.surname} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Address Line</label><input className="form-control" value={viewAccount.address} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Email</label><input className="form-control" value={viewAccount.email} readOnly /></div>
+
+                                                                                        </div>
+                                                                                        <div className="row mt-4">
+                                                                                            <div className="col-md-12"><label>State/Region</label><input className="form-control" value={viewAccount.state} readOnly /></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
 
                                                                 })}
