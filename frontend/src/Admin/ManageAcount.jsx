@@ -111,28 +111,12 @@ function ManageAccount() {
             .catch(err => console.log(err));
     }
 
-    // useEffect(() => {
-    //     console.log(username)
-    //     console.log('http://localhost:8081/getAccount/' + username);
-    //     axios.get('http://localhost:8081/getAccount/' + username)
-    //         .then(res => {
-    //             if (res.data.Status === "Success") {
-    //                 setDataProfile(res.data);
-    //                 console.log(res.data);
-    //             } else {
-    //                 alert("Error")
-    //             }
-    //         })
-    //         .catch(err => console.log(err));
-    // }, [open, username])
     const handleProfile = (username) => {
         setOpen(true);
-        console.log('http://localhost:8081/getAccount/' + username)
         axios.get('http://localhost:8081/getAccount/' + username)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setDataProfile(res.data.Result);
-                    console.log(res.data.Result);
                 } else {
                     alert("Error")
                 }
@@ -274,7 +258,6 @@ function ManageAccount() {
                                                                                                 <img className="rounded-circle mt-6 border" src={`http://localhost:8081/images/` + viewAccount.image} width="150px" />
                                                                                                 :
                                                                                                 <AccountCircleIcon fontSize="large" />
-
                                                                                             }
                                                                                         </div>
                                                                                         <span className="text-black-50">{viewAccount.email}</span>
@@ -417,10 +400,10 @@ function ManageAccount() {
                                                                                     <div className="d-flex flex-column align-items-center text-center p-3 py-5">
 
                                                                                         <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-                                                                                            {viewAccount.image != null ?
+                                                                                            {viewAccount.image != "" ?
                                                                                                 <img className="rounded-circle mt-6 border" src={`http://localhost:8081/images/` + viewAccount.image} width="150px" />
                                                                                                 :
-                                                                                                <img className="rounded-circle mt-6 border" width="150px" ><AccountCircleIcon /></img>
+                                                                                                <AccountCircleIcon fontSize="large" />
                                                                                             }
                                                                                         </div>
                                                                                         <span className="text-black-50">{viewAccount.email}</span>
@@ -507,7 +490,7 @@ function ManageAccount() {
                                 <Alert severity="info">Account enable !</Alert>
                             </Stack>
                         )}
-                        <div className=' pd-top pd-left'>
+                        <div className='mt-4 pd-top pd-left'>
                             <table className='table'>
                                 <thead>
                                     <tr>
@@ -517,8 +500,6 @@ function ManageAccount() {
                                         <th>Register date</th>
                                         <th>Active</th>
                                         <th></th>
-
-
 
                                     </tr>
                                 </thead>
@@ -567,7 +548,6 @@ function ManageAccount() {
                                                                                                 <img className="rounded-circle mt-6 border" src={`http://localhost:8081/images/` + viewAccount.image} width="150px" />
                                                                                                 :
                                                                                                 <AccountCircleIcon fontSize="large" />
-
                                                                                             }
                                                                                         </div>
                                                                                         <span className="text-black-50">{viewAccount.email}</span>
@@ -638,7 +618,6 @@ function ManageAccount() {
                         <h3 className="d-flex justify-content-center">MUSICIAN ACCOUNT MANAGEMENT</h3>
                     </div>
                     <div className="px-2 py-1" style={{ height: '550px', overflowY: 'scroll' }} >
-
                         {isDeleted && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
                                 <Alert severity="success">Account deleted successfully !</Alert>
@@ -674,13 +653,11 @@ function ManageAccount() {
                                     })
                                         .map((userAccount, index) => {
                                             if (userAccount.role === "musician") {
-
                                                 return <tr key={index}>
                                                     <td><PersonIcon /></td>
                                                     <td>{userAccount.username}</td>
                                                     <td>{userAccount.role}</td>
                                                     <td>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</td>
-
                                                     {userAccount.ban == "Enable" ?
                                                         <td style={{ color: 'green' }}><b>{userAccount.ban}</b></td>
                                                         :
@@ -713,7 +690,6 @@ function ManageAccount() {
                                                                                                 <img className="rounded-circle mt-6 border" src={`http://localhost:8081/images/` + viewAccount.image} width="150px" />
                                                                                                 :
                                                                                                 <AccountCircleIcon fontSize="large" />
-
                                                                                             }
                                                                                         </div>
                                                                                         <span className="text-black-50">{viewAccount.email}</span>
