@@ -134,7 +134,7 @@ function ManageAccount() {
                                 className="input-box"
                                 placeholder="Search.."
                                 onChange={(e) => setSearch(e.target.value)} />
-                            <SearchIcon />
+                            <SearchIcon className="inputIcon" />
 
                         </Toolbar>
                     </AppBar>

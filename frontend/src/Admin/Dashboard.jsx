@@ -49,11 +49,16 @@ function Dashboard() {
                                             }
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText className="font" primary={
-                                        profile.name.length > 10 ?
-                                            <b>{profile.name.substring(0, 10)}...</b>
-                                            : <b>{profile.name} </b>}
-                                        secondary={<b>{profile.email}</b>} />
+                                    <ListItemText className="font" primary={profile.name.length > 10 ?
+                                        <b>{profile.name.substring(0, 10)}...</b>
+                                        :
+                                        <b>{profile.name} </b>
+                                    }
+                                        secondary={profile.email.length > 17 ?
+                                            <b>{profile.email.substring(0, 17)}...</b>
+                                            :
+                                            <b>{profile.email} </b>
+                                        } />
                                 </ListItem>
                                 <br />
                                 <span type="text" className='fs-100  font pd-left '>Date current: <b>{displaytodaysdate}</b></span>
