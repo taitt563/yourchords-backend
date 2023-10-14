@@ -245,9 +245,10 @@ function ManageAccount() {
 
                                                                 {dataProfile.map((viewAccount, index) => {
                                                                     return <div key={index}>
-                                                                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                                        <Typography id="modal-modal-title" display={"inline"} variant="h6" component="h2">
                                                                             Profile - <b>{viewAccount.name}</b>
                                                                         </Typography>
+
                                                                         <div className="container rounded bg-white mt-6 mb-5">
                                                                             <div className="row">
                                                                                 <div className="col-md-4 border-right">
@@ -268,30 +269,32 @@ function ManageAccount() {
                                                                                     <div className="py-5">
                                                                                         <div className="row mt-2">
 
-                                                                                            <div className="col-md-6"><label><b>First</b></label><input className="form-control" value={viewAccount.name} readOnly /></div>
-                                                                                            <div className="col-md-6"><label><b>Sur name</b></label><input className="form-control" value={viewAccount.surname} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Name: </b></label><input className="form-control" value={viewAccount.name} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Surname: </b></label><input className="form-control" value={viewAccount.surname} readOnly /></div>
                                                                                         </div>
                                                                                         <div className="row mt-4">
-                                                                                            <div className="col-md-6"><label><b>Active</b></label>
+                                                                                            <div className="col-md-6"><label><b>Active: </b></label>
                                                                                                 {viewAccount.ban == "Enable" ?
-                                                                                                    <p style={{ color: 'green' }}><b>{userAccount.ban}</b></p>
+                                                                                                    <p style={{ color: 'green' }}><b>{viewAccount.ban}</b></p>
                                                                                                     :
-                                                                                                    <p style={{ color: 'red' }}><b>{userAccount.ban}</b></p>
+                                                                                                    <p style={{ color: 'red' }}><b>{viewAccount.ban}</b></p>
                                                                                                 }
-
                                                                                             </div>
-                                                                                            <div className="col-md-6"><label><b>Register date</b></label><p>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
-                                                                                            <div className="col-md-6"><label><b>Username</b></label><p>{viewAccount.username}</p></div>
+                                                                                            <div className="col-md-6"><label><b>Register date: </b></label><p>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
+                                                                                            <div className="col-md-6"><label><b>Username: </b></label><p>{viewAccount.username}</p></div>
 
-                                                                                            <div className="col-md-6"><label><b>Role</b></label><p>{viewAccount.role}</p></div>
-
-                                                                                            <div className="col-md-12"><label>Phone number</label><input className="form-control" value={viewAccount.surname} readOnly /></div>
-                                                                                            <div className="col-md-12"><label>Address Line</label><input className="form-control" value={viewAccount.address} readOnly /></div>
-                                                                                            <div className="col-md-12"><label>Email</label><input className="form-control" value={viewAccount.email} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Role: </b></label><p>{viewAccount.role}</p></div>
+                                                                                            {viewAccount.phoneNumber == 0 ?
+                                                                                                <div className="col-md-12"><label>Phone number: </label><input className="form-control" value={""} readOnly /></div>
+                                                                                                :
+                                                                                                <div className="col-md-12"><label>Phone number: </label><input className="form-control" value={viewAccount.phoneNumber} readOnly /></div>
+                                                                                            }
+                                                                                            <div className="col-md-12"><label>Address Line: </label><input className="form-control" value={viewAccount.address} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Email: </label><input className="form-control" value={viewAccount.email} readOnly /></div>
 
                                                                                         </div>
                                                                                         <div className="row mt-4">
-                                                                                            <div className="col-md-12"><label>State/Region</label><input className="form-control" value={viewAccount.state} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Job: </label><input className="form-control" value={viewAccount.job} readOnly /></div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -303,14 +306,15 @@ function ManageAccount() {
                                                                 })}
                                                             </Box>
                                                         </Modal>
-                                                        {userAccount.ban == "Enable" ?
-                                                            <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
-                                                                <LockIcon />
-                                                            </button>
-                                                            :
-                                                            <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
-                                                                <LockOpenIcon />
-                                                            </button>
+                                                        {
+                                                            userAccount.ban == "Enable" ?
+                                                                <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
+                                                                    <LockIcon />
+                                                                </button>
+                                                                :
+                                                                <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
+                                                                    <LockOpenIcon />
+                                                                </button>
                                                         }
 
                                                         <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'>
@@ -391,9 +395,10 @@ function ManageAccount() {
 
                                                                 {dataProfile.map((viewAccount, index) => {
                                                                     return <div key={index}>
-                                                                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                                        <Typography id="modal-modal-title" display={"inline"} variant="h6" component="h2">
                                                                             Profile - <b>{viewAccount.name}</b>
                                                                         </Typography>
+
                                                                         <div className="container rounded bg-white mt-6 mb-5">
                                                                             <div className="row">
                                                                                 <div className="col-md-4 border-right">
@@ -414,30 +419,32 @@ function ManageAccount() {
                                                                                     <div className="py-5">
                                                                                         <div className="row mt-2">
 
-                                                                                            <div className="col-md-6"><label><b>First</b></label><input className="form-control" value={viewAccount.name} readOnly /></div>
-                                                                                            <div className="col-md-6"><label><b>Sur name</b></label><input className="form-control" value={viewAccount.surname} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Name: </b></label><input className="form-control" value={viewAccount.name} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Surname: </b></label><input className="form-control" value={viewAccount.surname} readOnly /></div>
                                                                                         </div>
                                                                                         <div className="row mt-4">
-                                                                                            <div className="col-md-6"><label><b>Active</b></label>
+                                                                                            <div className="col-md-6"><label><b>Active: </b></label>
                                                                                                 {viewAccount.ban == "Enable" ?
-                                                                                                    <p style={{ color: 'green' }}><b>{userAccount.ban}</b></p>
+                                                                                                    <p style={{ color: 'green' }}><b>{viewAccount.ban}</b></p>
                                                                                                     :
-                                                                                                    <p style={{ color: 'red' }}><b>{userAccount.ban}</b></p>
+                                                                                                    <p style={{ color: 'red' }}><b>{viewAccount.ban}</b></p>
                                                                                                 }
-
                                                                                             </div>
-                                                                                            <div className="col-md-6"><label><b>Register date</b></label><p>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
-                                                                                            <div className="col-md-6"><label><b>Username</b></label><p>{viewAccount.username}</p></div>
+                                                                                            <div className="col-md-6"><label><b>Register date: </b></label><p>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
+                                                                                            <div className="col-md-6"><label><b>Username: </b></label><p>{viewAccount.username}</p></div>
 
-                                                                                            <div className="col-md-6"><label><b>Role</b></label><p>{viewAccount.role}</p></div>
-
-                                                                                            <div className="col-md-12"><label>Phone number</label><input className="form-control" value={viewAccount.surname} readOnly /></div>
-                                                                                            <div className="col-md-12"><label>Address Line</label><input className="form-control" value={viewAccount.address} readOnly /></div>
-                                                                                            <div className="col-md-12"><label>Email</label><input className="form-control" value={viewAccount.email} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Role: </b></label><p>{viewAccount.role}</p></div>
+                                                                                            {viewAccount.phoneNumber == 0 ?
+                                                                                                <div className="col-md-12"><label>Phone number: </label><input className="form-control" value={""} readOnly /></div>
+                                                                                                :
+                                                                                                <div className="col-md-12"><label>Phone number: </label><input className="form-control" value={viewAccount.phoneNumber} readOnly /></div>
+                                                                                            }
+                                                                                            <div className="col-md-12"><label>Address Line: </label><input className="form-control" value={viewAccount.address} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Email: </label><input className="form-control" value={viewAccount.email} readOnly /></div>
 
                                                                                         </div>
                                                                                         <div className="row mt-4">
-                                                                                            <div className="col-md-12"><label>State/Region</label><input className="form-control" value={viewAccount.state} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Job: </label><input className="form-control" value={viewAccount.job} readOnly /></div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -534,9 +541,10 @@ function ManageAccount() {
 
                                                                 {dataProfile.map((viewAccount, index) => {
                                                                     return <div key={index}>
-                                                                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                                        <Typography id="modal-modal-title" display={"inline"} variant="h6" component="h2">
                                                                             Profile - <b>{viewAccount.name}</b>
                                                                         </Typography>
+
                                                                         <div className="container rounded bg-white mt-6 mb-5">
                                                                             <div className="row">
                                                                                 <div className="col-md-4 border-right">
@@ -557,30 +565,32 @@ function ManageAccount() {
                                                                                     <div className="py-5">
                                                                                         <div className="row mt-2">
 
-                                                                                            <div className="col-md-6"><label><b>First</b></label><input className="form-control" value={viewAccount.name} readOnly /></div>
-                                                                                            <div className="col-md-6"><label><b>Sur name</b></label><input className="form-control" value={viewAccount.surname} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Name: </b></label><input className="form-control" value={viewAccount.name} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Surname: </b></label><input className="form-control" value={viewAccount.surname} readOnly /></div>
                                                                                         </div>
                                                                                         <div className="row mt-4">
-                                                                                            <div className="col-md-6"><label><b>Active</b></label>
+                                                                                            <div className="col-md-6"><label><b>Active: </b></label>
                                                                                                 {viewAccount.ban == "Enable" ?
-                                                                                                    <p style={{ color: 'green' }}><b>{userAccount.ban}</b></p>
+                                                                                                    <p style={{ color: 'green' }}><b>{viewAccount.ban}</b></p>
                                                                                                     :
-                                                                                                    <p style={{ color: 'red' }}><b>{userAccount.ban}</b></p>
+                                                                                                    <p style={{ color: 'red' }}><b>{viewAccount.ban}</b></p>
                                                                                                 }
-
                                                                                             </div>
-                                                                                            <div className="col-md-6"><label><b>Register date</b></label><p>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
-                                                                                            <div className="col-md-6"><label><b>Username</b></label><p>{viewAccount.username}</p></div>
+                                                                                            <div className="col-md-6"><label><b>Register date: </b></label><p>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
+                                                                                            <div className="col-md-6"><label><b>Username: </b></label><p>{viewAccount.username}</p></div>
 
-                                                                                            <div className="col-md-6"><label><b>Role</b></label><p>{viewAccount.role}</p></div>
-
-                                                                                            <div className="col-md-12"><label>Phone number</label><input className="form-control" value={viewAccount.surname} readOnly /></div>
-                                                                                            <div className="col-md-12"><label>Address Line</label><input className="form-control" value={viewAccount.address} readOnly /></div>
-                                                                                            <div className="col-md-12"><label>Email</label><input className="form-control" value={viewAccount.email} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Role: </b></label><p>{viewAccount.role}</p></div>
+                                                                                            {viewAccount.phoneNumber == 0 ?
+                                                                                                <div className="col-md-12"><label>Phone number: </label><input className="form-control" value={""} readOnly /></div>
+                                                                                                :
+                                                                                                <div className="col-md-12"><label>Phone number: </label><input className="form-control" value={viewAccount.phoneNumber} readOnly /></div>
+                                                                                            }
+                                                                                            <div className="col-md-12"><label>Address Line: </label><input className="form-control" value={viewAccount.address} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Email: </label><input className="form-control" value={viewAccount.email} readOnly /></div>
 
                                                                                         </div>
                                                                                         <div className="row mt-4">
-                                                                                            <div className="col-md-12"><label>State/Region</label><input className="form-control" value={viewAccount.state} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Job: </label><input className="form-control" value={viewAccount.job} readOnly /></div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -676,9 +686,10 @@ function ManageAccount() {
 
                                                                 {dataProfile.map((viewAccount, index) => {
                                                                     return <div key={index}>
-                                                                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                                        <Typography id="modal-modal-title" display={"inline"} variant="h6" component="h2">
                                                                             Profile - <b>{viewAccount.name}</b>
                                                                         </Typography>
+
                                                                         <div className="container rounded bg-white mt-6 mb-5">
                                                                             <div className="row">
                                                                                 <div className="col-md-4 border-right">
@@ -699,30 +710,32 @@ function ManageAccount() {
                                                                                     <div className="py-5">
                                                                                         <div className="row mt-2">
 
-                                                                                            <div className="col-md-6"><label><b>First</b></label><input className="form-control" value={viewAccount.name} readOnly /></div>
-                                                                                            <div className="col-md-6"><label><b>Sur name</b></label><input className="form-control" value={viewAccount.surname} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Name: </b></label><input className="form-control" value={viewAccount.name} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Surname: </b></label><input className="form-control" value={viewAccount.surname} readOnly /></div>
                                                                                         </div>
                                                                                         <div className="row mt-4">
-                                                                                            <div className="col-md-6"><label><b>Active</b></label>
+                                                                                            <div className="col-md-6"><label><b>Active: </b></label>
                                                                                                 {viewAccount.ban == "Enable" ?
-                                                                                                    <p style={{ color: 'green' }}><b>{userAccount.ban}</b></p>
+                                                                                                    <p style={{ color: 'green' }}><b>{viewAccount.ban}</b></p>
                                                                                                     :
-                                                                                                    <p style={{ color: 'red' }}><b>{userAccount.ban}</b></p>
+                                                                                                    <p style={{ color: 'red' }}><b>{viewAccount.ban}</b></p>
                                                                                                 }
-
                                                                                             </div>
-                                                                                            <div className="col-md-6"><label><b>Register date</b></label><p>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
-                                                                                            <div className="col-md-6"><label><b>Username</b></label><p>{viewAccount.username}</p></div>
+                                                                                            <div className="col-md-6"><label><b>Register date: </b></label><p>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
+                                                                                            <div className="col-md-6"><label><b>Username: </b></label><p>{viewAccount.username}</p></div>
 
-                                                                                            <div className="col-md-6"><label><b>Role</b></label><p>{viewAccount.role}</p></div>
-
-                                                                                            <div className="col-md-12"><label>Phone number</label><input className="form-control" value={viewAccount.surname} readOnly /></div>
-                                                                                            <div className="col-md-12"><label>Address Line</label><input className="form-control" value={viewAccount.address} readOnly /></div>
-                                                                                            <div className="col-md-12"><label>Email</label><input className="form-control" value={viewAccount.email} readOnly /></div>
+                                                                                            <div className="col-md-6"><label><b>Role: </b></label><p>{viewAccount.role}</p></div>
+                                                                                            {viewAccount.phoneNumber == 0 ?
+                                                                                                <div className="col-md-12"><label>Phone number: </label><input className="form-control" value={""} readOnly /></div>
+                                                                                                :
+                                                                                                <div className="col-md-12"><label>Phone number: </label><input className="form-control" value={viewAccount.phoneNumber} readOnly /></div>
+                                                                                            }
+                                                                                            <div className="col-md-12"><label>Address Line: </label><input className="form-control" value={viewAccount.address} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Email: </label><input className="form-control" value={viewAccount.email} readOnly /></div>
 
                                                                                         </div>
                                                                                         <div className="row mt-4">
-                                                                                            <div className="col-md-12"><label>State/Region</label><input className="form-control" value={viewAccount.state} readOnly /></div>
+                                                                                            <div className="col-md-12"><label>Job: </label><input className="form-control" value={viewAccount.job} readOnly /></div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>

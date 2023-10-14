@@ -1,5 +1,4 @@
 import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -35,10 +34,10 @@ export default function BottomAppBar() {
         <>
             <SearchAppBar />
             <React.Fragment>
-                <CssBaseline />
                 <div className='d-flex flex-column align-items-center pt-4'>
-                    <h2>FEEDBACK</h2>
+                    <h3 className="d-flex justify-content-center">FEEDBACK</h3>
                 </div>
+
                 {/* LIST TODAY */}
                 <ListItem>
                     <ListItemText primary="Today" />

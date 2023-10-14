@@ -37,7 +37,7 @@ function ViewFeedback() {
         <>
             <SearchAppBar />
             <div className='d-flex flex-column align-items-center pt-5'>
-                <h2>Feedback</h2>
+                <h3 className="d-flex justify-content-center">FEEDBACK</h3>
 
                 {data.map((userFeedback, index) => {
                     return <div key={index}>

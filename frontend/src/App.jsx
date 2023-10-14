@@ -6,7 +6,6 @@ import Home from './Admin/Home'
 import Profile from './Admin/Profile'
 import Song from './Admin/Song'
 import ManageAccount from './Admin/ManageAcount'
-import ViewAccount from './Admin/ViewAccount'
 import ManageFeedback from './Admin/ManageFeedback'
 import ViewFeedback from './Admin/ViewFeedback'
 import ViewSong from './Admin/ViewSong'
@@ -48,7 +47,6 @@ function App() {
           <Route path='/song' element={<Song />}></Route>
           <Route path='/manageAccount' element={<ManageAccount />}></Route>
           <Route path='/viewSong/:song_title' element={<ViewSong />}></Route>
-          <Route path='/viewAccount/:username' element={<ViewAccount />}></Route>
           <Route path='/manageFeedback' element={<ManageFeedback />}></Route>
           <Route path='/viewFeedback/:username' element={<ViewFeedback />}></Route>
         </Route>

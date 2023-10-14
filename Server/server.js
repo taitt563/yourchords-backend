@@ -190,7 +190,7 @@ app.post('/createSong', upload.single('thumnail'), (req, res) => {
 
 app.get('/getProfile/:userId', (req, res) => {
     const userId = req.params.userId;
-    const sql = "SELECT * FROM profile WHERE userId = ?";
+    const sql = "SELECT * FROM profile LEFT JOIN user_acc ON profile.userId = user_acc.username WHERE userId = ?";
     con.query(sql, [userId], (err, result) => {
         if (err) return res.json({ Error: "Get song error in sql" });
         return res.json({ Status: "Success", Result: result })
@@ -201,8 +201,9 @@ app.get('/getProfile/:userId', (req, res) => {
 
 app.put('/updateProfile/:userId', upload.single("image"), (req, res) => {
     const userId = req.params.userId;
-    const sql = "UPDATE profile SET name = ?, email = ?, address= ? WHERE userId = ?";
-    con.query(sql, [req.body.name, req.body.email, req.body.address, userId], (err, result) => {
+    const sql = "UPDATE profile SET name = ?, surname=?, phoneNumber= ?, job=? , email = ?, address= ? WHERE userId = ?";
+
+    con.query(sql, [req.body.name, req.body.surname, req.body.phoneNumber, req.body.job, req.body.email, req.body.address, userId], (err, result) => {
         if (err) return res.json({ Error: "Error" });
         return res.json({ Status: "Success", Result: result });
     })
@@ -253,6 +254,15 @@ app.get('/getAccount/:username', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
+app.get('/getAccount/:userId', (req, res) => {
+    const userId = req.params.userId;
+    let sql = "SELECT * FROM profile LEFT JOIN user_acc ON profile.userId = user_acc.username WHERE userId = ?";
+    con.query(sql, [userId], (err, result) => {
+        if (err) return res.json({ Error: "Get song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
+
 
 app.put('/updateSong/:song_title', upload.single("thumnail"), (req, res) => {
     const song_title = req.params.song_title;

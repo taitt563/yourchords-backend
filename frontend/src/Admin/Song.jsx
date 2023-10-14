@@ -89,11 +89,10 @@ function Song() {
                     </AppBar>
                 </ThemeProvider>
             </Box>
+            <div className='d-flex flex-column align-items-center pt-4'>
+                <h3 className="d-flex justify-content-center">SONG</h3>
+            </div>
             <div className="px-2 py-5">
-
-                <div>
-                    <h3 className="d-flex justify-content-center">SONG</h3>
-                </div>
                 <div className='mt-4 pd-left' style={{ height: '450px', overflowY: 'scroll' }}>
                     <table className='table'>
                         <thead>
