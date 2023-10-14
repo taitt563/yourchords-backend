@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -52,8 +52,11 @@ function ViewSong() {
                             <p className="fs-100  font pd-left" >Status: <b>Awaiting approval</b></p>
                         }
                         <p className="fs-100  font pd-left" >Artist:  <b>{viewSong.author}</b></p>
-                        <p className="fs-100  font pd-left" >Link:  <b>{viewSong.link}</b></p>
+                        {viewSong.link != null ?
+                            <p className="fs-100  font pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
+                            : <p className="fs-100  font pd-left" >Link:  <b>Update...</b></p>
 
+                        }
                         <div className='d-flex flex-column align-items-center pt-4'>
                             <div className="container">
                                 <div className="px-2 py-5">

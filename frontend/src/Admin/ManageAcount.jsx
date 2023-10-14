@@ -183,7 +183,7 @@ function ManageAccount() {
                         <h3 className="d-flex justify-content-center">USER ACCOUNT MANAGEMENT</h3>
                     </div>
 
-                    <div className="px-2 py-1" style={{ height: '550px', overflowY: 'scroll' }} >
+                    <div className="px-2 py-4">
                         {isDeleted && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
                                 <Alert severity="success">Account deleted successfully !</Alert>
@@ -200,7 +200,7 @@ function ManageAccount() {
                             </Stack>
                         )}
 
-                        <div className='mt-4 pd-top pd-left'>
+                        <div className='mt-4 pd-left' style={{ height: '450px', overflowY: 'scroll' }}>
                             <table className='table'>
                                 <thead>
                                     <tr>
@@ -330,7 +330,7 @@ function ManageAccount() {
                     <div>
                         <h3 className="d-flex justify-content-center">ADMIN ACCOUNT MANAGEMENT</h3>
                     </div>
-                    <div className="px-2 py-1" style={{ height: '550px', overflowY: 'scroll' }} >
+                    <div className="px-2 py-4">
                         {isDeleted && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
                                 <Alert severity="success">Account deleted successfully !</Alert>
@@ -346,7 +346,7 @@ function ManageAccount() {
                                 <Alert severity="info">Account enable !</Alert>
                             </Stack>
                         )}
-                        <div className='mt-4 pd-top pd-left'>
+                        <div className='mt-4 pd-left' style={{ height: '450px', overflowY: 'scroll' }}>
                             <table className='table'>
                                 <thead>
                                     <tr>
@@ -474,7 +474,7 @@ function ManageAccount() {
                     <div>
                         <h3 className="d-flex justify-content-center">CHORD MANAGER ACCOUNT MANAGEMENT</h3>
                     </div>
-                    <div className="px-2 py-1" style={{ height: '550px', overflowY: 'scroll' }} >
+                    <div className="px-2 py-4">
                         {isDeleted && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
                                 <Alert severity="success">Account deleted successfully !</Alert>
@@ -490,9 +490,9 @@ function ManageAccount() {
                                 <Alert severity="info">Account enable !</Alert>
                             </Stack>
                         )}
-                        <div className='mt-4 pd-top pd-left'>
+                        <div className='mt-4 pd-left' style={{ height: '450px', overflowY: 'scroll' }}>
                             <table className='table'>
-                                <thead>
+                                <thead >
                                     <tr>
                                         <th></th>
                                         <th>Username</th>
@@ -500,7 +500,6 @@ function ManageAccount() {
                                         <th>Register date</th>
                                         <th>Active</th>
                                         <th></th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -617,7 +616,7 @@ function ManageAccount() {
                     <div>
                         <h3 className="d-flex justify-content-center">MUSICIAN ACCOUNT MANAGEMENT</h3>
                     </div>
-                    <div className="px-2 py-1" style={{ height: '550px', overflowY: 'scroll' }} >
+                    <div className="px-2 py-4">
                         {isDeleted && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
                                 <Alert severity="success">Account deleted successfully !</Alert>
@@ -633,7 +632,7 @@ function ManageAccount() {
                                 <Alert severity="info">Account enable !</Alert>
                             </Stack>
                         )}
-                        <div className='mt-4 pd-top pd-left'>
+                        <div className='mt-4 pd-left' style={{ height: '450px', overflowY: 'scroll' }}>
                             <table className='table'>
                                 <thead>
                                     <tr>

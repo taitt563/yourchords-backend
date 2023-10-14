@@ -3,9 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import SearchAppBar from "../component/SearchAppBar";
-// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import moment from 'moment';
-// import ModeIcon from '@mui/icons-material/Mode';
 function ViewSongMusician() {
     const [data, setData] = useState([]);
     const { song_title } = useParams();
@@ -54,7 +52,7 @@ function ViewSongMusician() {
                         <p className="fs-100  font pd-left" >Artist:  <b>{viewSong.author}</b></p>
                         {viewSong.link != null ?
                             <p className="fs-100  font pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
-                            : <p className="fs-100  font pd-left" >Link:  <b>Still update...</b></p>
+                            : <p className="fs-100  font pd-left" >Link:  <b>Update...</b></p>
 
                         }
                         <div className='d-flex flex-column align-items-center pt-4'>

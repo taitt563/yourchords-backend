@@ -88,12 +88,13 @@ function Song() {
                         </Toolbar>
                     </AppBar>
                 </ThemeProvider>
-            </Box>            <div className="px-2 py-5">
+            </Box>
+            <div className="px-2 py-5">
 
                 <div>
                     <h3 className="d-flex justify-content-center">SONG</h3>
                 </div>
-                <div className="px-3 py-5" style={{ height: '550px', overflowY: 'scroll' }} >
+                <div className='mt-4 pd-left' style={{ height: '450px', overflowY: 'scroll' }}>
                     <table className='table'>
                         <thead>
                             <tr>
