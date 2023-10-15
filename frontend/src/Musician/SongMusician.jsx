@@ -62,11 +62,20 @@ function SongMusician() {
                                     <td>{
                                         <img src={`http://localhost:8081/images/` + song.thumnail} alt="" className='song_image' />
                                     }</td>
-                                    <td><b>{song.song_title}</b></td>
-                                    {song.link != null ?
-                                        <td><Link to={song.link}>{song.link}</Link></td>
-                                        : <td className="text-warning">Updating...</td>
-                                    }
+                                    {/* <td><b>{song.song_title}</b></td> */}
+                                    <td>
+                                        {song.song_title.length > 40 ?
+                                            <b>{song.song_title.substring(0, 30)}...</b>
+                                            :
+                                            <b>{song.song_title} </b>
+                                        }
+                                    </td>
+                                    <td>
+                                        {song.link != null ?
+                                            <td><Link to={song.link}>{song.link.substring(0, 40)}...</Link></td>
+                                            : <td className="text-warning">Updating...</td>
+                                        }
+                                    </td>
                                     <td>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
                                     {song.updated_at != null ?
                                         <td>{moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
