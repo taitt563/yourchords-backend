@@ -31,6 +31,10 @@ textarea {
     height: auto;
 }
 
+.fontDashboard {
+    color: #6495ED;
+}
+
 .pd-left {
     padding-left: 10px;
 }
@@ -79,55 +83,6 @@ textarea {
     border-radius: 10px;
 }
 
-
-/* .tabs {
-    padding: 5px;
-    text-align: center;
-    width: 40%;
-    cursor: pointer;
-    border: 1px solid rgba(0, 0, 0, 0);
-    position: relative;
-    outline: none;
-    background: #F1F1FB;
-
-}
-
-.bloc-tabs {
-    display: flex;
-    height: 40px;
-    box-shadow: 0 2px 2px rgba(204, 197, 185, 0.5);
-    position: relative;
-
-
-}
-
-.active-tabs {
-    background: #F1F1FB;
-    border-bottom: 10px solid transparent;
-    justify-content: center;
-    font-size: 15px;
-    color: rgb(129, 170, 235);
-
-}
-
-.active-tabs::before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% + 2px);
-    height: 4px;
-    background: rgb(88, 147, 241);
-    border-radius: 20px;
-
-
-}
-
-.content-tabs {
-    flex-grow: 1;
-} */
 
 .h2 {
     text-align: center;

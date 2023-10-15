@@ -8,11 +8,14 @@ import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ModeIcon from '@mui/icons-material/Mode';
 import LogoutIcon from '@mui/icons-material/Logout';
-import Link from '@mui/material/Link';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 function Dashboard() {
     const [datachord, setDataChord] = useState([]);
     axios.defaults.withCredentials = true;
@@ -60,7 +63,7 @@ function Dashboard() {
                                 <br />
                                 <span type="text" className='fs-100  font pd-left '>Date current: <b>{displaytodaysdate}</b></span>
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                                    <li className='pd-top'>
+                                    {/* <li className='pd-top'>
                                         <b>
                                             <Link href="/homeAdmin" underline="hover" className="nav-link px-0 align-middle justify-content-between">
                                                 <i className="fs-4"><HomeIcon color="primary" fontSize='medium' /></i>
@@ -68,48 +71,60 @@ function Dashboard() {
                                             </Link>
 
                                         </b>
-                                    </li>
-                                    <li className='pd-top' >
-                                        <b>
-                                            <Link href="/manageAccount" underline="hover" className="nav-link px-0 align-middle">
-                                                <i className="fs-4"><ManageAccountsIcon color="primary" fontSize='medium' /></i>
-                                                <span className="ms-1 d-none d-sm-inline"> Manage Account </span>
-                                            </Link>
-                                        </b>
-                                    </li>
-                                    <li className='pd-top'>
-                                        <b>
-                                            <Link href="/Song" underline="hover" className="nav-link px-0 align-middle">
-                                                <i className="fs-4"><QueueMusicIcon color="primary" fontSize='medium' /></i>
-                                                <span className="ms-1 d-none d-sm-inline"> Song</span>
-                                            </Link>
-                                        </b>
-                                    </li>
-
-                                    <li className='pd-top'>
-                                        <b>
-                                            <Link href="/manageFeedback" underline="hover" className="nav-link px-0 align-middle">
-                                                <i className="fs-4"><ThumbUpAltIcon color="primary" fontSize='medium' /></i>
-                                                <span className="ms-1 d-none d-sm-inline"> Manage feedback</span>
-                                            </Link>
-                                        </b>
-                                    </li>
-                                    <li className='pd-top'>
-                                        <b>
-                                            <Link href={`/profile/` + profile.userId} underline="hover" className="nav-link px-0 align-middle">
-                                                <i className="fs-4"><ModeIcon color="primary" fontSize='medium' /></i>
-                                                <span className="ms-1 d-none d-sm-inline"> Edit Profile</span>
-                                            </Link>
-                                        </b>
-                                    </li>
-                                    <li className='pd-top'>
-                                        <b>
-                                            <Link href="/logInStart" underline="hover" className="nav-link px-0 align-middle ">
-                                                <i className="fs-4"><LogoutIcon color="primary" fontSize='medium' /></i>
-                                                <span className="ms-1 d-none d-sm-inline"> Logout</span>
-                                            </Link>
-                                        </b>
-                                    </li>
+                                    </li> */}
+                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                        <ListItemButton href="/homeAdmin">
+                                            <ListItemIcon>
+                                                <HomeIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Home</span></ListItemText>
+                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
+                                        </ListItemButton>
+                                    </List>
+                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                        <ListItemButton href="/manageAccount">
+                                            <ListItemIcon>
+                                                <ManageAccountsIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Manage Account</span></ListItemText>
+                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
+                                        </ListItemButton>
+                                    </List>
+                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                        <ListItemButton href="/Song">
+                                            <ListItemIcon>
+                                                <QueueMusicIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Song</span></ListItemText>
+                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
+                                        </ListItemButton>
+                                    </List>
+                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                        <ListItemButton href="/manageFeedback">
+                                            <ListItemIcon>
+                                                <ThumbUpAltIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Manage feedback</span></ListItemText>
+                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
+                                        </ListItemButton>
+                                    </List>
+                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                        <ListItemButton href={`/profile/` + profile.userId}>
+                                            <ListItemIcon>
+                                                <ModeIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
+                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
+                                        </ListItemButton>
+                                    </List>
+                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                        <ListItemButton href="/logInStart">
+                                            <ListItemIcon>
+                                                <LogoutIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                        </ListItemButton>
+                                    </List>
                                 </ul>
                             </div>
                         })}

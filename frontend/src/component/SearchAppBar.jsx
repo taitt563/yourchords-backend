@@ -46,6 +46,7 @@ export default function SearchAppBar() {
 
                             <b>YOUR CHORD</b>
                         </Typography>
+
                     </Toolbar>
                 </AppBar>
             </ThemeProvider>

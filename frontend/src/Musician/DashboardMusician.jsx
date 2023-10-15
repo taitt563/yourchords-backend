@@ -11,8 +11,21 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import Collapse from '@mui/material/Collapse';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import AddIcon from '@mui/icons-material/Add';
+import GraphicEqIcon from '@mui/icons-material/GraphicEq';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
 function DashboardMusician() {
     const [data, setData] = useState([]);
+    const [open, setOpen] = useState(false);
+
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
     let showDate = new Date();
@@ -31,7 +44,9 @@ function DashboardMusician() {
             })
             .catch(err => console.log(err));
     }, [userId])
-
+    const handleClick = () => {
+        setOpen(!open);
+    };
     return (
 
         <div className="container-fluid"  >
@@ -69,32 +84,77 @@ function DashboardMusician() {
                                 </span>
 
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                        <ListItemButton href="/homeMusician">
+                                            <ListItemIcon>
+                                                <HomeIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Home</span></ListItemText>
+                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
+                                        </ListItemButton>
+                                    </List>
+                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
 
-                                    <li className='pd-top'>
-                                        <b><Link href="/homeMusician" underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><HomeIcon color="primary" fontSize='medium' /></i><span className="ms-1 d-none d-sm-inline"> Home</span></Link></b>
-                                    </li>
+                                        <ListItemButton onClick={handleClick}>
+                                            <ListItemIcon>
+                                                <QueueMusicIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Manage Song</span></ListItemText>
+                                            {open ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
+                                        </ListItemButton>
+                                        <Collapse in={open} timeout="auto" unmountOnExit>
+                                            <List sx={{ width: '100%', pl: 3 }}>
+                                                <ListItemButton href="/songMusician">
+                                                    <ListItemIcon>
+                                                        <LibraryMusicIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                    <ListItemText><span className="fontDashboard">List Song</span></ListItemText>
+                                                </ListItemButton>
+                                                <ListItemButton href="/createSong">
+                                                    <ListItemIcon>
+                                                        <AddIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                    <ListItemText><span className="fontDashboard">Add New Song</span></ListItemText>
+                                                </ListItemButton>
+                                            </List>
+                                        </Collapse>
+                                    </List>
+                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                        <ListItemButton href="/chordMusician">
+                                            <ListItemIcon>
+                                                <GraphicEqIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Manage Chord</span></ListItemText>
+                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
+                                        </ListItemButton>
+                                    </List>
+                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                        <ListItemButton href="/beatMusician">
+                                            <ListItemIcon>
+                                                <EqualizerIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Manage Beat</span></ListItemText>
+                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
+                                        </ListItemButton>
+                                    </List>
 
-                                    <li className='pd-top'>
-                                        <b><Link href="/songMusician" underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><QueueMusicIcon color="primary" fontSize='medium' /></i><span className="ms-1 d-none d-sm-inline"> Manage Song</span></Link></b>
-                                    </li>
-                                    <li className='pd-top'>
-                                        <b><Link href="/chordMusician" underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><QueueMusicIcon color="primary" fontSize='medium' /></i><span className="ms-1 d-none d-sm-inline"> Manage Chord</span></Link></b>
-                                    </li>
-                                    <li className='pd-top'>
-                                        <b><Link href="/beatMusician" underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><QueueMusicIcon color="primary" fontSize='medium' /></i><span className="ms-1 d-none d-sm-inline"> Manage Beat</span></Link></b>
-                                    </li>
-                                    <li className='pd-top'>
-                                        <b><Link href={`/profileMusician/` + profile.userId} underline="hover" className="nav-link px-0 align-middle">
-                                            <i className="fs-4"><ModeIcon color="primary" fontSize='medium' /></i><span className="ms-1 d-none d-sm-inline"> Edit Profile</span></Link></b>
-                                    </li>
-                                    <li className='pd-top'>
-                                        <b><Link href="/logInStart" underline="hover" className="nav-link px-0 align-middle ">
-                                            <i className="fs-4"><LogoutIcon color="primary" fontSize='medium' /></i><span className="ms-1 d-none d-sm-inline"> Logout</span></Link></b>
-                                    </li>
+                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                        <ListItemButton href={`/profileMusician/` + profile.userId}>
+                                            <ListItemIcon>
+                                                <ModeIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
+                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
+                                        </ListItemButton>
+                                    </List>
+                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                        <ListItemButton href="/logInStart">
+                                            <ListItemIcon>
+                                                <LogoutIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                        </ListItemButton>
+                                    </List>
                                 </ul>
                             </div>
                         })}

@@ -456,6 +456,14 @@ app.get('/customerCountDisable', (req, res) => {
         return res.json(result);
     })
 })
+//notification verifySong
+app.get('/verifySongCount', (req, res) => {
+    const sql = "Select count(id) as songVerify from song WHERE status = '0' ";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Error in runnig query" });
+        return res.json(result);
+    })
+})
 app.listen(8081, () => {
     console.log("Running");
 })

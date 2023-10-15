@@ -39,7 +39,7 @@ function SongMusician() {
                 <div>
                     <h3 className="d-flex flex-column align-items-center pt-4">List song</h3>
                 </div>
-                <Link to="/createSong" className="btn btn-primary">ADD</Link>
+                {/* <Link to="/createSong" className="btn btn-primary">ADD</Link> */}
 
                 <div className='mt-4'>
                     <table className='table'>

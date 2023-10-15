@@ -1,32 +1,107 @@
-// import { useParams } from 'react-router-dom';
-// import axios from 'axios';
-import SearchAppBar from "../component/SearchAppBar";
+// import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+// import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+// import CampaignIcon from '@mui/icons-material/Campaign';
+// import QueueMusicIcon from '@mui/icons-material/QueueMusic';
+// import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+// import ModeIcon from '@mui/icons-material/Mode';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-// import { useState, useEffect } from 'react';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import HeadsetIcon from '@mui/icons-material/Headset';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+
+
+function notificationsLabel(count) {
+    if (count === 0) {
+        return 'no notifications';
+    }
+    if (count > 99) {
+        return 'more than 99 notifications';
+    }
+    return `${count} notifications`;
+}
 function HomeChordManager() {
+    const [verifySongCount, setVerifySongCount] = useState();
+    const navigate = useNavigate();
 
-    // const [data, setData] = useState([]);
-
-    // const { userId } = useParams();
-
-    // useEffect(() => {
-    //     const userId = localStorage.getItem('id');
-    //     axios.get('http://localhost:8081/getProfile/' + userId)
-    //         .then(res => {
-    //             if (res.data.Status === "Success") {
-    //                 setData(res.data.Result);
-
-    //             } else {
-    //                 alert("Error")
-    //             }
-    //         })
-    //         .catch(err => console.log(err));
-    // }, [userId])
+    useEffect(() => {
+        //verifySongCount
+        axios.get('http://localhost:8081/verifySongCount')
+            .then(res => {
+                setVerifySongCount(res.data[0].songVerify)
+            }).catch(err => console.log(err));
+    }, [])
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+            primary: {
+                main: '#F1F1FB',
+            },
+        },
+    });
+    const handleNotification = async (event) => {
+        event.preventDefault();
+        navigate("/verifySong");
+    }
     return (
         <>
-            <SearchAppBar />
-            <div className="px-2 py-5">
-                <p>Home</p>
+
+            <div className="box">
+                <Box sx={{ flexGrow: 1 }}>
+                    <ThemeProvider theme={darkTheme}>
+                        <AppBar position="static" color="primary" enableColorOnDark>
+                            <Toolbar>
+                                <Typography
+                                    variant="h5"
+                                    noWrap
+                                    component="a"
+                                    href="/homeAdmin"
+                                    sx={{
+                                        mr: 2,
+                                        display: { xs: 'none', md: 'flex' },
+                                        fontFamily: 'monospace',
+                                        fontWeight: 700,
+                                        letterSpacing: '.3rem',
+                                        color: 'inherit',
+                                        textDecoration: 'none',
+                                    }}
+                                >
+                                    <HeadsetIcon fontSize="large" />
+                                </Typography>
+                                <Typography
+                                    variant="h6"
+                                    noWrap
+                                    component="div"
+                                    sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                                >
+
+                                    <b>YOUR CHORD</b>
+
+                                </Typography>
+                                <IconButton aria-label={notificationsLabel(100)} onClick={handleNotification}>
+                                    <Badge badgeContent={verifySongCount} color="error">
+                                        <NotificationsIcon fontSize='large' color='info' />
+                                    </Badge>
+                                </IconButton>
+
+                            </Toolbar>
+                        </AppBar>
+                    </ThemeProvider>
+                </Box>
+            </div>
+            <div className="banner">
+                <h2>Welcome you</h2>
+                <p>Thank you for accompanying our project</p>
+                <p>Hello, you have {verifySongCount} songs that need to be approved</p>
+                <a href="#">Learn More</a>
             </div>
         </>
 
