@@ -57,7 +57,6 @@ function App() {
           <Route path='/viewSongChordManager/:song_title' element={<ViewSongChordManager />}></Route>
           <Route path='/profileChordManager/:userId' element={<ProfileChordManager />}></Route>
           <Route path='/songChordManager' element={<SongChordManager />}></Route>
-
         </Route>
 
         {/* MUSICIAN ROLE */}
@@ -68,11 +67,7 @@ function App() {
           <Route path='/createSong' element={<CreateSong />}></Route>
           <Route path='/editSongMusician/:song_title' element={<EditSongMusician />}></Route>
           <Route path='/profileMusician/:userId' element={<ProfileMusician />}></Route>
-
         </Route>
-
-
-
       </Routes>
     </BrowserRouter>
   )

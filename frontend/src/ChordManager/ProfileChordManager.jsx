@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import SearchAppBar from '../component/SearchAppBar';
@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import moment from 'moment'
 import Box from '@mui/material/Box';
+import { Button } from '@mui/material';
+import Link from '@mui/material/Link';
 
 function ProfileChordManager() {
     const [data, setData] = useState({
@@ -98,7 +100,7 @@ function ProfileChordManager() {
         <>
             <SearchAppBar />
             <div className='d-flex flex-column align-items-center pt-4'>
-                <h3 className="d-flex justify-content-center">PROFILE</h3>
+                <h2>Profile</h2>
                 <form className="row g-3 w-50">
                     <div className="container rounded bg-white mt-5 mb-5">
                         <div className="row">
@@ -147,7 +149,7 @@ function ProfileChordManager() {
                                         <div className="col-md-12"><label>Job: </label><input className="form-control" value={data.job} readOnly /></div>
                                     </div>
                                 </div>
-                                <Link onClick={() => { handleProfile(data.userId) }} className='btn btn-success btn-sm me-2'><ModeEditIcon />
+                                <Link onClick={() => { handleProfile(data.userId) }} underline="none"><ModeEditIcon /> Edit
                                 </Link>
 
                             </div>
@@ -208,8 +210,8 @@ function ProfileChordManager() {
                                                                 <div className="col-md-12"><label>Job: </label><input className="form-control" onChange={e => setData({ ...data, job: e.target.value })} value={data.job} placeholder='Your job...' /></div>
                                                             </div>
                                                             <div className="mt-1">
-                                                                <Link onClick={handleSubmit} className='btn btn-success'>UPDATE
-                                                                </Link>
+                                                                <Button variant="contained" onClick={handleSubmit} className='btn btn-success'>UPDATE
+                                                                </Button>
                                                             </div>
 
                                                         </div>

@@ -151,18 +151,17 @@ function ManageAccount() {
                                 variant="h6"
                                 noWrap
                                 component="div"
+                                sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                            >
 
-                                sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, fontFamily: 'monospace', flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
                                 <b>YOUR CHORD</b>
                             </Typography>
-
                             <input
                                 type="text"
                                 className="input-box"
                                 placeholder="Search.."
                                 onChange={(e) => setSearch(e.target.value)} />
                             <SearchIcon className="inputIcon" />
-
                         </Toolbar>
                     </AppBar>
                 </ThemeProvider>
@@ -468,7 +467,6 @@ function ManageAccount() {
 
                                                         <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'><DeleteIcon /></button>
                                                     </td>
-
                                                 </tr>
                                             }
                                         })}

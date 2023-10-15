@@ -12,6 +12,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import HeadsetIcon from '@mui/icons-material/Headset';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
+import 'react-html5video/dist/styles.css'
+// import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+// import ReactPlayer from 'react-player'
 
 function Song() {
     const [data, setData] = useState([]);
@@ -73,18 +76,17 @@ function Song() {
                                 variant="h6"
                                 noWrap
                                 component="div"
+                                sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                            >
 
-                                sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, fontFamily: 'monospace', flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
                                 <b>YOUR CHORD</b>
                             </Typography>
-
                             <input
                                 type="text"
                                 className="input-box"
                                 placeholder="Search.."
                                 onChange={(e) => setSearch(e.target.value)} />
                             <SearchIcon className="inputIcon" />
-
                         </Toolbar>
                     </AppBar>
                 </ThemeProvider>
@@ -125,9 +127,14 @@ function Song() {
                                         {song.link != null ?
                                             <td><Link to={song.link}>{song.link}</Link></td>
                                             : <td className="text-warning">Updating...</td>
-
                                         }
+                                        {/* {song.link != null ?
+                                            <td><ReactPlayer url={song.link} width="200px" height="200px" light={true} controls
+                                            /></td>
+                                            : <td className="text-warning">Updating...</td>
+                                        } */}
                                         <td>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
+
                                         {song.updated_at != null ?
                                             <td>{moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
                                             : <td>Not update</td>

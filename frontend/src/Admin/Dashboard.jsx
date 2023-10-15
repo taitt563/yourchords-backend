@@ -17,7 +17,6 @@ function Dashboard() {
     const [datachord, setDataChord] = useState([]);
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
-
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
     useEffect(() => {
@@ -32,9 +31,7 @@ function Dashboard() {
             })
             .catch(err => console.log(err));
     }, [userId])
-
     return (
-
         <div className="container-fluid"  >
             <div className="row flex-nowrap" >
                 <div className=" col-auto col-md-3 col-xl-2 px-sm-2 px-0 tabLeft">
@@ -63,8 +60,6 @@ function Dashboard() {
                                 <br />
                                 <span type="text" className='fs-100  font pd-left '>Date current: <b>{displaytodaysdate}</b></span>
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-
-
                                     <li className='pd-top'>
                                         <b>
                                             <Link href="/homeAdmin" underline="hover" className="nav-link px-0 align-middle justify-content-between">
@@ -75,7 +70,6 @@ function Dashboard() {
                                         </b>
                                     </li>
                                     <li className='pd-top' >
-
                                         <b>
                                             <Link href="/manageAccount" underline="hover" className="nav-link px-0 align-middle">
                                                 <i className="fs-4"><ManageAccountsIcon color="primary" fontSize='medium' /></i>

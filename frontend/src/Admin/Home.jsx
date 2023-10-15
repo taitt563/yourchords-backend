@@ -101,7 +101,6 @@ function Home() {
         <>
             <SearchAppBar />
             <div className='px-2 py-5'>
-
                 <div className="alert alert-success">
                     <strong><span><CampaignIcon sx={{ fontSize: 30 }} /></span></strong> <strong>&nbsp;&nbsp;Welcome to your Admin Dashboard!!</strong>.
                 </div>
@@ -284,7 +283,6 @@ function Home() {
                             </div>
                         </div>
                     </div>
-
                     {/* List of admin  */}
                     {/* <div className='mt-4 px-5 pt-3'>
                     <h3>List of Admins</h3>

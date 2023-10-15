@@ -2,7 +2,7 @@ import { Outlet, useParams } from 'react-router-dom'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import HomeIcon from '@mui/icons-material/Home';
+// import HomeIcon from '@mui/icons-material/Home';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import ModeIcon from '@mui/icons-material/Mode';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -64,10 +64,10 @@ function DashboardChordManager() {
                                 <br />
                                 <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                                    <li className='pd-top'>
+                                    {/* <li className='pd-top'>
                                         <b><Link href="/homeChordManager" underline="hover" className="nav-link px-0 align-middle">
                                             <i className="fs-4"><HomeIcon color="primary" fontSize='medium' /></i><span className="ms-1 d-none d-sm-inline"> Home</span></Link></b>
-                                    </li>
+                                    </li> */}
 
                                     <li className='pd-top'>
                                         <b><Link href="/songChordManager" underline="hover" className="nav-link px-0 align-middle">
