@@ -63,21 +63,13 @@ function Dashboard() {
                                 <br />
                                 <span type="text" className='fs-100  font pd-left '>Date current: <b>{displaytodaysdate}</b></span>
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                                    {/* <li className='pd-top'>
-                                        <b>
-                                            <Link href="/homeAdmin" underline="hover" className="nav-link px-0 align-middle justify-content-between">
-                                                <i className="fs-4"><HomeIcon color="primary" fontSize='medium' /></i>
-                                                <span className="ms-1 d-none d-sm-inline"> Home</span>
-                                            </Link>
 
-                                        </b>
-                                    </li> */}
                                     <List sx={{ width: '45%', paddingTop: '30px' }}>
                                         <ListItemButton href="/homeAdmin">
                                             <ListItemIcon>
                                                 <HomeIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Home</span></ListItemText>
+                                            <ListItemText><span className="fontDashboard">Dashboard</span></ListItemText>
                                             <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
@@ -117,14 +109,16 @@ function Dashboard() {
                                             <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
-                                        <ListItemButton href="/logInStart">
-                                            <ListItemIcon>
-                                                <LogoutIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
+                                    <div className='logout'>
+                                        <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                            <ListItemButton href="/logInStart">
+                                                <ListItemIcon>
+                                                    <LogoutIcon color="primary" fontSize='medium' />
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                            </ListItemButton>
+                                        </List>
+                                    </div>
                                 </ul>
                             </div>
                         })}

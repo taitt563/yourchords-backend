@@ -6,7 +6,6 @@ import HomeIcon from '@mui/icons-material/Home';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import ModeIcon from '@mui/icons-material/Mode';
 import LogoutIcon from '@mui/icons-material/Logout';
-import Link from '@mui/material/Link';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -89,7 +88,7 @@ function DashboardMusician() {
                                             <ListItemIcon>
                                                 <HomeIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Home</span></ListItemText>
+                                            <ListItemText><span className="fontDashboard">Dashboard</span></ListItemText>
                                             <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
@@ -147,14 +146,17 @@ function DashboardMusician() {
                                             <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
-                                        <ListItemButton href="/logInStart">
-                                            <ListItemIcon>
-                                                <LogoutIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
+
+                                    <div className='logout'>
+                                        <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                            <ListItemButton href="/logInStart">
+                                                <ListItemIcon>
+                                                    <LogoutIcon color="primary" fontSize='medium' />
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                            </ListItemButton>
+                                        </List>
+                                    </div>
                                 </ul>
                             </div>
                         })}
