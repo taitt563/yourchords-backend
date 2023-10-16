@@ -78,7 +78,7 @@ textarea {
 .profile_image {
     width: 100px;
     height: 100;
-    border-radius: 10px;
+    border-radius: 50px;
 }
 
 
@@ -180,7 +180,6 @@ textarea {
 .table td {
     top: 0;
     position: sticky;
-    width: 500px;
 }
 
 .table th {

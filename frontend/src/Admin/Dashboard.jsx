@@ -2,7 +2,7 @@ import { Outlet, useParams } from 'react-router-dom'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import HomeIcon from '@mui/icons-material/Home';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
@@ -16,6 +16,7 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+
 function Dashboard() {
     const [datachord, setDataChord] = useState([]);
     axios.defaults.withCredentials = true;
@@ -61,13 +62,14 @@ function Dashboard() {
                                         } />
                                 </ListItem>
                                 <br />
-                                <span type="text" className='fs-100  font pd-left '>Date current: <b>{displaytodaysdate}</b></span>
-                                <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                                <span type="text" className='fs-100  font pd-left '>Date current: <b>{displaytodaysdate}</b>
 
+                                </span>
+                                <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                                     <List sx={{ width: '45%', paddingTop: '30px' }}>
                                         <ListItemButton href="/homeAdmin">
                                             <ListItemIcon>
-                                                <HomeIcon color="primary" fontSize='medium' />
+                                                <DashboardIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Dashboard</span></ListItemText>
                                             <KeyboardArrowRightIcon color="primary" fontSize='medium' />

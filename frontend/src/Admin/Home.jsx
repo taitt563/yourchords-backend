@@ -10,7 +10,9 @@ import ModeIcon from '@mui/icons-material/Mode';
 import { useState, useEffect } from 'react';
 import { Link } from '@mui/material';
 import SearchAppBar from '../component/SearchAppBar';
-
+import { styled } from '@mui/material/styles';
+import Divider from '@mui/material/Divider';
+import Chip from '@mui/material/Chip';
 function Home() {
 
     const [data, setData] = useState([]);
@@ -100,7 +102,13 @@ function Home() {
                 setCustomerDisable(res.data[0].customerDisable)
             }).catch(err => console.log(err));
     }, [])
-
+    const Root = styled('div')(({ theme }) => ({
+        width: '100%',
+        ...theme.typography.body2,
+        '& > :not(style) ~ :not(style)': {
+            marginTop: theme.spacing(2),
+        },
+    }));
     return (
         <>
             <SearchAppBar />
@@ -315,7 +323,11 @@ function Home() {
 
                 <div>
                     <div className='p-3 d-flex justify-content-around mt-3'>
-                        <h4><b>Account</b></h4>
+                        <Root>
+                            <Divider>        <Chip label="ACCOUNT" color='primary' />
+                            </Divider>
+
+                        </Root>
                     </div>
                     <div className='p-3 d-flex justify-content-around mt-3'>
 

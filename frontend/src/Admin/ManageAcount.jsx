@@ -23,6 +23,8 @@ import TabPanel from '@mui/lab/TabPanel';
 import moment from 'moment'
 import Modal from '@mui/material/Modal';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
@@ -206,7 +208,7 @@ function ManageAccount() {
                                         <th></th>
                                         <th>Username</th>
                                         <th>Role</th>
-                                        <th>Register date</th>
+                                        <th><CalendarMonthIcon color="primary" /> Register date</th>
                                         <th>Active</th>
                                         <th></th>
 
@@ -356,7 +358,7 @@ function ManageAccount() {
                                         <th></th>
                                         <th>Username</th>
                                         <th>Role</th>
-                                        <th>Register date</th>
+                                        <th><CalendarMonthIcon color="primary" /> Register date</th>
                                         <th>Active</th>
                                         <th></th>
 
@@ -502,7 +504,7 @@ function ManageAccount() {
                                         <th></th>
                                         <th>Username</th>
                                         <th>Role</th>
-                                        <th>Register date</th>
+                                        <th><CalendarMonthIcon color="primary" /> Register date</th>
                                         <th>Active</th>
                                         <th></th>
                                     </tr>
@@ -647,7 +649,7 @@ function ManageAccount() {
                                         <th></th>
                                         <th>Username</th>
                                         <th>Role</th>
-                                        <th>Register date</th>
+                                        <th><CalendarMonthIcon color="primary" /> Register date</th>
                                         <th>Active</th>
                                         <th></th>
                                     </tr>

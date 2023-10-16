@@ -41,7 +41,7 @@ function SongMusician() {
                 </div>
                 {/* <Link to="/createSong" className="btn btn-primary">ADD</Link> */}
 
-                <div className='mt-4'>
+                <div className='mt-4 pd-left' style={{ height: '450px', overflowY: 'scroll' }}>
                     <table className='table'>
                         <thead>
                             <tr>
@@ -49,8 +49,8 @@ function SongMusician() {
                                 <th></th>
                                 <th>Name song</th>
                                 <th>Link</th>
-                                <th><CalendarMonthIcon /> Date create</th>
-                                <th><CalendarMonthIcon /> Date updated</th>
+                                <th><CalendarMonthIcon color="primary" /> Date create</th>
+                                <th><CalendarMonthIcon color="primary" /> Date updated</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>

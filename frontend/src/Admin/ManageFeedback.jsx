@@ -37,14 +37,13 @@ export default function BottomAppBar() {
                 <div className='d-flex flex-column align-items-center pt-4'>
                     <h3 className="d-flex justify-content-center">FEEDBACK</h3>
                 </div>
-
                 {/* LIST TODAY */}
                 <ListItem>
                     <ListItemText primary="Today" />
                 </ListItem>
                 <List sx={{ mb: 2 }}>
 
-                    <div className='mt-3 pd-left'>
+                    <div className='pd-left' style={{ height: '250px', overflowY: 'scroll' }}>
                         <table className='table'>
                             <thead>
                                 <tr>
@@ -87,12 +86,11 @@ export default function BottomAppBar() {
 
                 </List>
                 {/* LIST RECENTLY */}
-                <ListItem>
+                <ListItem >
                     <ListItemText primary="Recently" />
                 </ListItem>
                 <List sx={{ mb: 2 }}>
-
-                    <div className='mt-3 pd-left'>
+                    <div className='pd-left' style={{ height: '250px', overflowY: 'scroll' }}>
                         <table className='table'>
                             <thead>
                                 <tr>

@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import moment from 'moment'
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import { Button } from '@mui/material';
 
 function ProfileMusician() {
@@ -96,7 +95,7 @@ function ProfileMusician() {
     return (
         <>
             <SearchAppBar />
-            <div className='d-flex flex-column align-items-center pt-4'>
+            <div className='d-flex flex-column align-items-center pt-2'>
                 <h3 className="d-flex justify-content-center">PROFILE</h3>
                 <form className="row g-3 w-50">
                     <div className="container rounded bg-white mt-5 mb-5">
@@ -138,8 +137,8 @@ function ProfileMusician() {
                                         <div className="col-md-12"><label>Job: </label><input className="form-control" value={data.job} readOnly /></div>
                                     </div>
                                 </div>
-                                <Link onClick={() => { handleProfile(data.userId) }} underline="none"><ModeEditIcon /> Edit
-                                </Link>
+                                <Button variant={'outlined'} onClick={() => { handleProfile(data.userId) }}><ModeEditIcon className='pd-right' fontSize='large' />  Edit
+                                </Button>
                             </div>
                             <Modal
                                 open={open}
@@ -189,10 +188,10 @@ function ProfileMusician() {
                                                                 <div className="col-md-12"><label>Address Line: </label><input className="form-control" onChange={e => setData({ ...data, address: e.target.value })} value={data.address} placeholder='Enter your address' /></div>
                                                                 <div className="col-md-12"><label>Email: </label><input className="form-control" type="email" onChange={e => setData({ ...data, email: e.target.value })} value={data.email} placeholder='Enter your email' /></div>
                                                             </div>
-                                                            <div className="row mt-4">
+                                                            <div className="row mt-2">
                                                                 <div className="col-md-12"><label>Job: </label><input className="form-control" onChange={e => setData({ ...data, job: e.target.value })} value={data.job} placeholder='Your job...' /></div>
                                                             </div>
-                                                            <div className="mt-1">
+                                                            <div className="mt-3">
                                                                 <Button variant="contained" onClick={handleSubmit} className='btn btn-success'>UPDATE
                                                                 </Button>
                                                             </div>

@@ -218,7 +218,7 @@ app.get('/get/:id', (req, res) => {
     })
 })
 app.get('/getSong/', (req, res) => {
-    const sql = "SELECT * FROM song";
+    const sql = "SELECT * FROM song WHERE status = '0'";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Get song error in sql" });
         return res.json({ Status: "Success", Result: result })
@@ -283,6 +283,15 @@ app.delete('/delete/:id', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
+app.get('/arrangeSongAdmin', (req, res) => {
+    const id = req.params.id;
+    const sql = "SELECT * FROM song WHERE status= '1' ORDER BY song_title ASC";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "delete song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
+
 app.put('/verifySong/:id', (req, res) => {
     const id = req.params.id;
     const sql = "UPDATE song SET status = true WHERE id = ?";
@@ -324,17 +333,17 @@ app.get('/viewFeedback/:username', (req, res) => {
         }
     })
 })
-app.put('/viewSeenFeedback/:username', (req, res) => {
+
+app.put('/replyFeedback/:username', (req, res) => {
     const username = req.params.username;
-    let sql = "UPDATE feedback SET status = 1 WHERE username = ?";
-    con.query(sql, [username], (err, result) => {
+    let sql = "UPDATE feedback SET status = 1, reply = ?, WHERE username = ?";
+    con.query(sql, [req.body.reply, username], (err, result) => {
         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
         if (result.length > 0) {
             return res.json({ Status: "Success", Result: result });
         }
     })
 })
-
 //manageAccountPage
 app.get('/getAccount', (req, res) => {
     const sql = "SELECT * FROM user_acc";

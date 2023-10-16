@@ -2,7 +2,7 @@ import { Outlet, useParams } from 'react-router-dom'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import HomeIcon from '@mui/icons-material/Home';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import ModeIcon from '@mui/icons-material/Mode';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -86,7 +86,7 @@ function DashboardMusician() {
                                     <List sx={{ width: '45%', paddingTop: '30px' }}>
                                         <ListItemButton href="/homeMusician">
                                             <ListItemIcon>
-                                                <HomeIcon color="primary" fontSize='medium' />
+                                                <DashboardIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Dashboard</span></ListItemText>
                                             <KeyboardArrowRightIcon color="primary" fontSize='medium' />

@@ -10,7 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import HomeIcon from '@mui/icons-material/Home';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -81,7 +81,7 @@ function DashboardChordManager() {
                                     <List sx={{ width: '45%', paddingTop: '30px' }}>
                                         <ListItemButton href="/homeChordManager">
                                             <ListItemIcon>
-                                                <HomeIcon color="primary" fontSize='medium' />
+                                                <DashboardIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Dashboard</span></ListItemText>
                                             <KeyboardArrowRightIcon color="primary" fontSize='medium' />

@@ -15,6 +15,7 @@ import AppBar from '@mui/material/AppBar';
 import 'react-html5video/dist/styles.css'
 // import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 // import ReactPlayer from 'react-player'
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 
 function Song() {
     const [data, setData] = useState([]);
@@ -39,16 +40,17 @@ function Song() {
                 }
             })
             .catch(err => console.log(err));
+
     }, [])
-    // const handleDelete = (id) => {
-    //     axios.delete('http://localhost:8081/delete/' + id)
-    //         .then(res => {
-    //             if (res.data.Status === "Success") {
-    //                 window.location.reload(true);
-    //             }
-    //         })
-    //         .catch(err => console.log(err));
-    // }
+    const handleArrange = () => {
+        axios.get('http://localhost:8081/arrangeSongAdmin')
+            .then(res => {
+                if (res.data.Status === "Success") {
+                    setData(res.data.Result);
+                }
+            })
+            .catch(err => console.log(err));
+    }
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
@@ -101,10 +103,10 @@ function Song() {
                             <tr>
                                 <th>ID</th>
                                 <th></th>
-                                <th>Name song</th>
-                                <th>Link</th>
-                                <th><CalendarMonthIcon /> Date create</th>
-                                <th><CalendarMonthIcon /> Date updated</th>
+                                <th>Name song <Link onClick={handleArrange}><SwapVertIcon /></Link></th>
+                                <th >Link</th>
+                                <th><CalendarMonthIcon color="primary" /> Date created</th>
+                                <th><CalendarMonthIcon color="primary" /> Date updated</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>
@@ -119,22 +121,24 @@ function Song() {
                                 .map((song, index) => {
                                     return <tr key={index}>
                                         <td>{song.id}</td>
-                                        <td>{
-                                            <img src={`http://localhost:8081/images/` + song.thumnail} alt="" className='song_image' />
-                                        }</td>
                                         <td>
-                                            {song.song_title.length > 40 ?
-                                                <b>{song.song_title.substring(0, 30)}...</b>
-                                                :
-                                                <b>{song.song_title} </b>
+                                            {
+                                                <img src={`http://localhost:8081/images/` + song.thumnail} alt="" className='song_image' />
                                             }
                                         </td>
-                                        <td>
-                                            {song.link != null ?
-                                                <td><Link to={song.link}>{song.link.substring(0, 40)}...</Link></td>
-                                                : <td className="text-warning">Updating...</td>
-                                            }
-                                        </td>
+
+                                        {song.song_title.length > 40 ?
+                                            <td><b>{song.song_title.substring(0, 30)}...</b></td>
+
+                                            :
+                                            <td><b>{song.song_title} </b></td>
+
+                                        }
+
+                                        {song.link != null ?
+                                            <td><Link to={song.link}>{song.link.substring(0, 40)}...</Link></td>
+                                            : <td className="fontDashboard">Updating...</td>
+                                        }
                                         {/* {song.link != null ?
                                             <td><ReactPlayer url={song.link} width="200px" height="200px" light={true} controls
                                             /></td>
@@ -144,23 +148,20 @@ function Song() {
 
                                         {song.updated_at != null ?
                                             <td>{moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
-                                            : <td>Not update</td>
+                                            :
+                                            <td>Not update</td>
                                         }
                                         {song.status === 1 &&
                                             <td style={{ color: 'green' }}><CheckCircleIcon /></td>
                                         }
                                         <td>
                                             <Link to={`/viewSong/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                            {/* <Link to={`/editSong/` + song.id} className='btn btn-primary btn-sm me-2'>Edit</Link>
-                                        <button onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></button> */}
                                         </td>
                                     </tr>
                                 })}
                         </tbody>
                     </table>
                 </div>
-                {/* <Link to="/createSong" className="btn btn-primary">ADD</Link> */}
-
             </div>
         </>
     )
