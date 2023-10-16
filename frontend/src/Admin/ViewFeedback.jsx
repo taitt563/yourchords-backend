@@ -21,7 +21,6 @@ import Modal from '@mui/material/Modal';
 function ViewFeedback() {
     const [data, setData] = useState([])
     const [dataReply, setDataReply] = useState([]);
-
     const { username } = useParams();
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
@@ -39,22 +38,22 @@ function ViewFeedback() {
                     username: res.data.Result[0].username,
                     image: res.data.Result[0].image,
                     date: res.data.Result[0].date,
-                    // rating: res.data.Result[0].rating,
                     reply: res.data.Result[0].reply,
                 })
+                setDataReply(res.data.Result);
+
 
             })
 
             .catch(err => console.log(err));
     }, [])
-    //Rating start
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         axios.put('http://localhost:8081/replyFeedback/' + username, data)
             .then(res => {
                 if (res.data.Status === "Success") {
-                    navigate('/manageFeedback')
+                    window.location.reload(true);
                 }
             })
             .catch(err => console.log(err));
@@ -87,9 +86,7 @@ function ViewFeedback() {
         return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
 
     }
-    // const [value, setValue] = useState(null);
 
-    // const [hover, setHover] = useState(null);
     const style = {
         position: 'absolute',
         top: '50%',
@@ -126,8 +123,9 @@ function ViewFeedback() {
                                                 </Typography>
                                                 <div className="col-md-7 border-right">
                                                     <div className="py-6">
+
                                                         <div className="row mt-2">
-                                                            <div className="col-md-24"><input className="form-control" onChange={e => setData({ ...data, reply: e.target.value })} value={data.reply} placeholder='Rely here...' /></div>
+                                                            <div className="col-md-12"><input className="form-control" onChange={e => setData({ ...data, reply: e.target.value })} value={data.reply} placeholder='Enter your name' /></div>
                                                         </div>
                                                         <div className="mt-5">
                                                             <Button variant="contained" onClick={handleSubmit} className='btn btn-success'>SUBMIT
@@ -180,9 +178,7 @@ function ViewFeedback() {
                                                         readOnly
                                                         emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                                                     />
-                                                    {/* {value !== null && (
-                                                        <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
-                                                    )} */}
+
                                                 </Box>
                                             </div>
                                         })}
