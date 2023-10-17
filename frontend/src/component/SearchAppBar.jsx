@@ -20,8 +20,7 @@ export default function SearchAppBar() {
             <ThemeProvider theme={darkTheme}>
                 <AppBar position="static" color="primary" enableColorOnDark>
                     <Toolbar>
-                        <Typography
-                            variant="h5"
+                        <Typography variant="h5"
                             noWrap
                             component="a"
                             href="/homeAdmin"
@@ -31,7 +30,7 @@ export default function SearchAppBar() {
                                 fontFamily: 'monospace',
                                 fontWeight: 700,
                                 letterSpacing: '.3rem',
-                                color: 'inherit',
+                                color: '#0d6efd',
                                 textDecoration: 'none',
                             }}
                         >
@@ -41,7 +40,7 @@ export default function SearchAppBar() {
                             variant="h6"
                             noWrap
                             component="div"
-                            sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                            sx={{ color: '#0d6efd', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                         >
 
                             <b>YOUR CHORD</b>

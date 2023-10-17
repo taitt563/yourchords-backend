@@ -143,7 +143,7 @@ function ManageAccount() {
                                     fontFamily: 'monospace',
                                     fontWeight: 700,
                                     letterSpacing: '.3rem',
-                                    color: 'inherit',
+                                    color: '#0d6efd',
                                     textDecoration: 'none',
                                 }}
                             >
@@ -153,7 +153,7 @@ function ManageAccount() {
                                 variant="h6"
                                 noWrap
                                 component="div"
-                                sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                                sx={{ color: '#0d6efd', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                             >
 
                                 <b>YOUR CHORD</b>

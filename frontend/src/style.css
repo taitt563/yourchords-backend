@@ -207,7 +207,7 @@ textarea {
     overflow: hidden;
     height: 100%;
     bottom: -1px;
-    background: linear-gradient(#5c6bc0, #5c6bc0);
+    background: linear-gradient(#0d6efd, #c9d6ff);
     z-index: 5;
 }
 
@@ -262,7 +262,7 @@ textarea {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 100vh;
+    height: 95vh;
 }
 
 .container-login {
@@ -297,7 +297,7 @@ textarea {
 }
 
 .container-login button {
-    background-color: #5c6bc0;
+    background-color: #0d6efd;
     color: #fff;
     font-size: 12px;
     padding: 10px 45px;
@@ -417,7 +417,7 @@ textarea {
 .toggle {
     background-color: #512da8;
     height: 100%;
-    background: linear-gradient(to right, #5c6bc0, #5c6bc0);
+    background: linear-gradient(to right, #0d6efd, #0d6efd);
     color: #fff;
     position: relative;
     left: -100%;

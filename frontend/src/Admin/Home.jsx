@@ -112,10 +112,8 @@ function Home() {
     return (
         <>
             <SearchAppBar />
-            <div className='px-2 py-4'>
-                <div className="alert alert-success">
-                    <strong><span><CampaignIcon sx={{ fontSize: 30 }} /></span></strong> <strong>&nbsp;&nbsp;Welcome to your Admin Dashboard!!</strong>.
-                </div>
+            <div className='px-3 py-4'>
+                <strong><span><CampaignIcon sx={{ fontSize: 30 }} /></span></strong> <strong>&nbsp;&nbsp;Welcome to your Admin Dashboard!!</strong>.
             </div>
             <main>
                 <div className="container-fluid">
@@ -324,7 +322,8 @@ function Home() {
                 <div>
                     <div className='p-3 d-flex justify-content-around mt-3'>
                         <Root>
-                            <Divider>        <Chip label="ACCOUNT" color='primary' />
+                            <Divider>
+                                <Chip label="ACCOUNT" color='primary' />
                             </Divider>
 
                         </Root>
