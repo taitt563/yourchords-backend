@@ -2,17 +2,6 @@ import './style.css'
 import { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import FormControl from '@mui/material/FormControl';
-import IconButton from '@mui/material/IconButton';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 function Login() {
@@ -22,13 +11,9 @@ function Login() {
         username: '',
         password: ''
     })
-    const [showPassword, setShowPassword] = useState(false);
     const [isLoginFailed, setIsLoginFailed] = useState(false);
 
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
         axios.post('http://localhost:8081/login', values)
@@ -47,56 +32,37 @@ function Login() {
     }
 
     return (
-        <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
-            <div className='bg-light p-3 rounded w-25 border'>
-                <h2 className='p-2 d-flex justify-content-center'>Login</h2>
-                {isLoginFailed && (
-                    <Stack sx={{ width: '100%' }} spacing={2} >
-                        <Alert severity="error">Wrong username or password !</Alert>
-                    </Stack>
-                )}
-                <form onSubmit={handleSubmit}>
+        <div className="body-login">
+            <div className="container-login" id="container">
+                <div className="form-container sign-in">
+                    <form onSubmit={handleSubmit}>
+                        <h1>Login</h1>
+                        {isLoginFailed && (
+                            <Stack sx={{ width: '100%' }} spacing={2} >
+                                <Alert severity="error">Wrong username or password !</Alert>
+                            </Stack>
+                        )}
 
-                    <FormControl sx={{ m: 1 }} variant="outlined" fullWidth>
-                        <TextField
-                            id="outlined-disabled"
-                            label="Username"
-                            fullWidth
-                            onChange={e => setValues({ ...values, username: e.target.value })}
-
-                        />
-                    </FormControl>
-
-                    <FormControl sx={{ m: 1 }} variant="outlined" fullWidth>
-                        <InputLabel htmlFor="outlined-adornment-password" >Password</InputLabel>
-                        <OutlinedInput
-                            id="outlined-adornment-password"
-                            onChange={e => setValues({ ...values, password: e.target.value })}
-
-                            type={showPassword ? 'text' : 'password'}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                    >
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                            label="Password"
-                        />
-                    </FormControl>
-                    <FormGroup>
-                        <FormControlLabel required control={<Checkbox />} label="You are agree to our terms and policies" />
-                    </FormGroup>
-                    <button type='submit' className='btn btn-success border w-100 rounded-0'> Log in</button>
-                </form>
-
+                        <span>or use your email password</span>
+                        <input type="text" placeholder="Username" onChange={e => setValues({ ...values, username: e.target.value })} />
+                        <input type="password" placeholder="Password" onChange={e => setValues({ ...values, password: e.target.value })} />
+                        <button>Sign In</button>
+                    </form>
+                </div>
+                <div className="toggle-container">
+                    <div className="toggle">
+                        <div className="toggle-panel toggle-right">
+                            <h4>Welcome to Yourchord web!</h4>
+                            {/* <button className="hidden" id="register">Sign Up</button> */}
+                        </div>
+                    </div>
+                </div>
             </div>
+            <script src="script.js"></script>
+
         </div>
     )
 }
+
+
 export default Login;

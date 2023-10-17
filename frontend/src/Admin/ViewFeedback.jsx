@@ -48,12 +48,11 @@ function ViewFeedback() {
             .catch(err => console.log(err));
     }, [])
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = () => {
         axios.put('http://localhost:8081/replyFeedback/' + username, data)
             .then(res => {
                 if (res.data.Status === "Success") {
-                    window.location.reload(true);
+                    setOpen(false)
                 }
             })
             .catch(err => console.log(err));
@@ -128,8 +127,8 @@ function ViewFeedback() {
                                                             <div className="col-md-12"><input className="form-control" onChange={e => setData({ ...data, reply: e.target.value })} value={data.reply} placeholder='Enter your name' /></div>
                                                         </div>
                                                         <div className="mt-5">
-                                                            <Button variant="contained" onClick={handleSubmit} className='btn btn-success'>SUBMIT
-                                                            </Button>
+
+                                                            <Button variant={'contained'} onClick={handleSubmit} type="submit" className="btn btn-primary">SUBMIT</Button>
                                                         </div>
                                                     </div>
                                                 </div>
