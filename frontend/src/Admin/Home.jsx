@@ -113,7 +113,7 @@ function Home() {
         <>
             <SearchAppBar />
             <div className='px-3 py-4'>
-                <strong><span><CampaignIcon sx={{ fontSize: 30 }} /></span></strong> <strong>&nbsp;&nbsp;Welcome to your Admin Dashboard!!</strong>.
+                <strong><p><CampaignIcon sx={{ fontSize: 30 }} /></p></strong> <strong>&nbsp;&nbsp;Welcome to your Admin Dashboard!!</strong>.
             </div>
             <main>
                 <div className="container-fluid">

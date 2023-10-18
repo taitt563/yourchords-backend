@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import SearchAppBar from "../component/SearchAppBar";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import moment from 'moment';
+import { Button } from '@mui/material';
 import ModeIcon from '@mui/icons-material/Mode';
+
+import moment from 'moment';
 function ViewSong() {
     const [data, setData] = useState([]);
     const { song_title } = useParams();
@@ -38,11 +40,13 @@ function ViewSong() {
 
                 {data.map((viewSong, index) => {
                     let dataChord = viewSong.lyrics
-                    dataChord = dataChord.replace(/.+/g, "<div>$&</div>")
-                    let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<span>$<chord></span>");
+                    dataChord = dataChord.replace(/.+/g, "<section>$&</section>")
+                    let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
+
                     return <div key={index}>
-                        <p className="fs-100  font pd-left" >ID: <b>{viewSong.id}</b></p>
-                        <p className="fs-100  font pd-left" >Name: <b>{viewSong.song_title}</b></p>
+                        <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
+
+                        <p className="fs-100  font pd-left pd-top" >ID: <b>{viewSong.id}</b></p>
                         <p className="fs-100  font pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                         {viewSong.updated_at != null ?
                             <p className="fs-100  font pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
@@ -70,15 +74,15 @@ function ViewSong() {
                                                         }
                                                         <div className="numbers pd-right">
 
-                                                            <span className="  pd-left font" >Lyric: </span>
-                                                            <p className="font">{document.body.innerHTML = songChord}</p>
-                                                            <i className="pd-left font"><ModeIcon /><span>Edit</span></i>
+                                                            {/* <p id="chord" className="font">{songChord}</p> */}
+                                                            <div className="font"
 
+                                                                dangerouslySetInnerHTML={{ __html: songChord }}
+                                                            />
+                                                            <Button variant="contained" className='btn btn-success'><ModeIcon /> EDIT
+                                                            </Button>
                                                         </div>
-
-
                                                     </a>
-
                                                 </div>
                                                 <div className="col-xs-7">
 
@@ -107,7 +111,8 @@ function ViewSong() {
 
 
                 <div className="col-12 d-flex flex-column align-items-center pt-4">
-                    <button onClick={handleLogout} type="submit" className="btn btn-primary">Close</button>
+                    <Button variant="contained" onClick={handleLogout} className='btn btn-success'>CLOSE
+                    </Button>
                 </div>
             </div>
         </>

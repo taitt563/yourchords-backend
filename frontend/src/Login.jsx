@@ -39,12 +39,12 @@ function Login() {
                     <div className="form-container sign-in">
                         <form onSubmit={handleSubmit}>
                             <h1>Login</h1>
-                            <span>or use your email password</span>
                             {isLoginFailed && (
                                 <Stack sx={{ width: '100%' }} spacing={2} >
                                     <Alert severity="error">Wrong username or password !</Alert>
                                 </Stack>
                             )}
+
                             <input type="text" placeholder="Username" onChange={e => setValues({ ...values, username: e.target.value })} />
                             <input type="password" placeholder="Password" onChange={e => setValues({ ...values, password: e.target.value })} />
                             <button>Sign In</button>

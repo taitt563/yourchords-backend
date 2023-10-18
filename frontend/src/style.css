@@ -13,12 +13,12 @@
 
 }
 
-div {
+section {
     line-height: 3em;
     position: relative;
 }
 
-span {
+strong {
     position: absolute;
     line-height: 1em;
     top: 0;
