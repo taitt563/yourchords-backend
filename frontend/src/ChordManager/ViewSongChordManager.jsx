@@ -6,6 +6,9 @@ import SearchAppBar from "../component/SearchAppBar";
 // import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import moment from 'moment';
 import ModeIcon from '@mui/icons-material/Mode';
+import { Button } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
 function ViewSongChordManager() {
     const [data, setData] = useState([]);
     const { song_title } = useParams();
@@ -37,12 +40,13 @@ function ViewSongChordManager() {
             <div className='d-flex flex-column align-items-center pt-5'>
 
                 {data.map((viewSong, index) => {
+                    let dataChord = viewSong.lyrics
+                    dataChord = dataChord.replace(/.+/g, "<section>$&</section>")
+                    let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
+
                     return <div key={index}>
-                        {/* <Fab aria-label="like" color='error'>
-                            <FavoriteIcon />
-                        </Fab> */}
+                        <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
                         <p className="fs-100  font pd-left" >ID: <b>{viewSong.id}</b></p>
-                        <p className="fs-100  font pd-left" >Name: <b>{viewSong.song_title}</b></p>
                         <p className="fs-100  font pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                         {viewSong.updated_at != null ?
                             <p className="fs-100  font pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
@@ -69,32 +73,24 @@ function ViewSongChordManager() {
                                                             <img src={`http://localhost:8081/images/` + viewSong.thumnail} alt="" className='song_image_view' />
                                                         }
                                                         <div className="numbers pd-right">
-
-                                                            <span className="  pd-left font" >Lyric: </span>
-
-                                                            <p className="font"><strong>{viewSong.lyrics}</strong></p>
-                                                            <i className="pd-left font"><ModeIcon /><span>Edit</span></i>
-
+                                                            <div className="font"
+                                                                dangerouslySetInnerHTML={{ __html: songChord }}
+                                                            />
+                                                            <Button variant="contained" className='btn btn-success'><ModeIcon /> EDIT
+                                                            </Button>
                                                         </div>
-
-
                                                     </a>
-
                                                 </div>
                                                 <div className="col-xs-7">
-
-
                                                 </div>
                                             </div>
                                             <div className="footer">
-
                                                 <hr />
-                                                {/* <div className="pd-bottom flex-column">
-
-                                                    <i className="pd-left"><CheckCircleIcon color='dark' /><span>Verified</span></i>
-
-                                                </div> */}
-
+                                                <div className="pd-bottom flex-column">
+                                                    {viewSong.status == 1 &&
+                                                        <i className="pd-left"><CheckCircleIcon style={{ color: 'green' }} /><span style={{ color: 'green' }}>Verified</span></i>
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -108,7 +104,8 @@ function ViewSongChordManager() {
 
 
                 <div className="col-12 d-flex flex-column align-items-center pt-4">
-                    <button onClick={handleLogout} type="submit" className="btn btn-primary">Close</button>
+                    <Button variant="contained" onClick={handleLogout} className='btn btn-success'>CLOSE
+                    </Button>
                 </div>
             </div>
         </>

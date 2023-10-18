@@ -113,7 +113,7 @@ function Home() {
         <>
             <SearchAppBar />
             <div className='px-3 py-4'>
-                <strong><p><CampaignIcon sx={{ fontSize: 30 }} /></p></strong> <strong>&nbsp;&nbsp;Welcome to your Admin Dashboard!!</strong>.
+                <CampaignIcon sx={{ fontSize: 30 }} /> <b>&nbsp;&nbsp;Welcome to your Admin Dashboard!!.</b>
             </div>
             <main>
                 <div className="container-fluid">
@@ -124,7 +124,7 @@ function Home() {
                                     <ManageAccountsIcon color="primary" sx={{ fontSize: 50 }} />
                                     <div className="col-xs-7">
                                         <div className="numbers pd-right fontDashboard">
-                                            <p><strong>Account</strong></p>
+                                            <p><b>Account</b></p>
                                         </div>
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@ function Home() {
                                     <QueueMusicIcon color="primary" sx={{ fontSize: 50 }} />
                                     <div className="col-xs-7">
                                         <div className="numbers pd-right fontDashboard">
-                                            <p><strong>Song</strong></p>
+                                            <p><b>Song</b></p>
                                         </div>
                                     </div>
                                 </div>
@@ -164,7 +164,7 @@ function Home() {
                                     <ThumbUpAltIcon color="primary" sx={{ fontSize: 50 }} />
                                     <div className="col-xs-7">
                                         <div className="numbers pd-right fontDashboard">
-                                            <p><strong>Feedback</strong></p>
+                                            <p><b>Feedback</b></p>
                                         </div>
                                     </div>
                                 </div>
@@ -186,7 +186,7 @@ function Home() {
                                     <ModeIcon color="primary" sx={{ fontSize: 50 }} />
                                     <div className="col-xs-7">
                                         <div className="numbers pd-right fontDashboard">
-                                            <p><strong>Profile</strong></p>
+                                            <p><b>Profile</b></p>
                                         </div>
                                     </div>
                                 </div>
@@ -209,115 +209,7 @@ function Home() {
                 </div>
             </main>
             <div>
-                {/* <div className='p-3 d-flex justify-content-around mt-2'>
-                    <div className="col-3 pd-right">
-                        <div className="card">
 
-                            <div className="row">
-                                <div className="col-xs-5">
-                                    <div className="pd-left">
-                                        <ManageAccountsIcon color="primary" sx={{ fontSize: 50 }} />
-                                    </div>
-                                </div>
-                                <div className="col-xs-7">
-                                    <div className="numbers pd-right">
-                                        <p><strong>Account</strong></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="/manageAccount">
-                                <div className="footer">
-                                    <hr />
-                                    <div className="stats">
-                                        <i className="pd-left"><ArrowForwardIcon /></i>
-                                        View
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div className="col-3 pd-right">
-                        <div className="card">
-
-                            <div className="row">
-                                <div className="col-xs-5">
-                                    <div className="pd-left">
-                                        <QueueMusicIcon color="primary" sx={{ fontSize: 50 }} />
-                                    </div>
-                                </div>
-                                <div className="col-xs-7">
-                                    <div className="numbers pd-right">
-                                        <p><strong>Song</strong></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="/Song">
-                                <div className="footer">
-                                    <hr />
-                                    <div className="stats">
-                                        <i className="pd-left"><ArrowForwardIcon /></i>
-                                        View
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div className="col-3 pd-right">
-                        <div className="card">
-
-                            <div className="row">
-                                <div className="col-xs-5">
-                                    <div className="pd-left">
-                                        <ThumbUpAltIcon color="primary" sx={{ fontSize: 50 }} />
-                                    </div>
-                                </div>
-                                <div className="col-xs-7">
-                                    <div className="numbers pd-right">
-                                        <p><strong>Feedback</strong></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="/manageFeedback">
-                                <div className="footer">
-                                    <hr />
-                                    <div className="stats">
-                                        <i className="pd-left"><ArrowForwardIcon /></i>
-                                        View
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div className="col-3 pd-right">
-                        <div className="card">
-                            {data.map((profile, index) => {
-                                return <div key={index}>
-                                    <div className="row">
-                                        <div className="col-xs-5">
-                                            <div className="pd-left">
-                                                <ModeIcon color="primary" sx={{ fontSize: 50 }} />
-                                            </div>
-                                        </div>
-                                        <div className="col-xs-7">
-                                            <div className="numbers pd-right">
-                                                <p><strong>Profile</strong></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href={`/profile/` + profile.userId}>
-                                        <div className="footer">
-                                            <hr />
-                                            <div className="stats">
-                                                <i className="pd-left"><ArrowForwardIcon /></i>
-                                                View
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            })}
-                        </div>
-                    </div>
-                </div> */}
 
                 <div>
                     <div className='p-3 d-flex justify-content-around mt-3'>

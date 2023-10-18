@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import SearchAppBar from "../component/SearchAppBar";
 import moment from 'moment';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { Button } from '@mui/material';
+import ModeIcon from '@mui/icons-material/Mode';
+
 function ViewSongMusician() {
     const [data, setData] = useState([]);
     const { song_title } = useParams();
@@ -31,16 +35,18 @@ function ViewSongMusician() {
     return (
         <>
             <SearchAppBar />
-
             <div className='d-flex flex-column align-items-center pt-5'>
 
                 {data.map((viewSong, index) => {
+                    let dataChord = viewSong.lyrics
+                    dataChord = dataChord.replace(/.+/g, "<section>$&</section>")
+                    let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
                     return <div key={index}>
                         {/* <Fab aria-label="like" color='error'>
                             <FavoriteIcon />
                         </Fab> */}
+                        <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
                         <p className="fs-100  font pd-left" >ID: <b>{viewSong.id}</b></p>
-                        <p className="fs-100  font pd-left" >Name: <b>{viewSong.song_title}</b></p>
                         <p className="fs-100  font pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                         {viewSong.updated_at != null ?
                             <p className="fs-100  font pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
@@ -53,7 +59,6 @@ function ViewSongMusician() {
                         {viewSong.link != null ?
                             <p className="fs-100  font pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
                             : <p className="fs-100  font pd-left" >Link:  <b>Update...</b></p>
-
                         }
                         <div className='d-flex flex-column align-items-center pt-4'>
                             <div className="container">
@@ -67,12 +72,11 @@ function ViewSongMusician() {
                                                             <img src={`http://localhost:8081/images/` + viewSong.thumnail} alt="" className='song_image_view' />
                                                         }
                                                         <div className="numbers pd-right">
-
-                                                            <span className="pd-left font" >Lyric: </span>
-
-                                                            <p className="font"><strong>{viewSong.lyrics}</strong></p>
-                                                            {/* <i className="pd-left font"><ModeIcon /><span>Edit</span></i> */}
-
+                                                            <div className="font"
+                                                                dangerouslySetInnerHTML={{ __html: songChord }}
+                                                            />
+                                                            <Button variant="contained" className='btn btn-success'><ModeIcon /> EDIT
+                                                            </Button>
                                                         </div>
 
 
@@ -87,12 +91,7 @@ function ViewSongMusician() {
                                             <div className="footer">
 
                                                 <hr />
-                                                {/* <div className="pd-bottom flex-column">
-
-                                                    <i className="pd-left"><CheckCircleIcon color='dark' /><span>Verified</span></i>
-
-                                                </div> */}
-
+                                                <i className="pd-left"><CheckCircleIcon style={{ color: 'green' }} /><span style={{ color: 'green' }}>Verified</span></i>
                                             </div>
                                         </div>
                                     </div>

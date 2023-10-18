@@ -16,12 +16,16 @@
 section {
     line-height: 3em;
     position: relative;
+    font-size: 16px;
+
 }
 
 strong {
     position: absolute;
     line-height: 1em;
-    top: 0;
+    top: 10;
+    color: red;
+    font-size: 15px;
 }
 
 input.input-box,
