@@ -13,6 +13,17 @@
 
 }
 
+div {
+    line-height: 3em;
+    position: relative;
+}
+
+span {
+    position: absolute;
+    line-height: 1em;
+    top: 0;
+}
+
 input.input-box,
 textarea {
     background: #F1F1FB;
@@ -23,7 +34,6 @@ textarea {
 
 .tabLeft {
     background-color: #F1F1FB;
-
 }
 
 .font {
@@ -182,6 +192,7 @@ textarea {
 .table td {
     top: 0;
     position: sticky;
+
 }
 
 .table th {
@@ -201,15 +212,7 @@ textarea {
     margin: auto;
 }
 
-.box {
-    position: absolute;
-    width: 83.5%;
-    overflow: hidden;
-    height: 100%;
-    bottom: -1px;
-    background: linear-gradient(#0d6efd, #c9d6ff);
-    z-index: 5;
-}
+
 
 .banner {
     position: absolute;
@@ -231,12 +234,12 @@ textarea {
 .banner p {
     font-size: 18px;
     line-height: 1.9;
-    color: #fff;
+    color: #0d6efd;
 }
 
 .banner a {
     text-decoration: none;
-    background: #000;
+    background: #0d6efd;
     color: #fff;
     padding: 10px 30px;
     display: inline-block;
@@ -256,13 +259,12 @@ textarea {
 }
 
 .body-login {
-    background-color: #c9d6ff;
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 95vh;
+    height: 92vh;
 }
 
 .container-login {
@@ -364,37 +366,6 @@ textarea {
     transform: translateX(100%);
     opacity: 1;
     z-index: 5;
-    animation: move 0.6s;
-}
-
-@keyframes move {
-
-    0%,
-    49.99% {
-        opacity: 0;
-        z-index: 1;
-    }
-
-    50%,
-    100% {
-        opacity: 1;
-        z-index: 5;
-    }
-}
-
-.social-icons {
-    margin: 20px 0;
-}
-
-.social-icons a {
-    border: 1px solid #ccc;
-    border-radius: 20%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 3px;
-    width: 40px;
-    height: 40px;
 }
 
 .toggle-container {

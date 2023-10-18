@@ -36,8 +36,7 @@ export default function AppBarLogin() {
                 <ThemeProvider theme={darkTheme}>
                     <AppBar position="static" color="primary" enableColorOnDark>
                         <Toolbar>
-                            <Typography
-                                variant="h5"
+                            <Typography variant="h5"
                                 noWrap
                                 component="a"
                                 href="/homeAdmin"

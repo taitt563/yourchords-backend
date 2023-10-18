@@ -15,7 +15,6 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Collapse from '@mui/material/Collapse';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
@@ -50,7 +49,7 @@ function DashboardChordManager() {
 
         <div className="container-fluid"  >
             <div className="row flex-nowrap" >
-                <div className=" col-auto col-lg-2 px-sm-2 px-1 tabLeft">
+                <div className=" col-auto col-md-3 col-xl-2 px-0 tabLeft">
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 text-white min-vh-100  ">
                         {data.map((profile, index) => {
                             return <div key={index}>
@@ -78,16 +77,15 @@ function DashboardChordManager() {
                                 <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
 
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start pd-top pd-right" id="menu">
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton href="/homeChordManager">
                                             <ListItemIcon>
                                                 <DashboardIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Dashboard</span></ListItemText>
-                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton onClick={handleClick}>
                                             <ListItemIcon>
                                                 <QueueMusicIcon color="primary" fontSize='medium' />
@@ -112,25 +110,22 @@ function DashboardChordManager() {
                                             </List>
                                         </Collapse>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton href={`/profileChordManager/` + profile.userId}>
                                             <ListItemIcon>
                                                 <ModeIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
-                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
-                                    <div className='logout'>
-                                        <List sx={{ width: '45%', paddingTop: '30px' }}>
-                                            <ListItemButton href="/logInStart">
-                                                <ListItemIcon>
-                                                    <LogoutIcon color="primary" fontSize='medium' />
-                                                </ListItemIcon>
-                                                <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
-                                            </ListItemButton>
-                                        </List>
-                                    </div>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                        <ListItemButton href="/logInStart">
+                                            <ListItemIcon>
+                                                <LogoutIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                        </ListItemButton>
+                                    </List>
 
 
                                 </ul>

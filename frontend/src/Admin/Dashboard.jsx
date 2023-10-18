@@ -15,8 +15,6 @@ import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-
 function Dashboard() {
     const [datachord, setDataChord] = useState([]);
     axios.defaults.withCredentials = true;
@@ -38,7 +36,7 @@ function Dashboard() {
     return (
         <div className="container-fluid"  >
             <div className="row flex-nowrap" >
-                <div className=" col-auto col-md-3 col-xl-2 px-sm-2 px-0 tabLeft">
+                <div className=" col-auto col-md-3 col-xl-2 px-0 tabLeft">
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 text-white min-vh-100  ">
                         {datachord.map((profile, index) => {
                             return <div key={index}>
@@ -66,61 +64,54 @@ function Dashboard() {
 
                                 </span>
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton href="/homeAdmin">
                                             <ListItemIcon>
                                                 <DashboardIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Dashboard</span></ListItemText>
-                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton href="/manageAccount">
                                             <ListItemIcon>
                                                 <ManageAccountsIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Manage Account</span></ListItemText>
-                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton href="/Song">
                                             <ListItemIcon>
                                                 <QueueMusicIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Song</span></ListItemText>
-                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton href="/manageFeedback">
                                             <ListItemIcon>
                                                 <ThumbUpAltIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Manage feedback</span></ListItemText>
-                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton href={`/profile/` + profile.userId}>
                                             <ListItemIcon>
                                                 <ModeIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
-                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
-                                    <div className='logout'>
-                                        <List sx={{ width: '45%', paddingTop: '30px' }}>
-                                            <ListItemButton href="/logInStart">
-                                                <ListItemIcon>
-                                                    <LogoutIcon color="primary" fontSize='medium' />
-                                                </ListItemIcon>
-                                                <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
-                                            </ListItemButton>
-                                        </List>
-                                    </div>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                        <ListItemButton href="/logInStart">
+                                            <ListItemIcon>
+                                                <LogoutIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                        </ListItemButton>
+                                    </List>
                                 </ul>
                             </div>
                         })}

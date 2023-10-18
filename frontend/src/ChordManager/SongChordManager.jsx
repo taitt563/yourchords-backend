@@ -53,7 +53,7 @@ function SongChordManager() {
                                     fontFamily: 'monospace',
                                     fontWeight: 700,
                                     letterSpacing: '.3rem',
-                                    color: 'inherit',
+                                    color: '#0d6efd',
                                     textDecoration: 'none',
                                 }}
                             >
@@ -63,7 +63,7 @@ function SongChordManager() {
                                 variant="h6"
                                 noWrap
                                 component="div"
-                                sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                                sx={{ color: '#0d6efd', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                             >
 
                                 <b>YOUR CHORD</b>
@@ -81,9 +81,9 @@ function SongChordManager() {
             <div className="px-2 py-5">
 
                 <div>
-                    <h3 className="d-flex flex-column align-items-center pt-4">List song</h3>
+                    <h3 className="d-flex flex-column align-items-center pt-4">SONG</h3>
                 </div>
-                <div className='mt-4' style={{ height: '1000px', overflowY: 'scroll' }}>
+                <div className='mt-4 pd-left' style={{ height: '450px', overflowY: 'scroll' }}>
                     <table className='table'>
                         <thead>
                             <tr>
@@ -91,7 +91,7 @@ function SongChordManager() {
                                 <th></th>
                                 <th>Name song</th>
                                 <th>Link</th>
-                                <th><CalendarMonthIcon color="primary" /> Date create </th>
+                                <th><CalendarMonthIcon color="primary" /> Date created </th>
                                 <th><CalendarMonthIcon color="primary" /> Date updated</th>
                                 <th>Status</th>
                                 <th></th>
@@ -111,15 +111,15 @@ function SongChordManager() {
                                             <img src={`http://localhost:8081/images/` + song.thumnail} alt="" className='song_image' />
                                         }</td>
                                         <td>
-                                            {song.song_title.length > 40 ?
-                                                <b>{song.song_title.substring(0, 30)}...</b>
+                                            {song.song_title.length > 30 ?
+                                                <b>{song.song_title.substring(0, 20)}...</b>
                                                 :
                                                 <b>{song.song_title} </b>
                                             }
                                         </td>
                                         <td>
                                             {song.link != null ?
-                                                <td><Link to={song.link}>{song.link.substring(0, 40)}...</Link></td>
+                                                <td><Link to={song.link}>{song.link.substring(0, 30)}...</Link></td>
                                                 : <td className="text-warning">Updating...</td>
                                             }
                                         </td>
@@ -132,9 +132,7 @@ function SongChordManager() {
                                             <td style={{ color: 'green' }}><CheckCircleIcon /></td>
                                         }
                                         <td>
-                                            <Link to={`/viewSongChordManager/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                            {/* <Link to={`/editSong/` + song.id} className='btn btn-primary btn-sm me-2'>Edit</Link>
-                                        <button onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></button> */}
+                                            <Link to={`/viewSongChordManager/` + song.song_title} className='btn btn-success btn-sm'><RemoveRedEyeIcon /></Link>
                                         </td>
                                     </tr>
                                 })}

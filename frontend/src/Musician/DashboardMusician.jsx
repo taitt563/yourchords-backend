@@ -13,7 +13,6 @@ import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
@@ -50,7 +49,7 @@ function DashboardMusician() {
 
         <div className="container-fluid"  >
             <div className="row flex-nowrap" >
-                <div className=" col-auto col-md-3 col-xl-2 px-sm-3 px-0 tabLeft">
+                <div className=" col-auto col-md-3 col-xl-2 px-0 tabLeft">
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 text-white min-vh-100  ">
                         {data.map((profile, index) => {
                             return <div key={index}>
@@ -83,17 +82,15 @@ function DashboardMusician() {
                                 </span>
 
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton href="/homeMusician">
                                             <ListItemIcon>
                                                 <DashboardIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Dashboard</span></ListItemText>
-                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
-
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton onClick={handleClick}>
                                             <ListItemIcon>
                                                 <QueueMusicIcon color="primary" fontSize='medium' />
@@ -118,45 +115,39 @@ function DashboardMusician() {
                                             </List>
                                         </Collapse>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton href="/chordMusician">
                                             <ListItemIcon>
                                                 <GraphicEqIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Manage Chord</span></ListItemText>
-                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton href="/beatMusician">
                                             <ListItemIcon>
                                                 <EqualizerIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Manage Beat</span></ListItemText>
-                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
 
-                                    <List sx={{ width: '45%', paddingTop: '30px' }}>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton href={`/profileMusician/` + profile.userId}>
                                             <ListItemIcon>
                                                 <ModeIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
-                                            <KeyboardArrowRightIcon color="primary" fontSize='medium' />
                                         </ListItemButton>
                                     </List>
-
-                                    <div className='logout'>
-                                        <List sx={{ width: '45%', paddingTop: '30px' }}>
-                                            <ListItemButton href="/logInStart">
-                                                <ListItemIcon>
-                                                    <LogoutIcon color="primary" fontSize='medium' />
-                                                </ListItemIcon>
-                                                <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
-                                            </ListItemButton>
-                                        </List>
-                                    </div>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                        <ListItemButton href="/logInStart">
+                                            <ListItemIcon>
+                                                <LogoutIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                        </ListItemButton>
+                                    </List>
                                 </ul>
                             </div>
                         })}

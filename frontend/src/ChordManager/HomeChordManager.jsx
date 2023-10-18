@@ -54,54 +54,53 @@ function HomeChordManager() {
     return (
         <>
 
-            <div className="box">
-                <Box sx={{ flexGrow: 1 }}>
-                    <ThemeProvider theme={darkTheme}>
-                        <AppBar position="static" color="primary" enableColorOnDark>
-                            <Toolbar>
-                                <Typography
-                                    variant="h5"
-                                    noWrap
-                                    component="a"
-                                    href="/homeAdmin"
-                                    sx={{
-                                        mr: 2,
-                                        display: { xs: 'none', md: 'flex' },
-                                        fontFamily: 'monospace',
-                                        fontWeight: 700,
-                                        letterSpacing: '.3rem',
-                                        color: 'inherit',
-                                        textDecoration: 'none',
-                                    }}
-                                >
-                                    <HeadsetIcon fontSize="large" />
-                                </Typography>
-                                <Typography
-                                    variant="h6"
-                                    noWrap
-                                    component="div"
-                                    sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                                >
 
-                                    <b>YOUR CHORD</b>
+            <Box sx={{ flexGrow: 1 }}>
+                <ThemeProvider theme={darkTheme}>
+                    <AppBar position="static" color="primary" enableColorOnDark>
+                        <Toolbar>
+                            <Typography
+                                variant="h5"
+                                noWrap
+                                component="a"
+                                href="/homeAdmin"
+                                sx={{
+                                    mr: 2,
+                                    display: { xs: 'none', md: 'flex' },
+                                    fontFamily: 'monospace',
+                                    fontWeight: 700,
+                                    letterSpacing: '.3rem',
+                                    color: '#0d6efd',
+                                    textDecoration: 'none',
+                                }}
+                            >
+                                <HeadsetIcon fontSize="large" />
+                            </Typography>
+                            <Typography
+                                variant="h6"
+                                noWrap
+                                component="div"
+                                sx={{ color: '#0d6efd', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                            >
 
-                                </Typography>
-                                <IconButton aria-label={notificationsLabel(100)} onClick={handleNotification}>
-                                    <Badge badgeContent={verifySongCount} color="error">
-                                        <NotificationsIcon fontSize='large' color='info' />
-                                    </Badge>
-                                </IconButton>
+                                <b>YOUR CHORD</b>
 
-                            </Toolbar>
-                        </AppBar>
-                    </ThemeProvider>
-                </Box>
-            </div>
+                            </Typography>
+                            <IconButton aria-label={notificationsLabel(100)} onClick={handleNotification}>
+                                <Badge badgeContent={verifySongCount} color="error">
+                                    <NotificationsIcon fontSize='large' color='info' />
+                                </Badge>
+                            </IconButton>
+
+                        </Toolbar>
+                    </AppBar>
+                </ThemeProvider>
+            </Box>
             <div className="banner">
-                <h2>Welcome you</h2>
+                <h2 color='#0d6efd'>Welcome you</h2>
                 <p>Thank you for accompanying our project</p>
                 <p>Hello, you have {verifySongCount} songs that need to be approved</p>
-                <a href="#">Learn More</a>
+                <a href="#" >Learn More</a>
             </div>
         </>
 

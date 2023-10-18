@@ -17,7 +17,6 @@ function ViewSong() {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
 
-
                 } else {
                     alert("Error")
                 }
@@ -30,17 +29,18 @@ function ViewSong() {
                 navigate('/Song')
             ).catch(err => console.log(err));
     }
+
+
     return (
         <>
             <SearchAppBar />
-
             <div className='d-flex flex-column align-items-center pt-5'>
 
                 {data.map((viewSong, index) => {
+                    let dataChord = viewSong.lyrics
+                    dataChord = dataChord.replace(/.+/g, "<div>$&</div>")
+                    let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<span>$<chord></span>");
                     return <div key={index}>
-                        {/* <Fab aria-label="like" color='error'>
-                            <FavoriteIcon />
-                        </Fab> */}
                         <p className="fs-100  font pd-left" >ID: <b>{viewSong.id}</b></p>
                         <p className="fs-100  font pd-left" >Name: <b>{viewSong.song_title}</b></p>
                         <p className="fs-100  font pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
@@ -71,8 +71,7 @@ function ViewSong() {
                                                         <div className="numbers pd-right">
 
                                                             <span className="  pd-left font" >Lyric: </span>
-
-                                                            <p className="font"><strong>{viewSong.lyrics}</strong></p>
+                                                            <p className="font">{document.body.innerHTML = songChord}</p>
                                                             <i className="pd-left font"><ModeIcon /><span>Edit</span></i>
 
                                                         </div>

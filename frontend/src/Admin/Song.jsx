@@ -96,7 +96,7 @@ function Song() {
             <div className='d-flex flex-column align-items-center pt-4'>
                 <h3 className="d-flex justify-content-center">SONG</h3>
             </div>
-            <div className="px-2 py-5">
+            <div className="px-2 py-4">
                 <div className='mt-4 pd-left' style={{ height: '450px', overflowY: 'scroll' }}>
                     <table className='table'>
                         <thead>
@@ -126,9 +126,8 @@ function Song() {
                                                 <img src={`http://localhost:8081/images/` + song.thumnail} alt="" className='song_image' />
                                             }
                                         </td>
-
-                                        {song.song_title.length > 40 ?
-                                            <td><b>{song.song_title.substring(0, 30)}...</b></td>
+                                        {song.song_title.length > 30 ?
+                                            <td><b>{song.song_title.substring(0, 20)}...</b></td>
 
                                             :
                                             <td><b>{song.song_title} </b></td>
@@ -136,8 +135,8 @@ function Song() {
                                         }
 
                                         {song.link != null ?
-                                            <td><Link to={song.link}>{song.link.substring(0, 40)}...</Link></td>
-                                            : <td className="fontDashboard">Updating...</td>
+                                            <td><Link to={song.link}>{song.link.substring(0, 20)}...</Link></td>
+                                            : <td>Updating...</td>
                                         }
                                         {/* {song.link != null ?
                                             <td><ReactPlayer url={song.link} width="200px" height="200px" light={true} controls

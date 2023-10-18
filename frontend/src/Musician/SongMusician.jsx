@@ -49,10 +49,10 @@ function SongMusician() {
                                 <th></th>
                                 <th>Name song</th>
                                 <th>Link</th>
-                                <th><CalendarMonthIcon color="primary" /> Date create</th>
+                                <th><CalendarMonthIcon color="primary" /> Date created</th>
                                 <th><CalendarMonthIcon color="primary" /> Date updated</th>
                                 <th>Status</th>
-                                <th></th>
+                                <th>Option</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,15 +64,15 @@ function SongMusician() {
                                     }</td>
                                     {/* <td><b>{song.song_title}</b></td> */}
                                     <td>
-                                        {song.song_title.length > 40 ?
-                                            <b>{song.song_title.substring(0, 30)}...</b>
+                                        {song.song_title.length > 30 ?
+                                            <b>{song.song_title.substring(0, 20)}...</b>
                                             :
                                             <b>{song.song_title} </b>
                                         }
                                     </td>
                                     <td>
                                         {song.link != null ?
-                                            <td><Link to={song.link}>{song.link.substring(0, 40)}...</Link></td>
+                                            <td><Link to={song.link}>{song.link.substring(0, 30)}...</Link></td>
                                             : <td className="text-warning">Updating...</td>
                                         }
                                     </td>
@@ -96,7 +96,7 @@ function SongMusician() {
                                             : ""
                                         }
                                         {song.status === 0 ?
-                                            <button onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></button>
+                                            <Link onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></Link>
                                             : ""
                                         }
                                     </td>
