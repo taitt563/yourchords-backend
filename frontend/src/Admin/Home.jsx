@@ -217,7 +217,6 @@ function Home() {
                             <Divider>
                                 <Chip label="ACCOUNT" color='primary' />
                             </Divider>
-
                         </Root>
                     </div>
                     <div className='p-3 d-flex justify-content-around mt-3'>
