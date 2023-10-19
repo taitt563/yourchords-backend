@@ -42,10 +42,11 @@ function ViewSong() {
                     let dataChord = viewSong.lyrics
                     dataChord = dataChord.replace(/.+/g, "<section>$&</section>")
                     let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
-
                     return <div key={index}>
                         <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
-
+                        {/* {
+                            <img src={`http://localhost:8081/images/` + viewSong.thumnail} alt="" className='song_image' />
+                        } */}
                         <p className="fs-100  font pd-left pd-top" >ID: <b>{viewSong.id}</b></p>
                         <p className="fs-100  font pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                         {viewSong.updated_at != null ?
@@ -59,45 +60,31 @@ function ViewSong() {
                         {viewSong.link != null ?
                             <p className="fs-100  font pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
                             : <p className="fs-100  font pd-left" >Link:  <b>Update...</b></p>
-
                         }
-                        <div className='d-flex flex-column align-items-center pt-4'>
+                        <div className='d-flex flex-column align-items-center'>
                             <div className="container">
-                                <div className="px-2 py-5">
+                                <div className="px-2 py-4">
                                     <div className="row">
-                                        <div className="card">
+                                        <div className="card_song">
                                             <div className="row">
                                                 <div className="pd-left">
                                                     <a className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
-                                                        {
-                                                            <img src={`http://localhost:8081/images/` + viewSong.thumnail} alt="" className='song_image_view' />
-                                                        }
-                                                        <div className="numbers pd-right">
 
-                                                            {/* <p id="chord" className="font">{songChord}</p> */}
-                                                            <div className="font"
-
-                                                                dangerouslySetInnerHTML={{ __html: songChord }}
-                                                            />
-                                                            <Button variant="contained" className='btn btn-success'><ModeIcon /> EDIT
-                                                            </Button>
-                                                        </div>
+                                                        <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px' }}
+                                                            dangerouslySetInnerHTML={{ __html: songChord }}
+                                                        />
                                                     </a>
                                                 </div>
                                                 <div className="col-xs-7">
-
-
+                                                    <Button className='btn btn-success'><ModeIcon /> EDIT
+                                                    </Button>
                                                 </div>
                                             </div>
                                             <div className="footer">
-
                                                 <hr />
                                                 <div className="pd-bottom flex-column">
-
                                                     <i className="pd-left"><CheckCircleIcon style={{ color: 'green' }} /><span style={{ color: 'green' }}>Verified</span></i>
-
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>

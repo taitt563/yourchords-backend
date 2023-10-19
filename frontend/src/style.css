@@ -188,6 +188,35 @@ textarea {
     }
 }
 
+.card_song {
+    border-radius: 10px;
+    box-shadow: 0 4px 4px rgba(204, 197, 185, 0.5);
+    background-color: #FFFFFF;
+    color: card-black-color;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+
+    h6 {
+        font-size: font-size-small;
+        margin: 0;
+    }
+
+    .icon-big {
+        font-size: 3em;
+        min-height: 64px;
+    }
+
+    .numbers {
+        font-size: 2em;
+        text-align: right;
+
+        p {
+            margin: 0;
+        }
+    }
+}
+
 .inputIcon {
     position: absolute;
     right: 30px;

@@ -137,7 +137,7 @@ function Profile() {
                                         <div className="col-md-12"><label>Job: </label><input className="form-control" value={data.job} readOnly /></div>
                                     </div>
                                 </div>
-                                <Button variant='contained' onClick={() => { handleProfile(data.userId) }}><ModeEditIcon className='pd-right' fontSize='large' />  Edit
+                                <Button variant='contained' onClick={() => { handleProfile(data.userId) }}><ModeEditIcon className='pd-right' fontSize='medium' />  Edit
                                 </Button>
 
                             </div>

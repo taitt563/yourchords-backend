@@ -42,15 +42,15 @@ function Song() {
             .catch(err => console.log(err));
 
     }, [])
-    const handleArrange = () => {
-        axios.get('http://localhost:8081/arrangeSongAdmin')
-            .then(res => {
-                if (res.data.Status === "Success") {
-                    setData(res.data.Result);
-                }
-            })
-            .catch(err => console.log(err));
-    }
+    // const handleArrange = () => {
+    //     axios.get('http://localhost:8081/arrangeSongAdmin')
+    //         .then(res => {
+    //             if (res.data.Status === "Success") {
+    //                 setData(res.data.Result);
+    //             }
+    //         })
+    //         .catch(err => console.log(err));
+    // }
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
@@ -103,7 +103,7 @@ function Song() {
                             <tr>
                                 <th>ID</th>
                                 <th></th>
-                                <th>Name song <Link onClick={handleArrange}><SwapVertIcon /></Link></th>
+                                <th>Name song</th>
                                 <th >Link</th>
                                 <th><CalendarMonthIcon color="primary" /> Date created</th>
                                 <th><CalendarMonthIcon color="primary" /> Date updated</th>
@@ -131,11 +131,9 @@ function Song() {
 
                                             :
                                             <td><b>{song.song_title} </b></td>
-
                                         }
-
                                         {song.link != null ?
-                                            <td><Link to={song.link}>{song.link.substring(0, 20)}...</Link></td>
+                                            <td><Link to={song.link}>{song.link.substring(0, 30)}...</Link></td>
                                             : <td>Updating...</td>
                                         }
                                         {/* {song.link != null ?

@@ -76,10 +76,7 @@ function DashboardMusician() {
                                 </ListItem>
                                 <br />
 
-                                <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}
-                                </b>
-
-                                </span>
+                                <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
 
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>

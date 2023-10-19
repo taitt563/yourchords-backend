@@ -65,18 +65,15 @@ function ViewSongChordManager() {
                             <div className="container">
                                 <div className="px-2 py-5">
                                     <div className="row">
-                                        <div className="card">
+                                        <div className="card_song">
                                             <div className="row">
                                                 <div className="pd-left">
                                                     <a className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
-                                                        {
-                                                            <img src={`http://localhost:8081/images/` + viewSong.thumnail} alt="" className='song_image_view' />
-                                                        }
                                                         <div className="numbers pd-right">
-                                                            <div className="font"
+                                                            <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px' }}
                                                                 dangerouslySetInnerHTML={{ __html: songChord }}
                                                             />
-                                                            <Button variant="contained" className='btn btn-success'><ModeIcon /> EDIT
+                                                            <Button className='btn btn-success'><ModeIcon /> EDIT
                                                             </Button>
                                                         </div>
                                                     </a>
