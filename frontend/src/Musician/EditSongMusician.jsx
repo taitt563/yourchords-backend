@@ -159,11 +159,10 @@ function EditSongMusician() {
                                                                 <FormatUnderlinedIcon />
                                                             </ToggleButton>
                                                         </StyledToggleButtonGroup>
-
-
                                                     </Paper>
                                                 </div>
-                                                <div className="col-xs-7">
+                                                <div className="footer">
+                                                    <hr />
                                                 </div>
                                             </div>
 
@@ -176,7 +175,9 @@ function EditSongMusician() {
                         </div>
                     </div>
                 </form>
+
             </div>
+
         </>
     )
 }
