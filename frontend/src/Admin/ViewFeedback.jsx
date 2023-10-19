@@ -100,9 +100,10 @@ function ViewFeedback() {
     return (
         <>
             <SearchAppBar />
-            <div className='d-flex flex-column align-items-center pt-5'>
-                <h3 className="d-flex justify-content-center">FEEDBACK</h3>
-
+            <div className='d-flex flex-column align-items-center pt-2'>
+                <div className='d-flex flex-column align-items-center pt-4'>
+                    <h3 className="d-flex justify-content-center">PROFILE</h3>
+                </div>
                 <div className='d-flex flex-column align-items-center pt-4'>
                     <div className="container">
                         <div className="px-1 py-5">

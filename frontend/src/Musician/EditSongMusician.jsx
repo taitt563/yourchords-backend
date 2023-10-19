@@ -110,7 +110,7 @@ function EditSongMusician() {
                                     <div className="row">
                                         <div className="row">
                                             <div className="numbers pd-right">
-                                                <textarea cols="70" rows="20" onChange={e => setData({ ...data, lyrics: e.target.value })} value={data.lyrics}>{data.lyrics}
+                                                <textarea cols="80" rows="20" onChange={e => setData({ ...data, lyrics: e.target.value })} value={data.lyrics}>{data.lyrics}
                                                 </textarea>
                                             </div>
                                             <Paper
@@ -165,7 +165,6 @@ function EditSongMusician() {
                         </div>
                     </div>
                 </form>
-
             </div>
 
         </>

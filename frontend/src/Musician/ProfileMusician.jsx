@@ -96,7 +96,9 @@ function ProfileMusician() {
         <>
             <SearchAppBar />
             <div className='d-flex flex-column align-items-center pt-2'>
-                <h3 className="d-flex justify-content-center">PROFILE</h3>
+                <div className='d-flex flex-column align-items-center pt-4'>
+                    <h3 className="d-flex justify-content-center">PROFILE</h3>
+                </div>
                 <form className="row g-3 w-50">
                     <div className="container rounded bg-white mt-5 mb-5">
                         <div className="row">

@@ -13,7 +13,7 @@ function HomeMusician() {
             <div className="banner">
                 <h2>Welcome you</h2>
                 <p>Thank you for accompanying our project</p>
-                <a href="#">Learn More</a>
+                <a href="#">See More</a>
             </div>
 
             {/* <div id="carouselVideoExample" className="carousel slide carousel-fade" data-mdb-ride="carousel">

@@ -100,7 +100,7 @@ function HomeChordManager() {
                 <h2 color='#0d6efd'>Welcome you</h2>
                 <p>Thank you for accompanying our project</p>
                 <p>Hello, you have {verifySongCount} songs that need to be approved</p>
-                <a href="#" >Learn More</a>
+                <a href="#" >See More</a>
             </div>
         </>
 
