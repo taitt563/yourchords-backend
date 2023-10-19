@@ -128,7 +128,7 @@ function VerifySong() {
                                         <td>
                                             {song.link != null ?
                                                 <td><Link to={song.link}>{song.link.substring(0, 30)}...</Link></td>
-                                                : <td className="text-warning">Updating...</td>
+                                                : <td>Updating...</td>
                                             }
                                         </td>
                                         <td>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</td>

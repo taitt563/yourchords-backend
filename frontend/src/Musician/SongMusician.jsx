@@ -5,7 +5,6 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment'
 import SearchAppBar from "../component/SearchAppBar";
-import EditIcon from '@mui/icons-material/Edit';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 function SongMusician() {
@@ -88,10 +87,10 @@ function SongMusician() {
 
                                     <td>
                                         <Link to={`/viewSongMusician/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                        {song.status === 0 ?
+                                        {/* {song.status === 0 ?
                                             <Link to={`/editSongMusician/` + song.song_title} className='btn btn-primary btn-sm me-2'><EditIcon /></Link>
                                             : ""
-                                        }
+                                        } */}
                                         {song.status === 0 ?
                                             <Link onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></Link>
                                             : ""

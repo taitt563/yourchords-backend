@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './Admin/Dashboard'
-import LoginStart from './LoginStart'
 import Login from './Login'
 import Home from './Admin/Home'
 import Profile from './Admin/Profile'
@@ -39,7 +38,6 @@ function App() {
         <Route path='/signUpChordManager' element={<SignUpChordManager />}></Route>
         <Route path='/loginMusician' element={<LoginMusician />}></Route>
         <Route path='/signUpMusician' element={<SignUpMusician />}></Route>
-        <Route path='/logInstart' element={<LoginStart />}></Route>
         {/* ADMIN ROLE */}
         <Route path='/' element={<Dashboard />}>
           <Route path='/homeAdmin' element={<Home />}></Route>

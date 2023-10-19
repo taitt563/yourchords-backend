@@ -5,16 +5,50 @@ import { useNavigate } from 'react-router-dom';
 import SearchAppBar from "../component/SearchAppBar";
 // import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import moment from 'moment';
-import ModeIcon from '@mui/icons-material/Mode';
 import { Button } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
+//paper icon bottom
+import { styled } from '@mui/material/styles';
+import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
+import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
+import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
+import FormatBoldIcon from '@mui/icons-material/FormatBold';
+import FormatItalicIcon from '@mui/icons-material/FormatItalic';
+import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
+import Divider from '@mui/material/Divider';
+import Paper from '@mui/material/Paper';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 function ViewSongChordManager() {
     const [data, setData] = useState([]);
     const { song_title } = useParams();
     const navigate = useNavigate();
-    useEffect(() => {
+    const [alignment, setAlignment] = useState('left');
+    const [formats, setFormats] = useState(() => ['italic']);
 
+    const handleFormat = (event, newFormats) => {
+        setFormats(newFormats);
+    };
+
+    const handleAlignment = (event, newAlignment) => {
+        setAlignment(newAlignment);
+    };
+    const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+        '& .MuiToggleButtonGroup-grouped': {
+            margin: theme.spacing(0.5),
+            border: 0,
+            '&.Mui-disabled': {
+                border: 0,
+            },
+            '&:not(:first-of-type)': {
+                borderRadius: theme.shape.borderRadius,
+            },
+            '&:first-of-type': {
+                borderRadius: theme.shape.borderRadius,
+            },
+        },
+    }));
+    useEffect(() => {
         axios.get('http://localhost:8081/getSong/' + song_title, data)
             .then(res => {
                 if (res.data.Status === "Success") {
@@ -66,7 +100,7 @@ function ViewSongChordManager() {
                         }
                         <div className='d-flex flex-column align-items-center pt-4'>
                             <div className="container">
-                                <div className="px-2 py-5">
+                                <div className="px-2">
                                     <div className="row">
                                         <div className="card_song">
                                             <div className="row">
@@ -76,31 +110,71 @@ function ViewSongChordManager() {
                                                             <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px' }}
                                                                 dangerouslySetInnerHTML={{ __html: songChord }}
                                                             />
-                                                            <Button className='btn btn-success'><ModeIcon /> EDIT
-                                                            </Button>
                                                         </div>
                                                     </a>
+                                                    <Paper
+                                                        elevation={0}
+                                                        sx={{
+                                                            display: 'flex',
+                                                            border: (theme) => `1px solid ${theme.palette.divider}`,
+                                                            flexWrap: 'wrap',
+                                                        }}
+                                                    >
+                                                        <StyledToggleButtonGroup
+                                                            size="small"
+                                                            value={alignment}
+                                                            exclusive
+                                                            onChange={handleAlignment}
+                                                            aria-label="text alignment"
+                                                        >
+                                                            <ToggleButton value="left" aria-label="left aligned">
+                                                                <FormatAlignLeftIcon />
+                                                            </ToggleButton>
+                                                            <ToggleButton value="center" aria-label="centered">
+                                                                <FormatAlignCenterIcon />
+                                                            </ToggleButton>
+                                                            <ToggleButton value="right" aria-label="right aligned">
+                                                                <FormatAlignRightIcon />
+                                                            </ToggleButton>
+
+                                                        </StyledToggleButtonGroup>
+                                                        <Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
+                                                        <StyledToggleButtonGroup
+                                                            size="small"
+                                                            value={formats}
+                                                            onChange={handleFormat}
+                                                            aria-label="text formatting"
+                                                        >
+                                                            <ToggleButton value="bold" aria-label="bold">
+                                                                <FormatBoldIcon />
+                                                            </ToggleButton>
+                                                            <ToggleButton value="italic" aria-label="italic">
+                                                                <FormatItalicIcon />
+                                                            </ToggleButton>
+                                                            <ToggleButton value="underlined" aria-label="underlined">
+                                                                <FormatUnderlinedIcon />
+                                                            </ToggleButton>
+                                                        </StyledToggleButtonGroup>
+
+
+                                                    </Paper>
                                                 </div>
                                                 <div className="col-xs-7">
                                                 </div>
                                             </div>
                                             <div className="footer">
                                                 <hr />
-                                                {/* <div className="pd-bottom flex-column">
-                                                    <i className="pd-left"><CheckCircleIcon style={{ color: 'green' }} /><span style={{ color: 'green' }}>Verified</span></i>
-                                                </div> */}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <Button variant="contained" onClick={handleLogout} className='btn btn-success'>CLOSE
+                            </Button>
                         </div>
                     </div>
                 })}
-                <div className="col-12 d-flex flex-column align-items-center pt-4">
-                    <Button variant="contained" onClick={handleLogout} className='btn btn-success'>CLOSE
-                    </Button>
-                </div>
+
             </div>
         </>
 

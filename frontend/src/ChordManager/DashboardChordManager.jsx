@@ -119,15 +119,13 @@ function DashboardChordManager() {
                                         </ListItemButton>
                                     </List>
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
-                                        <ListItemButton href="/logInStart">
+                                        <ListItemButton href="/loginChordManager">
                                             <ListItemIcon>
                                                 <LogoutIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-
-
                                 </ul>
                             </div>
                         })}
