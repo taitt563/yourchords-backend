@@ -78,17 +78,17 @@ function ViewSong() {
                     return <div key={index}>
                         <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
 
-                        <p className="fs-100  font pd-left pd-top" >ID: <b>{viewSong.id}</b></p>
-                        <p className="fs-100  font pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
+                        <p className="fs-100 pd-left pd-top" >ID: <b>{viewSong.id}</b></p>
+                        <p className="fs-100 pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                         {viewSong.updated_at != null ?
-                            <p className="fs-100  font pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
-                            : <p className="fs-100  font pd-left" >Date updated: <b>Not update</b></p>
+                            <p className="fs-100 pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
+                            : <p className="fs-100 pd-left" >Date updated: <b>Not update</b></p>
                         }
-                        <p className="fs-100  font pd-left" >Status: <b className="text-success">Verified <CheckCircleIcon style={{ color: 'green' }} /></b></p>
-                        <p className="fs-100  font pd-left" >Artist:  <b>{viewSong.author}</b></p>
+                        <p className="fs-100 pd-left" >Status: <b className="text-success">Verified <CheckCircleIcon style={{ color: 'green' }} /></b></p>
+                        <p className="fs-100 pd-left" >Artist:  <b>{viewSong.author}</b></p>
                         {viewSong.link != null ?
-                            <p className="fs-100  font pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
-                            : <p className="fs-100  font pd-left" >Link:  <b >Updating...</b></p>
+                            <p className="fs-100 pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
+                            : <p className="fs-100 pd-left" >Link:  <b >Updating...</b></p>
                         }
                         <div className='d-flex flex-column align-items-center'>
                             <div className="container">
@@ -98,7 +98,6 @@ function ViewSong() {
                                             <div className="row">
                                                 <div className="pd-left">
                                                     <a className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
-
                                                         <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px' }}
                                                             dangerouslySetInnerHTML={{ __html: songChord }}
                                                         />

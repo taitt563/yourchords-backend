@@ -106,66 +106,56 @@ function EditSongMusician() {
                         <label className="form-label">Lyrics: </label>
                         <div className='d-flex flex-column align-items-center'>
                             <div className="container">
-                                <div className="px-2 py-4">
+                                <div className="px-2">
                                     <div className="row">
-                                        <div className="card_song">
-                                            <div className="row">
-                                                <div className="pd-left">
-                                                    <a className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
-                                                        <div className="numbers pd-right">
-                                                            <textarea cols="70" rows="20" onChange={e => setData({ ...data, lyrics: e.target.value })} value={data.lyrics}>{data.lyrics}
-                                                            </textarea>
-                                                        </div>
-                                                    </a>
-                                                    <Paper
-                                                        elevation={0}
-                                                        sx={{
-                                                            display: 'flex',
-                                                            flexWrap: 'wrap',
-                                                        }}
-                                                    >
-                                                        <StyledToggleButtonGroup
-                                                            size="small"
-                                                            value={alignment}
-                                                            exclusive
-                                                            onChange={handleAlignment}
-                                                            aria-label="text alignment"
-                                                        >
-                                                            <ToggleButton value="left" aria-label="left aligned">
-                                                                <FormatAlignLeftIcon />
-                                                            </ToggleButton>
-                                                            <ToggleButton value="center" aria-label="centered">
-                                                                <FormatAlignCenterIcon />
-                                                            </ToggleButton>
-                                                            <ToggleButton value="right" aria-label="right aligned">
-                                                                <FormatAlignRightIcon />
-                                                            </ToggleButton>
-
-                                                        </StyledToggleButtonGroup>
-                                                        <Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
-                                                        <StyledToggleButtonGroup
-                                                            size="small"
-                                                            value={formats}
-                                                            onChange={handleFormat}
-                                                            aria-label="text formatting"
-                                                        >
-                                                            <ToggleButton value="bold" aria-label="bold">
-                                                                <FormatBoldIcon />
-                                                            </ToggleButton>
-                                                            <ToggleButton value="italic" aria-label="italic">
-                                                                <FormatItalicIcon />
-                                                            </ToggleButton>
-                                                            <ToggleButton value="underlined" aria-label="underlined">
-                                                                <FormatUnderlinedIcon />
-                                                            </ToggleButton>
-                                                        </StyledToggleButtonGroup>
-                                                    </Paper>
-                                                </div>
-                                                <div className="footer">
-                                                    <hr />
-                                                </div>
+                                        <div className="row">
+                                            <div className="numbers pd-right">
+                                                <textarea cols="70" rows="20" onChange={e => setData({ ...data, lyrics: e.target.value })} value={data.lyrics}>{data.lyrics}
+                                                </textarea>
                                             </div>
+                                            <Paper
+                                                elevation={0}
+                                                sx={{
+                                                    display: 'flex',
+                                                    flexWrap: 'wrap',
+                                                }}
+                                            >
+                                                <StyledToggleButtonGroup
+                                                    size="small"
+                                                    value={alignment}
+                                                    exclusive
+                                                    onChange={handleAlignment}
+                                                    aria-label="text alignment"
+                                                >
+                                                    <ToggleButton value="left" aria-label="left aligned">
+                                                        <FormatAlignLeftIcon />
+                                                    </ToggleButton>
+                                                    <ToggleButton value="center" aria-label="centered">
+                                                        <FormatAlignCenterIcon />
+                                                    </ToggleButton>
+                                                    <ToggleButton value="right" aria-label="right aligned">
+                                                        <FormatAlignRightIcon />
+                                                    </ToggleButton>
 
+                                                </StyledToggleButtonGroup>
+                                                <Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
+                                                <StyledToggleButtonGroup
+                                                    size="small"
+                                                    value={formats}
+                                                    onChange={handleFormat}
+                                                    aria-label="text formatting"
+                                                >
+                                                    <ToggleButton value="bold" aria-label="bold">
+                                                        <FormatBoldIcon />
+                                                    </ToggleButton>
+                                                    <ToggleButton value="italic" aria-label="italic">
+                                                        <FormatItalicIcon />
+                                                    </ToggleButton>
+                                                    <ToggleButton value="underlined" aria-label="underlined">
+                                                        <FormatUnderlinedIcon />
+                                                    </ToggleButton>
+                                                </StyledToggleButtonGroup>
+                                            </Paper>
                                         </div>
                                     </div>
                                 </div>

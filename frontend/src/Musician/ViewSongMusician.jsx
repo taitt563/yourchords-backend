@@ -6,8 +6,6 @@ import SearchAppBar from "../component/SearchAppBar";
 import moment from 'moment';
 import { Button } from '@mui/material';
 import ModeIcon from '@mui/icons-material/Mode';
-//paper icon bottom
-import { styled } from '@mui/material/styles';
 import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
@@ -18,6 +16,8 @@ import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { styled } from '@mui/material/styles';
+
 function ViewSongMusician() {
     const [data, setData] = useState([]);
     const { song_title } = useParams();
@@ -75,30 +75,27 @@ function ViewSongMusician() {
                 {data.map((viewSong, index) => {
                     let dataChord = viewSong.lyrics
                     dataChord = dataChord.replace(/.+/g, "<section>$&</section>")
-                    console.log(dataChord)
                     let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
                     return <div key={index}>
                         {/* <Fab aria-label="like" color='error'>
                             <FavoriteIcon />
                         </Fab> */}
                         <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
-                        <p className="fs-100  font pd-left" >ID: <b>{viewSong.id}</b></p>
-                        <p className="fs-100  font pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
+                        <p className="fs-100  pd-left" >ID: <b>{viewSong.id}</b></p>
+                        <p className="fs-100  pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                         {viewSong.updated_at != null ?
-                            <p className="fs-100  font pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
-                            : <p className="fs-100  font pd-left" >Date updated: <b>Not update</b></p>
+                            <p className="fs-100  pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
+                            : <p className="fs-100 pd-left" >Date updated: <b>Not update</b></p>
                         }
                         {viewSong.status === 0 &&
-                            <p className="fs-100  font pd-left" >Status: <b className="text-warning">Waiting approve</b></p>
+                            <p className="fs-100  pd-left" >Status: <b className="text-warning">Waiting approve</b></p>
                         }
-                        <p className="fs-100  font pd-left" >Artist:  <b>{viewSong.author}</b></p>
+                        <p className="fs-100  pd-left" >Artist:  <b>{viewSong.author}</b></p>
                         {viewSong.link != null ?
-                            <p className="fs-100  font pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
-                            : <p className="fs-100  font pd-left" >Link:  <b>Updating...</b></p>
+                            <p className="fs-100  pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
+                            : <p className="fs-100  pd-left" >Link:  <b>Updating...</b></p>
                         }
-                        <p className="fs-100  font pd-left" >Lyrics: </p>
                         <div className='d-flex flex-column align-items-center pt-4'>
-
                             <div className="container">
                                 <div className="px-2">
                                     <div className="row">
@@ -160,22 +157,25 @@ function ViewSongMusician() {
                                                     </Paper>
                                                 </div>
                                                 <div className="col-xs-7">
+                                                    <div className="footer">
+                                                        <hr />
+                                                        <Button onClick={() => navigate(`/editSongMusician/` + viewSong.song_title)} className='btn btn-success'><ModeIcon /> EDIT
+                                                        </Button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="footer">
-                                                <hr />
-                                                <Button onClick={() => navigate(`/editSongMusician/` + viewSong.song_title)} className='btn btn-success'><ModeIcon /> EDIT
-                                                </Button>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <Button variant="contained" onClick={handleLogout} className='btn btn-success'>Close
-                            </Button>
                         </div>
                     </div>
                 })}
+
+                <div className="col-12 d-flex flex-column align-items-center pt-4">
+                    <button onClick={handleLogout} type="submit" className="btn btn-primary">Close</button>
+                </div>
             </div>
         </>
 

@@ -80,22 +80,22 @@ function ViewSongChordManager() {
 
                     return <div key={index}>
                         <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
-                        <p className="fs-100  font pd-left" >ID: <b>{viewSong.id}</b></p>
-                        <p className="fs-100  font pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
+                        <p className="fs-100 pd-left" >ID: <b>{viewSong.id}</b></p>
+                        <p className="fs-100 pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                         {viewSong.updated_at != null ?
-                            <p className="fs-100  font pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
-                            : <p className="fs-100  font pd-left" >Date updated: <b>Not update</b></p>
+                            <p className="fs-100 pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
+                            : <p className="fs-100 pd-left" >Date updated: <b>Not update</b></p>
                         }
                         {viewSong.status == 1 ?
-                            <p className="fs-100  font pd-left" >Status: <b className="text-success">Verified <CheckCircleIcon style={{ color: 'green' }} /></b></p>
+                            <p className="fs-100 pd-left" >Status: <b className="text-success">Verified <CheckCircleIcon style={{ color: 'green' }} /></b></p>
                             :
-                            <p className="fs-100  font pd-left" >Status: <b className="text-warning">Waiting approve</b></p>
+                            <p className="fs-100 pd-left" >Status: <b className="text-warning">Waiting approve</b></p>
 
                         }
-                        <p className="fs-100  font pd-left" >Artist:  <b>{viewSong.author}</b></p>
+                        <p className="fs-100 pd-left" >Artist:  <b>{viewSong.author}</b></p>
                         {viewSong.link != null ?
-                            <p className="fs-100  font pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
-                            : <p className="fs-100  font pd-left" >Link:  <b>Updating...</b></p>
+                            <p className="fs-100 pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
+                            : <p className="fs-100  pd-left" >Link:  <b>Updating...</b></p>
 
                         }
                         <div className='d-flex flex-column align-items-center pt-4'>
