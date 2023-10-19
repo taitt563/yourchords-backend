@@ -43,7 +43,7 @@ export default function BottomAppBar() {
                 </ListItem>
                 <List sx={{ mb: 2 }}>
 
-                    <div className='pd-left' style={{ height: '250px', overflowY: 'scroll' }}>
+                    <div className='mt-4 pd-left' style={{ height: '250px', overflowY: 'scroll' }}>
                         <table className='table'>
                             <thead>
                                 <tr>
@@ -57,7 +57,7 @@ export default function BottomAppBar() {
                             <tbody>
                                 {data.map((feedbackUser, index) => {
                                     const date1 = (moment(displaytodaysdate).format("YYYY-MM-DD"));
-                                    const date2 = (moment(feedbackUser.date).format("YYYY-MM-DD"));
+                                    const date2 = (moment(feedbackUser.date_feedback).format("YYYY-MM-DD"));
                                     if (date1 == date2) {
                                         return <tr key={index}>
                                             <td>
@@ -67,7 +67,7 @@ export default function BottomAppBar() {
                                             </td>
                                             <td>{feedbackUser.username}</td>
 
-                                            <td>{moment(feedbackUser.date).format('YYYY-MM-DD')}</td>
+                                            <td>{moment(feedbackUser.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</td>
                                             {feedbackUser.status == true ?
                                                 <td style={{ color: 'green' }}><b>Seen</b></td>
                                                 :
@@ -83,14 +83,14 @@ export default function BottomAppBar() {
                             </tbody>
                         </table>
                     </div>
-
                 </List>
                 {/* LIST RECENTLY */}
-                <ListItem >
+                <ListItem>
                     <ListItemText primary="Recently" />
                 </ListItem>
                 <List sx={{ mb: 2 }}>
-                    <div className='pd-left' style={{ height: '250px', overflowY: 'scroll' }}>
+
+                    <div className='mt-4 pd-left' style={{ height: '400px', overflowY: 'scroll' }}>
                         <table className='table'>
                             <thead>
                                 <tr>
@@ -104,15 +104,17 @@ export default function BottomAppBar() {
                             <tbody>
                                 {data.map((feedbackUser, index) => {
                                     const date1 = (moment(displaytodaysdate).format("YYYY-MM-DD"));
-                                    const date2 = (moment(feedbackUser.date).format("YYYY-MM-DD"));
+                                    const date2 = (moment(feedbackUser.date_feedback).format("YYYY-MM-DD"));
                                     if (date1 > date2) {
                                         return <tr key={index}>
-                                            <td>{
-                                                <img src={`http://localhost:8081/images/` + feedbackUser.image} alt="" className='song_image' />
-                                            }</td>
+                                            <td>
+                                                {
+                                                    <img src={`http://localhost:8081/images/` + feedbackUser.image} alt="" className='song_image' />
+                                                }
+                                            </td>
                                             <td>{feedbackUser.username}</td>
 
-                                            <td>{moment(feedbackUser.date).format('YYYY-MM-DD')}</td>
+                                            <td>{moment(feedbackUser.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</td>
                                             {feedbackUser.status == true ?
                                                 <td style={{ color: 'green' }}><b>Seen</b></td>
                                                 :
@@ -121,6 +123,7 @@ export default function BottomAppBar() {
                                             <td>
                                                 <Link to={`/viewFeedback/` + feedbackUser.username} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                             </td>
+
                                         </tr>
                                     }
                                 })}

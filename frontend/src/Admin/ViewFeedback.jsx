@@ -50,11 +50,9 @@ function ViewFeedback() {
 
     const handleSubmit = () => {
         axios.put('http://localhost:8081/replyFeedback/' + username, data)
-            .then(res => {
-                if (res.data.Status === "Success") {
-                    setOpen(false)
-                }
-            })
+            .then(
+                navigate(-1)
+            )
             .catch(err => console.log(err));
     }
     const handleGetReply = () => {
@@ -119,16 +117,18 @@ function ViewFeedback() {
                                             <Box sx={style}>
 
                                                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                                                    REPLY to <b>{data.username}</b>
+                                                    <h4 className="d-flex justify-content-center">REPLY</h4>
+                                                    <br />
+                                                    To: <b>{data.username}</b>
+
                                                 </Typography>
-                                                <div className="col-md-7 border-right">
+                                                Email: <b>{data.email}</b>
+                                                <p>Reply date: <b>{moment(data.date_reply).format('YYYY-MM-DD - HH:mm:ss')}</b></p>
+                                                <div className="col-md-7 border-right pd-top">
                                                     <div className="py-6">
-
-                                                        <div className="row mt-2">
-                                                            <div className="col-md-12"><input className="form-control" onChange={e => setData({ ...data, reply: e.target.value })} value={data.reply} placeholder='Enter your name' /></div>
-                                                        </div>
+                                                        <textarea cols="34" rows="5" onChange={e => setData({ ...data, reply: e.target.value })} value={data.reply} placeholder='Your reply...'>{data.reply}
+                                                        </textarea>
                                                         <div className="mt-5">
-
                                                             <Button variant={'contained'} onClick={handleSubmit} type="submit" className="btn btn-primary">SUBMIT</Button>
                                                         </div>
                                                     </div>

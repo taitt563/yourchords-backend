@@ -336,7 +336,7 @@ app.get('/viewFeedback/:username', (req, res) => {
 
 app.put('/replyFeedback/:username', (req, res) => {
     const username = req.params.username;
-    let sql = "UPDATE feedback SET status = 1, reply = ? WHERE username = ?";
+    let sql = "UPDATE feedback SET status = 1, reply = ?, date_reply = CURRENT_TIMESTAMP WHERE username = ?";
     con.query(sql, [req.body.reply, username], (err, result) => {
         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
         if (result.length > 0) {
