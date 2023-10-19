@@ -115,9 +115,8 @@ function ViewFeedback() {
                                             aria-describedby="modal-modal-description"
                                         >
                                             <Box sx={style}>
-
-                                                <Typography id="modal-modal-title" variant="h6" component="h2">
-                                                    <h4 className="d-flex justify-content-center">REPLY</h4>
+                                                <h4 className="d-flex justify-content-center">REPLY</h4>
+                                                <Typography id="modal-modal-title" >
                                                     <br />
                                                     To: <b>{data.username}</b>
 

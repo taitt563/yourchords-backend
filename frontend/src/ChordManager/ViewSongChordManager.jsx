@@ -19,12 +19,15 @@ import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 function ViewSongChordManager() {
     const [data, setData] = useState([]);
     const { song_title } = useParams();
     const navigate = useNavigate();
     const [alignment, setAlignment] = useState('left');
     const [formats, setFormats] = useState(() => ['italic']);
+    const [isOn, setIsOn] = useState(true);
 
     const handleFormat = (event, newFormats) => {
         setFormats(newFormats);
@@ -48,6 +51,12 @@ function ViewSongChordManager() {
             },
         },
     }));
+    const handleChordOff = () => {
+        setIsOn(false)
+    }
+    const handleChordOn = () => {
+        setIsOn(true)
+    }
     useEffect(() => {
         axios.get('http://localhost:8081/getSong/' + song_title, data)
             .then(res => {
@@ -77,7 +86,7 @@ function ViewSongChordManager() {
                     let dataChord = viewSong.lyrics
                     dataChord = dataChord.replace(/.+/g, "<section>$&</section>")
                     let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
-
+                    let hiddenChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong></strong>");
                     return <div key={index}>
                         <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
                         <p className="fs-100 pd-left" >ID: <b>{viewSong.id}</b></p>
@@ -107,9 +116,15 @@ function ViewSongChordManager() {
                                                 <div className="pd-left">
                                                     <a className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
                                                         <div className="numbers pd-right">
-                                                            <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px' }}
-                                                                dangerouslySetInnerHTML={{ __html: songChord }}
-                                                            />
+                                                            {isOn ?
+                                                                <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px' }}
+                                                                    dangerouslySetInnerHTML={{ __html: songChord }}
+                                                                />
+                                                                :
+                                                                <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px' }}
+                                                                    dangerouslySetInnerHTML={{ __html: hiddenChord }}
+                                                                />
+                                                            }
                                                         </div>
                                                     </a>
                                                     <Paper
@@ -154,6 +169,16 @@ function ViewSongChordManager() {
                                                             <ToggleButton value="underlined" aria-label="underlined">
                                                                 <FormatUnderlinedIcon />
                                                             </ToggleButton>
+                                                            {isOn ?
+                                                                <ToggleButton value="#F1F1FB" onClick={handleChordOff}>
+                                                                    <VisibilityOffIcon fontSize="medium" />  Hide Chord
+                                                                </ToggleButton>
+
+                                                                :
+                                                                <ToggleButton value="#F1F1FB" onClick={handleChordOn}>
+                                                                    <RemoveRedEyeIcon fontSize="medium" />  See Chord
+                                                                </ToggleButton>
+                                                            }
                                                         </StyledToggleButtonGroup>
 
 

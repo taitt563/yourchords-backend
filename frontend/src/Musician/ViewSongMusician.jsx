@@ -17,14 +17,15 @@ import Paper from '@mui/material/Paper';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { styled } from '@mui/material/styles';
-
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 function ViewSongMusician() {
     const [data, setData] = useState([]);
     const { song_title } = useParams();
     const navigate = useNavigate();
     const [alignment, setAlignment] = useState('left');
     const [formats, setFormats] = useState(() => ['italic']);
-
+    const [isOn, setIsOn] = useState(true);
     const handleFormat = (event, newFormats) => {
         setFormats(newFormats);
     };
@@ -67,6 +68,12 @@ function ViewSongMusician() {
                 navigate('/songMusician')
             ).catch(err => console.log(err));
     }
+    const handleChordOff = () => {
+        setIsOn(false)
+    }
+    const handleChordOn = () => {
+        setIsOn(true)
+    }
     return (
         <>
             <SearchAppBar />
@@ -76,6 +83,8 @@ function ViewSongMusician() {
                     let dataChord = viewSong.lyrics
                     dataChord = dataChord.replace(/.+/g, "<section>$&</section>")
                     let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
+                    let hiddenChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong></strong>");
+
                     return <div key={index}>
                         {/* <Fab aria-label="like" color='error'>
                             <FavoriteIcon />
@@ -103,9 +112,15 @@ function ViewSongMusician() {
                                             <div className="row">
                                                 <div className="pd-left">
                                                     <a className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
-                                                        <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px' }}
-                                                            dangerouslySetInnerHTML={{ __html: songChord }}
-                                                        />
+                                                        {isOn ?
+                                                            <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px' }}
+                                                                dangerouslySetInnerHTML={{ __html: songChord }}
+                                                            />
+                                                            :
+                                                            <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px' }}
+                                                                dangerouslySetInnerHTML={{ __html: hiddenChord }}
+                                                            />
+                                                        }
                                                     </a>
                                                     <Paper
                                                         elevation={0}
@@ -149,6 +164,16 @@ function ViewSongMusician() {
                                                             <ToggleButton value="underlined" aria-label="underlined">
                                                                 <FormatUnderlinedIcon />
                                                             </ToggleButton>
+                                                            {isOn ?
+                                                                <ToggleButton value="#F1F1FB" onClick={handleChordOff}>
+                                                                    <VisibilityOffIcon fontSize="medium" />  Hide Chord
+                                                                </ToggleButton>
+
+                                                                :
+                                                                <ToggleButton value="#F1F1FB" onClick={handleChordOn}>
+                                                                    <RemoveRedEyeIcon fontSize="medium" />  See Chord
+                                                                </ToggleButton>
+                                                            }
                                                         </StyledToggleButtonGroup>
 
 
