@@ -6,7 +6,6 @@ import SearchAppBar from "../component/SearchAppBar";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Button } from '@mui/material';
 import ModeIcon from '@mui/icons-material/Mode';
-
 import moment from 'moment';
 function ViewSong() {
     const [data, setData] = useState([]);
@@ -44,22 +43,20 @@ function ViewSong() {
                     let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
                     return <div key={index}>
                         <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
-                        {/* {
-                            <img src={`http://localhost:8081/images/` + viewSong.thumnail} alt="" className='song_image' />
-                        } */}
+
                         <p className="fs-100  font pd-left pd-top" >ID: <b>{viewSong.id}</b></p>
                         <p className="fs-100  font pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                         {viewSong.updated_at != null ?
                             <p className="fs-100  font pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                             : <p className="fs-100  font pd-left" >Date updated: <b>Not update</b></p>
                         }
-                        {viewSong.status === 0 &&
-                            <p className="fs-100  font pd-left" >Status: <b>Awaiting approval</b></p>
-                        }
+                        <p className="fs-100  font pd-left" >Status: <b className="text-success">Verified <CheckCircleIcon style={{ color: 'green' }} /></b></p>
+
+
                         <p className="fs-100  font pd-left" >Artist:  <b>{viewSong.author}</b></p>
                         {viewSong.link != null ?
                             <p className="fs-100  font pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
-                            : <p className="fs-100  font pd-left" >Link:  <b>Update...</b></p>
+                            : <p className="fs-100  font pd-left" >Link:  <b >Updating...</b></p>
                         }
                         <div className='d-flex flex-column align-items-center'>
                             <div className="container">
@@ -82,9 +79,9 @@ function ViewSong() {
                                             </div>
                                             <div className="footer">
                                                 <hr />
-                                                <div className="pd-bottom flex-column">
+                                                {/* <div className="pd-bottom flex-column">
                                                     <i className="pd-left"><CheckCircleIcon style={{ color: 'green' }} /><span style={{ color: 'green' }}>Verified</span></i>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </div>

@@ -52,13 +52,16 @@ function ViewSongChordManager() {
                             <p className="fs-100  font pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                             : <p className="fs-100  font pd-left" >Date updated: <b>Not update</b></p>
                         }
-                        {viewSong.status === 0 &&
-                            <p className="fs-100  font pd-left" >Status: <b>Awaiting approval</b></p>
+                        {viewSong.status == 1 ?
+                            <p className="fs-100  font pd-left" >Status: <b className="text-success">Verified <CheckCircleIcon style={{ color: 'green' }} /></b></p>
+                            :
+                            <p className="fs-100  font pd-left" >Status: <b className="text-warning">Waiting approve</b></p>
+
                         }
                         <p className="fs-100  font pd-left" >Artist:  <b>{viewSong.author}</b></p>
                         {viewSong.link != null ?
                             <p className="fs-100  font pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
-                            : <p className="fs-100  font pd-left" >Link:  <b>Update...</b></p>
+                            : <p className="fs-100  font pd-left" >Link:  <b>Updating...</b></p>
 
                         }
                         <div className='d-flex flex-column align-items-center pt-4'>
@@ -83,11 +86,9 @@ function ViewSongChordManager() {
                                             </div>
                                             <div className="footer">
                                                 <hr />
-                                                <div className="pd-bottom flex-column">
-                                                    {viewSong.status == 1 &&
-                                                        <i className="pd-left"><CheckCircleIcon style={{ color: 'green' }} /><span style={{ color: 'green' }}>Verified</span></i>
-                                                    }
-                                                </div>
+                                                {/* <div className="pd-bottom flex-column">
+                                                    <i className="pd-left"><CheckCircleIcon style={{ color: 'green' }} /><span style={{ color: 'green' }}>Verified</span></i>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </div>
@@ -96,10 +97,6 @@ function ViewSongChordManager() {
                         </div>
                     </div>
                 })}
-
-
-
-
                 <div className="col-12 d-flex flex-column align-items-center pt-4">
                     <Button variant="contained" onClick={handleLogout} className='btn btn-success'>CLOSE
                     </Button>
