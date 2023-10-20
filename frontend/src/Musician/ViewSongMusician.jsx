@@ -244,12 +244,12 @@ function ViewSongMusician() {
                                                             }
                                                             {isOn ?
                                                                 <ToggleButton value="#F1F1FB" onClick={handleChordOn}>
-                                                                    <VisibilityOffIcon fontSize="medium" />  Hide Chord
+                                                                    <VisibilityOffIcon fontSize="medium" /> Chord
                                                                 </ToggleButton>
 
                                                                 :
                                                                 <ToggleButton value="#F1F1FB" onClick={handleChordOff}>
-                                                                    <RemoveRedEyeIcon fontSize="medium" />  See Chord
+                                                                    <RemoveRedEyeIcon fontSize="medium" /> Chord
                                                                 </ToggleButton>
                                                             }
                                                         </StyledToggleButtonGroup>

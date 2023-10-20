@@ -43,7 +43,7 @@ export default function BottomAppBar() {
                 </ListItem>
                 <List sx={{ mb: 2 }}>
 
-                    <div className='mt-4 pd-left' style={{ height: '250px', overflowY: 'scroll' }}>
+                    <div className='mt-4 pd-left'>
                         <table className='table'>
                             <thead>
                                 <tr>
@@ -90,7 +90,7 @@ export default function BottomAppBar() {
                 </ListItem>
                 <List sx={{ mb: 2 }}>
 
-                    <div className='mt-4 pd-left' style={{ height: '400px', overflowY: 'scroll' }}>
+                    <div className='mt-4 pd-left' >
                         <table className='table'>
                             <thead>
                                 <tr>

@@ -70,14 +70,10 @@ function EditSongMusician() {
                         <label className="form-label">Lyrics: </label>
                         <div className='d-flex flex-column align-items-center'>
                             <div className="container">
-                                <div className="px-2">
-                                    <div className="row">
-                                        <div className="row">
-                                            <div className="numbers pd-right">
-                                                <textarea cols="80" rows="20" onChange={e => setData({ ...data, lyrics: e.target.value })} value={data.lyrics}>{data.lyrics}
-                                                </textarea>
-                                            </div>
-                                        </div>
+                                <div className="row">
+                                    <div className="numbers pd-right">
+                                        <textarea cols="80" rows="20" onChange={e => setData({ ...data, lyrics: e.target.value })} value={data.lyrics}>{data.lyrics}
+                                        </textarea>
                                     </div>
                                 </div>
                             </div>
