@@ -30,6 +30,7 @@ function ViewSong() {
     const [isRight, setIsRight] = useState(false);
     const [isLeft, setIsLeft] = useState(true);
     const [isBold, setIsBold] = useState(false);
+    const [chordPopups, setChordPopups] = useState({});
 
     const handleFormat = (event, newFormats) => {
         setFormats(newFormats);
@@ -102,7 +103,13 @@ function ViewSong() {
         setIsBold(false)
     }
 
-
+    const toggleChordPopup = (chordName) => {
+        setChordPopups((prevPopups) => {
+            const updatedPopups = { ...prevPopups };
+            updatedPopups[chordName] = !updatedPopups[chordName];
+            return updatedPopups;
+        });
+    };
     return (
         <>
             <SearchAppBar />
@@ -112,11 +119,6 @@ function ViewSong() {
                     dataChord = dataChord.replace(/.+/g, "<section>$&</section>")
                     let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong class='chord'>$<chord></strong>");
                     let hiddenChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong></strong>");
-                    const chordPopupG = document.getElementById('chordPopupG');
-                    const chordPopupC = document.getElementById('chordPopupC');
-                    const closePopupButtonG = document.getElementById('closePopupG');
-                    const closePopupButtonC = document.getElementById('closePopupC');
-
                     const chordContainer = document.getElementById('chordContainer');
                     if (chordContainer) {
                         chordContainer.innerHTML = songChord;
@@ -125,34 +127,12 @@ function ViewSong() {
                         chordElements.forEach(chord => {
                             chord.addEventListener('click', function () {
                                 const chordName = this.textContent;
-                                {
-                                    `${chordName}` == "G" ?
-                                        chordPopupG.style.display = 'block'
-                                        :
-                                        ""
-                                }
-                                {
-                                    `${chordName}` == "C" ?
-                                        chordPopupC.style.display = 'block'
-                                        :
-                                        ""
-                                }
+                                toggleChordPopup(chordName);
                             });
-                        });
-                        closePopupButtonG.addEventListener('click', function () {
-                            // Đóng giao diện popup khi nhấp vào nút Close
-                            chordPopupG.style.display = 'none';
-
-                        });
-                        closePopupButtonC.addEventListener('click', function () {
-                            // Đóng giao diện popup khi nhấp vào nút Close
-                            chordPopupC.style.display = 'none';
-
                         });
                     }
                     return <div key={index}>
                         <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
-
                         <p className="fs-100 pd-left pd-top" >ID: <b>{viewSong.id}</b></p>
                         <p className="fs-100 pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                         {viewSong.updated_at != null ?
@@ -165,17 +145,22 @@ function ViewSong() {
                             <p className="fs-100 pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
                             : <p className="fs-100 pd-left" >Link:  <b >Updating...</b></p>
                         }
-                        <div className='d-flex flex-column align-items-center'>
-                            <div id="chordPopupG" style={{ display: 'none' }}>
+                        {chordPopups['G'] && (
+                            <div id="chordPopupG" style={{ display: 'block' }}>
                                 <h2>Chord G</h2>
                                 <p>asdasda</p>
-                                <button id="closePopupG">Close</button>
+                                <button onClick={() => toggleChordPopup('G')}>Close</button>
                             </div>
-                            <div id="chordPopupC" style={{ display: 'none' }}>
+                        )}
+                        {chordPopups['C'] && (
+                            <div id="chordPopupC" style={{ display: 'block' }}>
                                 <h2>Chord C</h2>
                                 <p>asdasda</p>
-                                <button id="closePopupC">Close</button>
+                                <button onClick={() => toggleChordPopup('C')}>Close</button>
                             </div>
+                        )}
+                        <div className='d-flex flex-column align-items-center'>
+
                             <div className="container">
                                 <div className="px-2">
                                     <div className="row">
