@@ -58,6 +58,7 @@ function ManageAccount() {
     const [open, setOpen] = useState(false);
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        setStoredTabValue(newValue);
     };
 
     useEffect(() => {
@@ -125,6 +126,19 @@ function ManageAccount() {
             })
             .catch(err => console.log(err));
     }
+    const getStoredTabValue = () => {
+        return localStorage.getItem('selectedTab') || '1'; // Mặc định là '1' nếu không tìm thấy
+    };
+
+    // Hàm để lưu giá trị tab vào local storage
+    const setStoredTabValue = (newValue) => {
+        localStorage.setItem('selectedTab', newValue);
+    };
+    useEffect(() => {
+        const storedTabValue = getStoredTabValue();
+        setValue(storedTabValue);
+    }, [])
+
 
     return (
         <>
