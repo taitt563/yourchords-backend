@@ -133,6 +133,22 @@ function ViewSong() {
                     }
                     return <div key={index}>
                         <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
+                        {chordPopups['G'] ?
+                            <div id="chordPopupG" className="chord-popup" style={{ display: chordPopups['G'] ? 'block' : 'none' }}>
+                                <h2>Chord G</h2>
+                                <p>Information chord G</p>
+                                <button onClick={() => toggleChordPopup('G')}>Close</button>
+                            </div>
+                            : ""
+                        }
+                        {chordPopups['C'] ?
+                            <div id="chordPopupC" className="chord-popup" style={{ display: chordPopups['C'] ? 'block' : 'none' }}>
+                                <h2>Chord C</h2>
+                                <p>Information chord C</p>
+                                <button onClick={() => toggleChordPopup('C')}>Close</button>
+                            </div>
+                            : ""
+                        }
                         <p className="fs-100 pd-left pd-top" >ID: <b>{viewSong.id}</b></p>
                         <p className="fs-100 pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                         {viewSong.updated_at != null ?
@@ -141,24 +157,13 @@ function ViewSong() {
                         }
                         <p className="fs-100 pd-left" >Status: <b className="text-success">Verified <CheckCircleIcon style={{ color: 'green' }} /></b></p>
                         <p className="fs-100 pd-left" >Artist:  <b>{viewSong.author}</b></p>
+
                         {viewSong.link != null ?
                             <p className="fs-100 pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
                             : <p className="fs-100 pd-left" >Link:  <b >Updating...</b></p>
                         }
-                        {chordPopups['G'] && (
-                            <div id="chordPopupG" style={{ display: 'block' }}>
-                                <h2>Chord G</h2>
-                                <p>asdasda</p>
-                                <button onClick={() => toggleChordPopup('G')}>Close</button>
-                            </div>
-                        )}
-                        {chordPopups['C'] && (
-                            <div id="chordPopupC" style={{ display: 'block' }}>
-                                <h2>Chord C</h2>
-                                <p>asdasda</p>
-                                <button onClick={() => toggleChordPopup('C')}>Close</button>
-                            </div>
-                        )}
+
+
                         <div className='d-flex flex-column align-items-center'>
 
                             <div className="container">
