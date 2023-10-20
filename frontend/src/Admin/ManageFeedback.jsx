@@ -42,7 +42,6 @@ export default function BottomAppBar() {
                     <ListItemText primary="Today" />
                 </ListItem>
                 <List sx={{ mb: 2 }}>
-
                     <div className='mt-4 pd-left'>
                         <table className='table'>
                             <thead>

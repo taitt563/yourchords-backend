@@ -16,9 +16,11 @@ const darkTheme = createTheme({
 export default function SearchAppBar() {
     return (
 
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{
+            top: 0, position: "sticky", zIndex: '3'
+        }}>
             <ThemeProvider theme={darkTheme}>
-                <AppBar position="static" color="primary" enableColorOnDark>
+                <AppBar position="sticky" color="primary" enableColorOnDark>
                     <Toolbar>
                         <Typography variant="h5"
                             noWrap
@@ -49,6 +51,6 @@ export default function SearchAppBar() {
                     </Toolbar>
                 </AppBar>
             </ThemeProvider>
-        </Box>
+        </Box >
     );
 }

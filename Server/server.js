@@ -283,14 +283,6 @@ app.delete('/delete/:id', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
-app.get('/arrangeSongAdmin', (req, res) => {
-    const id = req.params.id;
-    const sql = "SELECT * FROM song WHERE status= '1' ORDER BY song_title ASC";
-    con.query(sql, (err, result) => {
-        if (err) return res.json({ Error: "delete song error in sql" });
-        return res.json({ Status: "Success", Result: result })
-    })
-})
 
 app.put('/verifySong/:id', (req, res) => {
     const id = req.params.id;
