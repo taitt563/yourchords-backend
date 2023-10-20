@@ -54,7 +54,7 @@ function ManageAccount() {
     const [search, setSearch] = useState("");
     const [data, setData] = useState([]);
     const [dataProfile, setDataProfile] = useState([]);
-    const [value, setValue] = useState();
+    const [value, setValue] = useState("1");
     const [open, setOpen] = useState(false);
     const handleChange = (event, newValue) => {
         setValue(newValue);
