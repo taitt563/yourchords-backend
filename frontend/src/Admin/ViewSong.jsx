@@ -94,16 +94,14 @@ function ViewSong() {
     const handleChordCenter = () => {
         setIsLeft(false)
         setIsRight(false)
-
     }
     const handleChordOffBold = () => {
         setIsBold(true)
-
     }
     const handleChordOnBold = () => {
         setIsBold(false)
-
     }
+
 
     return (
         <>
@@ -139,9 +137,11 @@ function ViewSong() {
                                                     <a className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
 
                                                         {isOn ?
+
                                                             (
                                                                 isRight ?
                                                                     isBold ?
+
                                                                         <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px', textAlign: "right", fontWeight: 'bold' }}
                                                                             dangerouslySetInnerHTML={{ __html: songChord }}
                                                                         />
@@ -203,7 +203,7 @@ function ViewSong() {
                                                         }
                                                     </a>
                                                     <Paper
-                                                        elevation={0}
+                                                        elevation={1}
                                                         sx={{
                                                             display: 'flex',
                                                             border: (theme) => `1px solid ${theme.palette.divider}`,
@@ -244,7 +244,6 @@ function ViewSong() {
                                                                     <FormatBoldIcon />
                                                                 </ToggleButton>
                                                             }
-
                                                             {isOn ?
                                                                 <ToggleButton value="#F1F1FB" onClick={handleChordOn}>
                                                                     <VisibilityOffIcon fontSize="medium" />  Hide Chord

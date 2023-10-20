@@ -13,8 +13,7 @@ import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
-import FormatItalicIcon from '@mui/icons-material/FormatItalic';
-import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
+
 import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -28,6 +27,9 @@ function ViewSongChordManager() {
     const [alignment, setAlignment] = useState('left');
     const [formats, setFormats] = useState(() => ['italic']);
     const [isOn, setIsOn] = useState(true);
+    const [isRight, setIsRight] = useState(false);
+    const [isLeft, setIsLeft] = useState(true);
+    const [isBold, setIsBold] = useState(false);
 
     const handleFormat = (event, newFormats) => {
         setFormats(newFormats);
@@ -51,11 +53,33 @@ function ViewSongChordManager() {
             },
         },
     }));
-    const handleChordOff = () => {
-        setIsOn(false)
-    }
     const handleChordOn = () => {
+        setIsOn(false)
+
+    }
+    const handleChordOff = () => {
         setIsOn(true)
+
+    }
+    const handleChordRight = () => {
+        setIsRight(true)
+        setIsLeft(false)
+
+    }
+    const handleChordLeft = () => {
+        setIsLeft(true)
+        setIsRight(false)
+
+    }
+    const handleChordCenter = () => {
+        setIsLeft(false)
+        setIsRight(false)
+    }
+    const handleChordOffBold = () => {
+        setIsBold(true)
+    }
+    const handleChordOnBold = () => {
+        setIsBold(false)
     }
     useEffect(() => {
         axios.get('http://localhost:8081/getSong/' + song_title, data)
@@ -115,20 +139,72 @@ function ViewSongChordManager() {
                                             <div className="row">
                                                 <div className="pd-left">
                                                     <a className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
-                                                        <div className="numbers pd-right">
-                                                            {isOn ?
-                                                                <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px' }}
-                                                                    dangerouslySetInnerHTML={{ __html: songChord }}
-                                                                />
-                                                                :
-                                                                <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px' }}
-                                                                    dangerouslySetInnerHTML={{ __html: hiddenChord }}
-                                                                />
-                                                            }
-                                                        </div>
+                                                        {isOn ?
+                                                            (
+                                                                isRight ?
+                                                                    isBold ?
+                                                                        <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px', textAlign: "right", fontWeight: 'bold' }}
+                                                                            dangerouslySetInnerHTML={{ __html: songChord }}
+                                                                        />
+                                                                        :
+                                                                        <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px', textAlign: "right" }}
+                                                                            dangerouslySetInnerHTML={{ __html: songChord }}
+                                                                        />
+                                                                    :
+                                                                    isLeft ?
+                                                                        isBold ?
+                                                                            <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px', textAlign: "left", fontWeight: 'bold' }}
+                                                                                dangerouslySetInnerHTML={{ __html: songChord }}
+                                                                            />
+                                                                            :
+                                                                            <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px', textAlign: "left" }}
+                                                                                dangerouslySetInnerHTML={{ __html: songChord }}
+                                                                            />
+                                                                        :
+                                                                        isBold ?
+                                                                            <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px', textAlign: "center", fontWeight: 'bold' }}
+                                                                                dangerouslySetInnerHTML={{ __html: songChord }}
+                                                                            />
+                                                                            :
+                                                                            <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px', textAlign: "center" }}
+                                                                                dangerouslySetInnerHTML={{ __html: songChord }}
+                                                                            />
+                                                            )
+                                                            :
+                                                            (
+                                                                isRight ?
+                                                                    isBold ?
+                                                                        <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px', textAlign: "right", fontWeight: 'bold' }}
+                                                                            dangerouslySetInnerHTML={{ __html: hiddenChord }}
+                                                                        />
+                                                                        :
+                                                                        <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px', textAlign: "right" }}
+                                                                            dangerouslySetInnerHTML={{ __html: hiddenChord }}
+                                                                        />
+                                                                    :
+                                                                    isLeft ?
+                                                                        isBold ?
+                                                                            <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px', textAlign: "left", fontWeight: 'bold' }}
+                                                                                dangerouslySetInnerHTML={{ __html: hiddenChord }}
+                                                                            />
+                                                                            :
+                                                                            <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px', textAlign: "left" }}
+                                                                                dangerouslySetInnerHTML={{ __html: hiddenChord }}
+                                                                            />
+                                                                        :
+                                                                        isBold ?
+                                                                            <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px', textAlign: "center", fontWeight: 'bold' }}
+                                                                                dangerouslySetInnerHTML={{ __html: hiddenChord }}
+                                                                            />
+                                                                            :
+                                                                            <div className="font" style={{ height: '500px', overflowY: 'scroll', width: '700px', textAlign: "center" }}
+                                                                                dangerouslySetInnerHTML={{ __html: hiddenChord }}
+                                                                            />
+                                                            )
+                                                        }
                                                     </a>
                                                     <Paper
-                                                        elevation={0}
+                                                        elevation={1}
                                                         sx={{
                                                             display: 'flex',
                                                             border: (theme) => `1px solid ${theme.palette.divider}`,
@@ -142,13 +218,13 @@ function ViewSongChordManager() {
                                                             onChange={handleAlignment}
                                                             aria-label="text alignment"
                                                         >
-                                                            <ToggleButton value="left" aria-label="left aligned">
+                                                            <ToggleButton value="left" aria-label="left aligned" onClick={handleChordLeft}>
                                                                 <FormatAlignLeftIcon />
                                                             </ToggleButton>
-                                                            <ToggleButton value="center" aria-label="centered">
+                                                            <ToggleButton value="center" aria-label="centered" onClick={handleChordCenter}>
                                                                 <FormatAlignCenterIcon />
                                                             </ToggleButton>
-                                                            <ToggleButton value="right" aria-label="right aligned">
+                                                            <ToggleButton value="right" aria-label="right aligned" onClick={handleChordRight}>
                                                                 <FormatAlignRightIcon />
                                                             </ToggleButton>
 
@@ -160,28 +236,26 @@ function ViewSongChordManager() {
                                                             onChange={handleFormat}
                                                             aria-label="text formatting"
                                                         >
-                                                            <ToggleButton value="bold" aria-label="bold">
-                                                                <FormatBoldIcon />
-                                                            </ToggleButton>
-                                                            <ToggleButton value="italic" aria-label="italic">
-                                                                <FormatItalicIcon />
-                                                            </ToggleButton>
-                                                            <ToggleButton value="underlined" aria-label="underlined">
-                                                                <FormatUnderlinedIcon />
-                                                            </ToggleButton>
+                                                            {isBold ?
+                                                                <ToggleButton value="bold" aria-label="bold" onClick={handleChordOnBold}>
+                                                                    <FormatBoldIcon />
+                                                                </ToggleButton>
+                                                                :
+                                                                <ToggleButton value="bold" aria-label="bold" onClick={handleChordOffBold}>
+                                                                    <FormatBoldIcon />
+                                                                </ToggleButton>
+                                                            }
                                                             {isOn ?
-                                                                <ToggleButton value="#F1F1FB" onClick={handleChordOff}>
+                                                                <ToggleButton value="#F1F1FB" onClick={handleChordOn}>
                                                                     <VisibilityOffIcon fontSize="medium" />  Hide Chord
                                                                 </ToggleButton>
 
                                                                 :
-                                                                <ToggleButton value="#F1F1FB" onClick={handleChordOn}>
+                                                                <ToggleButton value="#F1F1FB" onClick={handleChordOff}>
                                                                     <RemoveRedEyeIcon fontSize="medium" />  See Chord
                                                                 </ToggleButton>
                                                             }
                                                         </StyledToggleButtonGroup>
-
-
                                                     </Paper>
                                                 </div>
                                                 <div className="col-xs-7">
