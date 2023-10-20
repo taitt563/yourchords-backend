@@ -41,15 +41,7 @@ function Song() {
             .catch(err => console.log(err));
 
     }, [])
-    // const handleArrange = () => {
-    //     axios.get('http://localhost:8081/arrangeSongAdmin')
-    //         .then(res => {
-    //             if (res.data.Status === "Success") {
-    //                 setData(res.data.Result);
-    //             }
-    //         })
-    //         .catch(err => console.log(err));
-    // }
+
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
@@ -122,7 +114,7 @@ function Song() {
                                         <td>{song.id}</td>
                                         <td>
                                             {
-                                                <img src={`http://localhost:8081/images/` + song.thumnail} alt="" className='song_image' />
+                                                <img src={`http://localhost:8081/images/` + song.thumbnail} alt="" className='song_image' />
                                             }
                                         </td>
                                         {song.song_title.length > 30 ?

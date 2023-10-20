@@ -116,7 +116,7 @@ function VerifySong() {
                                     return <tr key={index}>
                                         <td>{song.id}</td>
                                         <td>{
-                                            <img src={`http://localhost:8081/images/` + song.thumnail} alt="" className='song_image' />
+                                            <img src={`http://localhost:8081/images/` + song.thumbnail} alt="" className='song_image' />
                                         }</td>
                                         <td>
                                             {song.song_title.length > 30 ?

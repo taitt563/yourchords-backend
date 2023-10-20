@@ -168,8 +168,8 @@ app.post('/signUpMusician', (req, res) => {
     })
 })
 
-app.post('/createSong', upload.single('thumnail'), (req, res) => {
-    const sql = "INSERT INTO song (`song_title`,`lyrics`,`thumnail`,`link`) VALUES (?)";
+app.post('/createSong', upload.single('thumbnail'), (req, res) => {
+    const sql = "INSERT INTO song (`song_title`,`lyrics`,`thumbnail`,`link`) VALUES (?)";
     if (req.body.song_title.length > 0) {
         const values = [
             req.body.song_title,
@@ -264,10 +264,10 @@ app.get('/getAccount/:userId', (req, res) => {
 })
 
 
-app.put('/updateSong/:song_title', upload.single("thumnail"), (req, res) => {
+app.put('/updateSong/:song_title', upload.single("thumbnail"), (req, res) => {
     const song_title = req.params.song_title;
-    const sql = "UPDATE song SET song_title = ?, lyrics = ?, updated_at = CURRENT_TIMESTAMP WHERE song_title = ?";
-    con.query(sql, [req.body.song_title, req.body.lyrics, song_title], (err, result) => {
+    const sql = "UPDATE song SET song_title = ?, lyrics = ?, link = ?, updated_at = CURRENT_TIMESTAMP WHERE song_title = ?";
+    con.query(sql, [req.body.song_title, req.body.lyrics, req.body.link, song_title], (err, result) => {
         if (err) return res.json({ Error: "update song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })

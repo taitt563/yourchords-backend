@@ -461,6 +461,20 @@ textarea {
     z-index: 5;
 }
 
+.step-container {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    height: 500px;
+    width: 1000px;
+
+}
+
+.step-content {
+    margin: 20px;
+
+}
+
 .toggle-container {
     position: absolute;
     top: 0;
