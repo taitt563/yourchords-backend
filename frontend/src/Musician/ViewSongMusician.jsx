@@ -124,7 +124,6 @@ function ViewSongMusician() {
                             <p className="fs-100  pd-left" >Status: <b className="text-warning">Waiting approve</b></p>
                             :
                             <p className="fs-100  pd-left" >Status: <b className="text-warning">Missing Chord</b></p>
-
                         }
                         <p className="fs-100  pd-left" >Artist:  <b>{viewSong.author}</b></p>
                         {viewSong.link != null ?

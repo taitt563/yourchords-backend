@@ -79,10 +79,8 @@ function App() {
         <Route path='/' element={<DashboardCustomer />}>
           <Route path='/songCustomer' element={<SongCustomer />}></Route>
           <Route path='/viewSongCustomer/:song_title' element={<ViewSongCustomer />}></Route>
-
         </Route>
       </Routes>
-
     </BrowserRouter>
   )
 }
