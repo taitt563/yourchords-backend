@@ -5,7 +5,7 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import AppBarLogin from '../component/AppBarLogin';
 
-function LoginChordManagerimport() {
+function LoginChordManager() {
     const navigate = useNavigate();
     axios.defaults.withCredentials = true;
     const [values, setValues] = useState({
@@ -19,7 +19,7 @@ function LoginChordManagerimport() {
             .then(res => {
                 if (res.data.Status === 'Success') {
                     localStorage.setItem('id_chordManager', values.username);
-                    navigate("/homeChordManager");
+                    navigate("/verifySong");
                 } else {
                     setIsLoginFailed(true);
                     setTimeout(() => {
@@ -67,4 +67,4 @@ function LoginChordManagerimport() {
 }
 
 
-export default LoginChordManagerimport;
+export default LoginChordManager;

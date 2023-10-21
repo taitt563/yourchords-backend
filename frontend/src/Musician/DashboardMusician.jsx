@@ -20,9 +20,13 @@ import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 // import AddIcon from '@mui/icons-material/Add';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
+import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCircle';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 function DashboardMusician() {
     const [data, setData] = useState([]);
-    const [open, setOpen] = useState(false);
+    const [openSong, setOpenSong] = useState(false);
+    const [openOrder, setOpenOrder] = useState(false);
+
 
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
@@ -42,8 +46,11 @@ function DashboardMusician() {
             })
             .catch(err => console.log(err));
     }, [userId])
-    const handleClick = () => {
-        setOpen(!open);
+    const handleClickManageSong = () => {
+        setOpenSong(!openSong);
+    };
+    const handleClickOrder = () => {
+        setOpenOrder(!openOrder);
     };
     return (
 
@@ -92,14 +99,14 @@ function DashboardMusician() {
                                         </ListItemButton>
                                     </List> */}
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
-                                        <ListItemButton onClick={handleClick}>
+                                        <ListItemButton onClick={handleClickManageSong}>
                                             <ListItemIcon>
                                                 <QueueMusicIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Manage Song</span></ListItemText>
-                                            {open ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
+                                            {openSong ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
                                         </ListItemButton>
-                                        <Collapse in={open} timeout="auto" unmountOnExit>
+                                        <Collapse in={openSong} timeout="auto" unmountOnExit>
                                             <List sx={{ width: '100%', pl: 3 }}>
                                                 <ListItemButton href="/songMusician">
                                                     <ListItemIcon>
@@ -132,7 +139,31 @@ function DashboardMusician() {
                                             <ListItemText><span className="fontDashboard">Manage Beat</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                        <ListItemButton onClick={handleClickOrder}>
+                                            <ListItemIcon>
+                                                <QueueMusicIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Manage Oder</span></ListItemText>
+                                            {openOrder ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
+                                        </ListItemButton>
+                                        <Collapse in={openOrder} timeout="auto" unmountOnExit>
+                                            <List sx={{ width: '100%', pl: 3 }}>
+                                                <ListItemButton href="/orderMusician">
+                                                    <ListItemIcon>
+                                                        <PlaylistAddCheckCircleIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                    <ListItemText><span className="fontDashboard">Order</span></ListItemText>
+                                                </ListItemButton>
+                                                <ListItemButton href="/historyMusician">
+                                                    <ListItemIcon>
+                                                        <ListAltIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                    <ListItemText><span className="fontDashboard">Transaction History</span></ListItemText>
+                                                </ListItemButton>
+                                            </List>
+                                        </Collapse>
+                                    </List>
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton href={`/profileMusician/` + profile.userId}>
                                             <ListItemIcon>

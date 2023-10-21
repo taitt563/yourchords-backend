@@ -2,7 +2,7 @@ import { Outlet, useParams } from 'react-router-dom'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+// import DashboardIcon from '@mui/icons-material/Dashboard';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
@@ -68,7 +68,7 @@ function Dashboard() {
                                 <br />
                                 <span type="text" className='fs-100 font pd-left '>Date current: <b>{displaytodaysdate}</b></span>
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                                    <List sx={{
+                                    {/* <List sx={{
                                         width: '45%', paddingTop: '30px', paddingRight: '10px'
                                     }}>
                                         <ListItemButton href="/homeAdmin">
@@ -77,7 +77,7 @@ function Dashboard() {
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Dashboard</span></ListItemText>
                                         </ListItemButton>
-                                    </List>
+                                    </List> */}
                                     <List sx={{
                                         width: '45%', paddingTop: '30px', paddingRight: '10px'
                                     }}>
@@ -110,10 +110,6 @@ function Dashboard() {
                                     </List>
                                     <List sx={{
                                         width: '45%', paddingTop: '30px', paddingRight: '10px',
-                                        zIndex: 2,
-                                        position: "sticky",
-                                        top: 420,
-
                                     }}>
                                         <ListItemButton href={`/profile/` + profile.userId}>
                                             <ListItemIcon>
@@ -125,7 +121,7 @@ function Dashboard() {
                                     <List sx={{
                                         width: '45%', paddingTop: '30px', paddingRight: '10px'
                                     }}>
-                                        <ListItemButton href="/login">
+                                        <ListItemButton href="/loginAdmin">
                                             <ListItemIcon>
                                                 <LogoutIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
@@ -141,7 +137,7 @@ function Dashboard() {
                     <Outlet />
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
 

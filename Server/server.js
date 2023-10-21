@@ -68,7 +68,7 @@ const verifyUser = (req, res, next) => {
 app.get('/', verifyUser, (req, res) => {
     return res.json({ Status: "Success", role: req.role, id: req.id })
 })
-app.post('/login', (req, res) => {
+app.post('/loginAdmin', (req, res) => {
     const sql = "SELECT * FROM user_acc Where username = ? AND password = ? AND role = 'admin' AND ban = 'Enable'";
     con.query(sql, [req.body.username, req.body.password, req.body.ban], (err, result) => {
         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
@@ -157,6 +157,45 @@ app.post('/signUpMusician', (req, res) => {
             console.log(err);
         }
         con.query(sql, [req.body.username, hash, 'musician', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
+            if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
+            if (result.length > 0) {
+                return res.json({ Status: "Success" });
+            }
+            if (result) {
+                return res.json("Error");
+            }
+        })
+    })
+})
+app.post('/login', (req, res) => {
+    const sql = "SELECT * FROM user_acc Where username = ? AND role = 'user' AND ban = 'Enable'";
+    con.query(sql, [req.body.username], (err, result) => {
+        if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
+        if (result.length > 0) {
+            bcrypt.compare(req.body.password.toString(), result[0].password, (err, response) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (response) {
+                    return res.json({ Status: "Success", Result: result })
+                }
+                return res.json("Error");
+            })
+        }
+        else {
+            return res.json({ Status: "Error", Error: "Wrong username or password" });
+        }
+    })
+})
+app.post('/signUp', (req, res) => {
+    let sql = "INSERT INTO user_acc (username, password , role) VALUES (?, ?, ?);";
+    sql += "INSERT INTO profile (name, email , address, userId) VALUES (?, ?, ?, ?)";
+    const password = req.body.password;
+    bcrypt.hash(password.toString(), salt, (err, hash) => {
+        if (err) {
+            console.log(err);
+        }
+        con.query(sql, [req.body.username, hash, 'user', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
             if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
             if (result.length > 0) {
                 return res.json({ Status: "Success" });
@@ -292,14 +331,6 @@ app.put('/verifySong/:id', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
-// app.put('/unBanAccount/:username', (req, res) => {
-//     const username = req.params.username;
-//     const sql = "UPDATE user_acc SET ban = 'Enable' WHERE username = ?";
-//     con.query(sql, [username], (err, result) => {
-//         if (err) return res.json({ Error: "update song error in sql" });
-//         return res.json({ Status: "Success", Result: result })
-//     })
-// })
 app.get('/getProfile', (req, res) => {
     const sql = "SELECT * FROM profile";
     con.query(sql, (err, result) => {
@@ -458,13 +489,13 @@ app.get('/customerCountDisable', (req, res) => {
     })
 })
 //notification verifySong
-app.get('/verifySongCount', (req, res) => {
-    const sql = "Select count(id) as songVerify from song WHERE status = '0' ";
-    con.query(sql, (err, result) => {
-        if (err) return res.json({ Error: "Error in runnig query" });
-        return res.json(result);
-    })
-})
+// app.get('/verifySongCount', (req, res) => {
+//     const sql = "Select count(id) as songVerify from song WHERE status = '0' ";
+//     con.query(sql, (err, result) => {
+//         if (err) return res.json({ Error: "Error in runnig query" });
+//         return res.json(result);
+//     })
+// })
 app.listen(8081, () => {
     console.log("Running");
 })

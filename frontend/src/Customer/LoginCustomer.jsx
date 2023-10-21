@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import AppBarLogin from '../component/AppBarLogin';
-function LoginMusician() {
+
+function LoginCustomer() {
     const navigate = useNavigate();
     axios.defaults.withCredentials = true;
     const [values, setValues] = useState({
@@ -12,15 +13,13 @@ function LoginMusician() {
         password: ''
     })
     const [isLoginFailed, setIsLoginFailed] = useState(false);
-
-
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:8081/loginMusician', values)
+        axios.post('http://localhost:8081/login', values)
             .then(res => {
                 if (res.data.Status === 'Success') {
-                    localStorage.setItem('id_musician', values.username);
-                    navigate("/songMusician");
+                    localStorage.setItem('id_customer', values.username);
+                    navigate("/songCustomer");
                 } else {
                     setIsLoginFailed(true);
                     setTimeout(() => {
@@ -55,18 +54,17 @@ function LoginMusician() {
                     <div className="toggle-container">
                         <div className="toggle">
                             <div className="toggle-panel toggle-right">
-                                <h1>Hello, Friend!</h1>
+                                <h1>Hello, User!</h1>
                                 <p>Register with your personal details to use all of site features</p>
-                                <button className="hidden" id="login" onClick={() => navigate("/signUpMusician")}>Sign Up</button>
+                                <button className="hidden" id="login" onClick={() => navigate("/signUp")}>Sign Up</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <script src="script.js"></script>
             </div>
         </>
     )
 }
 
 
-export default LoginMusician;
+export default LoginCustomer;

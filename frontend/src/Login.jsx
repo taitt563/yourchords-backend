@@ -16,11 +16,11 @@ function Login() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:8081/login', values)
+        axios.post('http://localhost:8081/loginAdmin', values)
             .then(res => {
                 if (res.data.Status === 'Success') {
                     localStorage.setItem('id_admin', values.username);
-                    navigate("/homeAdmin");
+                    navigate("/manageAccount");
                 } else {
                     setIsLoginFailed(true);
                     setTimeout(() => {
