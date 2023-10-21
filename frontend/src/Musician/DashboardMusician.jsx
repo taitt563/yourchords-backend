@@ -2,7 +2,7 @@ import { Outlet, useParams } from 'react-router-dom'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+// import DashboardIcon from '@mui/icons-material/Dashboard';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import ModeIcon from '@mui/icons-material/Mode';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -17,7 +17,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
-import AddIcon from '@mui/icons-material/Add';
+// import AddIcon from '@mui/icons-material/Add';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 function DashboardMusician() {
@@ -83,14 +83,14 @@ function DashboardMusician() {
                                 <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
 
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                    {/* <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton href="/homeMusician">
                                             <ListItemIcon>
                                                 <DashboardIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Dashboard</span></ListItemText>
                                         </ListItemButton>
-                                    </List>
+                                    </List> */}
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton onClick={handleClick}>
                                             <ListItemIcon>
@@ -107,12 +107,12 @@ function DashboardMusician() {
                                                     </ListItemIcon>
                                                     <ListItemText><span className="fontDashboard">List Song</span></ListItemText>
                                                 </ListItemButton>
-                                                <ListItemButton href="/createSong">
+                                                {/* <ListItemButton href="/createSong">
                                                     <ListItemIcon>
                                                         <AddIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
                                                     <ListItemText><span className="fontDashboard">Add New Song</span></ListItemText>
-                                                </ListItemButton>
+                                                </ListItemButton> */}
                                             </List>
                                         </Collapse>
                                     </List>

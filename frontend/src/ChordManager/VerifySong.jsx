@@ -107,11 +107,13 @@ function VerifySong() {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.filter((song) => {
-                                return search.toLowerCase() === '' ? song
-                                    :
-                                    song.song_title.toLowerCase().includes(search);
-                            })
+                            {data
+                                .filter((song) => {
+                                    let dataChord = song.lyrics;
+                                    dataChord = dataChord.replace(/.+/g, "<section>$&</section>");
+                                    let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
+                                    return songChord.includes('<strong>') && (search.toLowerCase() === '' ? true : song.song_title.toLowerCase().includes(search));
+                                })
                                 .map((song, index) => {
                                     return <tr key={index}>
                                         <td>{song.id}</td>
@@ -144,6 +146,7 @@ function VerifySong() {
                                         </td>
                                     </tr>
                                 })}
+
                         </tbody>
                     </table>
                 </div>

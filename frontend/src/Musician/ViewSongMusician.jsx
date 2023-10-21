@@ -94,7 +94,7 @@ function ViewSongMusician() {
     const handleLogout = () => {
         axios.get('http://localhost:8081/logout')
             .then(
-                navigate('/songMusician')
+                navigate(-1)
             ).catch(err => console.log(err));
     }
 
@@ -120,8 +120,11 @@ function ViewSongMusician() {
                             <p className="fs-100  pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                             : <p className="fs-100 pd-left" >Date updated: <b>Not update</b></p>
                         }
-                        {viewSong.status === 0 &&
+                        {songChord.includes('<strong>') ?
                             <p className="fs-100  pd-left" >Status: <b className="text-warning">Waiting approve</b></p>
+                            :
+                            <p className="fs-100  pd-left" >Status: <b className="text-warning">Missing Chord</b></p>
+
                         }
                         <p className="fs-100  pd-left" >Artist:  <b>{viewSong.author}</b></p>
                         {viewSong.link != null ?
