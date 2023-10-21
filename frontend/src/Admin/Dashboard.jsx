@@ -1,8 +1,7 @@
-import { Outlet, useParams } from 'react-router-dom'
-import 'bootstrap-icons/font/bootstrap-icons.css'
+import { Outlet, useParams } from 'react-router-dom';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-// import DashboardIcon from '@mui/icons-material/Dashboard';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
@@ -15,6 +14,7 @@ import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
+
 function Dashboard() {
     const [datachord, setDataChord] = useState([]);
     axios.defaults.withCredentials = true;
@@ -32,104 +32,99 @@ function Dashboard() {
                 }
             })
             .catch(err => console.log(err));
-    }, [userId])
+    }, [userId]);
+
+    const handleListItemClick = (path) => {
+        // Handle the animation when a ListItemButton is clicked
+        document.documentElement.classList.add('animate-dashboard'); // Add a class to trigger the animation
+        setTimeout(() => {
+            window.location.href = path; // Redirect to the new page after the animation
+        }, 300); // Adjust the time according to your animation duration
+    };
+
     return (
         <div className="container-fluid">
             <div className="row flex-nowrap" >
-                <div className=" col-auto col-md-3 col-xl-2 px-0 tabLeft">
+                <div className="col-auto col-md-3 col-xl-2 px-0 tabLeft">
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 text-white min-vh-100" style={{
                         top: 0,
                         zIndex: 2,
                         position: "sticky"
                     }}>
                         {datachord.map((profile, index) => {
-                            return <div key={index}>
-                                <ListItem sx={{
-
-                                }} >
-                                    <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
-                                        <Avatar>
-                                            {
+                            return (
+                                <div key={index}>
+                                    <ListItem>
+                                        <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
+                                            <Avatar>
                                                 <img src={`http://localhost:8081/images/` + profile.image} alt="" className='profile_image' />
-                                            }
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText className="font" primary={profile.name.length > 10 ?
-                                        <b>{profile.name.substring(0, 10)}...</b>
-                                        :
-                                        <b>{profile.name} </b>
-                                    }
-                                        secondary={profile.email.length > 17 ?
-                                            <b>{profile.email.substring(0, 17)}...</b>
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText className="font" primary={profile.name.length > 10 ?
+                                            <b>{profile.name.substring(0, 10)}...</b>
                                             :
-                                            <b>{profile.email} </b>
-                                        } />
-                                </ListItem>
-                                <br />
-                                <span type="text" className='fs-100 font pd-left '>Date current: <b>{displaytodaysdate}</b></span>
-                                <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                                    {/* <List sx={{
-                                        width: '45%', paddingTop: '30px', paddingRight: '10px'
-                                    }}>
-                                        <ListItemButton href="/homeAdmin">
-                                            <ListItemIcon>
-                                                <DashboardIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Dashboard</span></ListItemText>
-                                        </ListItemButton>
-                                    </List> */}
-                                    <List sx={{
-                                        width: '45%', paddingTop: '30px', paddingRight: '10px'
-                                    }}>
-                                        <ListItemButton href="/manageAccount">
+                                            <b>{profile.name} </b>
+                                        }
+                                            secondary={profile.email.length > 17 ?
+                                                <b>{profile.email.substring(0, 17)}...</b>
+                                                :
+                                                <b>{profile.email} </b>
+                                            } />
+                                    </ListItem>
+                                    <br />
+                                    <span type="text" className='fs-100 font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                        <ListItemButton
+                                            onClick={() => handleListItemClick('/manageAccount')}
+                                        >
                                             <ListItemIcon>
                                                 <ManageAccountsIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Manage Account</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{
-                                        width: '45%', paddingTop: '30px', paddingRight: '10px'
-                                    }}>
-                                        <ListItemButton href="/Song">
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                        <ListItemButton
+                                            onClick={() => handleListItemClick('/Song')}
+                                        >
                                             <ListItemIcon>
                                                 <QueueMusicIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Song</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{
-                                        width: '45%', paddingTop: '30px', paddingRight: '10px'
-                                    }}>
-                                        <ListItemButton href="/manageFeedback">
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                        <ListItemButton
+                                            onClick={() => handleListItemClick('/manageFeedback')}
+                                        >
                                             <ListItemIcon>
                                                 <ThumbUpAltIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Manage feedback</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{
-                                        width: '45%', paddingTop: '30px', paddingRight: '10px',
-                                    }}>
-                                        <ListItemButton href={`/profile/` + profile.userId}>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                        <ListItemButton
+                                            onClick={() => handleListItemClick(`/profile/${profile.userId}`)}
+                                        >
                                             <ListItemIcon>
                                                 <ModeIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{
-                                        width: '45%', paddingTop: '30px', paddingRight: '10px'
-                                    }}>
-                                        <ListItemButton href="/loginAdmin">
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                        <ListItemButton
+                                            onClick={() => handleListItemClick('/loginAdmin')}
+                                        >
                                             <ListItemIcon>
                                                 <LogoutIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-                                </ul>
-                            </div>
+                                </div>
+                            );
                         })}
                     </div>
                 </div>
@@ -138,7 +133,7 @@ function Dashboard() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default Dashboard
+export default Dashboard;

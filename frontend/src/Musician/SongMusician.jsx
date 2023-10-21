@@ -6,8 +6,21 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment'
 import SearchAppBar from "../component/SearchAppBar";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import "react-html5video/dist/styles.css";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+} from "@mui/material";
+import TablePagination from "@mui/material/TablePagination";
 function SongMusician() {
     const [data, setData] = useState([])
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(8);
     useEffect(() => {
         axios.get('http://localhost:8081/getSong')
             .then(res => {
@@ -34,67 +47,87 @@ function SongMusician() {
             <div className="px-2 py-5">
 
                 <div>
-                    <h3 className="d-flex flex-column align-items-center pt-4">List song</h3>
+                    <h3 className="d-flex flex-column align-items-center pt-4">SONG</h3>
                 </div>
                 {/* <Link to="/createSong" className="btn btn-primary">ADD</Link> */}
 
                 <div className='mt-4 pd-left' style={{ height: '450px', overflowY: 'scroll' }}>
-                    <table className='table'>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th></th>
-                                <th>Name song</th>
-                                <th>Link</th>
-                                <th><CalendarMonthIcon color="primary" /> Date created</th>
-                                <th><CalendarMonthIcon color="primary" /> Date updated</th>
-                                <th>Status</th>
-                                <th>Option</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data
-                                .filter(song => {
-                                    let dataChord = song.lyrics;
-                                    dataChord = dataChord.replace(/.+/g, "<section>$&</section>");
-                                    let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
-                                    return !songChord.includes('<strong>');
-                                })
-                                .map((song, index) => {
-                                    return (
-                                        <tr key={index}>
-                                            <td>{song.id}</td>
-                                            <td>
-                                                {<img src={`http://localhost:8081/images/` + song.thumbnail} alt="" className='song_image' />}
-                                            </td>
-                                            <td>
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>ID</TableCell>
+                                    <TableCell></TableCell>
+                                    <TableCell>Name song</TableCell>
+                                    <TableCell>Link</TableCell>
+                                    <TableCell>
+                                        <CalendarMonthIcon color="primary" /> Date created
+                                    </TableCell>
+                                    <TableCell>
+                                        <CalendarMonthIcon color="primary" /> Date updated
+                                    </TableCell>
+                                    <TableCell>Status</TableCell>
+                                    <TableCell></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {data
+                                    .filter(song => {
+                                        let dataChord = song.lyrics;
+                                        dataChord = dataChord.replace(/.+/g, "<section>$&</section>");
+                                        let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
+                                        return !songChord.includes('<strong>');
+                                    })
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map((song, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell>{song.id}</TableCell>
+                                            <TableCell>
+                                                {
+                                                    <img src={`http://localhost:8081/images/` + song.thumbnail} alt="" className="song_image" />
+                                                }
+                                            </TableCell>
+                                            <TableCell>
                                                 {song.song_title.length > 30 ?
                                                     <b>{song.song_title.substring(0, 20)}...</b> :
                                                     <b>{song.song_title} </b>
                                                 }
-                                            </td>
+                                            </TableCell>
                                             {song.link != null ?
-                                                <td><Link to={song.link}>{song.link.substring(0, 30)}...</Link></td> :
-                                                <td>Updating...</td>
+                                                <TableCell><Link to={song.link}>{song.link.substring(0, 30)}...</Link></TableCell> :
+                                                <TableCell>Updating...</TableCell>
                                             }
-                                            <td>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</td>
+                                            <TableCell>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
                                             {song.updated_at != null ?
-                                                <td>{moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</td> :
-                                                <td>Not update</td>
+                                                <TableCell>{moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</TableCell> :
+                                                <TableCell>Not update</TableCell>
                                             }
-                                            <td className="text-warning"><b>Missing Chord</b></td>
-                                            <td>
+                                            <TableCell className="text-warning"><b>Missing Chord</b></TableCell>
+                                            <TableCell>
                                                 <Link to={`/viewSongMusician/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                                 {song.status === 0 ?
                                                     <Link onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></Link> :
                                                     ""
                                                 }
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                        </tbody>
-                    </table>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        component="div"
+                        count={data.length}
+                        page={page}
+                        onPageChange={(event, newPage) => setPage(newPage)}
+                        rowsPerPage={rowsPerPage}
+                        onRowsPerPageChange={(event) => {
+                            setRowsPerPage(+event.target.value);
+                            setPage(0);
+                        }}
+                        rowsPerPageOptions={[8, 10, 25, 50, 100]}
+
+                    />
                 </div>
             </div>
         </>

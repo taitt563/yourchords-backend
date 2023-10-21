@@ -32,7 +32,7 @@ export default function AppBarLogin() {
     }
     return (
         <>
-            <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{ flexGrow: 1, top: 0, position: "sticky", zIndex: '3' }}>
                 <ThemeProvider theme={darkTheme}>
                     <AppBar position="static" color="primary" enableColorOnDark>
                         <Toolbar>
