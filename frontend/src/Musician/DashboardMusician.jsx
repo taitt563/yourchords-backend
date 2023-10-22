@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 // import DashboardIcon from '@mui/icons-material/Dashboard';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
-import ModeIcon from '@mui/icons-material/Mode';
-import LogoutIcon from '@mui/icons-material/Logout';
-import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
+
+// import ModeIcon from '@mui/icons-material/Mode';
+// import LogoutIcon from '@mui/icons-material/Logout';
+// import ListItem from '@mui/material/ListItem';
+// import ListItemAvatar from '@mui/material/ListItemAvatar';
+// import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -23,29 +24,29 @@ import EqualizerIcon from '@mui/icons-material/Equalizer';
 import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCircle';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 function DashboardMusician() {
-    const [data, setData] = useState([]);
+    // const [data, setData] = useState([]);
     const [openSong, setOpenSong] = useState(false);
     const [openOrder, setOpenOrder] = useState(false);
 
 
     axios.defaults.withCredentials = true;
-    const { userId } = useParams();
+    // const { userId } = useParams();
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
-    useEffect(() => {
-        const userId = localStorage.getItem('id_musician');
+    // useEffect(() => {
+    //     const userId = localStorage.getItem('id_musician');
 
-        axios.get('http://localhost:8081/getProfile/' + userId)
-            .then(res => {
-                if (res.data.Status === "Success") {
-                    setData(res.data.Result);
+    //     axios.get('http://localhost:8081/getProfile/' + userId)
+    //         .then(res => {
+    //             if (res.data.Status === "Success") {
+    //                 setData(res.data.Result);
 
-                } else {
-                    alert("Error")
-                }
-            })
-            .catch(err => console.log(err));
-    }, [userId])
+    //             } else {
+    //                 alert("Error")
+    //             }
+    //         })
+    //         .catch(err => console.log(err));
+    // }, [userId])
     const handleClickManageSong = () => {
         setOpenSong(!openSong);
     };
@@ -62,7 +63,7 @@ function DashboardMusician() {
                         zIndex: 2,
                         position: "sticky"
                     }}>
-                        {data.map((profile, index) => {
+                        {/* {data.map((profile, index) => {
                             return <div key={index}>
                                 <ListItem >
                                     <ListItemAvatar className="d-flex align-items-center pb-2 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
@@ -85,12 +86,12 @@ function DashboardMusician() {
 
                                         } />
                                 </ListItem>
-                                <br />
+                                 */}
+                        <br />
+                        <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
 
-                                <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
-
-                                <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                                    {/* <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                        <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                            {/* <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton href="/homeMusician">
                                             <ListItemIcon>
                                                 <DashboardIcon color="primary" fontSize='medium' />
@@ -98,91 +99,91 @@ function DashboardMusician() {
                                             <ListItemText><span className="fontDashboard">Dashboard</span></ListItemText>
                                         </ListItemButton>
                                     </List> */}
-                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
-                                        <ListItemButton onClick={handleClickManageSong}>
+                            <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                <ListItemButton onClick={handleClickManageSong}>
+                                    <ListItemIcon>
+                                        <QueueMusicIcon color="primary" fontSize='medium' />
+                                    </ListItemIcon>
+                                    <ListItemText><span className="fontDashboard">Manage Song</span></ListItemText>
+                                    {openSong ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
+                                </ListItemButton>
+                                <Collapse in={openSong} timeout="auto" unmountOnExit>
+                                    <List sx={{ width: '100%', pl: 3 }}>
+                                        <ListItemButton href="/songMusician">
                                             <ListItemIcon>
-                                                <QueueMusicIcon color="primary" fontSize='medium' />
+                                                <LibraryMusicIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Manage Song</span></ListItemText>
-                                            {openSong ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
+                                            <ListItemText><span className="fontDashboard">List Song</span></ListItemText>
                                         </ListItemButton>
-                                        <Collapse in={openSong} timeout="auto" unmountOnExit>
-                                            <List sx={{ width: '100%', pl: 3 }}>
-                                                <ListItemButton href="/songMusician">
-                                                    <ListItemIcon>
-                                                        <LibraryMusicIcon color="primary" fontSize='medium' />
-                                                    </ListItemIcon>
-                                                    <ListItemText><span className="fontDashboard">List Song</span></ListItemText>
-                                                </ListItemButton>
-                                                {/* <ListItemButton href="/createSong">
+                                        {/* <ListItemButton href="/createSong">
                                                     <ListItemIcon>
                                                         <AddIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
                                                     <ListItemText><span className="fontDashboard">Add New Song</span></ListItemText>
                                                 </ListItemButton> */}
-                                            </List>
-                                        </Collapse>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
-                                        <ListItemButton href="/chordMusician">
+                                </Collapse>
+                            </List>
+                            <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                <ListItemButton href="/chordMusician">
+                                    <ListItemIcon>
+                                        <GraphicEqIcon color="primary" fontSize='medium' />
+                                    </ListItemIcon>
+                                    <ListItemText><span className="fontDashboard">Manage Chord</span></ListItemText>
+                                </ListItemButton>
+                            </List>
+                            <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                <ListItemButton href="/manageBeat">
+                                    <ListItemIcon>
+                                        <EqualizerIcon color="primary" fontSize='medium' />
+                                    </ListItemIcon>
+                                    <ListItemText><span className="fontDashboard">Manage Beat</span></ListItemText>
+                                </ListItemButton>
+                            </List>
+                            <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                <ListItemButton onClick={handleClickOrder}>
+                                    <ListItemIcon>
+                                        <QueueMusicIcon color="primary" fontSize='medium' />
+                                    </ListItemIcon>
+                                    <ListItemText><span className="fontDashboard">Manage Oder</span></ListItemText>
+                                    {openOrder ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
+                                </ListItemButton>
+                                <Collapse in={openOrder} timeout="auto" unmountOnExit>
+                                    <List sx={{ width: '100%', pl: 3 }}>
+                                        <ListItemButton href="/orderMusician">
                                             <ListItemIcon>
-                                                <GraphicEqIcon color="primary" fontSize='medium' />
+                                                <PlaylistAddCheckCircleIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Manage Chord</span></ListItemText>
+                                            <ListItemText><span className="fontDashboard">Order</span></ListItemText>
+                                        </ListItemButton>
+                                        <ListItemButton href="/transactionHistory">
+                                            <ListItemIcon>
+                                                <ListAltIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Transaction History</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
-                                        <ListItemButton href="/beatMusician">
-                                            <ListItemIcon>
-                                                <EqualizerIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Manage Beat</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
-                                        <ListItemButton onClick={handleClickOrder}>
-                                            <ListItemIcon>
-                                                <QueueMusicIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Manage Oder</span></ListItemText>
-                                            {openOrder ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
-                                        </ListItemButton>
-                                        <Collapse in={openOrder} timeout="auto" unmountOnExit>
-                                            <List sx={{ width: '100%', pl: 3 }}>
-                                                <ListItemButton href="/orderMusician">
-                                                    <ListItemIcon>
-                                                        <PlaylistAddCheckCircleIcon color="primary" fontSize='medium' />
-                                                    </ListItemIcon>
-                                                    <ListItemText><span className="fontDashboard">Order</span></ListItemText>
-                                                </ListItemButton>
-                                                <ListItemButton href="/historyMusician">
-                                                    <ListItemIcon>
-                                                        <ListAltIcon color="primary" fontSize='medium' />
-                                                    </ListItemIcon>
-                                                    <ListItemText><span className="fontDashboard">Transaction History</span></ListItemText>
-                                                </ListItemButton>
-                                            </List>
-                                        </Collapse>
-                                    </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
-                                        <ListItemButton href={`/profileMusician/` + profile.userId}>
-                                            <ListItemIcon>
-                                                <ModeIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
-                                        <ListItemButton href="/loginMusician">
-                                            <ListItemIcon>
-                                                <LogoutIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
-                                </ul>
-                            </div>
-                        })}
+                                </Collapse>
+                            </List>
+                            {/* <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                <ListItemButton href={`/profileMusician/` + profile.userId}>
+                                    <ListItemIcon>
+                                        <ModeIcon color="primary" fontSize='medium' />
+                                    </ListItemIcon>
+                                    <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
+                                </ListItemButton>
+                            </List> */}
+                            {/* <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                <ListItemButton href="/loginMusician">
+                                    <ListItemIcon>
+                                        <LogoutIcon color="primary" fontSize='medium' />
+                                    </ListItemIcon>
+                                    <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                </ListItemButton>
+                            </List> */}
+                        </ul>
+                        {/* </div>
+                        })} */}
                     </div>
                 </div>
                 <div className="col p-0 m-0">
