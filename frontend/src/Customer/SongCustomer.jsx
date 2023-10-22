@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import HeadsetIcon from '@mui/icons-material/Headset';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+
 import AppBar from '@mui/material/AppBar';
 import 'react-html5video/dist/styles.css'
 // import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -23,6 +24,7 @@ import {
     TableHead,
     TableRow,
     Paper,
+    TableSortLabel,
 } from "@mui/material";
 import TablePagination from "@mui/material/TablePagination";
 function SongCustomer() {
@@ -30,6 +32,10 @@ function SongCustomer() {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
+    const [orderBy, setOrderBy] = useState("song_title");
+    const [order, setOrder] = useState("asc");
+    const primaryColor = "#F1F1FB";
+
     const darkTheme = createTheme({
         palette: {
             mode: 'dark',
@@ -51,7 +57,37 @@ function SongCustomer() {
             .catch(err => console.log(err));
 
     }, [])
+    const handleSort = (field) => {
+        const isAsc = orderBy === field && order === "asc";
+        setOrder(isAsc ? "desc" : "asc");
+        setOrderBy(field);
+    };
 
+    function sortData(data) {
+        return data.slice().sort((a, b) => {
+            const fieldA = getFieldToSort(a);
+            const fieldB = getFieldToSort(b);
+
+            if (fieldA && fieldB) {
+                if (order === "asc") {
+                    return fieldA.localeCompare(fieldB);
+                } else {
+                    return fieldB.localeCompare(fieldA);
+                }
+            } else {
+                return 0;
+            }
+        });
+    }
+    function getFieldToSort(item) {
+        if (orderBy === "created_at") {
+            return item.created_at;
+        } else if (orderBy === "updated_at") {
+            return item.updated_at;
+        } else {
+            return item.song_title;
+        }
+    }
     return (
         <>
             <Box sx={{ flexGrow: 1, top: 0, position: "sticky", zIndex: '3' }}>
@@ -94,36 +130,57 @@ function SongCustomer() {
                     </AppBar>
                 </ThemeProvider>
             </Box>
-            <div className='d-flex flex-column align-items-center pt-4'>
+            <div className='d-flex flex-column align-items-center pt-3'>
                 <h3 className="d-flex justify-content-center">SONG</h3>
             </div>
-            <div className="px-2 py-4">
+            <div className="px-2 py-3">
                 <div className='mt-4 pd-left'>
                     <TableContainer component={Paper}>
                         <Table>
-                            <TableHead>
+                            <TableHead sx={{ backgroundColor: primaryColor }}>
                                 <TableRow>
-                                    <TableCell>ID</TableCell>
+                                    <TableCell><b>ID</b></TableCell>
                                     <TableCell></TableCell>
-                                    <TableCell>Name song</TableCell>
-                                    <TableCell>Link</TableCell>
                                     <TableCell>
-                                        <CalendarMonthIcon color="primary" /> Date created
+                                        <TableSortLabel
+                                            active={orderBy === "song_title"}
+                                            direction={orderBy === "song_title" ? order : "asc"}
+                                            onClick={() => handleSort("song_title")}
+                                        >
+                                            <b>Name song</b>
+                                        </TableSortLabel>
+                                    </TableCell>
+                                    <TableCell><b>Link</b></TableCell>
+                                    <TableCell>
+                                        <TableSortLabel
+                                            active={orderBy === "created_at"}
+                                            direction={orderBy === "created_at" ? order : "asc"}
+                                            onClick={() => handleSort("created_at")}
+                                        >
+                                            <b><CalendarMonthIcon color="primary" /> Date created</b>
+                                        </TableSortLabel>
                                     </TableCell>
                                     <TableCell>
-                                        <CalendarMonthIcon color="primary" /> Date updated
+                                        <TableSortLabel
+                                            active={orderBy === "updated_at"}
+                                            direction={orderBy === "updated_at" ? order : "asc"}
+                                            onClick={() => handleSort("updated_at")}
+                                        >
+                                            <b><CalendarMonthIcon color="primary" /> Date updated</b>
+                                        </TableSortLabel>
                                     </TableCell>
-                                    <TableCell>Status</TableCell>
+                                    <TableCell><b>Status</b></TableCell>
                                     <TableCell></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
 
-                                {data.filter((song) => {
-                                    return search.toLowerCase() === '' ? song
-                                        :
-                                        song.song_title.toLowerCase().includes(search);
-                                })
+                                {sortData(data)
+                                    .filter((song) => {
+                                        return search.toLowerCase() === '' ? song
+                                            :
+                                            song.song_title.toLowerCase().includes(search);
+                                    })
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 
                                     .map((song, index) => (

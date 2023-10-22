@@ -63,7 +63,7 @@ function EditSongMusician() {
                             type="text"
                             className="form-control"
                             id="inputName"
-                            name="song_title" // Add the name attribute
+                            name="song_title"
                             placeholder="Enter Name"
                             autoComplete="off"
                             onChange={handleInputChange}
@@ -76,7 +76,7 @@ function EditSongMusician() {
                             type="text"
                             className="form-control"
                             id="inputName"
-                            name="link" // Add the name attribute
+                            name="link"
                             placeholder="Enter Link"
                             autoComplete="off"
                             onChange={handleInputChange}
@@ -101,9 +101,10 @@ function EditSongMusician() {
                                     <textarea
                                         cols="80"
                                         rows="20"
-                                        name="lyrics" // Add the name attribute
-                                        onChange={handleInputChange} // Add onChange for textarea
+                                        name="lyrics"
+                                        onChange={handleInputChange}
                                         value={data.lyrics}
+                                        style={{ width: '100%' }}
                                     >
                                         {data.lyrics}
                                     </textarea>
@@ -111,7 +112,7 @@ function EditSongMusician() {
                             </div>
                         </div>
                     </div>
-                    <div className="col-12">
+                    <div className="col-12 d-flex justify-content-center">
                         <Button
                             type="submit"
                             variant="contained"

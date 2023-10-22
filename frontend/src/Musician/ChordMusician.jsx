@@ -20,6 +20,8 @@ function ChordMusician() {
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
+    const primaryColor = "#F1F1FB";
+
     useEffect(() => {
         axios.get('http://localhost:8081/getSong')
             .then(res => {
@@ -50,7 +52,7 @@ function ChordMusician() {
                 <div className='mt-4 pd-left' style={{ height: '450px', overflowY: 'scroll' }}>
                     <TableContainer component={Paper}>
                         <Table>
-                            <TableHead>
+                            <TableHead sx={{ backgroundColor: primaryColor }}>
                                 <TableRow>
                                     <TableCell>ID</TableCell>
                                     <TableCell></TableCell>
