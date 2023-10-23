@@ -69,7 +69,7 @@ function DashboardCustomer() {
                                     <List sx={{
                                         width: '45%', paddingTop: '30px', paddingRight: '10px'
                                     }}>
-                                        <ListItemButton href="/Song">
+                                        <ListItemButton href="/songCustomer">
                                             <ListItemIcon>
                                                 <QueueMusicIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
@@ -89,7 +89,7 @@ function DashboardCustomer() {
                                     <List sx={{
                                         width: '45%', paddingTop: '30px', paddingRight: '10px',
                                     }}>
-                                        <ListItemButton href={`/profile/` + profile.userId}>
+                                        <ListItemButton href={`/profileCustomer/` + profile.userId}>
                                             <ListItemIcon>
                                                 <ModeIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>

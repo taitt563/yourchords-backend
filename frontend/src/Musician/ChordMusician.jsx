@@ -14,12 +14,15 @@ import {
     TableHead,
     TableRow,
     Paper,
+    TableSortLabel,
 } from "@mui/material";
 import TablePagination from "@mui/material/TablePagination";
 function ChordMusician() {
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
+    const [orderBy, setOrderBy] = useState("create_at");
+    const [order, setOrder] = useState("asc");
     const primaryColor = "#F1F1FB";
 
     useEffect(() => {
@@ -42,6 +45,24 @@ function ChordMusician() {
             })
             .catch(err => console.log(err));
     }
+    const handleSort = (field) => {
+        setOrderBy(field);
+        setOrder(order === "asc" ? "desc" : "asc");
+    };
+
+    function sortData(data) {
+        return data.slice().sort((a, b) => {
+            if (orderBy === "created_at") {
+                return order === "asc"
+                    ? a.created_at.localeCompare(b.created_at)
+                    : b.created_at.localeCompare(a.created_at);
+            } else if (orderBy === "updated_at" && a.updated_at && b.updated_at) {
+                return order === "asc"
+                    ? a.updated_at.localeCompare(b.updated_at)
+                    : b.updated_at.localeCompare(a.updated_at);
+            }
+        });
+    }
     return (
         <>
             <SearchAppBar />
@@ -54,22 +75,35 @@ function ChordMusician() {
                         <Table>
                             <TableHead sx={{ backgroundColor: primaryColor }}>
                                 <TableRow>
-                                    <TableCell>ID</TableCell>
+                                    <TableCell><b>ID</b></TableCell>
                                     <TableCell></TableCell>
-                                    <TableCell>Name song</TableCell>
-                                    <TableCell>Link</TableCell>
                                     <TableCell>
-                                        <CalendarMonthIcon color="primary" /> Date created
+                                        <TableSortLabel
+                                        >
+                                            <b>Name song</b>
+                                        </TableSortLabel>
+                                    </TableCell>
+                                    <TableCell><b>Link</b></TableCell>
+                                    <TableCell>
+                                        <TableSortLabel
+                                            onClick={() => handleSort("created_at")}
+                                        >
+                                            <b><CalendarMonthIcon color="primary" /> Date created</b>
+                                        </TableSortLabel>
                                     </TableCell>
                                     <TableCell>
-                                        <CalendarMonthIcon color="primary" /> Date updated
+                                        <TableSortLabel
+                                            onClick={() => handleSort("updated_at")}
+                                        >
+                                            <b><CalendarMonthIcon color="primary" /> Date updated</b>
+                                        </TableSortLabel>
                                     </TableCell>
-                                    <TableCell>Status</TableCell>
+                                    <TableCell><b>Status</b></TableCell>
                                     <TableCell></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {data
+                                {sortData(data)
                                     .filter(song => {
                                         let dataChord = song.lyrics;
                                         dataChord = dataChord.replace(/.+/g, "<section>$&</section>");
@@ -104,7 +138,8 @@ function ChordMusician() {
                                             <TableCell>
                                                 <Link to={`/viewSongMusician/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                                 {song.status === 0 ?
-                                                    <Link onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></Link> :
+                                                    <Link onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></Link>
+                                                    :
                                                     ""
                                                 }
                                             </TableCell>

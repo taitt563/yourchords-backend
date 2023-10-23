@@ -30,7 +30,7 @@ function Song() {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
-    const [orderBy, setOrderBy] = useState("song_title");
+    const [orderBy, setOrderBy] = useState("create_at");
     const [order, setOrder] = useState("asc");
 
     const primaryColor = "#F1F1FB";
@@ -56,35 +56,21 @@ function Song() {
             .catch((err) => console.log(err));
     }, []);
     const handleSort = (field) => {
-        const isAsc = orderBy === field && order === "asc";
-        setOrder(isAsc ? "desc" : "asc");
         setOrderBy(field);
+        setOrder(order === "asc" ? "desc" : "asc");
     };
-
     function sortData(data) {
         return data.slice().sort((a, b) => {
-            const fieldA = getFieldToSort(a);
-            const fieldB = getFieldToSort(b);
-
-            if (fieldA && fieldB) {
-                if (order === "asc") {
-                    return fieldA.localeCompare(fieldB);
-                } else {
-                    return fieldB.localeCompare(fieldA);
-                }
-            } else {
-                return 0;
+            if (orderBy === "created_at") {
+                return order === "asc"
+                    ? a.created_at.localeCompare(b.created_at)
+                    : b.created_at.localeCompare(a.created_at);
+            } else if (orderBy === "updated_at" && a.updated_at && b.updated_at) {
+                return order === "asc"
+                    ? a.updated_at.localeCompare(b.updated_at)
+                    : b.updated_at.localeCompare(a.updated_at);
             }
         });
-    }
-    function getFieldToSort(item) {
-        if (orderBy === "created_at") {
-            return item.created_at;
-        } else if (orderBy === "updated_at") {
-            return item.updated_at;
-        } else {
-            return item.song_title;
-        }
     }
     return (
         <>
@@ -146,19 +132,14 @@ function Song() {
                                     <TableCell><b>ID</b></TableCell>
                                     <TableCell></TableCell>
                                     <TableCell>
-                                        <TableSortLabel
-                                            active={orderBy === "song_title"}
-                                            direction={orderBy === "song_title" ? order : "asc"}
-                                            onClick={() => handleSort("song_title")}
-                                        >
+                                        <TableSortLabel>
                                             <b>Name song</b>
                                         </TableSortLabel>
                                     </TableCell>
                                     <TableCell><b>Link</b></TableCell>
                                     <TableCell>
                                         <TableSortLabel
-                                            active={orderBy === "created_at"}
-                                            direction={orderBy === "created_at" ? order : "asc"}
+
                                             onClick={() => handleSort("created_at")}
                                         >
                                             <b><CalendarMonthIcon color="primary" /> Date created</b>
@@ -166,8 +147,7 @@ function Song() {
                                     </TableCell>
                                     <TableCell>
                                         <TableSortLabel
-                                            active={orderBy === "updated_at"}
-                                            direction={orderBy === "updated_at" ? order : "asc"}
+
                                             onClick={() => handleSort("updated_at")}
                                         >
                                             <b><CalendarMonthIcon color="primary" /> Date updated</b>
@@ -180,7 +160,7 @@ function Song() {
 
                             <TableBody>
                                 {sortData(data)
-                                    .filter((song) => {
+                                    .filter(song => {
                                         return search.toLowerCase() === "" ? song : song.song_title.toLowerCase().includes(search);
                                     })
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

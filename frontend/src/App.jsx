@@ -38,6 +38,8 @@ import DashboardCustomer from './Customer/DashboardCustomer'
 import SignUpCustomer from './Customer/SignUpCustomer'
 import SongCustomer from './Customer/SongCustomer'
 import ViewSongCustomer from './Customer/ViewSongCustomer'
+import Payment from './Customer/Payment'
+import ProfileCustomer from './Customer/ProfileCustomer'
 function App() {
   return (
     <BrowserRouter>
@@ -86,6 +88,9 @@ function App() {
         <Route path='/' element={<DashboardCustomer />}>
           <Route path='/songCustomer' element={<SongCustomer />}></Route>
           <Route path='/viewSongCustomer/:song_title' element={<ViewSongCustomer />}></Route>
+          <Route path='/payment' element={<Payment />}></Route>
+          <Route path='/profileCustomer/:userId' element={<ProfileCustomer />}></Route>
+
         </Route>
       </Routes>
     </BrowserRouter>

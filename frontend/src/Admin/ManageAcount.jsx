@@ -68,7 +68,7 @@ function ManageAccount() {
     const [value, setValue] = useState('1');
     const [open, setOpen] = useState(false);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(7);
     const [orderBy, setOrderBy] = useState("username");
     const [order, setOrder] = useState("asc");
     const primaryColor = '#F1F1FB';
@@ -357,7 +357,7 @@ function ManageAccount() {
                                     setRowsPerPage(+event.target.value);
                                     setPage(0);
                                 }}
-                                rowsPerPageOptions={[10, 10, 25, 50, 100]}
+                                rowsPerPageOptions={[7, 10, 25, 50, 100]}
                             />
                         </div>
                     </div>
@@ -465,7 +465,7 @@ function ManageAccount() {
                                     setRowsPerPage(+event.target.value);
                                     setPage(0);
                                 }}
-                                rowsPerPageOptions={[10, 10, 25, 50, 100]}
+                                rowsPerPageOptions={[7, 10, 25, 50, 100]}
                             />
                         </div>
                     </div>
@@ -573,7 +573,7 @@ function ManageAccount() {
                                     setRowsPerPage(+event.target.value);
                                     setPage(0);
                                 }}
-                                rowsPerPageOptions={[10, 10, 25, 50, 100]}
+                                rowsPerPageOptions={[7, 10, 25, 50, 100]}
                             />
                         </div>
                     </div>
@@ -681,7 +681,7 @@ function ManageAccount() {
                                     setRowsPerPage(+event.target.value);
                                     setPage(0);
                                 }}
-                                rowsPerPageOptions={[10, 10, 25, 50, 100]}
+                                rowsPerPageOptions={[7, 10, 25, 50, 100]}
                             />
                         </div>
                     </div>
