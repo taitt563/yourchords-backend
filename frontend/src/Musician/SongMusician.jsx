@@ -74,7 +74,7 @@ function SongMusician() {
                 </div>
                 {/* <Link to="/createSong" className="btn btn-primary">ADD</Link> */}
 
-                <div className='mt-4 pd-left' style={{ height: '450px', overflowY: 'scroll' }}>
+                <div className='mt-4 pd-left'>
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHead sx={{ backgroundColor: primaryColor }}>

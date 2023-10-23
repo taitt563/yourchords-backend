@@ -103,7 +103,7 @@ function ProfileCustomer() {
                     <h3 className="d-flex justify-content-center">PROFILE</h3>
                 </div>
                 <form className="row g-3 w-50">
-                    <div className="container rounded bg-white mt-5 mb-5">
+                    <div className="container rounded bg-white mt-2">
                         <div className="row">
 
                             <div className="col-md-4 border-right">

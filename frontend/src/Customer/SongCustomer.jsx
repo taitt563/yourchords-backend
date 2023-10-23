@@ -1,41 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link } from '@mui/material';
 import axios from "axios";
 import { useEffect, useState } from "react";
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import moment from 'moment'
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import HeadsetIcon from '@mui/icons-material/Headset';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-
 import AppBar from '@mui/material/AppBar';
-import 'react-html5video/dist/styles.css'
-// import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-// import ReactPlayer from 'react-player'
-import "react-html5video/dist/styles.css";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    TableSortLabel,
-} from "@mui/material";
-import TablePagination from "@mui/material/TablePagination";
+import SortIcon from '@mui/icons-material/Sort';
+
 function SongCustomer() {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState("");
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(8);
     const [orderBy, setOrderBy] = useState("create_at");
     const [order, setOrder] = useState("asc");
-    const primaryColor = "#F1F1FB";
-
     const darkTheme = createTheme({
         palette: {
             mode: 'dark',
@@ -56,10 +36,10 @@ function SongCustomer() {
             })
             .catch(err => console.log(err));
 
-    }, [])
+    }, []);
     const handleSort = (field) => {
         setOrderBy(field);
-        setOrder(order === "asc" ? "desc" : "asc");
+        setOrder(order === "asc");
     };
     function sortData(data) {
         return data.slice().sort((a, b) => {
@@ -103,7 +83,6 @@ function SongCustomer() {
                                 component="div"
                                 sx={{ color: '#0d6efd', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                             >
-
                                 <b>YOUR CHORD</b>
                             </Typography>
                             <input
@@ -116,112 +95,86 @@ function SongCustomer() {
                     </AppBar>
                 </ThemeProvider>
             </Box>
-            <div className='d-flex flex-column align-items-center pt-3'>
-                <h3 className="d-flex justify-content-center">SONG</h3>
+            <div className="sort-button-container">
+                <button
+                    className={`sort-button ${orderBy === "created_at" ? "active" : ""}`}
+                    onClick={() => handleSort("created_at")}
+                >
+                    New
+                </button>
+                <button
+                    className={`sort-button ${orderBy === "updated_at" ? "active" : ""}`}
+                    onClick={() => handleSort("updated_at")}
+                >
+                    <SortIcon className="sort-icon" /> Updated
+                </button>
+                <button
+                    className={`sort-button ${orderBy === "popular" ? "active" : ""}`}
+                >
+                    <SortIcon className="sort-icon" /> Popular
+                </button>
+                <button
+                    className={`sort-button ${orderBy === "pop" ? "active" : ""}`}
+                >
+                    <SortIcon className="sort-icon" /> Pop
+                </button>
+                <button
+                    className={`sort-button ${orderBy === "rock" ? "active" : ""}`}
+                >
+                    <SortIcon className="sort-icon" /> Rock
+                </button>
+                <button
+                    className={`sort-button ${orderBy === "jazz" ? "active" : ""}`}
+                >
+                    <SortIcon className="sort-icon" /> Jazz
+                </button>
+                <button
+                    className={`sort-button ${orderBy === "acoustic" ? "active" : ""}`}
+                >
+                    <SortIcon className="sort-icon" /> Acoustic
+                </button>
+                <button
+                    className={`sort-button ${orderBy === "ballad" ? "active" : ""}`}
+                >
+                    <SortIcon className="sort-icon" /> Ballad
+                </button>
+                <button
+                    className={`sort-button ${orderBy === "r&b" ? "active" : ""}`}
+                >
+                    <SortIcon className="sort-icon" /> R&b
+                </button>
             </div>
-            <div className="px-2 py-3">
-                <div className='mt-4 pd-left'>
-                    <TableContainer component={Paper}>
-                        <Table>
-                            <TableHead sx={{ backgroundColor: primaryColor }}>
-                                <TableRow>
-                                    <TableCell><b>ID</b></TableCell>
-                                    <TableCell></TableCell>
-                                    <TableCell>
-                                        <TableSortLabel
-                                        >
-                                            <b>Name song</b>
-                                        </TableSortLabel>
-                                    </TableCell>
-                                    <TableCell><b>Link</b></TableCell>
-                                    <TableCell>
-                                        <TableSortLabel
-                                            onClick={() => handleSort("created_at")}
-                                        >
-                                            <b><CalendarMonthIcon color="primary" /> Date created</b>
-                                        </TableSortLabel>
-                                    </TableCell>
-                                    <TableCell>
-                                        <TableSortLabel
-                                            onClick={() => handleSort("updated_at")}
-                                        >
-                                            <b><CalendarMonthIcon color="primary" /> Date updated</b>
-                                        </TableSortLabel>
-                                    </TableCell>
-                                    <TableCell><b>Status</b></TableCell>
-                                    <TableCell></TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
 
-                                {sortData(data)
-                                    .filter((song) => {
-                                        return search.toLowerCase() === '' ? song
-                                            :
-                                            song.song_title.toLowerCase().includes(search);
-                                    })
-                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            <div className="song-list-container">
+                {sortData(data)
+                    .filter((song) => {
+                        return search.toLowerCase() === '' ? song
+                            : song.song_title.toLowerCase().includes(search);
+                    })
+                    .map((song, index) => (
 
-                                    .map((song, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>{song.id}</TableCell>
-                                            <TableCell>
-                                                {
-                                                    <img src={`http://localhost:8081/images/` + song.thumbnail} alt="" className="song_image" />
-                                                }
-                                            </TableCell>
-                                            {song.song_title.length > 30 ? (
-                                                <TableCell>
-                                                    <b>{song.song_title.substring(0, 20)}...</b>
-                                                </TableCell>
-                                            ) : (
-                                                <TableCell>
-                                                    <b>{song.song_title} </b>
-                                                </TableCell>
-                                            )}
-                                            {song.link != null ? (
-                                                <TableCell>
-                                                    <Link to={song.link}>{song.link.substring(0, 30)}...</Link>
-                                                </TableCell>
-                                            ) : (
-                                                <TableCell>Updating...</TableCell>
-                                            )}
-                                            {/* {song.link != null ?
-                                            <td><ReactPlayer url={song.link} width="200px" height="200px" light={true} controls
-                                            /></td>
-                                            : <td className="text-warning">Updating...</td>
-                                        } */}
-                                            <TableCell>{moment(song.created_at).format("YYYY/MM/DD - HH:mm:ss")}</TableCell>
-                                            {song.updated_at != null ? (
-                                                <TableCell>{moment(song.updated_at).format("YYYY/MM/DD - HH:mm:ss")}</TableCell>
-                                            ) : (
-                                                <TableCell>Not update</TableCell>
-                                            )}
+                        <div key={index} className="song-list-item">
 
-                                            <TableCell>
-                                                <Link to={`/viewSongCustomer/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        component="div"
-                        count={data.length}
-                        page={page}
-                        onPageChange={(event, newPage) => setPage(newPage)}
-                        rowsPerPage={rowsPerPage}
-                        onRowsPerPageChange={(event) => {
-                            setRowsPerPage(+event.target.value);
-                            setPage(0);
-                        }}
-                        rowsPerPageOptions={[8, 10, 25, 50, 100]}
-
-                    />
-                </div>
+                            <Link href={`/viewSongCustomer/` + song.song_title} underline='none' >
+                                <div>
+                                    <img src={`http://localhost:8081/images/` + song.thumbnail} className="song-thumbnail" />
+                                </div>
+                                <div className="song-details" style={{ textAlign: 'center' }}>
+                                    <b>{song.song_title}</b>
+                                    <p><b>Artist: {song.artist}</b></p>
+                                    <p>Date created: {moment(song.created_at).format("YYYY/MM/DD - HH:mm:ss")}</p>
+                                    {song.updated_at != null ?
+                                        <p>Date updated: {moment(song.updated_at).format("YYYY/MM/DD - HH:mm:ss")}</p>
+                                        :
+                                        <p>Not updated</p>
+                                    }
+                                </div>
+                            </Link>
+                        </div>
+                    ))}
             </div>
         </>
     )
 }
+
 export default SongCustomer;

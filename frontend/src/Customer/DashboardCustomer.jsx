@@ -37,8 +37,8 @@ function DashboardCustomer() {
                 <div className=" col-auto col-md-3 col-xl-2 px-0 tabLeft">
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 text-white min-vh-100" style={{
                         top: 0,
-                        zIndex: 2,
-                        position: "sticky"
+                        zIndex: 0,
+                        position: 'sticky'
                     }}>
                         {datachord.map((profile, index) => {
                             return <div key={index}>
@@ -65,53 +65,53 @@ function DashboardCustomer() {
                                 </ListItem>
                                 <br />
                                 <span type="text" className='fs-100 font pd-left '>Date current: <b>{displaytodaysdate}</b></span>
-                                <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                                    <List sx={{
-                                        width: '45%', paddingTop: '30px', paddingRight: '10px'
-                                    }}>
-                                        <ListItemButton href="/songCustomer">
-                                            <ListItemIcon>
-                                                <QueueMusicIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Song</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
-                                    <List sx={{
-                                        width: '45%', paddingTop: '30px', paddingRight: '10px'
-                                    }}>
-                                        <ListItemButton href="/feedback">
-                                            <ListItemIcon>
-                                                <ThumbUpAltIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Feedback</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
-                                    <List sx={{
-                                        width: '45%', paddingTop: '30px', paddingRight: '10px',
-                                    }}>
-                                        <ListItemButton href={`/profileCustomer/` + profile.userId}>
-                                            <ListItemIcon>
-                                                <ModeIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
-                                    <List sx={{
-                                        width: '45%', paddingTop: '30px', paddingRight: '10px'
-                                    }}>
-                                        <ListItemButton href="/login">
-                                            <ListItemIcon>
-                                                <LogoutIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
-                                </ul>
+                                <List sx={{
+                                    width: '45%', paddingTop: '30px', paddingRight: '10px'
+                                }}>
+                                    <ListItemButton href="/songCustomer">
+                                        <ListItemIcon>
+                                            <QueueMusicIcon color="primary" fontSize='medium' />
+                                        </ListItemIcon>
+                                        <ListItemText><span className="fontDashboard">Song</span></ListItemText>
+                                    </ListItemButton>
+                                </List>
+                                <List sx={{
+                                    width: '45%', paddingTop: '30px', paddingRight: '10px'
+                                }}>
+                                    <ListItemButton href="/feedback">
+                                        <ListItemIcon>
+                                            <ThumbUpAltIcon color="primary" fontSize='medium' />
+                                        </ListItemIcon>
+                                        <ListItemText><span className="fontDashboard">Feedback</span></ListItemText>
+                                    </ListItemButton>
+                                </List>
+                                <List sx={{
+                                    width: '45%', paddingTop: '30px', paddingRight: '10px',
+                                }}>
+                                    <ListItemButton href={`/profileCustomer/` + profile.userId}>
+                                        <ListItemIcon>
+                                            <ModeIcon color="primary" fontSize='medium' />
+                                        </ListItemIcon>
+                                        <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
+                                    </ListItemButton>
+                                </List>
+                                <List sx={{
+                                    width: '45%', paddingTop: '30px', paddingRight: '10px'
+                                }}>
+                                    <ListItemButton href="/login">
+                                        <ListItemIcon>
+                                            <LogoutIcon color="primary" fontSize='medium' />
+                                        </ListItemIcon>
+                                        <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                    </ListItemButton>
+                                </List>
                             </div>
                         })}
                     </div>
                 </div>
-                <div className="col p-0 m-0">
+                <div className="col p-0 m-0" style={{
+                    zIndex: 9999,
+                }}>
                     <Outlet />
                 </div>
             </div>

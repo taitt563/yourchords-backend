@@ -53,7 +53,8 @@ function DashboardChordManager() {
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 text-white min-vh-100" style={{
                         top: 0,
                         zIndex: 2,
-                        position: "sticky"
+                        position: 'sticky'
+
                     }}>
                         {data.map((profile, index) => {
                             return <div key={index}>

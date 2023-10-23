@@ -87,6 +87,59 @@ strong {
     font-size: 13px;
 }
 
+.song-list-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 40px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.song-list-item {
+    background-color: #fff;
+    border: 1px solid #e3e3e3;
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.song-list-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.song-thumbnail {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.song-details {
+    padding: 10px;
+}
+
+.song-details b {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.song-details p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.song-list-container a {
+    text-decoration: none;
+    color: inherit;
+}
+
 
 input.input-box,
 textarea {
@@ -160,6 +213,31 @@ textarea {
 
 .h2 {
     text-align: center;
+}
+
+.sort-button {
+    background-color: #0d6efd;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin: 0 10px;
+    border-radius: 20px;
+    transition: background-color 0.2s;
+}
+
+.sort-button.active {
+    background-color: #ff4000;
+}
+
+.sort-button:hover {
+    background-color: #ff4000;
+}
+
+.sort-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 .content {
