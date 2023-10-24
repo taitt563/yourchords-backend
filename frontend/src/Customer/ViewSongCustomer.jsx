@@ -148,7 +148,6 @@ function ViewSongCustomer() {
                             </div>
                             : ""
                         }
-                        <p className="fs-100 pd-left pd-top" >ID: <b>{viewSong.id}</b></p>
                         <p className="fs-100 pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                         {viewSong.updated_at != null ?
                             <p className="fs-100 pd-left" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>

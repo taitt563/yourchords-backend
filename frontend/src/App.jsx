@@ -40,6 +40,7 @@ import SongCustomer from './Customer/SongCustomer'
 import ViewSongCustomer from './Customer/ViewSongCustomer'
 import Payment from './Customer/Payment'
 import ProfileCustomer from './Customer/ProfileCustomer'
+import Playlist from './Customer/Playlist'
 function App() {
   return (
     <BrowserRouter>
@@ -90,6 +91,8 @@ function App() {
           <Route path='/viewSongCustomer/:song_title' element={<ViewSongCustomer />}></Route>
           <Route path='/payment' element={<Payment />}></Route>
           <Route path='/profileCustomer/:userId' element={<ProfileCustomer />}></Route>
+          <Route path='/playlist' element={<Playlist />}></Route>
+
 
         </Route>
       </Routes>

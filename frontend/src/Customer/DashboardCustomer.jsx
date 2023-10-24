@@ -13,6 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 function DashboardCustomer() {
     const [datachord, setDataChord] = useState([]);
     axios.defaults.withCredentials = true;
@@ -77,6 +78,17 @@ function DashboardCustomer() {
                                 </List>
                                 <List sx={{
                                     width: '45%', paddingTop: '30px', paddingRight: '10px'
+
+                                }}>
+                                    <ListItemButton href="/playlist" >
+                                        <ListItemIcon>
+                                            <PlaylistAddIcon color="primary" fontSize='medium' />
+                                        </ListItemIcon>
+                                        <ListItemText><span className="fontDashboard">Playlist</span></ListItemText>
+                                    </ListItemButton>
+                                </List>
+                                <List sx={{
+                                    width: '45%', paddingTop: '30px', paddingRight: '10px'
                                 }}>
                                     <ListItemButton href="/feedback">
                                         <ListItemIcon>
@@ -95,6 +107,7 @@ function DashboardCustomer() {
                                         <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
                                     </ListItemButton>
                                 </List>
+
                                 <List sx={{
                                     width: '45%', paddingTop: '30px', paddingRight: '10px'
                                 }}>
@@ -105,6 +118,7 @@ function DashboardCustomer() {
                                         <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
                                     </ListItemButton>
                                 </List>
+
                             </div>
                         })}
                     </div>

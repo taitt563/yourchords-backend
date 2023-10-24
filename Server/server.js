@@ -226,7 +226,31 @@ app.post('/createSong', upload.single('thumbnail'), (req, res) => {
         return false;
     }
 })
+app.post('/createPlaylist', upload.single('image'), (req, res) => {
+    let sql = `
+            INSERT INTO collection (user_id, collection_name, date_creation, image) SELECT ?, ?, CURRENT_TIMESTAMP, ?
+            WHERE EXISTS (SELECT 1 FROM user_acc WHERE username = ?);
+        `;
 
+
+    if (req.body.collection_name.length > 0) {
+        const values = [
+            req.body.username,
+            req.body.collection_name,
+            req.file.filename,
+            req.body.username,
+        ];
+        console.log(values)
+
+        con.query(sql, values, (err, result) => {
+            if (err) return res.json({ Error: "Error" });
+            return res.json({ Status: "Success" });
+        });
+    } else {
+        return false;
+
+    }
+});
 app.get('/getProfile/:userId', (req, res) => {
     const userId = req.params.userId;
     const sql = "SELECT * FROM profile LEFT JOIN user_acc ON profile.userId = user_acc.username WHERE userId = ?";
