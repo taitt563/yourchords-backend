@@ -25,7 +25,7 @@ import SignUpMusician from './Musician/SignUpMusician'
 // import HomeMusician from './Musician/HomeMusician'
 import SongMusician from './Musician/SongMusician'
 import ViewSongMusician from './Musician/ViewSongMusician'
-// import CreateSong from './Musician/CreateSong'
+import CreateSong from './Musician/CreateSong'
 import EditSongMusician from './Musician/EditSongMusician'
 import ProfileMusician from './Musician/ProfileMusician'
 import ChordMusician from './Musician/ChordMusician'
@@ -76,7 +76,7 @@ function App() {
           {/* <Route path='/homeMusician' element={<HomeMusician />}></Route> */}
           <Route path='/songMusician' element={<SongMusician />}></Route>
           <Route path='/viewSongMusician/:song_title' element={<ViewSongMusician />}></Route>
-          {/* <Route path='/createSong' element={<CreateSong />}></Route> */}
+          <Route path='/createSong' element={<CreateSong />}></Route>
           <Route path='/editSongMusician/:song_title' element={<EditSongMusician />}></Route>
           <Route path='/profileMusician/:userId' element={<ProfileMusician />}></Route>
           <Route path='/chordMusician' element={<ChordMusician />}></Route>
