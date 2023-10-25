@@ -41,11 +41,15 @@ function Playlist() {
                             <div className="d-flex flex-column align-items-center text-center ">
 
 
+
                                 <div className="rounded-image-container">
                                     <img
                                         className="rounded-square-image"
-                                        src={`http://localhost:8081/images/` + playlist.image}
+                                        src={`http://localhost:8081/images/${playlist.image}`}
                                     />
+                                    <div className="image-overlay">
+                                        <p className="overlay-text">View Playlist</p>
+                                    </div>
                                 </div>
 
                                 <b className="playlist-name">{playlist.collection_name}</b>
@@ -62,7 +66,7 @@ function Playlist() {
                     <div className="d-flex flex-column align-items-center text-center ">
 
                         <div className='playlist-container-default'>
-                            <AddIcon className="playlist-name" style={{ fontSize: 30, cursor: 'pointer' }} onClick={handleCreate} />
+                            <AddIcon className="playlist-name" style={{ fontSize: 40 }} onClick={handleCreate} />
                             <br />
                             <b className="playlist-name" onClick={handleCreate}>Add New Playlist</b>
                         </div>

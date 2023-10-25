@@ -78,7 +78,6 @@ function CreatePlaylist() {
                             value={data.collection_name}
                             onChange={(e) => setData({ ...data, collection_name: e.target.value })}
                         />
-                        {/* Rest of the step content and buttons */}
                     </div>
                 );
 
@@ -90,14 +89,12 @@ function CreatePlaylist() {
                         <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                             <input type="file" onChange={(e) => setData({ ...data, image: e.target.files[0] })} />
                         </Button>
-                        {/* Rest of the step content and buttons */}
                     </div>
                 );
             case 2:
                 return (
                     <div className='d-flex flex-column align-items-center pt-5'>
                         <p>Create successfully !</p>
-                        {/* Rest of the step content and buttons */}
                     </div>
                 );
             default:

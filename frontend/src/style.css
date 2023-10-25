@@ -176,6 +176,29 @@ textarea {
 
 }
 
+.image-overlay {
+    position: absolute;
+
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+}
+
+.rounded-image-container:hover .image-overlay {
+    opacity: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.overlay-text {
+    color: white;
+    font-size: 18px;
+}
+
 .rounded-square-image {
     width: 200px;
     height: 200px;
