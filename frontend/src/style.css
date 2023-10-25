@@ -133,37 +133,17 @@ strong {
 
 /* Playlist.css */
 
-.playlist-container {
-    background: #fff;
-    text-align: center;
+.playlist-container-default {
     padding: 20px;
     border: 1px solid #ccc;
-    border-radius: 10px;
+    border-radius: 50px;
     width: 300px;
-    margin: 0 auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.playlist-title {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
 
-.playlist-input {
-    width: 100%;
-    padding: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.playlist-button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.playlist-container-default:hover {
+    transform: scale(1.1);
 }
 
 .playlist-list {
@@ -195,6 +175,45 @@ textarea {
     border: 5px solid rgba(0, 0, 0, 0);
 
 }
+
+.rounded-square-image {
+    width: 200px;
+    height: 200px;
+}
+
+.rounded-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+.rounded-image-container:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.playlist-container:hover .collection_name {
+    color: #0d6efd;
+}
+
+.collection_name {
+    transition: text-decoration 0.3s, color 0.3s;
+}
+
+.playlist-name {
+    transition: color 0.3s;
+    padding-top: 20px;
+}
+
+.playlist-container:hover .playlist-name {
+    color: #0d6efd;
+    transform: scale(1.1);
+
+}
+
 
 .tabLeft {
     background-color: #F1F1FB;

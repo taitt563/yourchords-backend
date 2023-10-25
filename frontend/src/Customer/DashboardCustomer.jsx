@@ -15,7 +15,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 function DashboardCustomer() {
-    const [datachord, setDataChord] = useState([]);
+    const [data, setData] = useState([]);
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
     let showDate = new Date();
@@ -25,7 +25,7 @@ function DashboardCustomer() {
         axios.get('http://localhost:8081/getProfile/' + userId)
             .then(res => {
                 if (res.data.Status === "Success") {
-                    setDataChord(res.data.Result);
+                    setData(res.data.Result);
                 } else {
                     alert("Error")
                 }
@@ -41,7 +41,7 @@ function DashboardCustomer() {
                         zIndex: 0,
                         position: 'sticky'
                     }}>
-                        {datachord.map((profile, index) => {
+                        {data.map((profile, index) => {
                             return <div key={index}>
                                 <ListItem sx={{
 
@@ -80,7 +80,7 @@ function DashboardCustomer() {
                                     width: '45%', paddingTop: '30px', paddingRight: '10px'
 
                                 }}>
-                                    <ListItemButton href="/playlist" >
+                                    <ListItemButton href={`/playlist/` + profile.userId} >
                                         <ListItemIcon>
                                             <PlaylistAddIcon color="primary" fontSize='medium' />
                                         </ListItemIcon>

@@ -226,31 +226,38 @@ app.post('/createSong', upload.single('thumbnail'), (req, res) => {
         return false;
     }
 })
-app.post('/createPlaylist', upload.single('image'), (req, res) => {
+app.post('/createPlaylist/:username', upload.single('image'), (req, res) => {
     let sql = `
-            INSERT INTO collection (user_id, collection_name, date_creation, image) SELECT ?, ?, CURRENT_TIMESTAMP, ?
-            WHERE EXISTS (SELECT 1 FROM user_acc WHERE username = ?);
-        `;
-
+    INSERT INTO collection (user_id, collection_name, date_creation, image)
+    SELECT ?, ?, CURRENT_TIMESTAMP, ?
+    FROM user_acc
+    WHERE username = ?;
+    `;
 
     if (req.body.collection_name.length > 0) {
         const values = [
-            req.body.username,
+            req.params.username,
             req.body.collection_name,
             req.file.filename,
-            req.body.username,
+            req.params.username,
         ];
         console.log(values)
-
         con.query(sql, values, (err, result) => {
             if (err) return res.json({ Error: "Error" });
-            return res.json({ Status: "Success" });
+            return res.json({ Status: "Success", Result: result });
         });
     } else {
-        return false;
-
+        return res.json({ Error: "Collection name is missing" });
     }
 });
+app.get('/getPlaylist/:user_id', (req, res) => {
+    const user_id = req.params.user_id;
+    const sql = "SELECT * FROM collection where user_id = ?";
+    con.query(sql, [user_id], (err, result) => {
+        if (err) return res.json({ Error: "Get song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
 app.get('/getProfile/:userId', (req, res) => {
     const userId = req.params.userId;
     const sql = "SELECT * FROM profile LEFT JOIN user_acc ON profile.userId = user_acc.username WHERE userId = ?";
