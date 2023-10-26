@@ -110,9 +110,6 @@ function ViewSongMusician() {
                     let hiddenChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong></strong>");
 
                     return <div key={index}>
-                        {/* <Fab aria-label="like" color='error'>
-                            <FavoriteIcon />
-                        </Fab> */}
                         <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
                         <p className="fs-100  pd-left" >ID: <b>{viewSong.id}</b></p>
                         <p className="fs-100  pd-left" >Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>

@@ -30,7 +30,7 @@ function SongChordManager() {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(6);
-    const [orderBy, setOrderBy] = useState("create_at");
+    const [orderBy, setOrderBy] = useState("song_title");
     const [order, setOrder] = useState("asc");
     const primaryColor = "#F1F1FB";
 
@@ -44,7 +44,6 @@ function SongChordManager() {
     });
 
     useEffect(() => {
-        // Fetch data from the API when the component mounts
         axios
             .get("http://localhost:8081/getSongAdmin")
             .then((res) => {
@@ -70,6 +69,10 @@ function SongChordManager() {
                 return order === "asc"
                     ? a.updated_at.localeCompare(b.updated_at)
                     : b.updated_at.localeCompare(a.updated_at);
+            } else if (orderBy === "song_title" && a.song_title && b.song_title) {
+                return order === "asc"
+                    ? a.song_title.localeCompare(b.song_title)
+                    : b.song_title.localeCompare(a.song_title);
             }
         });
     }
@@ -133,13 +136,19 @@ function SongChordManager() {
                                     <TableCell><b>ID</b></TableCell>
                                     <TableCell></TableCell>
                                     <TableCell>
-                                        <TableSortLabel>
+                                        <TableSortLabel
+                                            active={orderBy === 'song_title'}
+                                            direction={orderBy === 'song_title' ? order : 'asc'}
+                                            onClick={() => handleSort('song_title')}
+                                        >
                                             <b>Name song</b>
                                         </TableSortLabel>
                                     </TableCell>
                                     <TableCell><b>Link</b></TableCell>
                                     <TableCell>
                                         <TableSortLabel
+                                            active={orderBy === 'created_at'}
+                                            direction={orderBy === 'created_at' ? order : 'asc'}
                                             onClick={() => handleSort("created_at")}
                                         >
                                             <b><CalendarMonthIcon color="primary" /> Date created</b>
@@ -147,7 +156,8 @@ function SongChordManager() {
                                     </TableCell>
                                     <TableCell>
                                         <TableSortLabel
-
+                                            active={orderBy === 'updated_at'}
+                                            direction={orderBy === 'updated_at' ? order : 'asc'}
                                             onClick={() => handleSort("updated_at")}
                                         >
                                             <b><CalendarMonthIcon color="primary" /> Date updated</b>

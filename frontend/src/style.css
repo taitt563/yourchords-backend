@@ -237,6 +237,9 @@ textarea {
 
 }
 
+.favorite-button:hover {
+    transform: scale(1.5);
+}
 
 .tabLeft {
     background-color: #F1F1FB;

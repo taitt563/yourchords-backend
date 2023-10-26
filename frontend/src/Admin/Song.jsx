@@ -12,7 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import HeadsetIcon from "@mui/icons-material/Headset";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
-import "react-html5video/dist/styles.css";
+import CircularProgress from "@mui/material/CircularProgress";
 import {
     Table,
     TableBody,
@@ -30,8 +30,9 @@ function Song() {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
-    const [orderBy, setOrderBy] = useState("create_at");
+    const [orderBy, setOrderBy] = useState("song_title");
     const [order, setOrder] = useState("asc");
+    const [loading, setLoading] = useState(true);
 
     const primaryColor = "#F1F1FB";
 
@@ -45,6 +46,7 @@ function Song() {
     });
 
     useEffect(() => {
+        setLoading(true);
         axios.get("http://localhost:8081/getSongAdmin")
             .then((res) => {
                 if (res.data.Status === "Success") {
@@ -53,12 +55,14 @@ function Song() {
                     alert("Error");
                 }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false));
     }, []);
     const handleSort = (field) => {
         setOrderBy(field);
         setOrder(order === "asc" ? "desc" : "asc");
     };
+
     function sortData(data) {
         return data.slice().sort((a, b) => {
             if (orderBy === "created_at") {
@@ -69,6 +73,10 @@ function Song() {
                 return order === "asc"
                     ? a.updated_at.localeCompare(b.updated_at)
                     : b.updated_at.localeCompare(a.updated_at);
+            } else if (orderBy === "song_title" && a.song_title && b.song_title) {
+                return order === "asc"
+                    ? a.song_title.localeCompare(b.song_title)
+                    : b.song_title.localeCompare(a.song_title);
             }
         });
     }
@@ -124,93 +132,106 @@ function Song() {
                 <h3 className="d-flex justify-content-center">SONG</h3>
             </div>
             <div className="px-2 py-4">
-                <div className="mt-4 pd-left" >
-                    <TableContainer component={Paper}>
-                        <Table>
-                            <TableHead sx={{ backgroundColor: primaryColor }}>
-                                <TableRow>
-                                    <TableCell><b>ID</b></TableCell>
-                                    <TableCell></TableCell>
-                                    <TableCell>
-                                        <TableSortLabel>
-                                            <b>Name song</b>
-                                        </TableSortLabel>
-                                    </TableCell>
-                                    <TableCell><b>Link</b></TableCell>
-                                    <TableCell>
-                                        <TableSortLabel
+                <div className="mt-4 pd-left">
+                    {loading ? (
+                        <div className="d-flex justify-content-center align-items-center">
+                            <CircularProgress fontSize='large' />
+                        </div>
 
-                                            onClick={() => handleSort("created_at")}
-                                        >
-                                            <b><CalendarMonthIcon color="primary" /> Date created</b>
-                                        </TableSortLabel>
-                                    </TableCell>
-                                    <TableCell>
-                                        <TableSortLabel
+                    ) : (
+                        <TableContainer component={Paper}>
+                            <Table>
+                                <TableHead sx={{ backgroundColor: primaryColor }}>
+                                    <TableRow>
+                                        <TableCell><b>ID</b></TableCell>
+                                        <TableCell></TableCell>
+                                        <TableCell>
+                                            <TableSortLabel
+                                                active={orderBy === 'song_title'}
+                                                direction={orderBy === 'song_title' ? order : 'asc'}
+                                                onClick={() => handleSort('song_title')}
+                                            >
+                                                <b>Name song</b>
+                                            </TableSortLabel>
+                                        </TableCell>
+                                        <TableCell><b>Link</b></TableCell>
+                                        <TableCell>
+                                            <TableSortLabel
+                                                active={orderBy === 'created_at'}
+                                                direction={orderBy === 'created_at' ? order : 'asc'}
+                                                onClick={() => handleSort("created_at")}
+                                            >
+                                                <b><CalendarMonthIcon color="primary" /> Date created</b>
+                                            </TableSortLabel>
+                                        </TableCell>
+                                        <TableCell>
+                                            <TableSortLabel
+                                                active={orderBy === 'updated_at'}
+                                                direction={orderBy === 'updated_at' ? order : 'asc'}
+                                                onClick={() => handleSort("updated_at")}
+                                            >
+                                                <b><CalendarMonthIcon color="primary" /> Date updated</b>
+                                            </TableSortLabel>
+                                        </TableCell>
+                                        <TableCell><b>Status</b></TableCell>
+                                        <TableCell></TableCell>
+                                    </TableRow>
+                                </TableHead>
 
-                                            onClick={() => handleSort("updated_at")}
-                                        >
-                                            <b><CalendarMonthIcon color="primary" /> Date updated</b>
-                                        </TableSortLabel>
-                                    </TableCell>
-                                    <TableCell><b>Status</b></TableCell>
-                                    <TableCell></TableCell>
-                                </TableRow>
-                            </TableHead>
-
-                            <TableBody>
-                                {sortData(data)
-                                    .filter(song => {
-                                        return search.toLowerCase() === "" ? song : song.song_title.toLowerCase().includes(search);
-                                    })
-                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((song, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>{song.id}</TableCell>
-                                            <TableCell>
-                                                {
+                                <TableBody>
+                                    {sortData(data)
+                                        .filter(song => {
+                                            return search.toLowerCase() === "" ? song : song.song_title.toLowerCase().includes(search);
+                                        })
+                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .map((song, index) => (
+                                            <TableRow key={index}>
+                                                <TableCell>{song.id}</TableCell>
+                                                <TableCell>
                                                     <img src={`http://localhost:8081/images/` + song.thumbnail} alt="" className="song_image" />
-                                                }
-                                            </TableCell>
-                                            {song.song_title.length > 30 ? (
+                                                </TableCell>
+                                                {song.song_title.length > 30 ? (
+                                                    <TableCell>
+                                                        <b>{song.song_title.substring(0, 20)}...</b>
+                                                    </TableCell>
+                                                ) : (
+                                                    <TableCell>
+                                                        <b>{song.song_title} </b>
+                                                    </TableCell>
+                                                )}
+                                                {song.link != null ? (
+                                                    <TableCell>
+                                                        <Link to={song.link}>{song.link.substring(0, 30)}...</Link>
+                                                    </TableCell>
+                                                ) : (
+                                                    <TableCell>Updating...</TableCell>
+                                                )}
+                                                <TableCell>{moment(song.created_at).format("YYYY/MM/DD - HH:mm:ss")}</TableCell>
+                                                {song.updated_at != null ? (
+                                                    <TableCell>{moment(song.updated_at).format("YYYY/MM/DD - HH:mm:ss")}</TableCell>
+                                                ) : (
+                                                    <TableCell>Not update</TableCell>
+                                                )}
+                                                {song.status === 1 ? (
+                                                    <TableCell style={{ color: "green" }}>
+                                                        <CheckCircleIcon />
+                                                    </TableCell>
+                                                ) : (
+                                                    <TableCell></TableCell>
+                                                )}
                                                 <TableCell>
-                                                    <b>{song.song_title.substring(0, 20)}...</b>
+                                                    <Link to={`/viewSong/` + song.song_title} className="btn btn-success btn-sm me-2">
+                                                        <RemoveRedEyeIcon />
+                                                    </Link>
                                                 </TableCell>
-                                            ) : (
-                                                <TableCell>
-                                                    <b>{song.song_title} </b>
-                                                </TableCell>
-                                            )}
-                                            {song.link != null ? (
-                                                <TableCell>
-                                                    <Link to={song.link}>{song.link.substring(0, 30)}...</Link>
-                                                </TableCell>
-                                            ) : (
-                                                <TableCell>Updating...</TableCell>
-                                            )}
-                                            <TableCell>{moment(song.created_at).format("YYYY/MM/DD - HH:mm:ss")}</TableCell>
-                                            {song.updated_at != null ? (
-                                                <TableCell>{moment(song.updated_at).format("YYYY/MM/DD - HH:mm:ss")}</TableCell>
-                                            ) : (
-                                                <TableCell>Not update</TableCell>
-                                            )}
-                                            {song.status === 1 ? (
-                                                <TableCell style={{ color: "green" }}>
-                                                    <CheckCircleIcon />
-                                                </TableCell>
-                                            ) : (
-                                                <TableCell></TableCell>
-                                            )}
-                                            <TableCell>
-                                                <Link to={`/viewSong/` + song.song_title} className="btn btn-success btn-sm me-2">
-                                                    <RemoveRedEyeIcon />
-                                                </Link>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                            </TableRow>
+                                        ))}
+                                </TableBody>
+                            </Table>
+
+                        </TableContainer>
+
+                    )}
                     <TablePagination
                         component="div"
                         count={data.length}
