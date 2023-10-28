@@ -19,7 +19,7 @@ function LoginCustomer() {
             .then(res => {
                 if (res.data.Status === 'Success') {
                     localStorage.setItem('id_customer', values.username);
-                    navigate("/songCustomer");
+                    navigate("/songCustomer/" + values.username);
                 } else {
                     setIsLoginFailed(true);
                     setTimeout(() => {

@@ -35,7 +35,6 @@ function ProfileCustomer() {
         transform: 'translate(-50%, -50%)',
         width: 700,
         height: 700,
-
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
@@ -58,7 +57,6 @@ function ProfileCustomer() {
                     image: res.data.Result[0].image,
                     registration_time: res.data.Result[0].registration_time,
                 })
-
             })
             .catch(err => console.log(err));
     }, [])
@@ -103,12 +101,10 @@ function ProfileCustomer() {
                     <h3 className="d-flex justify-content-center">PROFILE</h3>
                 </div>
                 <form className="row g-3 w-50">
-                    <div className="container rounded bg-white mt-2">
+                    <div className="container rounded bg-white mt-5 mb-5">
                         <div className="row">
-
                             <div className="col-md-4 border-right">
                                 <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-
                                     <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                                         {data.image != "" ?
                                             <img className="rounded-circle mt-6 border" src={`http://localhost:8081/images/` + data.image} width="150px" />
@@ -117,13 +113,11 @@ function ProfileCustomer() {
                                         }
                                     </div>
                                     <span className="text-black-50">{data.email}</span>
-
                                 </div>
                             </div>
                             <div className="col-md-7 border-right">
                                 <div className="py-5">
                                     <div className="row mt-2">
-
                                         <div className="col-md-6"><label><b>Name: </b></label><input className="form-control" value={data.name} readOnly /></div>
                                         <div className="col-md-6"><label><b>Sur name: </b></label><input className="form-control" value={data.surname} readOnly /></div>
                                     </div>
@@ -134,25 +128,20 @@ function ProfileCustomer() {
                                                 :
                                                 <p style={{ color: 'red' }}><b>{data.ban}</b></p>
                                             }
-
-
                                         </div>
                                         <div className="col-md-6"><label><b>Register date: </b></label><p>{moment(data.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
                                         <div className="col-md-6"><label><b>Username:</b></label><p>{data.username}</p></div>
-
                                         <div className="col-md-6"><label><b>Role: </b></label><p>{data.role}</p></div>
                                         <div className="col-md-12"><label>Phone number: </label><input className="form-control" value={data.phoneNumber} readOnly /></div>
                                         <div className="col-md-12"><label>Address Line: </label><input className="form-control" value={data.address} readOnly /></div>
                                         <div className="col-md-12"><label>Email: </label><input className="form-control" value={data.email} readOnly /></div>
-
                                     </div>
                                     <div className="row mt-4">
                                         <div className="col-md-12"><label>Job: </label><input className="form-control" value={data.job} readOnly /></div>
                                     </div>
                                 </div>
-                                <Button variant='contained' onClick={() => { handleProfile(data.userId) }}><ModeEditIcon className='pd-right' fontSize='medium' />  Edit
+                                <Button variant='contained' onClick={() => { handleProfile(data.userId) }}><ModeEditIcon className='pd-right' fontSize='medium' /> Edit
                                 </Button>
-
                             </div>
                             <Modal
                                 open={open}
@@ -179,13 +168,11 @@ function ProfileCustomer() {
                                                                 }
                                                             </div>
                                                             <span className="text-black-50">{editAccount.email}</span>
-
                                                         </div>
                                                     </div>
                                                     <div className="col-md-7 border-right">
                                                         <div className="py-5">
                                                             <div className="row mt-2">
-
                                                                 <div className="col-md-6"><label><b>Name: </b></label><input className="form-control" onChange={e => setData({ ...data, name: e.target.value })} value={data.name} placeholder='Enter your name' /></div>
                                                                 <div className="col-md-6"><label><b>Sur name: </b></label><input className="form-control" onChange={e => setData({ ...data, surname: e.target.value })} value={data.surname} placeholder='Enter your surname' /></div>
                                                             </div>
@@ -196,16 +183,13 @@ function ProfileCustomer() {
                                                                         :
                                                                         <p style={{ color: 'red' }}><b>{editAccount.ban}</b></p>
                                                                     }
-
                                                                 </div>
                                                                 <div className="col-md-6"><label><b>Register date: </b></label><p>{moment(editAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
                                                                 <div className="col-md-6"><label><b>Username: </b></label><p>{editAccount.username}</p></div>
-
                                                                 <div className="col-md-6"><label><b>Role: </b></label><p>{editAccount.role}</p></div>
                                                                 <div className="col-md-12"><label>Phone number: </label><input className="form-control" type="number" onChange={e => setData({ ...data, phoneNumber: e.target.value })} value={data.phoneNumber} placeholder='Enter your phone number' /></div>
                                                                 <div className="col-md-12"><label>Address Line: </label><input className="form-control" onChange={e => setData({ ...data, address: e.target.value })} value={data.address} placeholder='Enter your address' /></div>
-                                                                <div className="col-md-12"><label>Email: </label><input className="form-control" type='email' onChange={e => setData({ ...data, email: e.target.value })} value={data.email} placeholder='Enter your email' /></div>
-
+                                                                <div className="col-md-12"><label>Email: </label><input className="form-control" type="email" onChange={e => setData({ ...data, email: e.target.value })} value={data.email} placeholder='Enter your email' /></div>
                                                             </div>
                                                             <div className="row mt-2">
                                                                 <div className="col-md-12"><label>Job: </label><input className="form-control" onChange={e => setData({ ...data, job: e.target.value })} value={data.job} placeholder='Your job...' /></div>
@@ -214,25 +198,19 @@ function ProfileCustomer() {
                                                                 <Button variant="contained" onClick={handleSubmit} className='btn btn-success'>UPDATE
                                                                 </Button>
                                                             </div>
-
                                                         </div>
-
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
-
                                     })}
                                 </Box>
                             </Modal>
-
                         </div>
                     </div>
                 </form>
             </div>
         </>
-
     )
 }
 export default ProfileCustomer;

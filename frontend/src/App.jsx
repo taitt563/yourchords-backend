@@ -88,14 +88,12 @@ function App() {
         </Route>
         {/* CUSTOMER ROLE */}
         <Route path='/' element={<DashboardCustomer />}>
-          <Route path='/songCustomer' element={<SongCustomer />}></Route>
+          <Route path='/songCustomer/:userId' element={<SongCustomer />}></Route>
           <Route path='/viewSongCustomer/:song_title' element={<ViewSongCustomer />}></Route>
           <Route path='/payment' element={<Payment />}></Route>
           <Route path='/profileCustomer/:userId' element={<ProfileCustomer />}></Route>
           <Route path='/createPlaylist/:userId' element={<CreatePlaylist />}></Route>
           <Route path='/playlist/:userId' element={<Playlist />}></Route>
-
-
         </Route>
       </Routes>
     </BrowserRouter>

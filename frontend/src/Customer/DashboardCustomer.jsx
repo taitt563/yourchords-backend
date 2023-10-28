@@ -69,7 +69,7 @@ function DashboardCustomer() {
                                 <List sx={{
                                     width: '45%', paddingTop: '30px', paddingRight: '10px'
                                 }}>
-                                    <ListItemButton href="/songCustomer">
+                                    <ListItemButton href={"/songCustomer/" + profile.userId}>
                                         <ListItemIcon>
                                             <QueueMusicIcon color="primary" fontSize='medium' />
                                         </ListItemIcon>
@@ -124,7 +124,7 @@ function DashboardCustomer() {
                     </div>
                 </div>
                 <div className="col p-0 m-0" style={{
-                    zIndex: 9999,
+                    zIndex: 2,
                 }}>
                     <Outlet />
                 </div>

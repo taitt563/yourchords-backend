@@ -21,7 +21,7 @@ import TablePagination from "@mui/material/TablePagination";
 function SongMusician() {
     const [data, setData] = useState([])
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(8);
+    const [rowsPerPage, setRowsPerPage] = useState(6);
     const [orderBy, setOrderBy] = useState("song_title");
     const [order, setOrder] = useState("asc");
     const primaryColor = "#F1F1FB";
@@ -172,7 +172,7 @@ function SongMusician() {
                             setRowsPerPage(+event.target.value);
                             setPage(0);
                         }}
-                        rowsPerPageOptions={[8, 10, 25, 50, 100]}
+                        rowsPerPageOptions={[6, 10, 25, 50, 100]}
 
                     />
                 </div>

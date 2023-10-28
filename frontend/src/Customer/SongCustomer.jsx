@@ -32,13 +32,11 @@ function SongCustomer() {
     const { userId } = useParams();
 
     const handleFavorite = () => {
-        // Fetch the playlist data when "favorite-icon" is clicked
-        axios.get('http://localhost:8081/getPlaylist/' + userId)
+        axios.get(`http://localhost:8081/getPlaylist/` + userId)
             .then((res) => {
                 if (res.data.Status === 'Success') {
-                    setDataPlaylist([...res.data.Result]);
-                    console.log(res.data.Result)
-                    setModalOpen(true); // Open the modal
+                    setDataPlaylist(res.data.Result);
+                    setModalOpen(true);
                 } else {
                     alert('Error');
                 }
@@ -51,7 +49,7 @@ function SongCustomer() {
                 if (res.data.Status === 'Success') {
                     setData(res.data.Result);
                 } else {
-                    alert('Error');
+                    alert('Error fetching songs.');
                 }
             })
             .catch((err) => console.log(err));
@@ -59,7 +57,7 @@ function SongCustomer() {
 
     const handleSort = (field) => {
         setOrderBy(field);
-        setOrder(order === 'asc' ? 'desc' : 'asc');
+        setOrder(order === 'asc');
     };
 
     function sortData(data) {
@@ -75,13 +73,6 @@ function SongCustomer() {
             }
         });
     }
-
-
-
-    const handleCloseModal = () => {
-        setModalOpen(false);
-    };
-
     return (
         <>
             <Box sx={{ flexGrow: 1, top: 0, position: 'sticky', zIndex: '3' }}>
@@ -159,7 +150,6 @@ function SongCustomer() {
                     <SortIcon className="sort-icon" /> R&b
                 </button>
             </div>
-
             <div className="song-list-container">
                 {sortData(data)
                     .filter((song) => {
@@ -172,7 +162,7 @@ function SongCustomer() {
                             <div style={{ position: 'relative' }}>
                                 <div className="favorite-icon">
                                     <IconButton
-                                        onClick={() => handleFavorite(data.userId)}
+                                        onClick={() => { handleFavorite(data.userId) }}
                                         size="large"
                                         aria-label="like"
                                         color="error"
@@ -201,21 +191,26 @@ function SongCustomer() {
             </div>
             <Modal
                 open={modalOpen}
-                onClose={handleCloseModal}
-                aria-labelledby="selected-song-modal"
-                aria-describedby="song-details"
-            >
-                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                    {dataPlaylist.map((playlist, index) => {
-                        return (
-                            <div key={index}>
-                                <Typography id="modal-modal-title" variant="h6" component="h2">
-                                    Profile - <b>{playlist.collection_name}</b>
-                                </Typography>
-                                {/* Display other playlist details */}
+                onClose={() => { setModalOpen(false) }}>
+                <div className="d-flex flex-wrap justify-content-start">
+                    {dataPlaylist.map((playlist, index) => (
+                        <div key={index} className="m-5 playlist-container ">
+                            <div className="container rounded " style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <div className="d-flex flex-column align-items-center text-center">
+                                    <div className="rounded-image-container">
+                                        <img
+                                            className="rounded-square-image"
+                                            src={`http://localhost:8081/images/${playlist.image}`}
+                                        />
+                                        <div className="image-overlay">
+                                            <p className="overlay-text">Add to playlist</p>
+                                        </div>
+                                    </div>
+                                    <b className="playlist-name">{playlist.collection_name}</b>
+                                </div>
                             </div>
-                        );
-                    })}
+                        </div>
+                    ))}
                 </div>
             </Modal>
         </>
