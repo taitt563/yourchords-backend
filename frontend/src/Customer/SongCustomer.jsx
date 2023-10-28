@@ -14,6 +14,8 @@ import SortIcon from '@mui/icons-material/Sort';
 import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
 import { useParams } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
+
 function SongCustomer() {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState('');
@@ -58,6 +60,9 @@ function SongCustomer() {
     const handleSort = (field) => {
         setOrderBy(field);
         setOrder(order === 'asc');
+    };
+    const handleAddToPlayList = () => {
+
     };
 
     function sortData(data) {
@@ -193,6 +198,9 @@ function SongCustomer() {
                 open={modalOpen}
                 onClose={() => { setModalOpen(false) }}>
                 <div className="d-flex flex-wrap justify-content-start">
+                    <div className="w-100 text-center">
+                        <h2 className="mb-4 pd-top" style={{ color: '#fff' }}>ADD TO PLAYLIST</h2>
+                    </div>
                     {dataPlaylist.map((playlist, index) => (
                         <div key={index} className="m-5 playlist-container ">
                             <div className="container rounded " style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -203,10 +211,10 @@ function SongCustomer() {
                                             src={`http://localhost:8081/images/${playlist.image}`}
                                         />
                                         <div className="image-overlay">
-                                            <p className="overlay-text">Add to playlist</p>
+                                            <p className="playlist-name-modal"><AddIcon onClick={() => handleAddToPlayList} fontSize='large' /></p>
                                         </div>
                                     </div>
-                                    <b className="playlist-name">{playlist.collection_name}</b>
+                                    <b className="playlist-name-modal">{playlist.collection_name}</b>
                                 </div>
                             </div>
                         </div>

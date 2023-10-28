@@ -38,7 +38,6 @@ function DashboardCustomer() {
                 <div className=" col-auto col-md-3 col-xl-2 px-0 tabLeft">
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 text-white min-vh-100" style={{
                         top: 0,
-                        zIndex: 0,
                         position: 'sticky'
                     }}>
                         {data.map((profile, index) => {

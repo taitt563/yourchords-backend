@@ -134,7 +134,7 @@ strong {
 /* Playlist.css */
 
 .playlist-container-default {
-    padding: 20px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 50px;
     width: 300px;
@@ -200,8 +200,8 @@ textarea {
 }
 
 .rounded-square-image {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
 }
 
 .rounded-image-container {
@@ -232,6 +232,18 @@ textarea {
 }
 
 .playlist-container:hover .playlist-name {
+    color: #0d6efd;
+    transform: scale(1.1);
+
+}
+
+.playlist-name-modal {
+    transition: color 0.3s;
+    padding-top: 20px;
+    color: #fff;
+}
+
+.playlist-container:hover .playlist-name-modal {
     color: #0d6efd;
     transform: scale(1.1);
 
