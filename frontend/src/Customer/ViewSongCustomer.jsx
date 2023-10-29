@@ -20,7 +20,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 function ViewSongCustomer() {
     const [data, setData] = useState([]);
-    const { song_title } = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
     const [alignment, setAlignment] = useState('left');
     const [formats, setFormats] = useState(() => ['italic']);
@@ -40,7 +40,7 @@ function ViewSongCustomer() {
     };
     useEffect(() => {
 
-        axios.get('http://localhost:8081/getSong/' + song_title, data)
+        axios.get('http://localhost:8081/getSong/' + id, data)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
@@ -54,7 +54,7 @@ function ViewSongCustomer() {
     const handleLogout = () => {
         axios.get('http://localhost:8081/logout')
             .then(
-                navigate('/songCustomer')
+                navigate(-1)
             ).catch(err => console.log(err));
     }
 

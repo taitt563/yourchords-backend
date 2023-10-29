@@ -241,7 +241,6 @@ app.post('/createPlaylist/:username', upload.single('image'), (req, res) => {
             req.file.filename,
             req.params.username,
         ];
-        console.log(values)
         con.query(sql, values, (err, result) => {
             if (err) return res.json({ Error: "Error" });
             return res.json({ Status: "Success", Result: result });
@@ -249,6 +248,27 @@ app.post('/createPlaylist/:username', upload.single('image'), (req, res) => {
     } else {
         return res.json({ Error: "Collection name is missing" });
     }
+});
+app.post('/addToPlaylist', (req, res) => {
+    const { song_id, collection_id } = req.body;
+
+    if (!song_id || !collection_id) {
+        return res.json({ Status: "Error", Error: "Missing song_id or collection_id" });
+    }
+
+    const sql = `
+        INSERT INTO collection_songs (song_id, collection_id, date_added)
+        VALUES (?, ?, CURRENT_TIMESTAMP);
+    `;
+
+    const values = [song_id, collection_id];
+    console.log(values)
+    con.query(sql, values, (err, result) => {
+        if (err) {
+            return res.json({ Status: "Error", Error: "Failed to add song to the playlist" });
+        }
+        return res.json({ Status: "Success", Result: result });
+    });
 });
 app.get('/getPlaylist/:user_id', (req, res) => {
     const user_id = req.params.user_id;
