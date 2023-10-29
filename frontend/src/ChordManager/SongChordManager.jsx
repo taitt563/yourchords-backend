@@ -212,7 +212,7 @@ function SongChordManager() {
                                                 <TableCell></TableCell>
                                             )}
                                             <TableCell>
-                                                <Link to={`/viewSongChordManager/` + song.song_title} className="btn btn-success btn-sm me-2">
+                                                <Link to={`/viewSongChordManager/` + song.id} className="btn btn-success btn-sm me-2">
                                                     <RemoveRedEyeIcon />
                                                 </Link>
                                             </TableCell>

@@ -59,7 +59,7 @@ function App() {
           <Route path='/profile/:userId' element={<Profile />}></Route>
           <Route path='/song' element={<Song />}></Route>
           <Route path='/manageAccount' element={<ManageAccount />}></Route>
-          <Route path='/viewSong/:song_title' element={<ViewSong />}></Route>
+          <Route path='/viewSong/:id' element={<ViewSong />}></Route>
           <Route path='/manageFeedback' element={<ManageFeedback />}></Route>
           <Route path='/viewFeedback/:username' element={<ViewFeedback />}></Route>
         </Route>
@@ -67,7 +67,7 @@ function App() {
         <Route path='/' element={<DashboardChordManager />}>
           {/* <Route path='/homeChordManager' element={<HomeChordManager />}></Route> */}
           <Route path='/verifySong' element={<VerifySong />}></Route>
-          <Route path='/viewSongChordManager/:song_title' element={<ViewSongChordManager />}></Route>
+          <Route path='/viewSongChordManager/:id' element={<ViewSongChordManager />}></Route>
           <Route path='/profileChordManager/:userId' element={<ProfileChordManager />}></Route>
           <Route path='/songChordManager' element={<SongChordManager />}></Route>
         </Route>
@@ -76,9 +76,9 @@ function App() {
         <Route path='/' element={<DashboardMusician />}>
           {/* <Route path='/homeMusician' element={<HomeMusician />}></Route> */}
           <Route path='/songMusician' element={<SongMusician />}></Route>
-          <Route path='/viewSongMusician/:song_title' element={<ViewSongMusician />}></Route>
+          <Route path='/viewSongMusician/:id' element={<ViewSongMusician />}></Route>
           <Route path='/createSong' element={<CreateSong />}></Route>
-          <Route path='/editSongMusician/:song_title' element={<EditSongMusician />}></Route>
+          <Route path='/editSongMusician/:id' element={<EditSongMusician />}></Route>
           <Route path='/profileMusician/:userId' element={<ProfileMusician />}></Route>
           <Route path='/chordMusician' element={<ChordMusician />}></Route>
           <Route path='/manageBeat' element={<ManageBeat />}></Route>
@@ -89,7 +89,7 @@ function App() {
         {/* CUSTOMER ROLE */}
         <Route path='/' element={<DashboardCustomer />}>
           <Route path='/songCustomer/:userId' element={<SongCustomer />}></Route>
-          <Route path='/viewSongCustomer/:song_title' element={<ViewSongCustomer />}></Route>
+          <Route path='/viewSongCustomer/:id' element={<ViewSongCustomer />}></Route>
           <Route path='/payment' element={<Payment />}></Route>
           <Route path='/profileCustomer/:userId' element={<ProfileCustomer />}></Route>
           <Route path='/createPlaylist/:userId' element={<CreatePlaylist />}></Route>

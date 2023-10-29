@@ -301,10 +301,10 @@ app.get('/getSongChordManager/', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
-app.get('/getSong/:song_title', (req, res) => {
-    const song_title = req.params.song_title;
-    const sql = "SELECT * FROM song where song_title = ?";
-    con.query(sql, [song_title], (err, result) => {
+app.get('/getSong/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "SELECT * FROM song where id = ?";
+    con.query(sql, [id], (err, result) => {
         if (err) return res.json({ Error: "Get song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })
@@ -334,10 +334,10 @@ app.get('/getAccount/:userId', (req, res) => {
 })
 
 
-app.put('/updateSong/:song_title', upload.single("thumbnail"), (req, res) => {
-    const song_title = req.params.song_title;
-    const sql = "UPDATE song SET song_title = ?, lyrics = ?, link = ?, updated_at = CURRENT_TIMESTAMP WHERE song_title = ?";
-    con.query(sql, [req.body.song_title, req.body.lyrics, req.body.link, song_title], (err, result) => {
+app.put('/updateSong/:id', upload.single("thumbnail"), (req, res) => {
+    const id = req.params.id;
+    const sql = "UPDATE song SET song_title = ?, lyrics = ?, link = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
+    con.query(sql, [req.body.song_title, req.body.lyrics, req.body.link, id], (err, result) => {
         if (err) return res.json({ Error: "update song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })

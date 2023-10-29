@@ -19,7 +19,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 function ViewSongMusician() {
     const [data, setData] = useState([]);
-    const { song_title } = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
     const [alignment, setAlignment] = useState('left');
     const [formats, setFormats] = useState(() => ['italic']);
@@ -79,7 +79,7 @@ function ViewSongMusician() {
     }
     useEffect(() => {
 
-        axios.get('http://localhost:8081/getSong/' + song_title, data)
+        axios.get('http://localhost:8081/getSong/' + id, data)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
@@ -257,7 +257,7 @@ function ViewSongMusician() {
                                             </div>
                                             <div className="footer">
                                                 <hr />
-                                                <Button onClick={() => navigate(`/editSongMusician/` + viewSong.song_title)} className='btn btn-success'><ModeIcon /> EDIT
+                                                <Button onClick={() => navigate(`/editSongMusician/` + viewSong.id)} className='btn btn-success'><ModeIcon /> EDIT
                                                 </Button>
                                             </div>
                                         </div>

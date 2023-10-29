@@ -140,7 +140,7 @@ function ChordMusician() {
                                             }
                                             <TableCell className="text-warning"><b>Waiting Approve</b></TableCell>
                                             <TableCell>
-                                                <Link to={`/viewSongMusician/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                <Link to={`/viewSongMusician/` + song.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                                 {song.status === 0 ?
                                                     <Link onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></Link>
                                                     :

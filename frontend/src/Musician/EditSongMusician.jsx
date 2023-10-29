@@ -12,13 +12,13 @@ function EditSongMusician() {
     });
     const navigate = useNavigate();
 
-    const { song_title } = useParams();
+    const { id } = useParams();
     let time = new Date();
     let displaytodaysdate =
         time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate();
     useEffect(() => {
         axios
-            .get('http://localhost:8081/getSong/' + song_title)
+            .get('http://localhost:8081/getSong/' + id)
             .then((res) => {
                 setData({
                     ...data,
@@ -42,7 +42,7 @@ function EditSongMusician() {
         event.preventDefault();
 
         axios
-            .put('http://localhost:8081/updateSong/' + song_title, data)
+            .put('http://localhost:8081/updateSong/' + id, data)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     navigate(-1);

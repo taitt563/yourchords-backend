@@ -215,7 +215,7 @@ function VerifySong() {
                                                 <TableCell>Approved</TableCell>
                                             )}
                                             <TableCell>
-                                                <Link to={`/viewSongChordManager/` + song.song_title} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                <Link to={`/viewSongChordManager/` + song.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                                 <button onClick={() => handleVerify(song.id)} className='btn btn-sm btn-success'><VerifiedUserIcon /></button>
                                             </TableCell>
                                         </TableRow>

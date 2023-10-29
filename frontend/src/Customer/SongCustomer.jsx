@@ -15,7 +15,6 @@ import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
 import { useParams } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-
 function SongCustomer() {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState('');
@@ -177,7 +176,7 @@ function SongCustomer() {
                                         <FavoriteIcon />
                                     </IconButton>
                                 </div>
-                                <Link href={`/viewSongCustomer/` + song.song_title} underline="none">
+                                <Link href={`/viewSongCustomer/` + song.id} underline="none">
                                     <img src={`http://localhost:8081/images/` + song.thumbnail} className="song-thumbnail" />
                                     <div className="song-details" style={{ textAlign: 'center' }}>
                                         <b>{song.song_title}</b>

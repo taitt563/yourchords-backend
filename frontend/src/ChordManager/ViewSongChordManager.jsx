@@ -22,7 +22,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 function ViewSongChordManager() {
     const [data, setData] = useState([]);
-    const { song_title } = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
     const [alignment, setAlignment] = useState('left');
     const [formats, setFormats] = useState(() => ['italic']);
@@ -82,7 +82,7 @@ function ViewSongChordManager() {
         setIsBold(false)
     }
     useEffect(() => {
-        axios.get('http://localhost:8081/getSong/' + song_title, data)
+        axios.get('http://localhost:8081/getSong/' + id, data)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);

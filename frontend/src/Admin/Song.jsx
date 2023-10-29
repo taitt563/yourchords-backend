@@ -220,7 +220,7 @@ function Song() {
                                                     <TableCell></TableCell>
                                                 )}
                                                 <TableCell>
-                                                    <Link to={`/viewSong/` + song.song_title} className="btn btn-success btn-sm me-2">
+                                                    <Link to={`/viewSong/` + song.id} className="btn btn-success btn-sm me-2">
                                                         <RemoveRedEyeIcon />
                                                     </Link>
                                                 </TableCell>
