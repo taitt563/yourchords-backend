@@ -13,11 +13,18 @@ import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import AddIcon from '@mui/icons-material/Add';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import Collapse from '@mui/material/Collapse';
 function DashboardCustomer() {
     const [data, setData] = useState([]);
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
+    const [openPlaylist, setOpenPlaylist] = useState(false);
+    const handleClickPlaylist = () => {
+        setOpenPlaylist(!openPlaylist);
+    };
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
     useEffect(() => {
@@ -75,16 +82,30 @@ function DashboardCustomer() {
                                         <ListItemText><span className="fontDashboard">Song</span></ListItemText>
                                     </ListItemButton>
                                 </List>
-                                <List sx={{
-                                    width: '45%', paddingTop: '30px', paddingRight: '10px'
-
-                                }}>
-                                    <ListItemButton href={`/playlist/` + profile.userId} >
+                                <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                    <ListItemButton onClick={handleClickPlaylist}>
                                         <ListItemIcon>
-                                            <PlaylistAddIcon color="primary" fontSize='medium' />
+                                            <QueueMusicIcon color="primary" fontSize='medium' />
                                         </ListItemIcon>
-                                        <ListItemText><span className="fontDashboard">Playlist</span></ListItemText>
+                                        <ListItemText><span className="fontDashboard">Your Playlist</span></ListItemText>
+                                        {openPlaylist ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
                                     </ListItemButton>
+                                    <Collapse in={openPlaylist} timeout="auto" unmountOnExit>
+                                        <List sx={{ width: '100%', pl: 2 }}>
+                                            <ListItemButton href={"/playlist/" + profile.userId}>
+                                                <ListItemIcon>
+                                                    <QueueMusicIcon color="primary" fontSize='medium' />
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Playlist</span></ListItemText>
+                                            </ListItemButton>
+                                            <ListItemButton href={"/createPlaylist/" + profile.userId}>
+                                                <ListItemIcon>
+                                                    <AddIcon color="primary" fontSize='medium' />
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Add New Playlist</span></ListItemText>
+                                            </ListItemButton>
+                                        </List>
+                                    </Collapse>
                                 </List>
                                 <List sx={{
                                     width: '45%', paddingTop: '30px', paddingRight: '10px'

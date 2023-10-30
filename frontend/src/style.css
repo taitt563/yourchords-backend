@@ -134,7 +134,6 @@ strong {
 /* Playlist.css */
 
 .playlist-container-default {
-    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 50px;
     width: 300px;
@@ -178,7 +177,6 @@ textarea {
 
 .image-overlay {
     position: absolute;
-
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
@@ -200,8 +198,8 @@ textarea {
 }
 
 .rounded-square-image {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
 }
 
 .rounded-image-container {
@@ -209,7 +207,7 @@ textarea {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 100px;
     transition: transform 0.3s;
 }
 
