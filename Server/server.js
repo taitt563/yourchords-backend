@@ -227,27 +227,46 @@ app.post('/createSong', upload.single('thumbnail'), (req, res) => {
     }
 })
 app.post('/createPlaylist/:username', upload.single('image'), (req, res) => {
-    let sql = `
-    INSERT INTO collection (user_id, collection_name, date_creation, image)
-    SELECT ?, ?, CURRENT_TIMESTAMP, ?
-    FROM user_acc
-    WHERE username = ?;
+    // Check if the collection_name already exists for the user
+    const checkDuplicateSql = `
+    SELECT COUNT(*) AS count
+    FROM collection
+    WHERE user_id = ? AND collection_name = ?;
     `;
+    con.query(checkDuplicateSql, [req.params.username, req.body.collection_name], (err, result) => {
+        if (err) {
+            return res.json({ Error: "Error" });
+        }
 
-    if (req.body.collection_name.length > 0) {
-        const values = [
-            req.params.username,
-            req.body.collection_name,
-            req.file.filename,
-            req.params.username,
-        ];
-        con.query(sql, values, (err, result) => {
-            if (err) return res.json({ Error: "Error" });
-            return res.json({ Status: "Success", Result: result });
-        });
-    } else {
-        return res.json({ Error: "Collection name is missing" });
-    }
+        if (result[0].count > 0) {
+            return res.json({ Error: "Collection name already exists for this user" });
+        } else {
+            // Collection name is unique, proceed to insert into the database
+            const insertSql = `
+            INSERT INTO collection (user_id, collection_name, date_creation, image)
+            SELECT ?, ?, CURRENT_TIMESTAMP, ?
+            FROM user_acc
+            WHERE username = ?;
+            `;
+
+            if (req.body.collection_name.length > 0) {
+                const values = [
+                    req.params.username,
+                    req.body.collection_name,
+                    req.file.filename,
+                    req.params.username,
+                ];
+                con.query(insertSql, values, (err, result) => {
+                    if (err) {
+                        return res.json({ Error: "Error" });
+                    }
+                    return res.json({ Status: "Success", Result: result });
+                });
+            } else {
+                return res.json({ Error: "Collection name is missing" });
+            }
+        }
+    });
 });
 app.post('/addToPlaylist', (req, res) => {
     const { song_id, collection_id } = req.body;
@@ -256,18 +275,29 @@ app.post('/addToPlaylist', (req, res) => {
         return res.json({ Status: "Error", Error: "Missing song_id or collection_id" });
     }
 
-    const sql = `
-        INSERT INTO collection_songs (song_id, collection_id, date_added)
-        VALUES (?, ?, CURRENT_TIMESTAMP);
+    // Query to check if the song is already in the playlist
+    const checkDuplicateSql = `
+        SELECT COUNT(*) AS count FROM collection_songs
+        WHERE song_id = ? AND collection_id = ?;
     `;
-
-    const values = [song_id, collection_id];
-    console.log(values)
-    con.query(sql, values, (err, result) => {
-        if (err) {
-            return res.json({ Status: "Error", Error: "Failed to add song to the playlist" });
+    const checkDuplicateValues = [song_id, collection_id];
+    con.query(checkDuplicateSql, checkDuplicateValues, (checkErr, checkResult) => {
+        if (checkResult[0].count > 0) {
+            return res.json({ Status: "Error" });
         }
-        return res.json({ Status: "Success", Result: result });
+        // If not a duplicate, insert the song into the playlist
+        const insertSql = `
+            INSERT INTO collection_songs (song_id, collection_id, date_added)
+            VALUES (?, ?, CURRENT_TIMESTAMP);
+        `;
+        const insertValues = [song_id, collection_id];
+        con.query(insertSql, insertValues, (insertErr, insertResult) => {
+            if (insertErr) {
+                return res.json({ Status: "Error" });
+            }
+
+            return res.json({ Status: "Success", Result: insertResult });
+        });
     });
 });
 app.get('/getPlaylist/:user_id', (req, res) => {
@@ -278,6 +308,23 @@ app.get('/getPlaylist/:user_id', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
+app.get('/viewPlaylist/:id', (req, res) => {
+    const id = req.params.id;
+    let sql1 = "SELECT * FROM collection_songs LEFT JOIN collection ON collection_songs.collection_id = collection.id WHERE collection.id = ?";
+    con.query(sql1, [id], (err, result1) => {
+        if (err) {
+            return res.json({ Error: "Error in SQL query 1" });
+        }
+        let sql2 = "SELECT * FROM collection_songs LEFT JOIN song ON collection_songs.song_id = song.id WHERE collection_songs.collection_id = ?";
+        con.query(sql2, [id], (err, result2) => {
+            if (err) {
+                return res.json({ Error: "Error in SQL query 2" });
+            }
+            return res.json({ Status: "Success", Result: result1, Result: result2 });
+        });
+    });
+});
+
 app.get('/getProfile/:userId', (req, res) => {
     const userId = req.params.userId;
     const sql = "SELECT * FROM profile LEFT JOIN user_acc ON profile.userId = user_acc.username WHERE userId = ?";

@@ -44,7 +44,7 @@ function CreatePlaylist() {
                 if (res.data.Status === "Success") {
                     navigate("/playlist/" + userId)
                 } else {
-                    alert("Error")
+                    alert("Collection name is existed. Please try again !")
                 }
             })
             .catch(err => console.log(err));

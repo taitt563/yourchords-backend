@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import SearchAppBar from '../component/SearchAppBar';
+import { Link } from '@mui/material';
 
 function Playlist() {
     const navigate = useNavigate();
@@ -16,6 +17,7 @@ function Playlist() {
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData([...res.data.Result]);
+                    console.log(res.data.Result)
                 } else {
                     alert("Error")
                 }
@@ -48,7 +50,7 @@ function Playlist() {
                                         src={`http://localhost:8081/images/${playlist.image}`}
                                     />
                                     <div className="image-overlay">
-                                        <p className="overlay-text">View Playlist</p>
+                                        <Link href={'/viewPlaylist/' + playlist.id} className="overlay-text">View Playlist</Link>
                                     </div>
                                 </div>
 

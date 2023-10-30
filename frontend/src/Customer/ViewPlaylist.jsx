@@ -7,22 +7,16 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import HeadsetIcon from '@mui/icons-material/Headset';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import SortIcon from '@mui/icons-material/Sort';
-import IconButton from '@mui/material/IconButton';
-import Modal from '@mui/material/Modal';
 import { useParams } from 'react-router-dom';
-import AddIcon from '@mui/icons-material/Add';
 
 function SongCustomer() {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState('');
     const [orderBy, setOrderBy] = useState('created_at');
     const [order, setOrder] = useState('asc');
-    const [modalOpen, setModalOpen] = useState(false);
-    const [dataPlaylist, setDataPlaylist] = useState([]);
     const darkTheme = createTheme({
         palette: {
             mode: 'dark',
@@ -31,59 +25,26 @@ function SongCustomer() {
             },
         },
     });
-    const { userId } = useParams();
-    const [selectedSong, setSelectedSong] = useState(null);
-    const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+    const { id } = useParams();
 
-    const handleFavorite = () => {
-        axios.get(`http://localhost:8081/getPlaylist/` + userId)
-            .then((res) => {
-                if (res.data.Status === 'Success') {
-                    setDataPlaylist(res.data.Result);
-                    setModalOpen(true);
-                } else {
-                    alert('Error');
-                }
-            })
-            .catch((err) => console.log(err));
-    };
+
     useEffect(() => {
-        axios.get('http://localhost:8081/getSongAdmin')
-            .then((res) => {
-                if (res.data.Status === 'Success') {
-                    setData(res.data.Result);
+        axios.get('http://localhost:8081/viewPlaylist/' + id)
+            .then(res => {
+                if (res.data.Status === "Success") {
+                    setData([...res.data.Result]);
+                    console.log(res.data.Result)
                 } else {
-                    alert('Error fetching songs.');
+                    alert("Error")
                 }
             })
-            .catch((err) => console.log(err));
+            .catch(err => console.log(err));
     }, []);
 
     const handleSort = (field) => {
         setOrderBy(field);
         setOrder(order === 'asc');
     };
-
-    const handleAddToPlayList = () => {
-        if (selectedSong && selectedPlaylist) {
-            const songId = selectedSong.id;
-            const collectionId = selectedPlaylist.id;
-            axios.post('http://localhost:8081/addToPlaylist', {
-                collection_id: collectionId,
-                song_id: songId,
-            })
-                .then((res) => {
-                    if (res.data.Status === 'Success') {
-                        alert('Song added to the playlist');
-                        window.location.reload(true);
-                    } else {
-                        alert('Song is existed. Please try again');
-                    }
-                })
-                .catch((err) => console.log(err));
-        }
-    };
-
     function sortData(data) {
         return data.slice().sort((a, b) => {
             if (orderBy === 'created_at') {
@@ -185,18 +146,7 @@ function SongCustomer() {
                     .map((song, index) => (
                         <div key={index} className="song-list-item">
                             <div style={{ position: 'relative' }}>
-                                <div className="favorite-icon">
-                                    <IconButton
-                                        onClick={() => { handleFavorite(data.userId), setSelectedSong(song) }}
-                                        size="large"
-                                        aria-label="like"
-                                        color="error"
-                                        style={{ position: 'absolute', top: 0, right: 0 }}
-                                        className="favorite-button"
-                                    >
-                                        <FavoriteIcon />
-                                    </IconButton>
-                                </div>
+
                                 <Link href={`/viewSongCustomer/` + song.id} underline="none">
                                     <img src={`http://localhost:8081/images/` + song.thumbnail} className="song-thumbnail" />
                                     <div className="song-details" style={{ textAlign: 'center' }}>
@@ -214,41 +164,7 @@ function SongCustomer() {
                         </div>
                     ))}
             </div>
-            <Modal
-                open={modalOpen}
-                onClose={() => { setModalOpen(false) }}>
-                <div className="d-flex flex-wrap justify-content-start">
-                    <div className="w-100 text-center">
-                        <h2 className="mb-4 pd-top" style={{ color: '#fff' }}>ADD TO PLAYLIST</h2>
-                    </div>
-                    {dataPlaylist.map((playlist, index) => (
-                        <div key={index} className="m-5 playlist-container ">
-                            <div className="container rounded " style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <div className="d-flex flex-column align-items-center text-center">
-                                    <div className="rounded-image-container">
-                                        <img
-                                            className="rounded-square-image"
-                                            src={`http://localhost:8081/images/${playlist.image}`}
-                                        />
-                                        <div className="image-overlay">
-                                            <p className="playlist-name-modal">
-                                                <AddIcon
-                                                    onClick={() => {
-                                                        setSelectedPlaylist(playlist);
-                                                        handleAddToPlayList();
-                                                    }}
-                                                    fontSize='large'
-                                                />
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <b className="playlist-name-modal">{playlist.collection_name}</b>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </Modal>
+
         </>
     );
 }
