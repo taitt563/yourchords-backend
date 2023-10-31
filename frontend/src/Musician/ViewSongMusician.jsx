@@ -124,7 +124,7 @@ function ViewSongMusician() {
                         }
                         <p className="fs-100  pd-left" >Artist:  <b>{viewSong.author}</b></p>
                         {viewSong.link != null ?
-                            <p className="fs-100  pd-left" >Link:  <b><Link to={viewSong.link}>{viewSong.link}</Link></b></p>
+                            <p className="fs-100  pd-left" >Link:  <b><Link to={viewSong.link} underline="hover">{viewSong.link}</Link></b></p>
                             : <p className="fs-100  pd-left" >Link:  <b>Updating...</b></p>
                         }
                         <div className='d-flex flex-column align-items-center'>

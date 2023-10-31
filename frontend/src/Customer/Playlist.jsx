@@ -103,41 +103,34 @@ function Playlist() {
                     .filter(playlist => {
                         return search.toLowerCase() === "" ? playlist : playlist.collection_name.toLowerCase().includes(search);
                     }).map((playlist, index) => (
-                        <div key={index} className="m-5 playlist-container p-3">
-
+                        <div key={index} className="m-5 playlist-container p-5">
                             <div className="container rounded bg-white" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-
                                 <div className="d-flex flex-column align-items-center text-center">
-                                    <IconButton
-                                        size="small"
-                                        aria-label="account of current user"
-                                        aria-controls="menu-appbar"
-                                        aria-haspopup="true"
-                                        onClick={() => handleDelete(playlist.id)}
-
-                                        color="error"
-                                        className="favorite-button"
-                                    >
-                                        <DeleteIcon />
-                                    </IconButton>
                                     <div className="rounded-image-container">
-
-
                                         <img
                                             className="rounded-square-image"
                                             src={`http://localhost:8081/images/${playlist.image}`}
-
                                         />
-
                                         <div className="image-overlay">
                                             <Link href={'/viewPlaylist/' + playlist.id} className="overlay-text" underline='none'><b>View Playlist</b></Link>
                                         </div>
+                                        <IconButton
+                                            size="small"
+                                            aria-label="account of current user"
+                                            aria-controls="menu-appbar"
+                                            aria-haspopup="true"
+                                            onClick={() => handleDelete(playlist.id)}
+
+                                            color="error"
+                                            className="favorite-button"
+                                        >
+                                            <DeleteIcon />
+                                        </IconButton>
                                     </div>
-                                    <b className="playlist-name">{playlist.collection_name}
-
-                                    </b>
-
-
+                                    <Link href={'/viewPlaylist/' + playlist.id} className="playlist-name" underline='none' >
+                                        <b >{playlist.collection_name}
+                                        </b>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

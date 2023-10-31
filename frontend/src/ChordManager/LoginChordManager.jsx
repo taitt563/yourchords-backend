@@ -18,7 +18,7 @@ function LoginChordManager() {
         axios.post('http://localhost:8081/loginChordManager', values)
             .then(res => {
                 if (res.data.Status === 'Success') {
-                    localStorage.setItem('id_chordManager', values.username);
+                    sessionStorage.setItem('id_chordManager', values.username);
                     navigate("/verifySong");
                 } else {
                     setIsLoginFailed(true);
