@@ -9,10 +9,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import HeadsetIcon from "@mui/icons-material/Headset";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 function Playlist() {
     const [data, setData] = useState([]);
     const { userId } = useParams();
+
     const [search, setSearch] = useState("");
     const darkTheme = createTheme({
         palette: {
@@ -28,13 +30,24 @@ function Playlist() {
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData([...res.data.Result]);
-                    console.log(res.data.Result)
                 } else {
                     alert("Error")
                 }
             })
             .catch(err => console.log(err));
     }, []);
+    const handleDelete = (id) => {
+        console.log(id);
+
+        axios.delete(`http://localhost:8081/deleteCollection/` + id)
+            .then(res => {
+                if (res.data.Status === "Success") {
+                    window.location.reload(true);
+                }
+            })
+            .catch(err => console.error(err));
+    };
+
     return (
         <>
             <Box sx={{ flexGrow: 1, top: 0, position: "sticky", zIndex: "3" }}>
@@ -82,7 +95,8 @@ function Playlist() {
                         </Toolbar>
                     </AppBar>
                 </ThemeProvider>
-            </Box>            <div className='d-flex flex-column align-items-center pt-4'>
+            </Box>
+            <div className='d-flex flex-column align-items-center pt-4'>
                 <h3 className="d-flex justify-content-center">PLAYLIST</h3>
             </div>
             <div className="d-flex flex-wrap justify-content-start">
@@ -90,19 +104,41 @@ function Playlist() {
                     .filter(playlist => {
                         return search.toLowerCase() === "" ? playlist : playlist.collection_name.toLowerCase().includes(search);
                     }).map((playlist, index) => (
-                        <div key={index} className="m-5 playlist-container">
+                        <div key={index} className="m-5 playlist-container p-3">
+
                             <div className="container rounded bg-white" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
                                 <div className="d-flex flex-column align-items-center text-center">
+                                    <IconButton
+                                        size="small"
+                                        aria-label="account of current user"
+                                        aria-controls="menu-appbar"
+                                        aria-haspopup="true"
+                                        onClick={() => handleDelete(playlist.id)}
+
+                                        color="error"
+                                        className="favorite-button"
+                                    >
+                                        <DeleteIcon />
+                                    </IconButton>
                                     <div className="rounded-image-container">
+
+
                                         <img
                                             className="rounded-square-image"
                                             src={`http://localhost:8081/images/${playlist.image}`}
+
                                         />
+
                                         <div className="image-overlay">
                                             <Link href={'/viewPlaylist/' + playlist.id} className="overlay-text" underline='none'><b>View Playlist</b></Link>
                                         </div>
                                     </div>
-                                    <b className="playlist-name">{playlist.collection_name}</b>
+                                    <b className="playlist-name">{playlist.collection_name}
+
+                                    </b>
+
+
                                 </div>
                             </div>
                         </div>

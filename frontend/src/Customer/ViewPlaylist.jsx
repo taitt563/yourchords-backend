@@ -11,12 +11,14 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import SortIcon from '@mui/icons-material/Sort';
 import { useParams } from 'react-router-dom';
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 function SongCustomer() {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState('');
     const [orderBy, setOrderBy] = useState('created_at');
     const [order, setOrder] = useState('asc');
+    const { id } = useParams();
     const darkTheme = createTheme({
         palette: {
             mode: 'dark',
@@ -25,7 +27,7 @@ function SongCustomer() {
             },
         },
     });
-    const { id } = useParams();
+
 
 
     useEffect(() => {
@@ -33,7 +35,6 @@ function SongCustomer() {
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData([...res.data.Result]);
-                    console.log(res.data.Result)
                 } else {
                     alert("Error")
                 }
@@ -51,13 +52,28 @@ function SongCustomer() {
                 return order === 'asc'
                     ? a.created_at.localeCompare(b.created_at)
                     : b.created_at.localeCompare(a.created_at);
-            } else if (orderBy === 'updated_at' && a.updated_at && b.updated_at) {
+            } if (orderBy === 'updated_at' && a.updated_at && b.updated_at) {
                 return order === 'asc'
                     ? a.updated_at.localeCompare(b.updated_at)
                     : b.updated_at.localeCompare(a.updated_at);
+            } if (orderBy === 'date_added' && a.date_added && b.date_added) {
+                return order === 'asc'
+                    ? a.date_added.localeCompare(b.date_added)
+                    : b.date_added.localeCompare(a.date_added);
             }
+
         });
     }
+    const handleDelete = (song_id, collection_id) => {
+        axios.delete(`http://localhost:8081/deleteSongPlaylist/${collection_id}/${song_id}`)
+            .then(res => {
+                if (res.data.Status === "Success") {
+                    window.location.reload(true);
+
+                }
+            })
+            .catch(err => console.log(err));
+    };
 
     return (
         <>
@@ -112,7 +128,13 @@ function SongCustomer() {
                     className={`sort-button ${orderBy === 'updated_at' ? 'active' : ''}`}
                     onClick={() => handleSort('updated_at')}
                 >
-                    <SortIcon className="sort-icon" /> Updated
+                    Updated
+                </button>
+                <button
+                    className={`sort-button ${orderBy === 'date_added' ? 'active' : ''}`}
+                    onClick={() => handleSort('date_added')}
+                >
+                    Added
                 </button>
                 <button className={`sort-button ${orderBy === 'popular' ? 'active' : ''}`}>
                     <SortIcon className="sort-icon" /> Popular
@@ -146,7 +168,20 @@ function SongCustomer() {
                     .map((song, index) => (
                         <div key={index} className="song-list-item">
                             <div style={{ position: 'relative' }}>
-
+                                <div className="favorite-icon">
+                                    <IconButton
+                                        size="large"
+                                        aria-label="account of current user"
+                                        aria-controls="menu-appbar"
+                                        aria-haspopup="true"
+                                        onClick={() => handleDelete(song.song_id, song.collection_id)}
+                                        color="error"
+                                        style={{ position: 'absolute', top: 0, right: 0 }}
+                                        className="favorite-button"
+                                    >
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </div>
                                 <Link href={`/viewSongCustomer/` + song.id} underline="none">
                                     <img src={`http://localhost:8081/images/` + song.thumbnail} className="song-thumbnail" />
                                     <div className="song-details" style={{ textAlign: 'center' }}>

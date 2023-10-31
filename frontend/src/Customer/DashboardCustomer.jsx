@@ -17,6 +17,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
+import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 function DashboardCustomer() {
     const [data, setData] = useState([]);
     axios.defaults.withCredentials = true;
@@ -85,7 +86,7 @@ function DashboardCustomer() {
                                 <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                     <ListItemButton onClick={handleClickPlaylist}>
                                         <ListItemIcon>
-                                            <QueueMusicIcon color="primary" fontSize='medium' />
+                                            <PlaylistPlayIcon color="primary" fontSize='medium' />
                                         </ListItemIcon>
                                         <ListItemText><span className="fontDashboard">Your Playlist</span></ListItemText>
                                         {openPlaylist ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}

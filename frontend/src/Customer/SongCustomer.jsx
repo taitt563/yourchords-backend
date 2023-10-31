@@ -151,7 +151,7 @@ function SongCustomer() {
                     className={`sort-button ${orderBy === 'updated_at' ? 'active' : ''}`}
                     onClick={() => handleSort('updated_at')}
                 >
-                    <SortIcon className="sort-icon" /> Updated
+                    Updated
                 </button>
                 <button className={`sort-button ${orderBy === 'popular' ? 'active' : ''}`}>
                     <SortIcon className="sort-icon" /> Popular
