@@ -58,7 +58,6 @@ function Playlist() {
                                 variant="h5"
                                 noWrap
                                 component="a"
-                                href="/homeAdmin"
                                 sx={{
                                     mr: 2,
                                     display: { xs: "none", md: "flex" },

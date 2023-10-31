@@ -489,8 +489,6 @@ textarea {
 
 .banner {
     position: absolute;
-    z-index: 99;
-    top: 20%;
     left: 60%;
     transform: translate(-50%, -50%);
     text-align: center;

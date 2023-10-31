@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 /////ADMIN
 import Dashboard from './Admin/Dashboard'
 import Login from './Login'
-// import Home from './Admin/Home'
 import Profile from './Admin/Profile'
 import Song from './Admin/Song'
 import ManageAccount from './Admin/ManageAcount'
@@ -13,7 +12,6 @@ import ViewSong from './Admin/ViewSong'
 import LoginChordManager from './ChordManager/LoginChordManager'
 import DashboardChordManager from './ChordManager/DashboardChordManager'
 import SignUpChordManager from './ChordManager/SignUpChordManager'
-// import HomeChordManager from './ChordManager/HomeChordManager'
 import VerifySong from './ChordManager/VerifySong'
 import ViewSongChordManager from './ChordManager/ViewSongChordManager'
 import ProfileChordManager from './ChordManager/ProfileChordManager'
@@ -22,7 +20,6 @@ import SongChordManager from './ChordManager/SongChordManager'
 import LoginMusician from './Musician/LoginMusician'
 import DashboardMusician from './Musician/DashboardMusician'
 import SignUpMusician from './Musician/SignUpMusician'
-// import HomeMusician from './Musician/HomeMusician'
 import SongMusician from './Musician/SongMusician'
 import ViewSongMusician from './Musician/ViewSongMusician'
 import CreateSong from './Musician/CreateSong'
@@ -56,7 +53,6 @@ function App() {
         <Route path='/signUpMusician' element={<SignUpMusician />}></Route>
         {/* ADMIN ROLE */}
         <Route path='/' element={<Dashboard />}>
-          {/* <Route path='/homeAdmin' element={<Home />}></Route> */}
           <Route path='/profile/:userId' element={<Profile />}></Route>
           <Route path='/song' element={<Song />}></Route>
           <Route path='/manageAccount' element={<ManageAccount />}></Route>
@@ -66,7 +62,6 @@ function App() {
         </Route>
         {/* CHORD MANAGER ROLE */}
         <Route path='/' element={<DashboardChordManager />}>
-          {/* <Route path='/homeChordManager' element={<HomeChordManager />}></Route> */}
           <Route path='/verifySong' element={<VerifySong />}></Route>
           <Route path='/viewSongChordManager/:id' element={<ViewSongChordManager />}></Route>
           <Route path='/profileChordManager/:userId' element={<ProfileChordManager />}></Route>
@@ -75,7 +70,6 @@ function App() {
 
         {/* MUSICIAN ROLE */}
         <Route path='/' element={<DashboardMusician />}>
-          {/* <Route path='/homeMusician' element={<HomeMusician />}></Route> */}
           <Route path='/songMusician' element={<SongMusician />}></Route>
           <Route path='/viewSongMusician/:id' element={<ViewSongMusician />}></Route>
           <Route path='/createSong' element={<CreateSong />}></Route>
