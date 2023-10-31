@@ -166,33 +166,31 @@ function SongCustomer() {
                                     : song.song_title.toLowerCase().includes(search);
                             })
                             .map((song, index) => (
-                                <div key={index} className="song-list-item">
+                                <div key={index} >
                                     <div style={{ position: 'relative' }}>
-                                        <div className="favorite-icon">
-                                            <IconButton
-                                                size="large"
-                                                aria-label="account of current user"
-                                                aria-controls="menu-appbar"
-                                                aria-haspopup="true"
-                                                onClick={() => handleDelete(song.song_id, song.collection_id)}
-                                                color="error"
-                                                style={{ position: 'absolute', top: 0, right: 0 }}
-                                                className="favorite-button"
-                                            >
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </div>
                                         <Link href={`/viewSongCustomer/` + song.id} underline="none">
-                                            <img src={`http://localhost:8081/images/` + song.thumbnail} className="song-thumbnail" />
+                                            <div className="song-list-item">
+                                                <div className="favorite-icon">
+                                                    <IconButton
+                                                        size="large"
+                                                        aria-label="account of current user"
+                                                        aria-controls="menu-appbar"
+                                                        aria-haspopup="true"
+                                                        onClick={() => handleDelete(song.song_id, song.collection_id)}
+                                                        color="error"
+                                                        style={{ position: 'absolute', top: 0, right: 0 }}
+                                                        className="favorite-button"
+                                                    >
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </div>
+                                                <img src={`http://localhost:8081/images/` + song.thumbnail} className="song-thumbnail" />
+                                            </div>
                                             <div className="song-details" style={{ textAlign: 'center' }}>
                                                 <b>{song.song_title}</b>
                                                 <p><b>Artist: {song.artist}</b></p>
-                                                <p>Date created: {moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</p>
-                                                {song.updated_at != null ? (
-                                                    <p>Date updated: {moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</p>
-                                                ) : (
-                                                    <p>Not updated</p>
-                                                )}
+                                                <p>Date added: {moment(song.date_added).format('YYYY/MM/DD - HH:mm:ss')}</p>
+
                                             </div>
                                         </Link>
                                     </div>

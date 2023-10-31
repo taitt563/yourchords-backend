@@ -1,7 +1,6 @@
 import { Link } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import moment from 'moment';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -182,31 +181,27 @@ function SongCustomer() {
                             : song.song_title.toLowerCase().includes(search);
                     })
                     .map((song, index) => (
-                        <div key={index} className="song-list-item">
+                        <div key={index} >
                             <div style={{ position: 'relative' }}>
-                                <div className="favorite-icon">
-                                    <IconButton
-                                        onClick={() => { handleFavorite(data.userId), setSelectedSong(song) }}
-                                        size="large"
-                                        aria-label="like"
-                                        color="error"
-                                        style={{ position: 'absolute', top: 0, right: 0 }}
-                                        className="favorite-button"
-                                    >
-                                        <FavoriteIcon />
-                                    </IconButton>
-                                </div>
                                 <Link href={`/viewSongCustomer/` + song.id} underline="none">
-                                    <img src={`http://localhost:8081/images/` + song.thumbnail} className="song-thumbnail" />
+                                    <div className="song-list-item">
+                                        <div className="favorite-icon">
+                                            <IconButton
+                                                onClick={() => { handleFavorite(data.userId), setSelectedSong(song) }}
+                                                size="large"
+                                                aria-label="like"
+                                                color="error"
+                                                style={{ position: 'absolute', top: 0, right: 0 }}
+                                                className="favorite-button"
+                                            >
+                                                <FavoriteIcon />
+                                            </IconButton>
+                                        </div>
+                                        <img src={`http://localhost:8081/images/` + song.thumbnail} className="song-thumbnail" />
+                                    </div>
                                     <div className="song-details" style={{ textAlign: 'center' }}>
                                         <b>{song.song_title}</b>
                                         <p><b>Artist: {song.artist}</b></p>
-                                        <p>Date created: {moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</p>
-                                        {song.updated_at != null ? (
-                                            <p>Date updated: {moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</p>
-                                        ) : (
-                                            <p>Not updated</p>
-                                        )}
                                     </div>
                                 </Link>
                             </div>
