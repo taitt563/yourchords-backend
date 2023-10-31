@@ -27,8 +27,7 @@ function SongCustomer() {
             },
         },
     });
-
-
+    const userId = sessionStorage.getItem('id_customer');
 
     useEffect(() => {
         axios.get('http://localhost:8081/viewPlaylist/' + id)
@@ -117,89 +116,106 @@ function SongCustomer() {
                     </AppBar>
                 </ThemeProvider>
             </Box>
-            <div className="sort-button-container">
-                <button
-                    className={`sort-button ${orderBy === 'created_at' ? 'active' : ''}`}
-                    onClick={() => handleSort('created_at')}
-                >
-                    New
-                </button>
-                <button
-                    className={`sort-button ${orderBy === 'updated_at' ? 'active' : ''}`}
-                    onClick={() => handleSort('updated_at')}
-                >
-                    Updated
-                </button>
-                <button
-                    className={`sort-button ${orderBy === 'date_added' ? 'active' : ''}`}
-                    onClick={() => handleSort('date_added')}
-                >
-                    Added
-                </button>
-                <button className={`sort-button ${orderBy === 'popular' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> Popular
-                </button>
-                <button className={`sort-button ${orderBy === 'pop' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> Pop
-                </button>
-                <button className={`sort-button ${orderBy === 'rock' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> Rock
-                </button>
-                <button className={`sort-button ${orderBy === 'jazz' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> Jazz
-                </button>
-                <button className={`sort-button ${orderBy === 'acoustic' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> Acoustic
-                </button>
-                <button className={`sort-button ${orderBy === 'ballad' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> Ballad
-                </button>
-                <button className={`sort-button ${orderBy === 'r&b' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> R&b
-                </button>
-            </div>
-            <div className="song-list-container">
-                {sortData(data)
-                    .filter((song) => {
-                        return search.toLowerCase() === ''
-                            ? song
-                            : song.song_title.toLowerCase().includes(search);
-                    })
-                    .map((song, index) => (
-                        <div key={index} className="song-list-item">
-                            <div style={{ position: 'relative' }}>
-                                <div className="favorite-icon">
-                                    <IconButton
-                                        size="large"
-                                        aria-label="account of current user"
-                                        aria-controls="menu-appbar"
-                                        aria-haspopup="true"
-                                        onClick={() => handleDelete(song.song_id, song.collection_id)}
-                                        color="error"
-                                        style={{ position: 'absolute', top: 0, right: 0 }}
-                                        className="favorite-button"
-                                    >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </div>
-                                <Link href={`/viewSongCustomer/` + song.id} underline="none">
-                                    <img src={`http://localhost:8081/images/` + song.thumbnail} className="song-thumbnail" />
-                                    <div className="song-details" style={{ textAlign: 'center' }}>
-                                        <b>{song.song_title}</b>
-                                        <p><b>Artist: {song.artist}</b></p>
-                                        <p>Date created: {moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</p>
-                                        {song.updated_at != null ? (
-                                            <p>Date updated: {moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</p>
-                                        ) : (
-                                            <p>Not updated</p>
-                                        )}
+            {data.length > 0 ?
+                <>
+                    <div className="sort-button-container">
+                        <button
+                            className={`sort-button ${orderBy === 'created_at' ? 'active' : ''}`}
+                            onClick={() => handleSort('created_at')}
+                        >
+                            New
+                        </button>
+                        <button
+                            className={`sort-button ${orderBy === 'updated_at' ? 'active' : ''}`}
+                            onClick={() => handleSort('updated_at')}
+                        >
+                            Updated
+                        </button>
+                        <button
+                            className={`sort-button ${orderBy === 'date_added' ? 'active' : ''}`}
+                            onClick={() => handleSort('date_added')}
+                        >
+                            Added
+                        </button>
+                        <button className={`sort-button ${orderBy === 'popular' ? 'active' : ''}`}>
+                            <SortIcon className="sort-icon" /> Popular
+                        </button>
+                        <button className={`sort-button ${orderBy === 'pop' ? 'active' : ''}`}>
+                            <SortIcon className="sort-icon" /> Pop
+                        </button>
+                        <button className={`sort-button ${orderBy === 'rock' ? 'active' : ''}`}>
+                            <SortIcon className="sort-icon" /> Rock
+                        </button>
+                        <button className={`sort-button ${orderBy === 'jazz' ? 'active' : ''}`}>
+                            <SortIcon className="sort-icon" /> Jazz
+                        </button>
+                        <button className={`sort-button ${orderBy === 'acoustic' ? 'active' : ''}`}>
+                            <SortIcon className="sort-icon" /> Acoustic
+                        </button>
+                        <button className={`sort-button ${orderBy === 'ballad' ? 'active' : ''}`}>
+                            <SortIcon className="sort-icon" /> Ballad
+                        </button>
+                        <button className={`sort-button ${orderBy === 'r&b' ? 'active' : ''}`}>
+                            <SortIcon className="sort-icon" /> R&b
+                        </button>
+                    </div>
+                    <div className="song-list-container">
+                        {sortData(data)
+                            .filter((song) => {
+                                return search.toLowerCase() === ''
+                                    ? song
+                                    : song.song_title.toLowerCase().includes(search);
+                            })
+                            .map((song, index) => (
+                                <div key={index} className="song-list-item">
+                                    <div style={{ position: 'relative' }}>
+                                        <div className="favorite-icon">
+                                            <IconButton
+                                                size="large"
+                                                aria-label="account of current user"
+                                                aria-controls="menu-appbar"
+                                                aria-haspopup="true"
+                                                onClick={() => handleDelete(song.song_id, song.collection_id)}
+                                                color="error"
+                                                style={{ position: 'absolute', top: 0, right: 0 }}
+                                                className="favorite-button"
+                                            >
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </div>
+                                        <Link href={`/viewSongCustomer/` + song.id} underline="none">
+                                            <img src={`http://localhost:8081/images/` + song.thumbnail} className="song-thumbnail" />
+                                            <div className="song-details" style={{ textAlign: 'center' }}>
+                                                <b>{song.song_title}</b>
+                                                <p><b>Artist: {song.artist}</b></p>
+                                                <p>Date created: {moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</p>
+                                                {song.updated_at != null ? (
+                                                    <p>Date updated: {moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</p>
+                                                ) : (
+                                                    <p>Not updated</p>
+                                                )}
+                                            </div>
+                                        </Link>
                                     </div>
-                                </Link>
-                            </div>
+                                </div>
+                            ))}
+                    </div>
+                </>
+                :
+                <>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '60vh',
+                    }}>
+                        <div className="banner">
+                            <p>No songs in your playlist yet</p>
+                            <a href={`/songCustomer/${userId}`}>Add More</a>
                         </div>
-                    ))}
-            </div>
-
+                    </div>
+                </>
+            }
         </>
     );
 }

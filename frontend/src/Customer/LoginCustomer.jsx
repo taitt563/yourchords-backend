@@ -18,7 +18,7 @@ function LoginCustomer() {
         axios.post('http://localhost:8081/login', values)
             .then(res => {
                 if (res.data.Status === 'Success') {
-                    localStorage.setItem('id_customer', values.username);
+                    sessionStorage.setItem('id_customer', values.username);
                     navigate("/songCustomer/" + values.username);
                 } else {
                     setIsLoginFailed(true);

@@ -19,7 +19,7 @@ function Login() {
         axios.post('http://localhost:8081/loginAdmin', values)
             .then(res => {
                 if (res.data.Status === 'Success') {
-                    localStorage.setItem('id_admin', values.username);
+                    sessionStorage.setItem('id_admin', values.username);
                     navigate("/manageAccount");
                 } else {
                     setIsLoginFailed(true);

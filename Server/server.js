@@ -226,8 +226,9 @@ app.post('/createSong', upload.single('thumbnail'), (req, res) => {
         return false;
     }
 })
+
+// PLAYLIST
 app.post('/createPlaylist/:username', upload.single('image'), (req, res) => {
-    // Check if the collection_name already exists for the user
     const checkDuplicateSql = `
     SELECT COUNT(*) AS count
     FROM collection
@@ -241,7 +242,6 @@ app.post('/createPlaylist/:username', upload.single('image'), (req, res) => {
         if (result[0].count > 0) {
             return res.json({ Error: "Collection name already exists for this user" });
         } else {
-            // Collection name is unique, proceed to insert into the database
             const insertSql = `
             INSERT INTO collection (user_id, collection_name, date_creation, image)
             SELECT ?, ?, CURRENT_TIMESTAMP, ?
@@ -324,6 +324,36 @@ app.get('/viewPlaylist/:id', (req, res) => {
         });
     });
 });
+app.delete('/deleteSongPlaylist/:collection_id/:song_id', (req, res) => {
+    const collection_id = req.params.collection_id;
+    const song_id = req.params.song_id;
+    const sql = "DELETE FROM collection_songs WHERE collection_id = ? AND song_id = ?";
+    con.query(sql, [collection_id, song_id], (err, result) => {
+        if (err) {
+            return res.json({ Error: "Failed to delete the song from the collection" });
+        } else {
+            return res.json({ Status: "Success", Result: result });
+        }
+    });
+});
+app.delete('/deleteCollection/:id', (req, res) => {
+    const id = req.params.id;
+    const deleteSongsQuery = "DELETE FROM collection_songs WHERE collection_id = ?";
+    con.query(deleteSongsQuery, [id], (err, result) => {
+        if (err) {
+            return res.status(500).json({ Error: "Failed to delete songs from the collection" });
+        }
+        const deleteCollectionQuery = "DELETE FROM collection WHERE id = ?";
+        con.query(deleteCollectionQuery, [id], (err, result) => {
+            if (err) {
+                return res.status(500).json({ Error: "Failed to delete the collection" });
+            } else {
+                return res.json({ Status: "Success", Result: result });
+            }
+        });
+    });
+});
+
 
 app.get('/getProfile/:userId', (req, res) => {
     const userId = req.params.userId;
@@ -420,35 +450,6 @@ app.delete('/delete/:id', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
-app.delete('/deleteSongPlaylist/:collection_id/:song_id', (req, res) => {
-    const collection_id = req.params.collection_id;
-    const song_id = req.params.song_id;
-    const sql = "DELETE FROM collection_songs WHERE collection_id = ? AND song_id = ?";
-    con.query(sql, [collection_id, song_id], (err, result) => {
-        if (err) {
-            return res.json({ Error: "Failed to delete the song from the collection" });
-        } else {
-            return res.json({ Status: "Success", Result: result });
-        }
-    });
-});
-app.delete('/deleteCollection/:id', (req, res) => {
-    const id = req.params.id;
-    const deleteSongsQuery = "DELETE FROM collection_songs WHERE collection_id = ?";
-    con.query(deleteSongsQuery, [id], (err, result) => {
-        if (err) {
-            return res.status(500).json({ Error: "Failed to delete songs from the collection" });
-        }
-        const deleteCollectionQuery = "DELETE FROM collection WHERE id = ?";
-        con.query(deleteCollectionQuery, [id], (err, result) => {
-            if (err) {
-                return res.status(500).json({ Error: "Failed to delete the collection" });
-            } else {
-                return res.json({ Status: "Success", Result: result });
-            }
-        });
-    });
-});
 
 app.put('/verifySong/:id', (req, res) => {
     const id = req.params.id;
