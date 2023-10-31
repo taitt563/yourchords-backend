@@ -2,7 +2,6 @@ import { Outlet, useParams } from 'react-router-dom'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-// import HomeIcon from '@mui/icons-material/Home';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ListItem from '@mui/material/ListItem';
@@ -10,7 +9,6 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-// import DashboardIcon from '@mui/icons-material/Dashboard';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
