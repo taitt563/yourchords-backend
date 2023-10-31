@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment'
-import SearchAppBar from "../component/SearchAppBar";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import "react-html5video/dist/styles.css";
 import {
@@ -18,14 +17,30 @@ import {
     TableSortLabel,
 } from "@mui/material";
 import TablePagination from "@mui/material/TablePagination";
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import SearchIcon from '@mui/icons-material/Search';
+import HeadsetIcon from '@mui/icons-material/Headset';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+
 function SongMusician() {
     const [data, setData] = useState([])
     const [page, setPage] = useState(0);
+    const [search, setSearch] = useState("");
     const [rowsPerPage, setRowsPerPage] = useState(6);
     const [orderBy, setOrderBy] = useState("song_title");
     const [order, setOrder] = useState("asc");
     const primaryColor = "#F1F1FB";
-
+    const darkTheme = createTheme({
+        palette: {
+            mode: "dark",
+            primary: {
+                main: "#F1F1FB",
+            },
+        },
+    });
     useEffect(() => {
         axios.get('http://localhost:8081/getSong')
             .then(res => {
@@ -70,7 +85,45 @@ function SongMusician() {
     }
     return (
         <>
-            <SearchAppBar />
+            <Box sx={{ flexGrow: 1, top: 0, position: "sticky", zIndex: '3' }}>
+                <ThemeProvider theme={darkTheme}>
+                    <AppBar position="static" color="primary" enableColorOnDark>
+                        <Toolbar>
+                            <Typography
+                                variant="h5"
+                                noWrap
+                                component="a"
+                                sx={{
+                                    mr: 2,
+                                    display: { xs: 'none', md: 'flex' },
+                                    fontFamily: 'monospace',
+                                    fontWeight: 700,
+                                    letterSpacing: '.3rem',
+                                    color: 'inherit',
+                                    textDecoration: 'none',
+                                }}
+                            >
+                                <HeadsetIcon fontSize="large" />
+                            </Typography>
+                            <Typography
+                                variant="h6"
+                                noWrap
+                                component="div"
+                                sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                            >
+
+                                <b>YOUR CHORD</b>
+                            </Typography>
+                            <input
+                                type="text"
+                                className="input-box"
+                                placeholder="Search.."
+                                onChange={(e) => setSearch(e.target.value)} />
+                            <SearchIcon className="inputIcon" />
+                        </Toolbar>
+                    </AppBar>
+                </ThemeProvider>
+            </Box>
             <div className="px-2 py-5">
 
                 <div>
@@ -123,7 +176,7 @@ function SongMusician() {
                                         let dataChord = song.lyrics;
                                         dataChord = dataChord.replace(/.+/g, "<section>$&</section>");
                                         let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
-                                        return !songChord.includes('<strong>');
+                                        return !songChord.includes('<strong>') && (search.trim() === '' ? true : song.song_title.toLowerCase().includes(search.toLowerCase()));
                                     })
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map((song, index) => (

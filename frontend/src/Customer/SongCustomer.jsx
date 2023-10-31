@@ -96,7 +96,10 @@ function SongCustomer() {
             }
         });
     }
-
+    const filteredSongs = sortData(data).filter((song) => {
+        return search.trim() === '' ||
+            song.song_title.toLowerCase().includes(search.toLowerCase());
+    });
     return (
         <>
             <Box sx={{ flexGrow: 1, top: 0, position: 'sticky', zIndex: '3' }}>
@@ -173,15 +176,13 @@ function SongCustomer() {
                     <SortIcon className="sort-icon" /> R&b
                 </button>
             </div>
-            <div className="song-list-container">
-                {sortData(data)
-                    .filter((song) => {
-                        return search.toLowerCase() === ''
-                            ? song
-                            : song.song_title.toLowerCase().includes(search);
-                    })
-                    .map((song, index) => (
-                        <div key={index} >
+
+            {filteredSongs.length === 0 ? (
+                <p className="d-flex justify-content-center" style={{ color: '#0d6efd', paddingTop: '200px' }}>No result found. Try again !</p>
+            ) : (
+                <div className="song-list-container">
+                    {filteredSongs.map((song, index) => (
+                        <div key={index}>
                             <div style={{ position: 'relative' }}>
                                 <Link href={`/viewSongCustomer/` + song.id} underline="none">
                                     <div className="song-list-item">
@@ -203,11 +204,15 @@ function SongCustomer() {
                                         <b>{song.song_title}</b>
                                         <p><b>Artist: {song.artist}</b></p>
                                     </div>
+
                                 </Link>
                             </div>
                         </div>
                     ))}
-            </div>
+                </div>
+
+            )}
+
             <Modal
                 open={modalOpen}
                 onClose={() => { setModalOpen(false) }}>

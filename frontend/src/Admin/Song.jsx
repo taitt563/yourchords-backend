@@ -180,7 +180,7 @@ function Song() {
                                 <TableBody>
                                     {sortData(data)
                                         .filter(song => {
-                                            return search.toLowerCase() === "" ? song : song.song_title.toLowerCase().includes(search);
+                                            return search.trim() === "" ? song : song.song_title.toLowerCase().includes(search.toLowerCase());
                                         })
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         .map((song, index) => (

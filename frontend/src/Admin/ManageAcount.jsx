@@ -305,8 +305,8 @@ function ManageAccount() {
                                     <TableBody>
                                         {sortData(data)
                                             .filter((userAccount) => {
-                                                return search.toLowerCase() === '' ? userAccount
-                                                    : userAccount.username.toLowerCase().includes(search);
+                                                return search.trim() === '' ? userAccount
+                                                    : userAccount.username.toLowerCase().includes(search.toLowerCase());
                                             })
                                             .filter((userAccount) => userAccount.role === 'user')
                                             .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
@@ -413,8 +413,8 @@ function ManageAccount() {
                                     <TableBody>
                                         {sortData(data)
                                             .filter((userAccount) => {
-                                                return search.toLowerCase() === '' ? userAccount
-                                                    : userAccount.username.toLowerCase().includes(search);
+                                                return search.trim() === '' ? userAccount
+                                                    : userAccount.username.toLowerCase().includes(search.toLowerCase());
                                             })
                                             .filter((userAccount) => userAccount.role === 'admin')
                                             .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
@@ -521,8 +521,8 @@ function ManageAccount() {
                                     <TableBody>
                                         {sortData(data)
                                             .filter((userAccount) => {
-                                                return search.toLowerCase() === '' ? userAccount
-                                                    : userAccount.username.toLowerCase().includes(search);
+                                                return search.trim() === '' ? userAccount
+                                                    : userAccount.username.toLowerCase().includes(search.toLowerCase());
                                             })
                                             .filter((userAccount) => userAccount.role === 'chord')
                                             .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
@@ -629,8 +629,8 @@ function ManageAccount() {
                                     <TableBody>
                                         {sortData(data)
                                             .filter((userAccount) => {
-                                                return search.toLowerCase() === '' ? userAccount
-                                                    : userAccount.username.toLowerCase().includes(search);
+                                                return search.trim() === '' ? userAccount
+                                                    : userAccount.username.toLowerCase().includes(search.toLowerCase());
                                             })
                                             .filter((userAccount) => userAccount.role === 'musician')
                                             .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
