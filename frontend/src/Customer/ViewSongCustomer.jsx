@@ -26,7 +26,6 @@ function ViewSongCustomer() {
     const navigate = useNavigate();
     const [alignment, setAlignment] = useState('left');
     const [formats, setFormats] = useState(() => ['italic']);
-    // const [isShown, setIsShown] = useState(false);
     const [isOn, setIsOn] = useState(true);
     const [isRight, setIsRight] = useState(false);
     const [isLeft, setIsLeft] = useState(true);
@@ -34,13 +33,16 @@ function ViewSongCustomer() {
     const [chordPopups, setChordPopups] = useState({});
     const [isEditing, setIsEditing] = useState(false);
     const [currentKey, setCurrentKey] = useState(0); // Tông hiện tại (0 đại diện cho không thay đổi)
-    const keys = ["C", "C#", "D", "E", "F", "G", "A", "B"]; // Các tông âm mẫu
+
+    const keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" && "Cm", "C#m", "Dm", "D#m", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "A#m", "Bm"]; // Các tông âm mẫu
     const increaseKey = () => {
         setCurrentKey((currentKey + 1) % keys.length);
+
     };
 
     const decreaseKey = () => {
         setCurrentKey((currentKey - 1 + keys.length) % keys.length);
+
     };
     const handleEditClick = () => {
         setIsEditing(true);
@@ -128,20 +130,21 @@ function ViewSongCustomer() {
                 {data.map((viewSong, index) => {
                     let dataChord = viewSong.lyrics
                     dataChord = dataChord.replace(/.+/g, "<section>$&</section>")
-                    let songChord = dataChord.replace(
+                    {/* let songChord = dataChord.replace(
                         /\[(?<chord>\w+)\]/g,
                         `<strong class='chord'>$<chord></strong>`
-                    );
+                    ); */}
                     let hiddenChord = dataChord.replace(
                         /\[(?<chord>\w+)\]/g,
                         "<strong></strong>"
                     );
-                    songChord = dataChord.replace(/\[(\w+)\]/g, (match, chord) => {
+                    let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, (match, chord) => {
                         const indexInKeys = keys.indexOf(chord);
                         if (indexInKeys !== -1) {
                             const transposedIndex = (indexInKeys + currentKey) % keys.length;
-                            return `[${keys[transposedIndex]}]`;
+                            return `<strong class='chord'>${keys[transposedIndex]}</strong>`;
                         }
+
                         return match; // Not a valid chord, leave it as it is
                     });
                     const chordContainer = document.getElementById('chordContainer');
