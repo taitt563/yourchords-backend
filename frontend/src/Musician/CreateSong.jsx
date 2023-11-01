@@ -62,7 +62,7 @@ function CreateSong() {
     };
 
     const handleClose = () => {
-        navigate('/songMusician');
+        navigate('/chordMissMusician');
     };
 
     const renderStepContent = () => {

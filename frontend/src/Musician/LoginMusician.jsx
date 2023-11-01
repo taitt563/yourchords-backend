@@ -20,7 +20,7 @@ function LoginMusician() {
             .then(res => {
                 if (res.data.Status === 'Success') {
                     sessionStorage.setItem('id_musician', values.username);
-                    navigate("/songMusician");
+                    navigate("/chordMissMusician");
                 } else {
                     setIsLoginFailed(true);
                     setTimeout(() => {

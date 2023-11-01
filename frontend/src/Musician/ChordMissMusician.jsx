@@ -25,7 +25,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 
-function SongMusician() {
+function ChordMissMusician() {
     const [data, setData] = useState([])
     const [page, setPage] = useState(0);
     const [search, setSearch] = useState("");
@@ -389,4 +389,4 @@ function SongMusician() {
         </>
     )
 }
-export default SongMusician;
+export default ChordMissMusician;

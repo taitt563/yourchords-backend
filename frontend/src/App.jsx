@@ -20,7 +20,7 @@ import SongChordManager from './ChordManager/SongChordManager'
 import LoginMusician from './Musician/LoginMusician'
 import DashboardMusician from './Musician/DashboardMusician'
 import SignUpMusician from './Musician/SignUpMusician'
-import SongMusician from './Musician/SongMusician'
+import ChordMissMusician from './Musician/ChordMissMusician'
 import ViewSongMusician from './Musician/ViewSongMusician'
 import CreateSong from './Musician/CreateSong'
 import EditSongMusician from './Musician/EditSongMusician'
@@ -70,7 +70,7 @@ function App() {
 
         {/* MUSICIAN ROLE */}
         <Route path='/' element={<DashboardMusician />}>
-          <Route path='/songMusician' element={<SongMusician />}></Route>
+          <Route path='/chordMissMusician' element={<ChordMissMusician />}></Route>
           <Route path='/viewSongMusician/:id' element={<ViewSongMusician />}></Route>
           <Route path='/createSong' element={<CreateSong />}></Route>
           <Route path='/editSongMusician/:id' element={<EditSongMusician />}></Route>
