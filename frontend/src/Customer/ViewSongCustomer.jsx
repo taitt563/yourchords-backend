@@ -19,7 +19,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
 function ViewSongCustomer() {
     const [data, setData] = useState([]);
     const { id } = useParams();
@@ -33,6 +33,15 @@ function ViewSongCustomer() {
     const [isBold, setIsBold] = useState(false);
     const [chordPopups, setChordPopups] = useState({});
     const [isEditing, setIsEditing] = useState(false);
+    const [currentKey, setCurrentKey] = useState(0); // Tông hiện tại (0 đại diện cho không thay đổi)
+    const keys = ["C", "C#", "D", "E", "F", "G", "A", "B"]; // Các tông âm mẫu
+    const increaseKey = () => {
+        setCurrentKey((currentKey + 1) % keys.length);
+    };
+
+    const decreaseKey = () => {
+        setCurrentKey((currentKey - 1 + keys.length) % keys.length);
+    };
     const handleEditClick = () => {
         setIsEditing(true);
     };
@@ -119,8 +128,22 @@ function ViewSongCustomer() {
                 {data.map((viewSong, index) => {
                     let dataChord = viewSong.lyrics
                     dataChord = dataChord.replace(/.+/g, "<section>$&</section>")
-                    let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong class='chord'>$<chord></strong>");
-                    let hiddenChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong></strong>");
+                    let songChord = dataChord.replace(
+                        /\[(?<chord>\w+)\]/g,
+                        `<strong class='chord'>$<chord></strong>`
+                    );
+                    let hiddenChord = dataChord.replace(
+                        /\[(?<chord>\w+)\]/g,
+                        "<strong></strong>"
+                    );
+                    songChord = dataChord.replace(/\[(\w+)\]/g, (match, chord) => {
+                        const indexInKeys = keys.indexOf(chord);
+                        if (indexInKeys !== -1) {
+                            const transposedIndex = (indexInKeys + currentKey) % keys.length;
+                            return `[${keys[transposedIndex]}]`;
+                        }
+                        return match; // Not a valid chord, leave it as it is
+                    });
                     const chordContainer = document.getElementById('chordContainer');
                     if (chordContainer) {
                         chordContainer.innerHTML = songChord;
@@ -164,11 +187,7 @@ function ViewSongCustomer() {
                                 : <p className="col-md-6" >Link:  <b >Updating...</b></p>
                             }
                         </div>
-
-
-
                         <div className='d-flex flex-column align-items-center'>
-
                             <div className="container">
                                 <div className="px-2">
                                     <div className="row">
@@ -371,8 +390,11 @@ function ViewSongCustomer() {
 
                                             <div className="footer">
                                                 <hr />
-                                                <Button onClick={handleEditClick} className='btn btn-success'>COMPARE
+                                                <Button onClick={handleEditClick} className='btn btn-success'>COMPARE <SyncAltIcon />
                                                 </Button>
+                                                <Button onClick={increaseKey}>Nâng tông</Button>
+                                                <Button onClick={decreaseKey}>Giảm tông</Button>
+
                                             </div>
                                         </div>
                                     </div>
@@ -380,6 +402,7 @@ function ViewSongCustomer() {
                             </div>
                             <Button variant="contained" onClick={handleLogout} className='btn btn-success'>CLOSE
                             </Button>
+
                         </div>
                     </div>
                 })}
