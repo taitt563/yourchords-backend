@@ -33,7 +33,19 @@ function SongCustomer() {
     const { userId } = useParams();
     const [selectedSong, setSelectedSong] = useState(null);
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
-
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        bgcolor: 'background.paper',
+        border: '1px solid #0d6efd',
+        boxShadow: 24,
+        p: 4,
+        height: '800px',
+        overflowY: 'scroll',
+        width: '1400px',
+    };
     const handleFavorite = () => {
         axios.get(`http://localhost:8081/getPlaylist/` + userId)
             .then((res) => {
@@ -184,27 +196,28 @@ function SongCustomer() {
                     {filteredSongs.map((song, index) => (
                         <div key={index}>
                             <div style={{ position: 'relative' }}>
-                                <Link href={`/viewSongCustomer/` + song.id} underline="none">
-                                    <div className="song-list-item">
-                                        <div className="favorite-icon">
-                                            <IconButton
-                                                onClick={() => { handleFavorite(data.userId), setSelectedSong(song) }}
-                                                size="large"
-                                                aria-label="like"
-                                                color="error"
-                                                style={{ position: 'absolute', top: 0, right: 0 }}
-                                                className="favorite-button"
-                                            >
-                                                <FavoriteIcon />
-                                            </IconButton>
-                                        </div>
-                                        <img src={`http://localhost:8081/images/` + song.thumbnail} className="song-thumbnail" />
+                                <div className="song-list-item">
+                                    <div className="favorite-icon">
+                                        <IconButton
+                                            onClick={() => { handleFavorite(data.userId), setSelectedSong(song) }}
+                                            size="large"
+                                            aria-label="like"
+                                            color="error"
+                                            style={{ position: 'absolute', top: 0, right: 0 }}
+                                            className="favorite-button"
+                                        >
+                                            <FavoriteIcon />
+                                        </IconButton>
                                     </div>
+                                    <Link href={`/viewSongCustomer/` + song.id} underline="none">
+                                        <img src={`http://localhost:8081/images/` + song.thumbnail} className="song-thumbnail" />
+                                    </Link>
+                                </div>
+                                <Link href={`/viewSongCustomer/` + song.id} underline="none">
                                     <div className="song-details" style={{ textAlign: 'center' }}>
                                         <b>{song.song_title}</b>
                                         <p><b>Artist: {song.artist}</b></p>
                                     </div>
-
                                 </Link>
                             </div>
                         </div>
@@ -215,38 +228,49 @@ function SongCustomer() {
 
             <Modal
                 open={modalOpen}
-                onClose={() => { setModalOpen(false) }}>
-                <div className="d-flex flex-wrap justify-content-start">
-                    <div className="w-100 text-center">
-                        <h2 className="mb-4 pd-top" style={{ color: '#fff' }}>ADD TO PLAYLIST</h2>
-                    </div>
-                    {dataPlaylist.map((playlist, index) => (
-                        <div key={index} className="m-5 playlist-container ">
-                            <div className="container rounded " style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <div className="d-flex flex-column align-items-center text-center">
-                                    <div className="rounded-image-container">
-                                        <img
-                                            className="rounded-square-image"
-                                            src={`http://localhost:8081/images/${playlist.image}`}
-                                        />
-                                        <div className="image-overlay">
-                                            <p className="playlist-name-modal">
-                                                <AddIcon
-                                                    onClick={() => {
+                onClose={() => { setModalOpen(false) }}
+            >
+                <Box sx={style} >
+
+                    <div className="d-flex flex-wrap justify-content-start">
+                        <div className="w-100 text-center">
+                            <h2 className="mb-1 pd-top" style={{ color: '#0d6efd' }}>ADD TO PLAYLIST</h2>
+                        </div>
+
+                        {dataPlaylist.map((playlist, index) => (
+                            <div key={index} className="m-5 playlist-container ">
+                                <div className="container rounded " style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                    <div className="d-flex flex-column align-items-center text-center">
+                                        <div className="rounded-image-container">
+                                            <img
+                                                className="rounded-square-image"
+                                                src={`http://localhost:8081/images/${playlist.image}`}
+                                            />
+                                            <div className="image-overlay">
+                                                <p className="playlist-name-modal">
+                                                    <AddIcon
+                                                        onClick={() => {
+                                                            setSelectedPlaylist(playlist);
+                                                            handleAddToPlayList();
+                                                        }}
+                                                        fontSize='large'
+                                                    />
+                                                    <br />
+                                                    <Link onClick={() => {
                                                         setSelectedPlaylist(playlist);
                                                         handleAddToPlayList();
-                                                    }}
-                                                    fontSize='large'
-                                                />
-                                            </p>
+                                                    }} className="playlist-name-modal" underline='none'>Add to playlist</Link>
+                                                </p>
+                                            </div>
                                         </div>
+                                        <b className="playlist-name-modal">{playlist.collection_name}</b>
                                     </div>
-                                    <b className="playlist-name-modal">{playlist.collection_name}</b>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                </Box>
+
             </Modal>
         </>
     );

@@ -194,6 +194,34 @@ function ManageAccount() {
             return item.username;
         }
     }
+    const filteredAccountUser = sortData(data)
+        .filter((userAccount) => {
+            return search.trim() === '' ? userAccount
+                : userAccount.username.toLowerCase().includes(search.toLowerCase());
+        })
+        .filter((userAccount) => userAccount.role === 'user')
+        .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
+    const filteredAccountAdmin = sortData(data)
+        .filter((userAccount) => {
+            return search.trim() === '' ? userAccount
+                : userAccount.username.toLowerCase().includes(search.toLowerCase());
+        })
+        .filter((userAccount) => userAccount.role === 'admin')
+        .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
+    const filteredAccountChordManager = sortData(data)
+        .filter((userAccount) => {
+            return search.trim() === '' ? userAccount
+                : userAccount.username.toLowerCase().includes(search.toLowerCase());
+        })
+        .filter((userAccount) => userAccount.role === 'chord')
+        .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
+    const filteredAccountMusician = sortData(data)
+        .filter((userAccount) => {
+            return search.trim() === '' ? userAccount
+                : userAccount.username.toLowerCase().includes(search.toLowerCase());
+        })
+        .filter((userAccount) => userAccount.role === 'musician')
+        .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
     return (
         <>
             <Box sx={{ top: 0, position: 'sticky', zIndex: '3' }}>
@@ -274,78 +302,114 @@ function ManageAccount() {
                             </Stack>
                         )}
                         <div className='mt-4 pd-left'>
-                            <TableContainer component={Paper}>
-                                <Table>
-                                    <TableHead sx={{ backgroundColor: primaryColor }}>
-                                        <TableRow>
-                                            <TableCell></TableCell>
-                                            <TableCell>
-                                                <TableSortLabel
-                                                    active={orderBy === 'username'}
-                                                    direction={orderBy === 'username' ? order : 'asc'}
-                                                    onClick={() => handleSort('username')}
-                                                >
-                                                    <b>Username</b>
-                                                </TableSortLabel>
-                                            </TableCell>
-                                            <TableCell><b>Role</b></TableCell>
-                                            <TableCell>
-                                                <TableSortLabel
-                                                    active={orderBy === 'registration_time'}
-                                                    direction={orderBy === 'registration_time' ? order : 'asc'}
-                                                    onClick={() => handleSort('registration_time')}
-                                                >
-                                                    <CalendarMonthIcon color="primary" /> <b>Register date</b>
-                                                </TableSortLabel>
-                                            </TableCell>
-                                            <TableCell><b>Active</b></TableCell>
-                                            <TableCell></TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {sortData(data)
-                                            .filter((userAccount) => {
-                                                return search.trim() === '' ? userAccount
-                                                    : userAccount.username.toLowerCase().includes(search.toLowerCase());
-                                            })
-                                            .filter((userAccount) => userAccount.role === 'user')
-                                            .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-                                            .map((userAccount, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell><PersonIcon /></TableCell>
-                                                    <TableCell>{userAccount.username}</TableCell>
-                                                    <TableCell>{userAccount.role}</TableCell>
-                                                    <TableCell>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
-                                                    {userAccount.ban === 'Enable' ? (
-                                                        <TableCell style={{ color: 'green' }}>
-                                                            <b>{userAccount.ban}</b>
-                                                        </TableCell>
-                                                    ) : (
-                                                        <TableCell style={{ color: 'red' }}>
-                                                            <b>{userAccount.ban}</b>
-                                                        </TableCell>
-                                                    )}
-                                                    <TableCell>
-                                                        <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                                        {userAccount.ban === 'Enable' ? (
-                                                            <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
-                                                                <LockIcon />
-                                                            </button>
-                                                        ) : (
-                                                            <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
-                                                                <LockOpenIcon />
-                                                            </button>
-                                                        )}
-                                                        <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'>
-                                                            <DeleteIcon />
-                                                        </button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
+                            {filteredAccountUser.length === 0 ? (
+                                <>
 
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                                    <TableContainer component={Paper}>
+                                        <Table>
+                                            <TableHead sx={{ backgroundColor: primaryColor }}>
+                                                <TableRow>
+                                                    <TableCell></TableCell>
+                                                    <TableCell>
+                                                        <TableSortLabel
+                                                            active={orderBy === 'username'}
+                                                            direction={orderBy === 'username' ? order : 'asc'}
+                                                            onClick={() => handleSort('username')}
+                                                        >
+                                                            <b>Username</b>
+                                                        </TableSortLabel>
+                                                    </TableCell>
+                                                    <TableCell><b>Role</b></TableCell>
+                                                    <TableCell>
+                                                        <TableSortLabel
+                                                            active={orderBy === 'registration_time'}
+                                                            direction={orderBy === 'registration_time' ? order : 'asc'}
+                                                            onClick={() => handleSort('registration_time')}
+                                                        >
+                                                            <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                        </TableSortLabel>
+                                                    </TableCell>
+                                                    <TableCell><b>Active</b></TableCell>
+                                                    <TableCell></TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                        </Table>
+                                    </TableContainer>
+                                    <div>
+                                        <p className="d-flex justify-content-center" style={{ color: '#0d6efd', paddingTop: '50px' }}>No result found. Try again !</p>
+                                    </div>
+                                </>
+                            ) : (
+
+                                <TableContainer component={Paper}>
+                                    <Table>
+                                        <TableHead sx={{ backgroundColor: primaryColor }}>
+                                            <TableRow>
+                                                <TableCell></TableCell>
+                                                <TableCell>
+                                                    <TableSortLabel
+                                                        active={orderBy === 'username'}
+                                                        direction={orderBy === 'username' ? order : 'asc'}
+                                                        onClick={() => handleSort('username')}
+                                                    >
+                                                        <b>Username</b>
+                                                    </TableSortLabel>
+                                                </TableCell>
+                                                <TableCell><b>Role</b></TableCell>
+                                                <TableCell>
+                                                    <TableSortLabel
+                                                        active={orderBy === 'registration_time'}
+                                                        direction={orderBy === 'registration_time' ? order : 'asc'}
+                                                        onClick={() => handleSort('registration_time')}
+                                                    >
+                                                        <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                    </TableSortLabel>
+                                                </TableCell>
+                                                <TableCell><b>Active</b></TableCell>
+                                                <TableCell></TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {
+                                                filteredAccountUser.map((userAccount, index) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell><PersonIcon /></TableCell>
+                                                        <TableCell>{userAccount.username}</TableCell>
+                                                        <TableCell>{userAccount.role}</TableCell>
+                                                        <TableCell>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
+                                                        {userAccount.ban === 'Enable' ? (
+                                                            <TableCell style={{ color: 'green' }}>
+                                                                <b>{userAccount.ban}</b>
+                                                            </TableCell>
+                                                        ) : (
+                                                            <TableCell style={{ color: 'red' }}>
+                                                                <b>{userAccount.ban}</b>
+                                                            </TableCell>
+                                                        )}
+                                                        <TableCell>
+                                                            <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                            {userAccount.ban === 'Enable' ? (
+                                                                <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
+                                                                    <LockIcon />
+                                                                </button>
+                                                            ) : (
+                                                                <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
+                                                                    <LockOpenIcon />
+                                                                </button>
+                                                            )}
+                                                            <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'>
+                                                                <DeleteIcon />
+                                                            </button>
+                                                        </TableCell>
+                                                    </TableRow>
+
+                                                ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+
+                            )
+                            }
                             <TablePagination
                                 component="div"
                                 count={data.length}
@@ -358,6 +422,7 @@ function ManageAccount() {
                                 }}
                                 rowsPerPageOptions={[7, 10, 25, 50, 100]}
                             />
+
                         </div>
                     </div>
                 </TabPanel>
@@ -382,78 +447,113 @@ function ManageAccount() {
                             </Stack>
                         )}
                         <div className='mt-4 pd-left'>
-                            <TableContainer component={Paper}>
-                                <Table>
-                                    <TableHead sx={{ backgroundColor: primaryColor }}>
-                                        <TableRow>
-                                            <TableCell></TableCell>
-                                            <TableCell>
-                                                <TableSortLabel
-                                                    active={orderBy === 'username'}
-                                                    direction={orderBy === 'username' ? order : 'asc'}
-                                                    onClick={() => handleSort('username')}
-                                                >
-                                                    <b>Username</b>
-                                                </TableSortLabel>
-                                            </TableCell>
-                                            <TableCell><b>Role</b></TableCell>
-                                            <TableCell>
-                                                <TableSortLabel
-                                                    active={orderBy === 'registration_time'}
-                                                    direction={orderBy === 'registration_time' ? order : 'asc'}
-                                                    onClick={() => handleSort('registration_time')}
-                                                >
-                                                    <CalendarMonthIcon color="primary" /> <b>Register date</b>
-                                                </TableSortLabel>
-                                            </TableCell>
-                                            <TableCell><b>Active</b></TableCell>
-                                            <TableCell></TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {sortData(data)
-                                            .filter((userAccount) => {
-                                                return search.trim() === '' ? userAccount
-                                                    : userAccount.username.toLowerCase().includes(search.toLowerCase());
-                                            })
-                                            .filter((userAccount) => userAccount.role === 'admin')
-                                            .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-                                            .map((userAccount, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell><PersonIcon /></TableCell>
-                                                    <TableCell>{userAccount.username}</TableCell>
-                                                    <TableCell>{userAccount.role}</TableCell>
-                                                    <TableCell>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
-                                                    {userAccount.ban === 'Enable' ? (
-                                                        <TableCell style={{ color: 'green' }}>
-                                                            <b>{userAccount.ban}</b>
-                                                        </TableCell>
-                                                    ) : (
-                                                        <TableCell style={{ color: 'red' }}>
-                                                            <b>{userAccount.ban}</b>
-                                                        </TableCell>
-                                                    )}
-                                                    <TableCell>
-                                                        <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                                        {userAccount.ban === 'Enable' ? (
-                                                            <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
-                                                                <LockIcon />
-                                                            </button>
-                                                        ) : (
-                                                            <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
-                                                                <LockOpenIcon />
-                                                            </button>
-                                                        )}
-                                                        <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'>
-                                                            <DeleteIcon />
-                                                        </button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
+                            {filteredAccountAdmin.length === 0 ? (
+                                <>
 
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                                    <TableContainer component={Paper}>
+                                        <Table>
+                                            <TableHead sx={{ backgroundColor: primaryColor }}>
+                                                <TableRow>
+                                                    <TableCell></TableCell>
+                                                    <TableCell>
+                                                        <TableSortLabel
+                                                            active={orderBy === 'username'}
+                                                            direction={orderBy === 'username' ? order : 'asc'}
+                                                            onClick={() => handleSort('username')}
+                                                        >
+                                                            <b>Username</b>
+                                                        </TableSortLabel>
+                                                    </TableCell>
+                                                    <TableCell><b>Role</b></TableCell>
+                                                    <TableCell>
+                                                        <TableSortLabel
+                                                            active={orderBy === 'registration_time'}
+                                                            direction={orderBy === 'registration_time' ? order : 'asc'}
+                                                            onClick={() => handleSort('registration_time')}
+                                                        >
+                                                            <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                        </TableSortLabel>
+                                                    </TableCell>
+                                                    <TableCell><b>Active</b></TableCell>
+                                                    <TableCell></TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                        </Table>
+                                    </TableContainer>
+                                    <div>
+                                        <p className="d-flex justify-content-center" style={{ color: '#0d6efd', paddingTop: '50px' }}>No result found. Try again !</p>
+                                    </div>
+                                </>
+                            ) : (
+
+                                <TableContainer component={Paper}>
+                                    <Table>
+                                        <TableHead sx={{ backgroundColor: primaryColor }}>
+                                            <TableRow>
+                                                <TableCell></TableCell>
+                                                <TableCell>
+                                                    <TableSortLabel
+                                                        active={orderBy === 'username'}
+                                                        direction={orderBy === 'username' ? order : 'asc'}
+                                                        onClick={() => handleSort('username')}
+                                                    >
+                                                        <b>Username</b>
+                                                    </TableSortLabel>
+                                                </TableCell>
+                                                <TableCell><b>Role</b></TableCell>
+                                                <TableCell>
+                                                    <TableSortLabel
+                                                        active={orderBy === 'registration_time'}
+                                                        direction={orderBy === 'registration_time' ? order : 'asc'}
+                                                        onClick={() => handleSort('registration_time')}
+                                                    >
+                                                        <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                    </TableSortLabel>
+                                                </TableCell>
+                                                <TableCell><b>Active</b></TableCell>
+                                                <TableCell></TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {
+                                                filteredAccountAdmin.map((userAccount, index) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell><PersonIcon /></TableCell>
+                                                        <TableCell>{userAccount.username}</TableCell>
+                                                        <TableCell>{userAccount.role}</TableCell>
+                                                        <TableCell>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
+                                                        {userAccount.ban === 'Enable' ? (
+                                                            <TableCell style={{ color: 'green' }}>
+                                                                <b>{userAccount.ban}</b>
+                                                            </TableCell>
+                                                        ) : (
+                                                            <TableCell style={{ color: 'red' }}>
+                                                                <b>{userAccount.ban}</b>
+                                                            </TableCell>
+                                                        )}
+                                                        <TableCell>
+                                                            <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                            {userAccount.ban === 'Enable' ? (
+                                                                <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
+                                                                    <LockIcon />
+                                                                </button>
+                                                            ) : (
+                                                                <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
+                                                                    <LockOpenIcon />
+                                                                </button>
+                                                            )}
+                                                            <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'>
+                                                                <DeleteIcon />
+                                                            </button>
+                                                        </TableCell>
+                                                    </TableRow>
+
+                                                ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+
+                            )}
                             <TablePagination
                                 component="div"
                                 count={data.length}
@@ -466,6 +566,7 @@ function ManageAccount() {
                                 }}
                                 rowsPerPageOptions={[7, 10, 25, 50, 100]}
                             />
+
                         </div>
                     </div>
                 </TabPanel>
@@ -490,78 +591,111 @@ function ManageAccount() {
                             </Stack>
                         )}
                         <div className='mt-4 pd-left'>
-                            <TableContainer component={Paper}>
-                                <Table>
-                                    <TableHead sx={{ backgroundColor: primaryColor }}>
-                                        <TableRow>
-                                            <TableCell></TableCell>
-                                            <TableCell>
-                                                <TableSortLabel
-                                                    active={orderBy === 'username'}
-                                                    direction={orderBy === 'username' ? order : 'asc'}
-                                                    onClick={() => handleSort('username')}
-                                                >
-                                                    <b>Username</b>
-                                                </TableSortLabel>
-                                            </TableCell>
-                                            <TableCell><b>Role</b></TableCell>
-                                            <TableCell>
-                                                <TableSortLabel
-                                                    active={orderBy === 'registration_time'}
-                                                    direction={orderBy === 'registration_time' ? order : 'asc'}
-                                                    onClick={() => handleSort('registration_time')}
-                                                >
-                                                    <CalendarMonthIcon color="primary" /> <b>Register date</b>
-                                                </TableSortLabel>
-                                            </TableCell>
-                                            <TableCell><b>Active</b></TableCell>
-                                            <TableCell></TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {sortData(data)
-                                            .filter((userAccount) => {
-                                                return search.trim() === '' ? userAccount
-                                                    : userAccount.username.toLowerCase().includes(search.toLowerCase());
-                                            })
-                                            .filter((userAccount) => userAccount.role === 'chord')
-                                            .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-                                            .map((userAccount, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell><PersonIcon /></TableCell>
-                                                    <TableCell>{userAccount.username}</TableCell>
-                                                    <TableCell>{userAccount.role}</TableCell>
-                                                    <TableCell>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
-                                                    {userAccount.ban === 'Enable' ? (
-                                                        <TableCell style={{ color: 'green' }}>
-                                                            <b>{userAccount.ban}</b>
-                                                        </TableCell>
-                                                    ) : (
-                                                        <TableCell style={{ color: 'red' }}>
-                                                            <b>{userAccount.ban}</b>
-                                                        </TableCell>
-                                                    )}
-                                                    <TableCell>
-                                                        <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                                        {userAccount.ban === 'Enable' ? (
-                                                            <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
-                                                                <LockIcon />
-                                                            </button>
-                                                        ) : (
-                                                            <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
-                                                                <LockOpenIcon />
-                                                            </button>
-                                                        )}
-                                                        <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'>
-                                                            <DeleteIcon />
-                                                        </button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
+                            {filteredAccountChordManager.length === 0 ? (
+                                <>
 
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                                    <TableContainer component={Paper}>
+                                        <Table>
+                                            <TableHead sx={{ backgroundColor: primaryColor }}>
+                                                <TableRow>
+                                                    <TableCell></TableCell>
+                                                    <TableCell>
+                                                        <TableSortLabel
+                                                            active={orderBy === 'username'}
+                                                            direction={orderBy === 'username' ? order : 'asc'}
+                                                            onClick={() => handleSort('username')}
+                                                        >
+                                                            <b>Username</b>
+                                                        </TableSortLabel>
+                                                    </TableCell>
+                                                    <TableCell><b>Role</b></TableCell>
+                                                    <TableCell>
+                                                        <TableSortLabel
+                                                            active={orderBy === 'registration_time'}
+                                                            direction={orderBy === 'registration_time' ? order : 'asc'}
+                                                            onClick={() => handleSort('registration_time')}
+                                                        >
+                                                            <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                        </TableSortLabel>
+                                                    </TableCell>
+                                                    <TableCell><b>Active</b></TableCell>
+                                                    <TableCell></TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                        </Table>
+                                    </TableContainer>
+                                    <div>
+                                        <p className="d-flex justify-content-center" style={{ color: '#0d6efd', paddingTop: '50px' }}>No result found. Try again !</p>
+                                    </div>
+                                </>
+                            ) : (
+                                <TableContainer component={Paper}>
+                                    <Table>
+                                        <TableHead sx={{ backgroundColor: primaryColor }}>
+                                            <TableRow>
+                                                <TableCell></TableCell>
+                                                <TableCell>
+                                                    <TableSortLabel
+                                                        active={orderBy === 'username'}
+                                                        direction={orderBy === 'username' ? order : 'asc'}
+                                                        onClick={() => handleSort('username')}
+                                                    >
+                                                        <b>Username</b>
+                                                    </TableSortLabel>
+                                                </TableCell>
+                                                <TableCell><b>Role</b></TableCell>
+                                                <TableCell>
+                                                    <TableSortLabel
+                                                        active={orderBy === 'registration_time'}
+                                                        direction={orderBy === 'registration_time' ? order : 'asc'}
+                                                        onClick={() => handleSort('registration_time')}
+                                                    >
+                                                        <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                    </TableSortLabel>
+                                                </TableCell>
+                                                <TableCell><b>Active</b></TableCell>
+                                                <TableCell></TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {
+                                                filteredAccountChordManager.map((userAccount, index) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell><PersonIcon /></TableCell>
+                                                        <TableCell>{userAccount.username}</TableCell>
+                                                        <TableCell>{userAccount.role}</TableCell>
+                                                        <TableCell>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
+                                                        {userAccount.ban === 'Enable' ? (
+                                                            <TableCell style={{ color: 'green' }}>
+                                                                <b>{userAccount.ban}</b>
+                                                            </TableCell>
+                                                        ) : (
+                                                            <TableCell style={{ color: 'red' }}>
+                                                                <b>{userAccount.ban}</b>
+                                                            </TableCell>
+                                                        )}
+                                                        <TableCell>
+                                                            <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                            {userAccount.ban === 'Enable' ? (
+                                                                <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
+                                                                    <LockIcon />
+                                                                </button>
+                                                            ) : (
+                                                                <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
+                                                                    <LockOpenIcon />
+                                                                </button>
+                                                            )}
+                                                            <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'>
+                                                                <DeleteIcon />
+                                                            </button>
+                                                        </TableCell>
+                                                    </TableRow>
+
+                                                ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            )}
                             <TablePagination
                                 component="div"
                                 count={data.length}
@@ -574,6 +708,7 @@ function ManageAccount() {
                                 }}
                                 rowsPerPageOptions={[7, 10, 25, 50, 100]}
                             />
+
                         </div>
                     </div>
                 </TabPanel>
@@ -598,78 +733,113 @@ function ManageAccount() {
                             </Stack>
                         )}
                         <div className='mt-4 pd-left'>
-                            <TableContainer component={Paper}>
-                                <Table>
-                                    <TableHead sx={{ backgroundColor: primaryColor }}>
-                                        <TableRow>
-                                            <TableCell></TableCell>
-                                            <TableCell>
-                                                <TableSortLabel
-                                                    active={orderBy === 'username'}
-                                                    direction={orderBy === 'username' ? order : 'asc'}
-                                                    onClick={() => handleSort('username')}
-                                                >
-                                                    <b>Username</b>
-                                                </TableSortLabel>
-                                            </TableCell>
-                                            <TableCell><b>Role</b></TableCell>
-                                            <TableCell>
-                                                <TableSortLabel
-                                                    active={orderBy === 'registration_time'}
-                                                    direction={orderBy === 'registration_time' ? order : 'asc'}
-                                                    onClick={() => handleSort('registration_time')}
-                                                >
-                                                    <CalendarMonthIcon color="primary" /> <b>Register date</b>
-                                                </TableSortLabel>
-                                            </TableCell>
-                                            <TableCell><b>Active</b></TableCell>
-                                            <TableCell></TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {sortData(data)
-                                            .filter((userAccount) => {
-                                                return search.trim() === '' ? userAccount
-                                                    : userAccount.username.toLowerCase().includes(search.toLowerCase());
-                                            })
-                                            .filter((userAccount) => userAccount.role === 'musician')
-                                            .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-                                            .map((userAccount, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell><PersonIcon /></TableCell>
-                                                    <TableCell>{userAccount.username}</TableCell>
-                                                    <TableCell>{userAccount.role}</TableCell>
-                                                    <TableCell>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
-                                                    {userAccount.ban === 'Enable' ? (
-                                                        <TableCell style={{ color: 'green' }}>
-                                                            <b>{userAccount.ban}</b>
-                                                        </TableCell>
-                                                    ) : (
-                                                        <TableCell style={{ color: 'red' }}>
-                                                            <b>{userAccount.ban}</b>
-                                                        </TableCell>
-                                                    )}
-                                                    <TableCell>
-                                                        <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                                        {userAccount.ban === 'Enable' ? (
-                                                            <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
-                                                                <LockIcon />
-                                                            </button>
-                                                        ) : (
-                                                            <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
-                                                                <LockOpenIcon />
-                                                            </button>
-                                                        )}
-                                                        <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'>
-                                                            <DeleteIcon />
-                                                        </button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
+                            {filteredAccountMusician.length === 0 ? (
+                                <>
 
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                                    <TableContainer component={Paper}>
+                                        <Table>
+                                            <TableHead sx={{ backgroundColor: primaryColor }}>
+                                                <TableRow>
+                                                    <TableCell></TableCell>
+                                                    <TableCell>
+                                                        <TableSortLabel
+                                                            active={orderBy === 'username'}
+                                                            direction={orderBy === 'username' ? order : 'asc'}
+                                                            onClick={() => handleSort('username')}
+                                                        >
+                                                            <b>Username</b>
+                                                        </TableSortLabel>
+                                                    </TableCell>
+                                                    <TableCell><b>Role</b></TableCell>
+                                                    <TableCell>
+                                                        <TableSortLabel
+                                                            active={orderBy === 'registration_time'}
+                                                            direction={orderBy === 'registration_time' ? order : 'asc'}
+                                                            onClick={() => handleSort('registration_time')}
+                                                        >
+                                                            <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                        </TableSortLabel>
+                                                    </TableCell>
+                                                    <TableCell><b>Active</b></TableCell>
+                                                    <TableCell></TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                        </Table>
+                                    </TableContainer>
+                                    <div>
+                                        <p className="d-flex justify-content-center" style={{ color: '#0d6efd', paddingTop: '50px' }}>No result found. Try again !</p>
+                                    </div>
+                                </>
+                            ) : (
+
+                                <TableContainer component={Paper}>
+                                    <Table>
+                                        <TableHead sx={{ backgroundColor: primaryColor }}>
+                                            <TableRow>
+                                                <TableCell></TableCell>
+                                                <TableCell>
+                                                    <TableSortLabel
+                                                        active={orderBy === 'username'}
+                                                        direction={orderBy === 'username' ? order : 'asc'}
+                                                        onClick={() => handleSort('username')}
+                                                    >
+                                                        <b>Username</b>
+                                                    </TableSortLabel>
+                                                </TableCell>
+                                                <TableCell><b>Role</b></TableCell>
+                                                <TableCell>
+                                                    <TableSortLabel
+                                                        active={orderBy === 'registration_time'}
+                                                        direction={orderBy === 'registration_time' ? order : 'asc'}
+                                                        onClick={() => handleSort('registration_time')}
+                                                    >
+                                                        <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                    </TableSortLabel>
+                                                </TableCell>
+                                                <TableCell><b>Active</b></TableCell>
+                                                <TableCell></TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {
+                                                filteredAccountMusician.map((userAccount, index) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell><PersonIcon /></TableCell>
+                                                        <TableCell>{userAccount.username}</TableCell>
+                                                        <TableCell>{userAccount.role}</TableCell>
+                                                        <TableCell>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
+                                                        {userAccount.ban === 'Enable' ? (
+                                                            <TableCell style={{ color: 'green' }}>
+                                                                <b>{userAccount.ban}</b>
+                                                            </TableCell>
+                                                        ) : (
+                                                            <TableCell style={{ color: 'red' }}>
+                                                                <b>{userAccount.ban}</b>
+                                                            </TableCell>
+                                                        )}
+                                                        <TableCell>
+                                                            <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                                            {userAccount.ban === 'Enable' ? (
+                                                                <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
+                                                                    <LockIcon />
+                                                                </button>
+                                                            ) : (
+                                                                <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
+                                                                    <LockOpenIcon />
+                                                                </button>
+                                                            )}
+                                                            <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'>
+                                                                <DeleteIcon />
+                                                            </button>
+                                                        </TableCell>
+                                                    </TableRow>
+
+                                                ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+
+                            )}
                             <TablePagination
                                 component="div"
                                 count={data.length}
@@ -682,6 +852,7 @@ function ManageAccount() {
                                 }}
                                 rowsPerPageOptions={[7, 10, 25, 50, 100]}
                             />
+
                         </div>
                     </div>
                 </TabPanel>

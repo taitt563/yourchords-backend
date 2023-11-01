@@ -125,7 +125,7 @@ function ChordMusician() {
                 <div>
                     <h3 className="d-flex flex-column align-items-center pt-4">MANAGE CHORD</h3>
                 </div>
-                <div className='mt-4 pd-left' style={{ height: '450px', overflowY: 'scroll' }}>
+                <div className='mt-4 pd-left'>
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHead sx={{ backgroundColor: primaryColor }}>

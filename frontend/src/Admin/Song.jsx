@@ -12,7 +12,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import HeadsetIcon from "@mui/icons-material/Headset";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
-import CircularProgress from "@mui/material/CircularProgress";
 import {
     Table,
     TableBody,
@@ -32,7 +31,6 @@ function Song() {
     const [rowsPerPage, setRowsPerPage] = useState(6);
     const [orderBy, setOrderBy] = useState("song_title");
     const [order, setOrder] = useState("asc");
-    const [loading, setLoading] = useState(true);
 
     const primaryColor = "#F1F1FB";
 
@@ -46,7 +44,6 @@ function Song() {
     });
 
     useEffect(() => {
-        setLoading(true);
         axios.get("http://localhost:8081/getSongAdmin")
             .then((res) => {
                 if (res.data.Status === "Success") {
@@ -56,7 +53,6 @@ function Song() {
                 }
             })
             .catch((err) => console.log(err))
-            .finally(() => setLoading(false));
     }, []);
     const handleSort = (field) => {
         setOrderBy(field);
@@ -80,6 +76,11 @@ function Song() {
             }
         });
     }
+    const filteredSongs = sortData(data)
+        .filter(song => {
+            return search.trim() === "" ? song : song.song_title.toLowerCase().includes(search.toLowerCase());
+        })
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
     return (
         <>
             <Box sx={{ flexGrow: 1, top: 0, position: "sticky", zIndex: "3" }}>
@@ -132,12 +133,55 @@ function Song() {
             </div>
             <div className="px-2 py-4">
                 <div className="mt-4 pd-left">
-                    {loading ? (
-                        <div className="d-flex justify-content-center align-items-center">
-                            <CircularProgress fontSize='large' />
-                        </div>
+                    {filteredSongs.length === 0 ? (
+                        <>
 
+                            <TableContainer component={Paper}>
+                                <Table>
+                                    <TableHead sx={{ backgroundColor: primaryColor }}>
+                                        <TableRow>
+                                            <TableCell><b>ID</b></TableCell>
+                                            <TableCell></TableCell>
+                                            <TableCell>
+                                                <TableSortLabel
+                                                    active={orderBy === 'song_title'}
+                                                    direction={orderBy === 'song_title' ? order : 'asc'}
+                                                    onClick={() => handleSort('song_title')}
+                                                >
+                                                    <b>Name song</b>
+                                                </TableSortLabel>
+                                            </TableCell>
+                                            <TableCell><b>Link</b></TableCell>
+                                            <TableCell>
+                                                <TableSortLabel
+                                                    active={orderBy === 'created_at'}
+                                                    direction={orderBy === 'created_at' ? order : 'asc'}
+                                                    onClick={() => handleSort("created_at")}
+                                                >
+                                                    <b><CalendarMonthIcon color="primary" /> Date created</b>
+                                                </TableSortLabel>
+                                            </TableCell>
+                                            <TableCell>
+                                                <TableSortLabel
+                                                    active={orderBy === 'updated_at'}
+                                                    direction={orderBy === 'updated_at' ? order : 'asc'}
+                                                    onClick={() => handleSort("updated_at")}
+                                                >
+                                                    <b><CalendarMonthIcon color="primary" /> Date updated</b>
+                                                </TableSortLabel>
+                                            </TableCell>
+                                            <TableCell><b>Status</b></TableCell>
+                                            <TableCell></TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                </Table>
+                            </TableContainer>
+                            <div>
+                                <p className="d-flex justify-content-center" style={{ color: '#0d6efd', paddingTop: '50px' }}>No result found. Try again !</p>
+                            </div>
+                        </>
                     ) : (
+
                         <TableContainer component={Paper}>
                             <Table>
                                 <TableHead sx={{ backgroundColor: primaryColor }}>
@@ -178,12 +222,8 @@ function Song() {
                                 </TableHead>
 
                                 <TableBody>
-                                    {sortData(data)
-                                        .filter(song => {
-                                            return search.trim() === "" ? song : song.song_title.toLowerCase().includes(search.toLowerCase());
-                                        })
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((song, index) => (
+                                    {
+                                        filteredSongs.map((song, index) => (
                                             <TableRow key={index}>
                                                 <TableCell>{song.id}</TableCell>
                                                 <TableCell>
@@ -227,9 +267,7 @@ function Song() {
                                         ))}
                                 </TableBody>
                             </Table>
-
                         </TableContainer>
-
                     )}
                     <TablePagination
                         component="div"
@@ -241,8 +279,10 @@ function Song() {
                             setRowsPerPage(+event.target.value);
                             setPage(0);
                         }}
-                        rowsPerPageOptions={[6, 10, 25, 50, 100]}
+                        rowsPerPageOptions={[7, 10, 25, 50, 100]}
                     />
+
+
                 </div>
             </div>
         </>
