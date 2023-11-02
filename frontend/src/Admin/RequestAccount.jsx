@@ -14,11 +14,7 @@ import {
     Modal,
 } from '@mui/material';
 import TablePagination from "@mui/material/TablePagination";
-
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import DeleteIcon from '@mui/icons-material/Delete';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
-import LockIcon from '@mui/icons-material/Lock';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import AppBar from '@mui/material/AppBar';
@@ -35,7 +31,8 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
@@ -59,7 +56,6 @@ const style = {
 };
 
 function RequestAccount() {
-    const [isDeleted, setIsDeleted] = useState(false);
     const [isBanAccount, setIsBanAccount] = useState(false);
     const [isUnBanAccount, setIsUnBanAccount] = useState(false);
     const [search, setSearch] = useState('');
@@ -90,21 +86,6 @@ function RequestAccount() {
             })
             .catch((err) => console.log(err));
     }, []);
-
-    const handleDelete = (username) => {
-        axios
-            .delete('http://localhost:8081/deleteAccount/' + username)
-            .then((res) => {
-                if (res.data.Status === 'Success') {
-                    window.location.reload(true);
-                    setIsDeleted(true);
-                    setTimeout(() => {
-                        setIsDeleted(false);
-                    }, 2500);
-                }
-            })
-            .catch((err) => console.log(err));
-    };
 
     const handleBanAccount = (username) => {
         axios
@@ -272,11 +253,7 @@ function RequestAccount() {
                         <h3 className="d-flex justify-content-center">CHORD VALIDATOR ACCOUNT REQUEST</h3>
                     </div>
                     <div className="px-2 py-4">
-                        {isDeleted && (
-                            <Stack sx={{ width: '100%' }} spacing={2} >
-                                <Alert severity="success">Account deleted successfully !</Alert>
-                            </Stack>
-                        )}
+
                         {isBanAccount && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
                                 <Alert severity="warning">Account disabled !</Alert>
@@ -317,6 +294,8 @@ function RequestAccount() {
                                                     </TableCell>
                                                     <TableCell><b>Active</b></TableCell>
                                                     <TableCell></TableCell>
+                                                    <TableCell>Accept</TableCell>
+                                                    <TableCell>Reject</TableCell>
                                                 </TableRow>
                                             </TableHead>
                                         </Table>
@@ -353,6 +332,8 @@ function RequestAccount() {
                                                 </TableCell>
                                                 <TableCell><b>Active</b></TableCell>
                                                 <TableCell></TableCell>
+                                                <TableCell>Accept</TableCell>
+                                                <TableCell>Reject</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -361,8 +342,8 @@ function RequestAccount() {
                                                     <TableRow key={index}>
                                                         <TableCell><PersonIcon /></TableCell>
                                                         <TableCell>{userAccount.username}</TableCell>
-                                                        {userAccount.role === 'user' &&
-                                                            <TableCell>User</TableCell>
+                                                        {userAccount.role === 'chord' &&
+                                                            <TableCell>Chord Validator</TableCell>
                                                         }
                                                         <TableCell>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
                                                         {userAccount.ban === 'Enable' ? (
@@ -376,18 +357,12 @@ function RequestAccount() {
                                                         )}
                                                         <TableCell>
                                                             <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                                            {userAccount.ban === 'Enable' ? (
-                                                                <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
-                                                                    <LockIcon />
-                                                                </button>
-                                                            ) : (
-                                                                <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
-                                                                    <LockOpenIcon />
-                                                                </button>
-                                                            )}
-                                                            <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'>
-                                                                <DeleteIcon />
-                                                            </button>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <CheckIcon onClick={() => handleBanAccount(userAccount.username)} fontSize='large' color='success' />
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <CloseIcon onClick={() => handleUnBanAccount(userAccount.username)} fontSize='large' color='error' />
                                                         </TableCell>
                                                     </TableRow>
 
@@ -421,11 +396,7 @@ function RequestAccount() {
                         <h3 className="d-flex justify-content-center">MUSICIAN ACCOUNT REQUEST</h3>
                     </div>
                     <div className="px-2 py-4">
-                        {isDeleted && (
-                            <Stack sx={{ width: '100%' }} spacing={2} >
-                                <Alert severity="success">Account deleted successfully !</Alert>
-                            </Stack>
-                        )}
+
                         {isBanAccount && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
                                 <Alert severity="warning">Account disabled !</Alert>
@@ -502,6 +473,10 @@ function RequestAccount() {
                                                 </TableCell>
                                                 <TableCell><b>Active</b></TableCell>
                                                 <TableCell></TableCell>
+                                                <TableCell>Accept</TableCell>
+                                                <TableCell>Reject</TableCell>
+
+
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -525,18 +500,21 @@ function RequestAccount() {
                                                         )}
                                                         <TableCell>
                                                             <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                                            {userAccount.ban === 'Enable' ? (
-                                                                <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
-                                                                    <LockIcon />
-                                                                </button>
-                                                            ) : (
-                                                                <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
-                                                                    <LockOpenIcon />
-                                                                </button>
-                                                            )}
-                                                            <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'>
-                                                                <DeleteIcon />
-                                                            </button>
+
+
+
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <CheckIcon onClick={() => handleBanAccount(userAccount.username)} fontSize='large' color='success' />
+
+
+
+                                                        </TableCell>
+                                                        <TableCell>
+
+                                                            <CloseIcon onClick={() => handleUnBanAccount(userAccount.username)} fontSize='large' color='error' />
+
+
                                                         </TableCell>
                                                     </TableRow>
 

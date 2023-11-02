@@ -42,30 +42,20 @@ function Login() {
                     setIsLoginFailed(true);
                     setTimeout(() => {
                         setIsLoginFailed(false);
-                    }, 3000)
+                    }, 2000)
                 }
-
-
                 if (res.data.ban === 'Pending') {
                     setIsLoginPending(true);
                     setTimeout(() => {
                         setIsLoginPending(false);
-                    }, 3000);
+                    }, 2000);
                 }
                 else if (res.data.ban === 'Disable') {
                     setIsLoginDisable(true);
                     setTimeout(() => {
                         setIsLoginDisable(false);
-                    }, 3000);
-
-                } else {
-                    setIsLoginFailed(true);
-                    setTimeout(() => {
-                        setIsLoginFailed(false);
-                    }, 3000)
+                    }, 2000);
                 }
-
-
             })
             .catch(err => console.log(err));
     }

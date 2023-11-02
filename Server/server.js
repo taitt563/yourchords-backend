@@ -168,32 +168,42 @@ app.put('/requestAccountMusician/:username', (req, res) => {
 })
 app.put('/requestAccountChordValidator/:username', (req, res) => {
     const username = req.params.username;
+    console.log(res)
+
+    const sql = "UPDATE user_acc SET ban = 'Pending', role = 'chord' Where username = ? ";
+    con.query(sql, [username], (err, result) => {
+        if (err) return res.json({ Error: "update song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
+app.put('/requestAccountChordValidator/:username', (req, res) => {
+    const username = req.params.username;
     const sql = "UPDATE user_acc SET ban = 'Pending' Where username = ? AND role = ?";
     con.query(sql, [username, "chord"], (err, result) => {
         if (err) return res.json({ Error: "update song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })
 })
-app.post('/signUpChordManager', (req, res) => {
-    let sql = "INSERT INTO user_acc (username, password , role) VALUES (?, ?, ?);";
-    sql += "INSERT INTO profile (name, email , address, userId) VALUES (?, ?, ?, ?)";
-    const password = req.body.password;
-    bcrypt.hash(password.toString(), salt, (err, hash) => {
-        if (err) {
-            console.log(err);
-        }
+// app.post('/signUpChordManager', (req, res) => {
+//     let sql = "INSERT INTO user_acc (username, password , role) VALUES (?, ?, ?);";
+//     sql += "INSERT INTO profile (name, email , address, userId) VALUES (?, ?, ?, ?)";
+//     const password = req.body.password;
+//     bcrypt.hash(password.toString(), salt, (err, hash) => {
+//         if (err) {
+//             console.log(err);
+//         }
 
-        con.query(sql, [req.body.username, hash, 'chord', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
-            if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
-            if (result.length > 0) {
-                return res.json({ Status: "Success" });
-            }
-            if (result) {
-                return res.json("Error");
-            }
-        })
-    })
-})
+//         con.query(sql, [req.body.username, hash, 'chord', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
+//             if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
+//             if (result.length > 0) {
+//                 return res.json({ Status: "Success" });
+//             }
+//             if (result) {
+//                 return res.json("Error");
+//             }
+//         })
+//     })
+// })
 
 // app.post('/loginMusician', (req, res) => {
 //     const sql = "SELECT * FROM user_acc Where username = ? AND role = 'musician' AND ban = 'Enable'";
@@ -216,25 +226,25 @@ app.post('/signUpChordManager', (req, res) => {
 //     })
 // })
 
-app.post('/signUpMusician', (req, res) => {
-    let sql = "INSERT INTO user_acc (username, password , role) VALUES (?, ?, ?);";
-    sql += "INSERT INTO profile (name, email , address, userId) VALUES (?, ?, ?, ?)";
-    const password = req.body.password;
-    bcrypt.hash(password.toString(), salt, (err, hash) => {
-        if (err) {
-            console.log(err);
-        }
-        con.query(sql, [req.body.username, hash, 'musician', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
-            if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
-            if (result.length > 0) {
-                return res.json({ Status: "Success" });
-            }
-            if (result) {
-                return res.json("Error");
-            }
-        })
-    })
-})
+// app.post('/signUpMusician', (req, res) => {
+//     let sql = "INSERT INTO user_acc (username, password , role) VALUES (?, ?, ?);";
+//     sql += "INSERT INTO profile (name, email , address, userId) VALUES (?, ?, ?, ?)";
+//     const password = req.body.password;
+//     bcrypt.hash(password.toString(), salt, (err, hash) => {
+//         if (err) {
+//             console.log(err);
+//         }
+//         con.query(sql, [req.body.username, hash, 'musician', req.body.name, req.body.email, req.body.address, req.body.username], (err, result) => {
+//             if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
+//             if (result.length > 0) {
+//                 return res.json({ Status: "Success" });
+//             }
+//             if (result) {
+//                 return res.json("Error");
+//             }
+//         })
+//     })
+// })
 
 // app.post('/login', (req, res) => {
 //     const sql = "SELECT * FROM user_acc Where username = ? AND role = 'user' AND ban = 'Enable'";
