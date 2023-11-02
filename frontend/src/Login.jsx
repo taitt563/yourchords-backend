@@ -46,18 +46,23 @@ function Login() {
                 }
 
 
-                if (res.data.ban === 'Pending' && res.data.Status === 'ErrorPending') {
+                if (res.data.ban === 'Pending') {
                     setIsLoginPending(true);
                     setTimeout(() => {
                         setIsLoginPending(false);
                     }, 3000);
                 }
-                if (res.data.ban === 'Disable' && res.data.Status === 'ErrorDisable') {
+                else if (res.data.ban === 'Disable') {
                     setIsLoginDisable(true);
                     setTimeout(() => {
                         setIsLoginDisable(false);
                     }, 3000);
 
+                } else {
+                    setIsLoginFailed(true);
+                    setTimeout(() => {
+                        setIsLoginFailed(false);
+                    }, 3000)
                 }
 
 

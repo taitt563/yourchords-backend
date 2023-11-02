@@ -93,116 +93,42 @@ app.get('/', verifyUser, (req, res) => {
 // })
 
 app.post('/login', (req, res) => {
-    const sqlAdmin = "SELECT * FROM user_acc WHERE username = ? AND role = 'admin'";
-    const sqlChord = "SELECT * FROM user_acc WHERE username = ? AND role = 'chord'";
-    const sqlUser = "SELECT * FROM user_acc WHERE username = ? AND role = 'user'";
-    const sqlMusician = "SELECT * FROM user_acc WHERE username = ? AND role = 'musician'";
+    const roles = ['admin', 'chord', 'user', 'musician'];
+    const sql = "SELECT * FROM user_acc WHERE username = ? AND role IN (?)";
 
-    con.query(sqlAdmin, [req.body.username], (err, resultAdmin) => {
+    con.query(sql, [req.body.username, roles], (err, results) => {
         if (err) {
-            return res.json({ Status: "Error", Error: "Error in running admin query" });
+            return res.json({ Status: "Error", Error: "Error in the query" });
         }
 
-        if (resultAdmin.length > 0) {
-            if (resultAdmin[0].ban === 'Enable') {
-                bcrypt.compare(req.body.password.toString(), resultAdmin[0].password, (err, response) => {
-                    if (err) {
-                        return res.json({ Status: "Error", Error: "Error in password comparison" });
-                    }
+        if (results.length === 0) {
+            return res.json({ Status: "Error", Error: "User not found" });
+        }
 
-                    if (response) {
-                        return res.json({ Status: "Success", Role: "admin" });
-                    } else {
-                        return res.json({ Status: "Error", Error: "Wrong username or password" });
-                    }
-                });
-            } else if (resultAdmin[0].ban === 'Pending') {
-                return res.json({ Status: "ErrorPending", Error: "User is pending approval. Please wait for admin approval.", ban: "Pending" });
-            } else {
-                return res.json({ Status: "ErrorDisable", Error: "User is disabled", ban: "Disable" });
+        const user = results[0];
+
+        if (user.ban === 'Pending') {
+            return res.json({ Status: "ErrorPending", Error: "User is pending approval. Please wait for admin approval.", ban: 'Pending' });
+        } else if (user.ban === 'Disable') {
+            return res.json({ Status: "ErrorDisable", Error: "User is disabled", ban: 'Disable' });
+        }
+
+        bcrypt.compare(req.body.password.toString(), user.password, (err, response) => {
+            if (err) {
+                return res.json({ Status: "Error", Error: "Error in password comparison" });
             }
-        }
 
-    });
-    con.query(sqlChord, [req.body.username], (err, resultChord) => {
-        if (err) {
-            return res.json({ Status: "Error", Error: "Error in running admin query" });
-        }
-
-        if (resultChord.length > 0) {
-            if (resultChord[0].ban === 'Enable') {
-                bcrypt.compare(req.body.password.toString(), resultChord[0].password, (err, response) => {
-                    if (err) {
-                        return res.json({ Status: "Error", Error: "Error in password comparison" });
-                    }
-
-                    if (response) {
-                        return res.json({ Status: "Success", Role: "chord" });
-                    } else {
-                        return res.json({ Status: "Error", Error: "Wrong username or password" });
-                    }
-                });
-            } else if (resultChord[0].ban === 'Pending') {
-                return res.json({ Status: "ErrorPending", Error: "User is pending approval. Please wait for admin approval.", ban: "Pending" });
+            if (response) {
+                return res.json({ Status: "Success", Role: user.role, Result: user });
             } else {
-                return res.json({ Status: "ErrorDisable", Error: "User is disabled", ban: "Disable" });
+                return res.json({ Status: "Error", Error: "Wrong username or password" });
             }
-        }
-
-    });
-    con.query(sqlUser, [req.body.username], (err, resultUSer) => {
-        if (err) {
-            return res.json({ Status: "Error", Error: "Error in running admin query" });
-        }
-
-        if (resultUSer.length > 0) {
-            if (resultUSer[0].ban === 'Enable') {
-                bcrypt.compare(req.body.password.toString(), resultUSer[0].password, (err, response) => {
-                    if (err) {
-                        return res.json({ Status: "Error", Error: "Error in password comparison" });
-                    }
-
-                    if (response) {
-                        return res.json({ Status: "Success", Role: "user" });
-                    } else {
-                        return res.json({ Status: "Error", Error: "Wrong username or password" });
-                    }
-                });
-            } else if (resultUSer[0].ban === 'Pending') {
-                return res.json({ Status: "ErrorPending", Error: "User is pending approval. Please wait for admin approval.", ban: "Pending" });
-            } else {
-                return res.json({ Status: "ErrorDisable", Error: "User is disabled", ban: "Disable" });
-            }
-        }
-
-    });
-    con.query(sqlMusician, [req.body.username], (err, resultMusician) => {
-        if (err) {
-            return res.json({ Status: "Error", Error: "Error in running admin query" });
-        }
-
-        if (resultMusician.length > 0) {
-            if (resultMusician[0].ban === 'Enable') {
-                bcrypt.compare(req.body.password.toString(), resultMusician[0].password, (err, response) => {
-                    if (err) {
-                        return res.json({ Status: "Error", Error: "Error in password comparison" });
-                    }
-
-                    if (response) {
-                        return res.json({ Status: "Success", Role: "musician" });
-                    } else {
-                        return res.json({ Status: "Error", Error: "Wrong username or password" });
-                    }
-                });
-            } else if (resultMusician[0].ban === 'Pending') {
-                return res.json({ Status: "ErrorPending", Error: "User is pending approval. Please wait for admin approval.", ban: "Pending" });
-            } else {
-                return res.json({ Status: "ErrorDisable", Error: "User is disabled", ban: "Disable" });
-            }
-        }
-
+        });
     });
 });
+
+
+
 
 // app.post('/loginChordManager', (req, res) => {
 //     const sql = "SELECT * FROM user_acc Where username = ? AND role = 'chord' AND ban = 'Enable'";
