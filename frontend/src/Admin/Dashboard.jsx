@@ -84,6 +84,16 @@ function Dashboard() {
                                     </List>
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton
+                                            onClick={() => handleListItemClick('/requestAccount')}
+                                        >
+                                            <ListItemIcon>
+                                                <ManageAccountsIcon color="primary" fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Request Account</span></ListItemText>
+                                        </ListItemButton>
+                                    </List>
+                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                        <ListItemButton
                                             onClick={() => handleListItemClick('/Song')}
                                         >
                                             <ListItemIcon>
@@ -114,7 +124,7 @@ function Dashboard() {
                                     </List>
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton
-                                            onClick={() => handleListItemClick('/loginAdmin')}
+                                            onClick={() => handleListItemClick('/login')}
                                         >
                                             <ListItemIcon>
                                                 <LogoutIcon color="primary" fontSize='medium' />

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import AppBarLogin from '../component/AppBarLogin';
+
 function SignUpCustomer() {
     const navigate = useNavigate();
     axios.defaults.withCredentials = true;
@@ -13,9 +14,11 @@ function SignUpCustomer() {
         name: '',
         email: '',
         address: '',
-        userId: '',
-    })
+        role: 'user',
+    });
+
     const [isAccountExisted, setIsAccountExisted] = useState(false);
+
     const handleSignin = (event) => {
         event.preventDefault();
         axios.post('http://localhost:8081/signUp', values)
@@ -28,7 +31,7 @@ function SignUpCustomer() {
                         setIsAccountExisted(false);
                     }, 3500);
                 }
-            })
+            });
     }
 
     return (
@@ -45,7 +48,7 @@ function SignUpCustomer() {
                                 </Stack>
                             )}
 
-                            <span>or use your email for registeration</span>
+                            <span>or use your email for registration</span>
                             <input type="text" placeholder="Enter your name" onChange={e => setValues({ ...values, name: e.target.value })} required />
                             <input type="text" placeholder="Username" onChange={e => setValues({ ...values, username: e.target.value })} required />
                             <input type="password" placeholder="Password" onChange={e => setValues({ ...values, password: e.target.value })} required />
@@ -63,11 +66,9 @@ function SignUpCustomer() {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </>
-
     )
 }
 

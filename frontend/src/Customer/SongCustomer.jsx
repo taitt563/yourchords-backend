@@ -12,9 +12,10 @@ import AppBar from '@mui/material/AppBar';
 import SortIcon from '@mui/icons-material/Sort';
 import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 function SongCustomer() {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState('');
@@ -22,6 +23,9 @@ function SongCustomer() {
     const [order, setOrder] = useState('asc');
     const [modalOpen, setModalOpen] = useState(false);
     const [dataPlaylist, setDataPlaylist] = useState([]);
+    const [isRequestAccount, setIsRequestAccount] = useState(false);
+    const navigate = useNavigate();
+
     const darkTheme = createTheme({
         palette: {
             mode: 'dark',
@@ -31,6 +35,8 @@ function SongCustomer() {
         },
     });
     const { userId } = useParams();
+
+
     const [selectedSong, setSelectedSong] = useState(null);
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
     const style = {
@@ -112,6 +118,36 @@ function SongCustomer() {
         return search.trim() === '' ||
             song.song_title.toLowerCase().includes(search.toLowerCase());
     });
+    const handleRequestAccountMusician = () => {
+        const username = userId
+        axios
+            .put('http://localhost:8081/requestAccountMusician/' + username)
+            .then((res) => {
+                if (res.data.Status === 'Success') {
+                    setIsRequestAccount(true);
+                    setTimeout(() => {
+                        setIsRequestAccount(false);
+                        navigate("/login");
+                    }, 3500);
+                }
+            })
+            .catch((err) => console.log(err));
+    };
+    const handleRequestAccountChordValidator = () => {
+        const username = userId
+        axios
+            .put('http://localhost:8081/requestAccountChordValidator/' + username)
+            .then((res) => {
+                if (res.data.Status === 'Success') {
+                    setIsRequestAccount(true);
+                    setTimeout(() => {
+                        setIsRequestAccount(false);
+                        navigate("/login");
+                    }, 3500);
+                }
+            })
+            .catch((err) => console.log(err));
+    };
     return (
         <>
             <Box sx={{ flexGrow: 1, top: 0, position: 'sticky', zIndex: '3' }}>
@@ -142,6 +178,15 @@ function SongCustomer() {
                             >
                                 <b>YOUR CHORD</b>
                             </Typography>
+                            <Typography
+                                variant="h9"
+                                noWrap
+                                component="div"
+                                sx={{ color: '#0d6efd', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                            >
+                                <b>Register as a <Link onClick={() => handleRequestAccountMusician()} sx={{ color: '#0d6efd' }} underline='hover'>Musician</Link> / <Link onClick={() => handleRequestAccountChordValidator()} sx={{ color: '#0d6efd' }} underline='hover'>Chord validator</Link> partner</b>
+                            </Typography>
+
                             <input
                                 type="text"
                                 className="input-box"
@@ -188,6 +233,11 @@ function SongCustomer() {
                     <SortIcon className="sort-icon" /> R&b
                 </button>
             </div>
+            {isRequestAccount && (
+                <Stack sx={{ width: '100%' }} spacing={2} >
+                    <Alert severity="info">Request account successfully, your account status is currently pending. The admin will review your account after 3 days!</Alert>
+                </Stack>
+            )}
 
             {filteredSongs.length === 0 ? (
                 <p className="d-flex justify-content-center" style={{ color: '#0d6efd', paddingTop: '200px' }}>No result found. Try again !</p>

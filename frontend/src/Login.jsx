@@ -13,23 +13,59 @@ function Login() {
         password: ''
     })
     const [isLoginFailed, setIsLoginFailed] = useState(false);
+    const [isLoginPending, setIsLoginPending] = useState(false);
+    const [isLoginDisable, setIsLoginDisable] = useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:8081/loginAdmin', values)
+        axios.post('http://localhost:8081/login', values)
             .then(res => {
                 if (res.data.Status === 'Success') {
-                    sessionStorage.setItem('id_admin', values.username);
-                    navigate("/manageAccount");
-                } else {
+                    if (res.data.Role === 'admin') {
+                        sessionStorage.setItem('id_admin', values.username);
+                        navigate("/manageAccount");
+                    }
+                    else if (res.data.Role === 'chord') {
+                        sessionStorage.setItem('id_chordManager', values.username);
+                        navigate("/verifySong");
+                    }
+                    else if (res.data.Role === 'user') {
+                        sessionStorage.setItem('id_customer', values.username);
+                        navigate("/songCustomer/" + values.username);
+                    }
+                    else if (res.data.Role === 'musician') {
+                        sessionStorage.setItem('id_musician', values.username);
+                        navigate("/chordMissMusician");
+                    }
+                }
+                if (res.data.Status === 'Error') {
                     setIsLoginFailed(true);
                     setTimeout(() => {
                         setIsLoginFailed(false);
+                    }, 3000)
+                }
+
+
+                if (res.data.ban === 'Pending' && res.data.Status === 'ErrorPending') {
+                    setIsLoginPending(true);
+                    setTimeout(() => {
+                        setIsLoginPending(false);
                     }, 3000);
                 }
+                if (res.data.ban === 'Disable' && res.data.Status === 'ErrorDisable') {
+                    setIsLoginDisable(true);
+                    setTimeout(() => {
+                        setIsLoginDisable(false);
+                    }, 3000);
+
+                }
+
+
             })
             .catch(err => console.log(err));
     }
+
+
 
     return (
         <>
@@ -44,6 +80,16 @@ function Login() {
                                     <Alert severity="error">Wrong username or password !</Alert>
                                 </Stack>
                             )}
+                            {isLoginPending && (
+                                <Stack sx={{ width: '100%' }} spacing={2} >
+                                    <Alert severity="info">Your account status is currently pending. The admin will review your account after 3 days!</Alert>
+                                </Stack>
+                            )}
+                            {isLoginDisable && (
+                                <Stack sx={{ width: '100%' }} spacing={2} >
+                                    <Alert severity="error">Your account has been disabled by the administrator !</Alert>
+                                </Stack>
+                            )}
 
                             <input type="text" placeholder="Username" onChange={e => setValues({ ...values, username: e.target.value })} />
                             <input type="password" placeholder="Password" onChange={e => setValues({ ...values, password: e.target.value })} />
@@ -55,7 +101,7 @@ function Login() {
                             <div className="toggle-panel toggle-right">
                                 <h1>Welcome Back!</h1>
                                 <p>Enter your personal details to use all of site features</p>
-                                {/* <button className="hidden" id="register">Sign Up</button> */}
+                                <button className="hidden" id="login" onClick={() => navigate("/signUp")}>Sign Up</button>
                             </div>
                         </div>
                     </div>

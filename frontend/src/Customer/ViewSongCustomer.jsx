@@ -130,10 +130,10 @@ function ViewSongCustomer() {
                 {data.map((viewSong, index) => {
                     let dataChord = viewSong.lyrics
                     dataChord = dataChord.replace(/.+/g, "<section>$&</section>")
-                    {/* let songChord = dataChord.replace(
+                    let songChordMain = dataChord.replace(
                         /\[(?<chord>\w+)\]/g,
                         `<strong class='chord'>$<chord></strong>`
-                    ); */}
+                    );
                     let hiddenChord = dataChord.replace(
                         /\[(?<chord>\w+)\]/g,
                         "<strong></strong>"
@@ -271,30 +271,30 @@ function ViewSongCustomer() {
                                                                         isRight ?
                                                                             isBold ?
                                                                                 <div id="chordContainer" className="font" style={{ height: '500px', overflowY: 'scroll', width: '600px', textAlign: "right", fontWeight: 'bold' }}
-                                                                                    dangerouslySetInnerHTML={{ __html: songChord }}
+                                                                                    dangerouslySetInnerHTML={{ __html: songChordMain }}
                                                                                 />
                                                                                 :
                                                                                 <div id="chordContainer" className="font" style={{ height: '500px', overflowY: 'scroll', width: '600px', textAlign: "right" }}
-                                                                                    dangerouslySetInnerHTML={{ __html: songChord }}
+                                                                                    dangerouslySetInnerHTML={{ __html: songChordMain }}
                                                                                 />
                                                                             :
                                                                             isLeft ?
                                                                                 isBold ?
                                                                                     <div id="chordContainer" className="font" style={{ height: '500px', overflowY: 'scroll', width: '600px', textAlign: "left", fontWeight: 'bold' }}
-                                                                                        dangerouslySetInnerHTML={{ __html: songChord }}
+                                                                                        dangerouslySetInnerHTML={{ __html: songChordMain }}
                                                                                     />
                                                                                     :
                                                                                     <div id="chordContainer" className="font" style={{ height: '500px', overflowY: 'scroll', width: '600px', textAlign: "left" }}
-                                                                                        dangerouslySetInnerHTML={{ __html: songChord }}
+                                                                                        dangerouslySetInnerHTML={{ __html: songChordMain }}
                                                                                     />
                                                                                 :
                                                                                 isBold ?
                                                                                     <div id="chordContainer" className="font" style={{ height: '500px', overflowY: 'scroll', width: '600px', textAlign: "center", fontWeight: 'bold' }}
-                                                                                        dangerouslySetInnerHTML={{ __html: songChord }}
+                                                                                        dangerouslySetInnerHTML={{ __html: songChordMain }}
                                                                                     />
                                                                                     :
                                                                                     <div id="chordContainer" className="font" style={{ height: '500px', overflowY: 'scroll', width: '600px', textAlign: "center" }}
-                                                                                        dangerouslySetInnerHTML={{ __html: songChord }}
+                                                                                        dangerouslySetInnerHTML={{ __html: songChordMain }}
                                                                                     />
                                                                     )
                                                                     :

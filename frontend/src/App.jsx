@@ -8,18 +8,19 @@ import ManageAccount from './Admin/ManageAcount'
 import ManageFeedback from './Admin/ManageFeedback'
 import ViewFeedback from './Admin/ViewFeedback'
 import ViewSong from './Admin/ViewSong'
+import RequestAccount from './Admin/RequestAccount'
 /////CHORDMANAGER
-import LoginChordManager from './ChordManager/LoginChordManager'
+// import LoginChordManager from './ChordManager/LoginChordManager'
 import DashboardChordManager from './ChordManager/DashboardChordManager'
-import SignUpChordManager from './ChordManager/SignUpChordManager'
+// import SignUpChordManager from './ChordManager/SignUpChordManager'
 import VerifySong from './ChordManager/VerifySong'
 import ViewSongChordManager from './ChordManager/ViewSongChordManager'
 import ProfileChordManager from './ChordManager/ProfileChordManager'
 import SongChordManager from './ChordManager/SongChordManager'
 /////MUSICIAN
-import LoginMusician from './Musician/LoginMusician'
+// import LoginMusician from './Musician/LoginMusician'
 import DashboardMusician from './Musician/DashboardMusician'
-import SignUpMusician from './Musician/SignUpMusician'
+// import SignUpMusician from './Musician/SignUpMusician'
 import ChordMissMusician from './Musician/ChordMissMusician'
 import ViewSongMusician from './Musician/ViewSongMusician'
 import CreateSong from './Musician/CreateSong'
@@ -30,7 +31,7 @@ import ManageBeat from './Musician/ManageBeat'
 import TransactionHistory from './Musician/TransactionHistory'
 import OrderMusician from './Musician/OrderMusician'
 /////CUSTOMER
-import LoginCustomer from './Customer/LoginCustomer'
+// import LoginCustomer from './Customer/LoginCustomer'
 import DashboardCustomer from './Customer/DashboardCustomer'
 import SignUpCustomer from './Customer/SignUpCustomer'
 import SongCustomer from './Customer/SongCustomer'
@@ -44,18 +45,19 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/loginAdmin' element={<Login />}></Route>
-        <Route path='/login' element={<LoginCustomer />}></Route>
+        <Route path='/login' element={<Login />}></Route>
+        {/* <Route path='/login' element={<LoginCustomer />}></Route> */}
         <Route path='/signUp' element={<SignUpCustomer />}></Route>
-        <Route path='/loginChordManager' element={<LoginChordManager />}></Route>
-        <Route path='/signUpChordManager' element={<SignUpChordManager />}></Route>
-        <Route path='/loginMusician' element={<LoginMusician />}></Route>
-        <Route path='/signUpMusician' element={<SignUpMusician />}></Route>
+        {/* <Route path='/loginChordManager' element={<LoginChordManager />}></Route> */}
+        {/* <Route path='/signUpChordManager' element={<SignUpChordManager />}></Route> */}
+        {/* <Route path='/loginMusician' element={<LoginMusician />}></Route> */}
+        {/* <Route path='/signUpMusician' element={<SignUpMusician />}></Route> */}
         {/* ADMIN ROLE */}
         <Route path='/' element={<Dashboard />}>
           <Route path='/profile/:userId' element={<Profile />}></Route>
           <Route path='/song' element={<Song />}></Route>
           <Route path='/manageAccount' element={<ManageAccount />}></Route>
+          <Route path='/requestAccount' element={<RequestAccount />}></Route>
           <Route path='/viewSong/:id' element={<ViewSong />}></Route>
           <Route path='/manageFeedback' element={<ManageFeedback />}></Route>
           <Route path='/viewFeedback/:username' element={<ViewFeedback />}></Route>

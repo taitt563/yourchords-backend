@@ -58,7 +58,7 @@ const style = {
     p: 4,
 };
 
-function ManageAccount() {
+function RequestAccount() {
     const [isDeleted, setIsDeleted] = useState(false);
     const [isBanAccount, setIsBanAccount] = useState(false);
     const [isUnBanAccount, setIsUnBanAccount] = useState(false);
@@ -194,33 +194,21 @@ function ManageAccount() {
             return item.username;
         }
     }
-    const filteredAccountUser = sortData(data)
+
+
+    const filteredAccountChordValidatorRequest = sortData(data)
         .filter((userAccount) => {
             return search.trim() === '' ? userAccount
                 : userAccount.username.toLowerCase().includes(search.toLowerCase());
         })
-        .filter((userAccount) => userAccount.role === 'user' && userAccount.ban !== 'Pending')
+        .filter((userAccount) => userAccount.role === 'chord' && userAccount.ban === 'Pending')
         .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
-    const filteredAccountAdmin = sortData(data)
+    const filteredAccountMusicianRequest = sortData(data)
         .filter((userAccount) => {
             return search.trim() === '' ? userAccount
                 : userAccount.username.toLowerCase().includes(search.toLowerCase());
         })
-        .filter((userAccount) => userAccount.role === 'admin' && userAccount.ban !== 'Pending')
-        .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
-    const filteredAccountChordManager = sortData(data)
-        .filter((userAccount) => {
-            return search.trim() === '' ? userAccount
-                : userAccount.username.toLowerCase().includes(search.toLowerCase());
-        })
-        .filter((userAccount) => userAccount.role === 'chord' && userAccount.ban !== 'Pending')
-        .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
-    const filteredAccountMusician = sortData(data)
-        .filter((userAccount) => {
-            return search.trim() === '' ? userAccount
-                : userAccount.username.toLowerCase().includes(search.toLowerCase());
-        })
-        .filter((userAccount) => userAccount.role === 'musician' && userAccount.ban !== 'Pending')
+        .filter((userAccount) => userAccount.role === 'musician' && userAccount.ban === 'Pending')
         .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
     return (
         <>
@@ -275,15 +263,13 @@ function ManageAccount() {
                     borderColor: 'divider'
                 }}>
                     <TabList onChange={handleChange} centered>
-                        <Tab label="User" value="1" />
-                        <Tab label="Admin" value="2" />
-                        <Tab label="Chord Manager" value="3" />
-                        <Tab label="Musician" value="4" />
+                        <Tab label="Chord Validator" value="1" />
+                        <Tab label="Musician" value="2" />
                     </TabList>
                 </Box>
                 <TabPanel value="1">
                     <div>
-                        <h3 className="d-flex justify-content-center">USER ACCOUNT MANAGEMENT</h3>
+                        <h3 className="d-flex justify-content-center">CHORD VALIDATOR ACCOUNT REQUEST</h3>
                     </div>
                     <div className="px-2 py-4">
                         {isDeleted && (
@@ -302,7 +288,7 @@ function ManageAccount() {
                             </Stack>
                         )}
                         <div className='mt-4 pd-left'>
-                            {filteredAccountUser.length === 0 ? (
+                            {filteredAccountChordValidatorRequest.length === 0 ? (
                                 <>
 
                                     <TableContainer component={Paper}>
@@ -371,7 +357,7 @@ function ManageAccount() {
                                         </TableHead>
                                         <TableBody>
                                             {
-                                                filteredAccountUser.map((userAccount, index) => (
+                                                filteredAccountChordValidatorRequest.map((userAccount, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell><PersonIcon /></TableCell>
                                                         <TableCell>{userAccount.username}</TableCell>
@@ -428,9 +414,11 @@ function ManageAccount() {
                         </div>
                     </div>
                 </TabPanel>
+
+
                 <TabPanel value="2">
                     <div>
-                        <h3 className="d-flex justify-content-center">ADMIN ACCOUNT MANAGEMENT</h3>
+                        <h3 className="d-flex justify-content-center">MUSICIAN ACCOUNT REQUEST</h3>
                     </div>
                     <div className="px-2 py-4">
                         {isDeleted && (
@@ -449,7 +437,7 @@ function ManageAccount() {
                             </Stack>
                         )}
                         <div className='mt-4 pd-left'>
-                            {filteredAccountAdmin.length === 0 ? (
+                            {filteredAccountMusicianRequest.length === 0 ? (
                                 <>
 
                                     <TableContainer component={Paper}>
@@ -518,297 +506,7 @@ function ManageAccount() {
                                         </TableHead>
                                         <TableBody>
                                             {
-                                                filteredAccountAdmin.map((userAccount, index) => (
-                                                    <TableRow key={index}>
-                                                        <TableCell><PersonIcon /></TableCell>
-                                                        <TableCell>{userAccount.username}</TableCell>
-                                                        {userAccount.role === 'admin' &&
-                                                            <TableCell>Admin</TableCell>
-                                                        }
-                                                        <TableCell>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
-                                                        {userAccount.ban === 'Enable' ? (
-                                                            <TableCell style={{ color: 'green' }}>
-                                                                <b>{userAccount.ban}</b>
-                                                            </TableCell>
-                                                        ) : (
-                                                            <TableCell style={{ color: 'red' }}>
-                                                                <b>{userAccount.ban}</b>
-                                                            </TableCell>
-                                                        )}
-                                                        <TableCell>
-                                                            <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                                            {userAccount.ban === 'Enable' ? (
-                                                                <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
-                                                                    <LockIcon />
-                                                                </button>
-                                                            ) : (
-                                                                <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
-                                                                    <LockOpenIcon />
-                                                                </button>
-                                                            )}
-                                                            <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'>
-                                                                <DeleteIcon />
-                                                            </button>
-                                                        </TableCell>
-                                                    </TableRow>
-
-                                                ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-
-                            )}
-                            <TablePagination
-                                component="div"
-                                count={data.length}
-                                page={page}
-                                onPageChange={(event, newPage) => setPage(newPage)}
-                                rowsPerPage={rowsPerPage}
-                                onRowsPerPageChange={(event) => {
-                                    setRowsPerPage(+event.target.value);
-                                    setPage(0);
-                                }}
-                                rowsPerPageOptions={[7, 10, 25, 50, 100]}
-                            />
-
-                        </div>
-                    </div>
-                </TabPanel>
-                <TabPanel value="3">
-                    <div>
-                        <h3 className="d-flex justify-content-center">CHORD MANAGER ACCOUNT MANAGEMENT</h3>
-                    </div>
-                    <div className="px-2 py-4">
-                        {isDeleted && (
-                            <Stack sx={{ width: '100%' }} spacing={2} >
-                                <Alert severity="success">Account deleted successfully !</Alert>
-                            </Stack>
-                        )}
-                        {isBanAccount && (
-                            <Stack sx={{ width: '100%' }} spacing={2} >
-                                <Alert severity="warning">Account disabled !</Alert>
-                            </Stack>
-                        )}
-                        {isUnBanAccount && (
-                            <Stack sx={{ width: '100%' }} spacing={2} >
-                                <Alert severity="info">Account enable !</Alert>
-                            </Stack>
-                        )}
-                        <div className='mt-4 pd-left'>
-                            {filteredAccountChordManager.length === 0 ? (
-                                <>
-
-                                    <TableContainer component={Paper}>
-                                        <Table>
-                                            <TableHead sx={{ backgroundColor: primaryColor }}>
-                                                <TableRow>
-                                                    <TableCell></TableCell>
-                                                    <TableCell>
-                                                        <TableSortLabel
-                                                            active={orderBy === 'username'}
-                                                            direction={orderBy === 'username' ? order : 'asc'}
-                                                            onClick={() => handleSort('username')}
-                                                        >
-                                                            <b>Username</b>
-                                                        </TableSortLabel>
-                                                    </TableCell>
-                                                    <TableCell><b>Role</b></TableCell>
-                                                    <TableCell>
-                                                        <TableSortLabel
-                                                            active={orderBy === 'registration_time'}
-                                                            direction={orderBy === 'registration_time' ? order : 'asc'}
-                                                            onClick={() => handleSort('registration_time')}
-                                                        >
-                                                            <CalendarMonthIcon color="primary" /> <b>Register date</b>
-                                                        </TableSortLabel>
-                                                    </TableCell>
-                                                    <TableCell><b>Active</b></TableCell>
-                                                    <TableCell></TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                        </Table>
-                                    </TableContainer>
-                                    <div>
-                                        <p className="d-flex justify-content-center" style={{ color: '#0d6efd', paddingTop: '50px' }}>No result found. Try again !</p>
-                                    </div>
-                                </>
-                            ) : (
-                                <TableContainer component={Paper}>
-                                    <Table>
-                                        <TableHead sx={{ backgroundColor: primaryColor }}>
-                                            <TableRow>
-                                                <TableCell></TableCell>
-                                                <TableCell>
-                                                    <TableSortLabel
-                                                        active={orderBy === 'username'}
-                                                        direction={orderBy === 'username' ? order : 'asc'}
-                                                        onClick={() => handleSort('username')}
-                                                    >
-                                                        <b>Username</b>
-                                                    </TableSortLabel>
-                                                </TableCell>
-                                                <TableCell><b>Role</b></TableCell>
-                                                <TableCell>
-                                                    <TableSortLabel
-                                                        active={orderBy === 'registration_time'}
-                                                        direction={orderBy === 'registration_time' ? order : 'asc'}
-                                                        onClick={() => handleSort('registration_time')}
-                                                    >
-                                                        <CalendarMonthIcon color="primary" /> <b>Register date</b>
-                                                    </TableSortLabel>
-                                                </TableCell>
-                                                <TableCell><b>Active</b></TableCell>
-                                                <TableCell></TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {
-                                                filteredAccountChordManager.map((userAccount, index) => (
-                                                    <TableRow key={index}>
-                                                        <TableCell><PersonIcon /></TableCell>
-                                                        <TableCell>{userAccount.username}</TableCell>
-                                                        {userAccount.role === 'chord' &&
-                                                            <TableCell>Chord Validator</TableCell>
-                                                        }
-                                                        <TableCell>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
-                                                        {userAccount.ban === 'Enable' ? (
-                                                            <TableCell style={{ color: 'green' }}>
-                                                                <b>{userAccount.ban}</b>
-                                                            </TableCell>
-                                                        ) : (
-                                                            <TableCell style={{ color: 'red' }}>
-                                                                <b>{userAccount.ban}</b>
-                                                            </TableCell>
-                                                        )}
-                                                        <TableCell>
-                                                            <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                                            {userAccount.ban === 'Enable' ? (
-                                                                <button onClick={() => handleBanAccount(userAccount.username)} className='btn btn-sm btn-warning me-2'>
-                                                                    <LockIcon />
-                                                                </button>
-                                                            ) : (
-                                                                <button onClick={() => handleUnBanAccount(userAccount.username)} className='btn btn-sm btn-primary me-2'>
-                                                                    <LockOpenIcon />
-                                                                </button>
-                                                            )}
-                                                            <button onClick={() => handleDelete(userAccount.username)} className='btn btn-sm btn-danger me-2'>
-                                                                <DeleteIcon />
-                                                            </button>
-                                                        </TableCell>
-                                                    </TableRow>
-
-                                                ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            )}
-                            <TablePagination
-                                component="div"
-                                count={data.length}
-                                page={page}
-                                onPageChange={(event, newPage) => setPage(newPage)}
-                                rowsPerPage={rowsPerPage}
-                                onRowsPerPageChange={(event) => {
-                                    setRowsPerPage(+event.target.value);
-                                    setPage(0);
-                                }}
-                                rowsPerPageOptions={[7, 10, 25, 50, 100]}
-                            />
-
-                        </div>
-                    </div>
-                </TabPanel>
-                <TabPanel value="4">
-                    <div>
-                        <h3 className="d-flex justify-content-center">MUSICIAN ACCOUNT MANAGEMENT</h3>
-                    </div>
-                    <div className="px-2 py-4">
-                        {isDeleted && (
-                            <Stack sx={{ width: '100%' }} spacing={2} >
-                                <Alert severity="success">Account deleted successfully !</Alert>
-                            </Stack>
-                        )}
-                        {isBanAccount && (
-                            <Stack sx={{ width: '100%' }} spacing={2} >
-                                <Alert severity="warning">Account disabled !</Alert>
-                            </Stack>
-                        )}
-                        {isUnBanAccount && (
-                            <Stack sx={{ width: '100%' }} spacing={2} >
-                                <Alert severity="info">Account enable !</Alert>
-                            </Stack>
-                        )}
-                        <div className='mt-4 pd-left'>
-                            {filteredAccountMusician.length === 0 ? (
-                                <>
-
-                                    <TableContainer component={Paper}>
-                                        <Table>
-                                            <TableHead sx={{ backgroundColor: primaryColor }}>
-                                                <TableRow>
-                                                    <TableCell></TableCell>
-                                                    <TableCell>
-                                                        <TableSortLabel
-                                                            active={orderBy === 'username'}
-                                                            direction={orderBy === 'username' ? order : 'asc'}
-                                                            onClick={() => handleSort('username')}
-                                                        >
-                                                            <b>Username</b>
-                                                        </TableSortLabel>
-                                                    </TableCell>
-                                                    <TableCell><b>Role</b></TableCell>
-                                                    <TableCell>
-                                                        <TableSortLabel
-                                                            active={orderBy === 'registration_time'}
-                                                            direction={orderBy === 'registration_time' ? order : 'asc'}
-                                                            onClick={() => handleSort('registration_time')}
-                                                        >
-                                                            <CalendarMonthIcon color="primary" /> <b>Register date</b>
-                                                        </TableSortLabel>
-                                                    </TableCell>
-                                                    <TableCell><b>Active</b></TableCell>
-                                                    <TableCell></TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                        </Table>
-                                    </TableContainer>
-                                    <div>
-                                        <p className="d-flex justify-content-center" style={{ color: '#0d6efd', paddingTop: '50px' }}>No result found. Try again !</p>
-                                    </div>
-                                </>
-                            ) : (
-
-                                <TableContainer component={Paper}>
-                                    <Table>
-                                        <TableHead sx={{ backgroundColor: primaryColor }}>
-                                            <TableRow>
-                                                <TableCell></TableCell>
-                                                <TableCell>
-                                                    <TableSortLabel
-                                                        active={orderBy === 'username'}
-                                                        direction={orderBy === 'username' ? order : 'asc'}
-                                                        onClick={() => handleSort('username')}
-                                                    >
-                                                        <b>Username</b>
-                                                    </TableSortLabel>
-                                                </TableCell>
-                                                <TableCell><b>Role</b></TableCell>
-                                                <TableCell>
-                                                    <TableSortLabel
-                                                        active={orderBy === 'registration_time'}
-                                                        direction={orderBy === 'registration_time' ? order : 'asc'}
-                                                        onClick={() => handleSort('registration_time')}
-                                                    >
-                                                        <CalendarMonthIcon color="primary" /> <b>Register date</b>
-                                                    </TableSortLabel>
-                                                </TableCell>
-                                                <TableCell><b>Active</b></TableCell>
-                                                <TableCell></TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {
-                                                filteredAccountMusician.map((userAccount, index) => (
+                                                filteredAccountMusicianRequest.map((userAccount, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell><PersonIcon /></TableCell>
                                                         <TableCell>{userAccount.username}</TableCell>
@@ -931,4 +629,4 @@ function ManageAccount() {
     );
 }
 
-export default ManageAccount;
+export default RequestAccount;
