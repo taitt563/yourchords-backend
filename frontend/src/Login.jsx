@@ -96,8 +96,8 @@ function Login() {
                                 </Stack>
                             )}
 
-                            <input type="text" placeholder="Username" onChange={e => setValues({ ...values, username: e.target.value })} />
-                            <input type="password" placeholder="Password" onChange={e => setValues({ ...values, password: e.target.value })} />
+                            <input type="text" placeholder="Username" onChange={e => setValues({ ...values, username: e.target.value })} required />
+                            <input type="password" placeholder="Password" onChange={e => setValues({ ...values, password: e.target.value })} required />
                             <button>Sign In</button>
                         </form>
                     </div>

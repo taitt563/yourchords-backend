@@ -107,18 +107,18 @@ app.post('/login', (req, res) => {
 
         const user = results[0];
 
-        if (user.ban === 'Pending') {
-            return res.json({ Status: "ErrorPending", Error: "User is pending approval. Please wait for admin approval.", ban: 'Pending' });
-        } else if (user.ban === 'Disable') {
-            return res.json({ Status: "ErrorDisable", Error: "User is disabled", ban: 'Disable' });
-        }
-
         bcrypt.compare(req.body.password.toString(), user.password, (err, response) => {
             if (err) {
                 return res.json({ Status: "Error", Error: "Error in password comparison" });
             }
 
             if (response) {
+                if (user.ban === 'Pending') {
+                    return res.json({ Status: "ErrorPending", Error: "User is pending approval. Please wait for admin approval.", ban: 'Pending' });
+                } else if (user.ban === 'Disable') {
+                    return res.json({ Status: "ErrorDisable", Error: "User is disabled", ban: 'Disable' });
+                }
+
                 return res.json({ Status: "Success", Role: user.role, Result: user });
             } else {
                 return res.json({ Status: "Error", Error: "Wrong username or password" });

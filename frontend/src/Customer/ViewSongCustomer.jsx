@@ -32,9 +32,9 @@ function ViewSongCustomer() {
     const [isBold, setIsBold] = useState(false);
     const [chordPopups, setChordPopups] = useState({});
     const [isEditing, setIsEditing] = useState(false);
-    const [currentKey, setCurrentKey] = useState(0); // Tông hiện tại (0 đại diện cho không thay đổi)
+    const [currentKey, setCurrentKey] = useState(0);
 
-    const keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" && "Cm", "C#m", "Dm", "D#m", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "A#m", "Bm"]; // Các tông âm mẫu
+    const keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" && "Cm", "C#m", "Dm", "D#m", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "A#m", "Bm"];
     const increaseKey = () => {
         setCurrentKey((currentKey + 1) % keys.length);
 
@@ -145,7 +145,7 @@ function ViewSongCustomer() {
                             return `<strong class='chord'>${keys[transposedIndex]}</strong>`;
                         }
 
-                        return match; // Not a valid chord, leave it as it is
+                        return match;
                     });
                     const chordContainer = document.getElementById('chordContainer');
                     if (chordContainer) {
