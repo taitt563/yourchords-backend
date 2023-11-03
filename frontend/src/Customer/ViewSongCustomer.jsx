@@ -20,6 +20,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
+import chordA from '../assets/A.png';
 function ViewSongCustomer() {
     const [data, setData] = useState([]);
     const { id } = useParams();
@@ -127,6 +128,22 @@ function ViewSongCustomer() {
     return (
         <>
             <SearchAppBar />
+            {chordPopups['A'] ?
+                <div id="chordPopupG" className="chord-popup" style={{ display: chordPopups['G'] ? 'block' : 'none' }}>
+                    <h2>Chord A</h2>
+                    <img src={chordA} style={{ width: '130px', height: '120px' }} />
+                    <button onClick={() => toggleChordPopup('A')}>Close</button>
+                </div>
+                : ""
+            }
+            {chordPopups['C'] ?
+                <div id="chordPopupC" className="chord-popup" style={{ display: chordPopups['C'] ? 'block' : 'none' }}>
+                    <h2>Chord C</h2>
+                    <p>Information chord C</p>
+                    <button onClick={() => toggleChordPopup('C')}>Close</button>
+                </div>
+                : ""
+            }
             <div className='d-flex flex-column align-items-center pt-5'>
                 {data.map((viewSong, index) => {
                     let dataChord = viewSong.lyrics
@@ -145,7 +162,6 @@ function ViewSongCustomer() {
                             const transposedIndex = (indexInKeys + currentKey) % keys.length;
                             return `<strong class='chord'>${keys[transposedIndex]}</strong>`;
                         }
-
                         return match;
                     });
                     const chordContainer = document.getElementById('chordContainer');
@@ -153,30 +169,21 @@ function ViewSongCustomer() {
                         chordContainer.innerHTML = songChord;
                         const chordElements = document.querySelectorAll('.chord');
                         chordElements.forEach(chord => {
-                            chord.addEventListener('click', function () {
-                                const chordName = this.textContent;
+                            let chordName = chord.textContent;
+                            chord.addEventListener('mouseenter', function () {
+                                if (!chordPopups[chordName]) {
+                                    toggleChordPopup(chordName);
+                                }
+                            });
+                            chord.addEventListener('mouseleave', function () {
                                 toggleChordPopup(chordName);
                             });
                         });
                     }
+
                     return <div key={index}>
                         <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
-                        {chordPopups['G'] ?
-                            <div id="chordPopupG" className="chord-popup" style={{ display: chordPopups['G'] ? 'block' : 'none' }}>
-                                <h2>Chord G</h2>
-                                <p>Information chord G</p>
-                                <button onClick={() => toggleChordPopup('G')}>Close</button>
-                            </div>
-                            : ""
-                        }
-                        {chordPopups['C'] ?
-                            <div id="chordPopupC" className="chord-popup" style={{ display: chordPopups['C'] ? 'block' : 'none' }}>
-                                <h2>Chord C</h2>
-                                <p>Information chord C</p>
-                                <button onClick={() => toggleChordPopup('C')}>Close</button>
-                            </div>
-                            : ""
-                        }
+
                         <div className="row mt-5">
                             <p className="col-md-6">Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                             {viewSong.updated_at != null ?

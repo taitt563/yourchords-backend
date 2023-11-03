@@ -6,16 +6,14 @@
     background-size: 100% 120%;
 }
 
-/* Initial styles for the chord popup */
 .chord-popup {
     display: none;
     position: absolute;
     background-color: #fff;
     border: 1px solid #ccc;
     padding: 10px;
-    width: 500px;
+    width: 150px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    /* Add any other custom CSS here */
 }
 
 .chord-popup h2 {
@@ -30,6 +28,9 @@
 }
 
 .chord-popup button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #0d6efd;
     color: #fff;
     border: none;
@@ -58,6 +59,37 @@
     /* Add any other styling you want for the hovered chord element */
 }
 
+
+
+.chord-container .chord::before {
+    content: attr(data-chord);
+    /* Hiển thị thông tin hợp âm */
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    opacity: 0;
+    /* Ban đầu ẩn */
+    transition: opacity 0.3s;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    /* Prevents interaction with the element */
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 150px;
+    height: 150px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.chord-container .chord:hover::before {
+    opacity: 1;
+}
 
 .loginForm {
     background-color: rgba(1, 32, 93, 0.6);
