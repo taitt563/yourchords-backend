@@ -2,8 +2,6 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import SearchAppBar from '../component/SearchAppBar';
-// import Button from '@mui/material/Button';
-// import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Modal from '@mui/material/Modal';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Typography from '@mui/material/Typography';
@@ -28,7 +26,6 @@ function Profile() {
     const [dataProfile, setDataProfile] = useState([]);
     const { userId } = useParams();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
     const style = {
         position: 'absolute',
         top: '50%',

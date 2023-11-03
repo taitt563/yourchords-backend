@@ -47,7 +47,6 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/signUp' element={<SignUp />}></Route>
-
         <Route path='/' element={<Dashboard />}>
           <Route path='/profile/:userId' element={<Profile />}></Route>
           <Route path='/song' element={<Song />}></Route>

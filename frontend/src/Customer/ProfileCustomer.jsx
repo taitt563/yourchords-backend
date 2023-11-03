@@ -41,7 +41,6 @@ function ProfileCustomer() {
         p: 4,
     };
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
     useEffect(() => {
         axios.get(`${apiUrl}/getProfile/` + userId)
             .then(res => {

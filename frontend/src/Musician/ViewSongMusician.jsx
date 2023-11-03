@@ -28,7 +28,6 @@ function ViewSongMusician() {
     const [isLeft, setIsLeft] = useState(true);
     const [isBold, setIsBold] = useState(false);
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
     const handleFormat = (event, newFormats) => {
         setFormats(newFormats);
     };

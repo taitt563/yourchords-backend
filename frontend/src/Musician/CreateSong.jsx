@@ -80,7 +80,6 @@ function CreateSong() {
                             value={data.song_title}
                             onChange={(e) => setData({ ...data, song_title: e.target.value })}
                         />
-                        {/* Rest of the step content and buttons */}
                     </div>
                 );
             case 1:
@@ -96,7 +95,6 @@ function CreateSong() {
                             value={data.lyrics}
                             onChange={(e) => setData({ ...data, lyrics: e.target.value })}
                         />
-                        {/* Rest of the step content and buttons */}
                     </div>
                 );
             case 2:
@@ -111,7 +109,6 @@ function CreateSong() {
                             value={data.link}
                             onChange={(e) => setData({ ...data, link: e.target.value })}
                         />
-                        {/* Rest of the step content and buttons */}
                     </div>
                 );
             case 3:
@@ -121,14 +118,12 @@ function CreateSong() {
                         <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                             <input type="file" onChange={(e) => setData({ ...data, thumbnail: e.target.files[0] })} />
                         </Button>
-                        {/* Rest of the step content and buttons */}
                     </div>
                 );
             case 4:
                 return (
                     <div className='d-flex flex-column align-items-center pt-5'>
                         <p>Create successfully !</p>
-                        {/* Rest of the step content and buttons */}
                     </div>
                 );
             default:

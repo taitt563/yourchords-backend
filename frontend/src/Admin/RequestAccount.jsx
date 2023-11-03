@@ -68,7 +68,6 @@ function RequestAccount() {
     const [orderBy, setOrderBy] = useState("username");
     const [order, setOrder] = useState("asc");
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
     const primaryColor = '#F1F1FB';
 
     const handleChange = (event, newValue) => {

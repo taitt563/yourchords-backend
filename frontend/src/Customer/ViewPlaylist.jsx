@@ -170,7 +170,6 @@ function SongCustomer() {
                             .map((song, index) => (
                                 <div key={index} >
                                     <div style={{ position: 'relative' }}>
-
                                         <div className="song-list-item">
                                             <div className="favorite-icon">
                                                 <IconButton

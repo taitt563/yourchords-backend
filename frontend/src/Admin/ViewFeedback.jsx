@@ -25,7 +25,6 @@ function ViewFeedback() {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
     useEffect(() => {
         axios.get(`${apiUrl}/viewFeedback/` + username)
 

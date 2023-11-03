@@ -13,7 +13,6 @@ export default function BottomAppBar() {
 
     const [data, setData] = useState([]);
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
     axios.defaults.withCredentials = true;
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
