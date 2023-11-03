@@ -11,23 +11,6 @@ const swaggerUI = require('swagger-ui-express');
 const fs = require('fs');
 
 const app = express();
-
-// const options = {
-//     definition: {
-//         openapi: '3.0.0',
-//         info: {
-//             title: 'Your chord api doc',
-//             version: '1.0.1',
-//         },
-//         servers: [
-//             {
-//                 url: 'http://localhost:8081/',
-//             },
-//         ],
-//     },
-//     apis: ['./swagger.json'],
-// };
-
 const spacs = JSON.parse(fs.readFileSync('./swagger.json'));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(spacs))
 const salt = 10;
