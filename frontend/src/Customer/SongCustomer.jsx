@@ -53,7 +53,7 @@ function SongCustomer() {
         width: '1400px',
     };
     const handleFavorite = () => {
-        axios.get(`http://localhost:8081/getPlaylist/` + userId)
+        axios.get(`/getPlaylist/` + userId)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     setDataPlaylist(res.data.Result);

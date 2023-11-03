@@ -1,0 +1,1395 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Your chord api doc",
+        "version": "1.0.1"
+    },
+    "paths": {
+        "/login": {
+            "post": {
+                "summary": "Đăng nhập người dùng",
+                "requestBody": {
+                    "description": "Yêu cầu đăng nhập người dùng",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "Tên người dùng"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "Mật khẩu người dùng"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Đăng nhập thành công",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Role": "user",
+                                    "Result": {
+                                        "username": "nguoidung1",
+                                        "role": "user"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi gửi yêu cầu",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Lỗi khi gửi yêu cầu"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Sai tên đăng nhập hoặc mật khẩu",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Sai tên đăng nhập hoặc mật khẩu"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Tài khoản đang chờ xét duyệt hoặc bị vô hiệu hóa",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "ErrorPending",
+                                    "Error": "Tài khoản đang chờ xét duyệt hoặc bị vô hiệu hóa",
+                                    "ban": "Pending"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "get": {
+                "summary": "Đăng xuất",
+                "responses": {
+                    "200": {
+                        "description": "Đăng xuất thành công",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/requestAccountMusician/{username}": {
+            "put": {
+                "summary": "Yêu cầu tài khoản âm nhạc",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "username",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Yêu cầu tài khoản âm nhạc thành công",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi gửi yêu cầu",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Lỗi khi gửi yêu cầu"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/requestAccountChordValidator/{username}": {
+            "put": {
+                "summary": "Yêu cầu tài khoản xác minh hợp âm",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "username",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Yêu cầu tài khoản xác minh hợp âm thành công",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi gửi yêu cầu",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Lỗi khi gửi yêu cầu"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/requestAccountChordValidatorRole/{username}": {
+            "put": {
+                "summary": "Yêu cầu tài khoản xác minh hợp âm (Role)",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "username",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Yêu cầu tài khoản xác minh hợp âm thành công (Role)",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi gửi yêu cầu",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Lỗi khi gửi yêu cầu"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/signUp": {
+            "post": {
+                "summary": "User registration",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "role": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User successfully registered",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Error in running query"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/createPlaylist/{username}": {
+            "post": {
+                "summary": "Create a new playlist",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "collection_name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Playlist created successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/addToPlaylist": {
+            "post": {
+                "summary": "Add a song to a playlist",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "song_id": {
+                                        "type": "integer"
+                                    },
+                                    "collection_id": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Song added to the playlist successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Missing song_id or collection_id"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getPlaylist/{user_id}": {
+            "get": {
+                "summary": "Get playlists of a user",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Playlists retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": []
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Get song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/viewPlaylist/{id}": {
+            "get": {
+                "summary": "View the songs in a playlist",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Songs in playlist retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result1": [],
+                                    "Result2": []
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Error in SQL query 1"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/deleteSongPlaylist/{collection_id}/{song_id}": {
+            "delete": {
+                "summary": "Delete a song from a playlist",
+                "parameters": [
+                    {
+                        "name": "collection_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "song_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Song deleted from the playlist successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Failed to delete the song from the collection"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/deleteCollection/{id}": {
+            "delete": {
+                "summary": "Delete a playlist",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Playlist deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Failed to delete the collection"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getProfile/{userId}": {
+            "get": {
+                "summary": "Get profile by user ID",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Profile retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Get song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/updateProfile/{userId}": {
+            "put": {
+                "summary": "Update user profile",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "surname": {
+                                        "type": "string"
+                                    },
+                                    "phoneNumber": {
+                                        "type": "string"
+                                    },
+                                    "job": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profile updated successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getProfile": {
+            "get": {
+                "summary": "Get all profiles",
+                "responses": {
+                    "200": {
+                        "description": "Profiles retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": []
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Get song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/get/{id}": {
+            "get": {
+                "summary": "Get a song by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Song retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Get song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getSong/": {
+            "get": {
+                "summary": "Get all songs with status '0'",
+                "responses": {
+                    "200": {
+                        "description": "Songs retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": []
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Get song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getSongChordManager/": {
+            "get": {
+                "summary": "Get all songs with status '0' for chord manager",
+                "responses": {
+                    "200": {
+                        "description": "Songs retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": []
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Get song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getSong/{id}": {
+            "get": {
+                "summary": "Get a song by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Song retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Get song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getSongAdmin/": {
+            "get": {
+                "summary": "Get all songs with status '1' for admin",
+                "responses": {
+                    "200": {
+                        "description": "Songs retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": []
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Get song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/updateSong/{id}": {
+            "put": {
+                "summary": "Update a song by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "song_title": {
+                                        "type": "string"
+                                    },
+                                    "lyrics": {
+                                        "type": "string"
+                                    },
+                                    "link": {
+                                        "type": "string"
+                                    },
+                                    "thumbnail": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Song updated successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "update song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/delete/{id}": {
+            "delete": {
+                "summary": "Delete a song by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Song deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "delete song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/verifySong/{id}": {
+            "put": {
+                "summary": "Verify a song by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Song verified successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "delete song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/createSong": {
+            "post": {
+                "summary": "Create a new song",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "song_title": {
+                                        "type": "string"
+                                    },
+                                    "lyrics": {
+                                        "type": "string"
+                                    },
+                                    "thumbnail": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "link": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Song created successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getAccount/{username}": {
+            "get": {
+                "summary": "Get account details by username",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Account details retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Get song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getAccount/user/{userId}": {
+            "get": {
+                "summary": "Get account details by user ID",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Account details retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Get song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getAccount/all": {
+            "get": {
+                "summary": "Get all user accounts",
+                "responses": {
+                    "200": {
+                        "description": "User accounts retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": []
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Get song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/deleteAccount/{username}": {
+            "delete": {
+                "summary": "Delete an account by username",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Account deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "delete song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/banAccount/{username}": {
+            "put": {
+                "summary": "Ban an account by username",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Account banned successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "update song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/unBanAccount/{username}": {
+            "put": {
+                "summary": "Unban an account by username",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Account unbanned successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "update song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getFeedback": {
+            "get": {
+                "summary": "Get all feedback",
+                "responses": {
+                    "200": {
+                        "description": "Feedback retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": []
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Get song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/viewFeedback/{username}": {
+            "get": {
+                "summary": "View feedback by username",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Feedback retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": []
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Error in running query"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/replyFeedback/{username}": {
+            "put": {
+                "summary": "Reply to feedback by username",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "reply": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Feedback replied successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "Error in running query"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
