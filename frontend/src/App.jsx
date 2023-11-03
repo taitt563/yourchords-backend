@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import SignUp from './SignUp'
+import Login from './Login'
 /////ADMIN
 import Dashboard from './Admin/Dashboard'
-import Login from './Login'
 import Profile from './Admin/Profile'
 import Song from './Admin/Song'
 import ManageAccount from './Admin/ManageAcount'
@@ -33,7 +34,6 @@ import OrderMusician from './Musician/OrderMusician'
 /////CUSTOMER
 // import LoginCustomer from './Customer/LoginCustomer'
 import DashboardCustomer from './Customer/DashboardCustomer'
-import SignUpCustomer from './Customer/SignUpCustomer'
 import SongCustomer from './Customer/SongCustomer'
 import ViewSongCustomer from './Customer/ViewSongCustomer'
 import Payment from './Customer/Payment'
@@ -46,13 +46,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/login' element={<Login />}></Route>
-        {/* <Route path='/login' element={<LoginCustomer />}></Route> */}
-        <Route path='/signUp' element={<SignUpCustomer />}></Route>
-        {/* <Route path='/loginChordManager' element={<LoginChordManager />}></Route> */}
-        {/* <Route path='/signUpChordManager' element={<SignUpChordManager />}></Route> */}
-        {/* <Route path='/loginMusician' element={<LoginMusician />}></Route> */}
-        {/* <Route path='/signUpMusician' element={<SignUpMusician />}></Route> */}
-        {/* ADMIN ROLE */}
+        <Route path='/signUp' element={<SignUp />}></Route>
+
         <Route path='/' element={<Dashboard />}>
           <Route path='/profile/:userId' element={<Profile />}></Route>
           <Route path='/song' element={<Song />}></Route>

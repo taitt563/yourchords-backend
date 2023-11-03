@@ -19,6 +19,8 @@ function SongCustomer() {
     const [orderBy, setOrderBy] = useState('created_at');
     const [order, setOrder] = useState('asc');
     const { id } = useParams();
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
     const darkTheme = createTheme({
         palette: {
             mode: 'dark',
@@ -30,7 +32,7 @@ function SongCustomer() {
     const userId = sessionStorage.getItem('id_customer');
 
     useEffect(() => {
-        axios.get('http://localhost:8081/viewPlaylist/' + id)
+        axios.get(`${apiUrl}/viewPlaylist/` + id)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData([...res.data.Result]);
@@ -64,7 +66,7 @@ function SongCustomer() {
         });
     }
     const handleDelete = (song_id, collection_id) => {
-        axios.delete(`http://localhost:8081/deleteSongPlaylist/${collection_id}/${song_id}`)
+        axios.delete(`${apiUrl}/deleteSongPlaylist/${collection_id}/${song_id}`)
             .then(res => {
                 if (res.data.Status === "Success") {
                     window.location.reload(true);
@@ -168,24 +170,27 @@ function SongCustomer() {
                             .map((song, index) => (
                                 <div key={index} >
                                     <div style={{ position: 'relative' }}>
-                                        <Link href={`/viewSongCustomer/` + song.id} underline="none">
-                                            <div className="song-list-item">
-                                                <div className="favorite-icon">
-                                                    <IconButton
-                                                        size="large"
-                                                        aria-label="account of current user"
-                                                        aria-controls="menu-appbar"
-                                                        aria-haspopup="true"
-                                                        onClick={() => handleDelete(song.song_id, song.collection_id)}
-                                                        color="error"
-                                                        style={{ position: 'absolute', top: 0, right: 0 }}
-                                                        className="favorite-button"
-                                                    >
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </div>
-                                                <img src={`http://localhost:8081/images/` + song.thumbnail} className="song-thumbnail" />
+
+                                        <div className="song-list-item">
+                                            <div className="favorite-icon">
+                                                <IconButton
+                                                    size="large"
+                                                    aria-label="account of current user"
+                                                    aria-controls="menu-appbar"
+                                                    aria-haspopup="true"
+                                                    onClick={() => handleDelete(song.song_id, song.collection_id)}
+                                                    color="error"
+                                                    style={{ position: 'absolute', top: 0, right: 0 }}
+                                                    className="favorite-button"
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
                                             </div>
+                                            <Link href={`/viewSongCustomer/` + song.id} underline="none">
+                                                <img src={`${apiUrl}/images/` + song.thumbnail} className="song-thumbnail" />
+                                            </Link>
+                                        </div>
+                                        <Link href={`/viewSongCustomer/` + song.id} underline="none">
                                             <div className="song-details" style={{ textAlign: 'center' }}>
                                                 <b>{song.song_title}</b>
                                                 <p><b>Artist: {song.artist}</b></p>

@@ -14,8 +14,8 @@ import IconButton from '@mui/material/IconButton';
 function Playlist() {
     const [data, setData] = useState([]);
     const { userId } = useParams();
-
     const [search, setSearch] = useState("");
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const darkTheme = createTheme({
         palette: {
             mode: "dark",
@@ -26,7 +26,7 @@ function Playlist() {
     });
 
     useEffect(() => {
-        axios.get('http://localhost:8081/getPlaylist/' + userId)
+        axios.get(`${apiUrl}/getPlaylist/` + userId)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData([...res.data.Result]);
@@ -39,7 +39,7 @@ function Playlist() {
     const handleDelete = (id) => {
         console.log(id);
 
-        axios.delete(`http://localhost:8081/deleteCollection/` + id)
+        axios.delete(`${apiUrl}/deleteCollection/` + id)
             .then(res => {
                 if (res.data.Status === "Success") {
                     window.location.reload(true);
@@ -114,7 +114,7 @@ function Playlist() {
                                         <div className="rounded-image-container">
                                             <img
                                                 className="rounded-square-image"
-                                                src={`http://localhost:8081/images/${playlist.image}`}
+                                                src={`${apiUrl}/images/${playlist.image}`}
                                             />
                                             <div className="image-overlay">
                                                 <Link href={'/viewPlaylist/' + playlist.id} className="overlay-text" underline='none'><b>View Playlist</b></Link>

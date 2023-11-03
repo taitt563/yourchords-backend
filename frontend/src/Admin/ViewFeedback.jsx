@@ -24,8 +24,10 @@ function ViewFeedback() {
     const { username } = useParams();
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
     useEffect(() => {
-        axios.get('http://localhost:8081/viewFeedback/' + username)
+        axios.get(`${apiUrl}/viewFeedback/` + username)
 
             .then(res => {
                 console.log(res.data.Result)
@@ -49,7 +51,7 @@ function ViewFeedback() {
     }, [])
 
     const handleSubmit = () => {
-        axios.put('http://localhost:8081/replyFeedback/' + username, data)
+        axios.put(`${apiUrl}/replyFeedback/` + username, data)
             .then(
                 navigate(-1)
             )
@@ -57,7 +59,7 @@ function ViewFeedback() {
     }
     const handleGetReply = () => {
         setOpen(true);
-        axios.get('http://localhost:8081/viewFeedback/' + username)
+        axios.get(`${apiUrl}/viewFeedback/` + username)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setDataReply(res.data.Result);
@@ -140,7 +142,7 @@ function ViewFeedback() {
                                     <CardHeader
                                         avatar={
                                             data.image != "" ?
-                                                <img src={`http://localhost:8081/images/` + data.image} alt="" className='profile_image' />
+                                                <img src={`${apiUrl}/images/` + data.image} alt="" className='profile_image' />
                                                 :
                                                 (
                                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">

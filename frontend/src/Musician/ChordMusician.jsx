@@ -39,8 +39,10 @@ function ChordMusician() {
             },
         },
     });
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
     useEffect(() => {
-        axios.get('http://localhost:8081/getSong')
+        axios.get(`${apiUrl}/getSong`)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
@@ -51,7 +53,7 @@ function ChordMusician() {
             .catch(err => console.log(err));
     }, [])
     const handleDelete = (id) => {
-        axios.delete('http://localhost:8081/delete/' + id)
+        axios.delete(`${apiUrl}/delete/` + id)
             .then(res => {
                 if (res.data.Status === "Success") {
                     window.location.reload(true);
@@ -171,7 +173,7 @@ function ChordMusician() {
                                             <TableCell>{song.id}</TableCell>
                                             <TableCell>
                                                 {
-                                                    <img src={`http://localhost:8081/images/` + song.thumbnail} alt="" className="song_image" />
+                                                    <img src={`${apiUrl}/images/` + song.thumbnail} alt="" className="song_image" />
                                                 }
                                             </TableCell>
                                             <TableCell>

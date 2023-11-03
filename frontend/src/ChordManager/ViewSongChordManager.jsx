@@ -30,7 +30,7 @@ function ViewSongChordManager() {
     const [isRight, setIsRight] = useState(false);
     const [isLeft, setIsLeft] = useState(true);
     const [isBold, setIsBold] = useState(false);
-
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const handleFormat = (event, newFormats) => {
         setFormats(newFormats);
     };
@@ -82,7 +82,7 @@ function ViewSongChordManager() {
         setIsBold(false)
     }
     useEffect(() => {
-        axios.get('http://localhost:8081/getSong/' + id, data)
+        axios.get(`${apiUrl}/getSong/` + id, data)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
@@ -95,7 +95,7 @@ function ViewSongChordManager() {
             .catch(err => console.log(err));
     }, [])
     const handleLogout = () => {
-        axios.get('http://localhost:8081/logout')
+        axios.get(`${apiUrl}/logout`)
             .then(
                 navigate(-1)
             ).catch(err => console.log(err));

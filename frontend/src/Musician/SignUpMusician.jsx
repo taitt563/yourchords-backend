@@ -18,7 +18,7 @@
 //     const [isAccountExisted, setIsAccountExisted] = useState(false);
 //     const handleSignin = (event) => {
 //         event.preventDefault();
-//         axios.post('http://localhost:8081/signUpMusician', values)
+//         axios.post('${apiUrl}/signUpMusician', values)
 //             .then(res => {
 //                 if (res.data.Status === 'Success') {
 //                     navigate("/loginMusician");

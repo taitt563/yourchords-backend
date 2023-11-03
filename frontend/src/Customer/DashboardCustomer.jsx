@@ -28,9 +28,11 @@ function DashboardCustomer() {
     };
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
     useEffect(() => {
         const userId = sessionStorage.getItem('id_customer');
-        axios.get('http://localhost:8081/getProfile/' + userId)
+        axios.get(`${apiUrl}/getProfile/` + userId)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
@@ -56,7 +58,7 @@ function DashboardCustomer() {
                                     <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
                                         <Avatar>
                                             {
-                                                <img src={`http://localhost:8081/images/` + profile.image} alt="" className='profile_image' />
+                                                <img src={`${apiUrl}/images/` + profile.image} alt="" className='profile_image' />
                                             }
                                         </Avatar>
                                     </ListItemAvatar>

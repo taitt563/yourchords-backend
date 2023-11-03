@@ -32,6 +32,7 @@ function ChordMissMusician() {
     const [rowsPerPage, setRowsPerPage] = useState(6);
     const [orderBy, setOrderBy] = useState("song_title");
     const [order, setOrder] = useState("asc");
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const primaryColor = "#F1F1FB";
     const darkTheme = createTheme({
         palette: {
@@ -42,7 +43,7 @@ function ChordMissMusician() {
         },
     });
     useEffect(() => {
-        axios.get('http://localhost:8081/getSong')
+        axios.get(`${apiUrl}/getSong`)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
@@ -53,7 +54,7 @@ function ChordMissMusician() {
             .catch(err => console.log(err));
     }, [])
     const handleDelete = (id) => {
-        axios.delete('http://localhost:8081/delete/' + id)
+        axios.delete(`${apiUrl}/delete/` + id)
             .then(res => {
                 if (res.data.Status === "Success") {
                     window.location.reload(true);
@@ -145,104 +146,6 @@ function ChordMissMusician() {
                 <div>
                     <h3 className="d-flex flex-column align-items-center pt-4">SONG</h3>
                 </div>
-                {/* <div className='mt-4 pd-left'>
-                    <TableContainer component={Paper}>
-                        <Table>
-                            <TableHead sx={{ backgroundColor: primaryColor }}>
-                                <TableRow>
-                                    <TableCell><b>ID</b></TableCell>
-                                    <TableCell></TableCell>
-                                    <TableCell>
-                                        <TableSortLabel
-                                            active={orderBy === 'song_title'}
-                                            direction={orderBy === 'song_title' ? order : 'asc'}
-                                            onClick={() => handleSort('song_title')}
-                                        >
-                                            <b>Name song</b>
-                                        </TableSortLabel>
-                                    </TableCell>
-                                    <TableCell><b>Link</b></TableCell>
-                                    <TableCell>
-                                        <TableSortLabel
-                                            active={orderBy === 'created_at'}
-                                            direction={orderBy === 'created_at' ? order : 'asc'}
-                                            onClick={() => handleSort("created_at")}
-                                        >
-                                            <b><CalendarMonthIcon color="primary" /> Date created</b>
-                                        </TableSortLabel>
-                                    </TableCell>
-                                    <TableCell>
-                                        <TableSortLabel
-                                            active={orderBy === 'updated_at'}
-                                            direction={orderBy === 'updated_at' ? order : 'asc'}
-                                            onClick={() => handleSort("updated_at")}
-                                        >
-                                            <b><CalendarMonthIcon color="primary" /> Date updated</b>
-                                        </TableSortLabel>
-                                    </TableCell>
-                                    <TableCell><b>Status</b></TableCell>
-                                    <TableCell></TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {sortData(data)
-                                    .filter(song => {
-                                        let dataChord = song.lyrics;
-                                        dataChord = dataChord.replace(/.+/g, "<section>$&</section>");
-                                        let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
-                                        return !songChord.includes('<strong>') && (search.trim() === '' ? true : song.song_title.toLowerCase().includes(search.toLowerCase()));
-                                    })
-                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((song, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>{song.id}</TableCell>
-                                            <TableCell>
-                                                {
-                                                    <img src={`http://localhost:8081/images/` + song.thumbnail} alt="" className="song_image" />
-                                                }
-                                            </TableCell>
-                                            <TableCell>
-                                                {song.song_title.length > 30 ?
-                                                    <b>{song.song_title.substring(0, 20)}...</b> :
-                                                    <b>{song.song_title} </b>
-                                                }
-                                            </TableCell>
-                                            {song.link != null ?
-                                                <TableCell><Link to={song.link}>{song.link.substring(0, 30)}...</Link></TableCell> :
-                                                <TableCell>Updating...</TableCell>
-                                            }
-                                            <TableCell>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
-                                            {song.updated_at != null ?
-                                                <TableCell>{moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</TableCell> :
-                                                <TableCell>Not update</TableCell>
-                                            }
-                                            <TableCell className="text-warning"><b>Missing Chord</b></TableCell>
-                                            <TableCell>
-                                                <Link to={`/viewSongMusician/` + song.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                                {song.status === 0 ?
-                                                    <Link onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></Link> :
-                                                    ""
-                                                }
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        component="div"
-                        count={data.length}
-                        page={page}
-                        onPageChange={(event, newPage) => setPage(newPage)}
-                        rowsPerPage={rowsPerPage}
-                        onRowsPerPageChange={(event) => {
-                            setRowsPerPage(+event.target.value);
-                            setPage(0);
-                        }}
-                        rowsPerPageOptions={[6, 10, 25, 50, 100]}
-
-                    />
-                </div> */}
                 <div className="mt-4 pd-left">
                     {filteredSongs.length === 0 ? (
                         <>
@@ -338,7 +241,7 @@ function ChordMissMusician() {
                                                 <TableCell>{song.id}</TableCell>
                                                 <TableCell>
                                                     {
-                                                        <img src={`http://localhost:8081/images/` + song.thumbnail} alt="" className="song_image" />
+                                                        <img src={`${apiUrl}/images/` + song.thumbnail} alt="" className="song_image" />
                                                     }
                                                 </TableCell>
                                                 <TableCell>
@@ -380,7 +283,7 @@ function ChordMissMusician() {
                             setRowsPerPage(+event.target.value);
                             setPage(0);
                         }}
-                        rowsPerPageOptions={[7, 10, 25, 50, 100]}
+                        rowsPerPageOptions={[6, 10, 25, 50, 100]}
                     />
 
 

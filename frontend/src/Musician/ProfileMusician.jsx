@@ -39,8 +39,9 @@ function ProfileMusician() {
         boxShadow: 24,
         p: 4,
     };
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     useEffect(() => {
-        axios.get('http://localhost:8081/getProfile/' + userId)
+        axios.get(`${apiUrl}/getProfile/` + userId)
             .then(res => {
                 setData({
                     ...data,
@@ -61,7 +62,7 @@ function ProfileMusician() {
     }, [])
     const handleProfile = () => {
         setOpen(true);
-        axios.get('http://localhost:8081/getAccount/' + userId)
+        axios.get(`${apiUrl}/getAccount/` + userId)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setDataProfile(res.data.Result);
@@ -73,7 +74,7 @@ function ProfileMusician() {
     }
     const handleSubmit = async (event) => {
         event.preventDefault();
-        axios.put('http://localhost:8081/updateProfile/' + userId, data)
+        axios.put(`${apiUrl}/updateProfile/` + userId, data)
             .then(res => {
                 if (res.data.Status === "Success") {
                     window.location.reload(true);
@@ -106,7 +107,7 @@ function ProfileMusician() {
                                 <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                                     <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                                         {data.image != "" ?
-                                            <img className="rounded-circle mt-6 border" src={`http://localhost:8081/images/` + data.image} width="150px" />
+                                            <img className="rounded-circle mt-6 border" src={`${apiUrl}/images/` + data.image} width="150px" />
                                             :
                                             <AccountCircleIcon fontSize="large" />
                                         }
@@ -161,7 +162,7 @@ function ProfileMusician() {
 
                                                             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                                                                 {editAccount.image != "" ?
-                                                                    <img className="rounded-circle mt-6 border" src={`http://localhost:8081/images/` + editAccount.image} width="150px" />
+                                                                    <img className="rounded-circle mt-6 border" src={`${apiUrl}/images/` + editAccount.image} width="150px" />
                                                                     :
                                                                     <AccountCircleIcon fontSize="large" />
                                                                 }

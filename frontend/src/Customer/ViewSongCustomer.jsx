@@ -33,6 +33,7 @@ function ViewSongCustomer() {
     const [chordPopups, setChordPopups] = useState({});
     const [isEditing, setIsEditing] = useState(false);
     const [currentKey, setCurrentKey] = useState(0);
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     const keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" && "Cm", "C#m", "Dm", "D#m", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "A#m", "Bm"];
     const increaseKey = () => {
@@ -55,7 +56,7 @@ function ViewSongCustomer() {
         setAlignment(newAlignment);
     };
     useEffect(() => {
-        axios.get('http://localhost:8081/getSong/' + id, data)
+        axios.get(`${apiUrl}/getSong/` + id, data)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
@@ -66,7 +67,7 @@ function ViewSongCustomer() {
             .catch(err => console.log(err));
     }, [])
     const handleLogout = () => {
-        axios.get('http://localhost:8081/logout')
+        axios.get(`${apiUrl}/logout`)
             .then(
                 navigate(-1)
             ).catch(err => console.log(err));

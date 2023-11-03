@@ -31,6 +31,7 @@ function Song() {
     const [rowsPerPage, setRowsPerPage] = useState(6);
     const [orderBy, setOrderBy] = useState("song_title");
     const [order, setOrder] = useState("asc");
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     const primaryColor = "#F1F1FB";
 
@@ -44,7 +45,7 @@ function Song() {
     });
 
     useEffect(() => {
-        axios.get("http://localhost:8081/getSongAdmin")
+        axios.get(`${apiUrl}/getSongAdmin`)
             .then((res) => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
@@ -227,7 +228,7 @@ function Song() {
                                             <TableRow key={index}>
                                                 <TableCell>{song.id}</TableCell>
                                                 <TableCell>
-                                                    <img src={`http://localhost:8081/images/` + song.thumbnail} alt="" className="song_image" />
+                                                    <img src={`${apiUrl}/images/` + song.thumbnail} alt="" className="song_image" />
                                                 </TableCell>
                                                 {song.song_title.length > 30 ? (
                                                     <TableCell>
@@ -279,7 +280,7 @@ function Song() {
                             setRowsPerPage(+event.target.value);
                             setPage(0);
                         }}
-                        rowsPerPageOptions={[7, 10, 25, 50, 100]}
+                        rowsPerPageOptions={[6, 10, 25, 50, 100]}
                     />
 
 

@@ -13,14 +13,13 @@ import SearchAppBar from '../component/SearchAppBar';
 
 function CreatePlaylist() {
     const navigate = useNavigate();
-
     const [activeStep, setActiveStep] = useState(0);
-
     const [data, setData] = useState({
         collection_name: '',
         image: null,
     });
     const { userId } = useParams();
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     const steps = ['Playlist name:', 'Image', 'Finish'];
 
@@ -39,7 +38,7 @@ function CreatePlaylist() {
         formData.append("collection_name", data.collection_name);
         formData.append("image", data.image);
 
-        axios.post('http://localhost:8081/createPlaylist/' + userId, formData)
+        axios.post(`${apiUrl}/createPlaylist/` + userId, formData)
             .then(res => {
                 if (res.data.Status === "Success") {
                     navigate("/playlist/" + userId)

@@ -12,12 +12,13 @@ import { Link } from "react-router-dom";
 export default function BottomAppBar() {
 
     const [data, setData] = useState([]);
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     axios.defaults.withCredentials = true;
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
     useEffect(() => {
-        axios.get('http://localhost:8081/getFeedback')
+        axios.get(`${apiUrl}/getFeedback`)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
@@ -61,7 +62,7 @@ export default function BottomAppBar() {
                                         return <tr key={index}>
                                             <td>
                                                 {
-                                                    <img src={`http://localhost:8081/images/` + feedbackUser.image} alt="" className='song_image' />
+                                                    <img src={`${apiUrl}/images/` + feedbackUser.image} alt="" className='song_image' />
                                                 }
                                             </td>
                                             <td>{feedbackUser.username}</td>
@@ -108,7 +109,7 @@ export default function BottomAppBar() {
                                         return <tr key={index}>
                                             <td>
                                                 {
-                                                    <img src={`http://localhost:8081/images/` + feedbackUser.image} alt="" className='song_image' />
+                                                    <img src={`${apiUrl}/images/` + feedbackUser.image} alt="" className='song_image' />
                                                 }
                                             </td>
                                             <td>{feedbackUser.username}</td>

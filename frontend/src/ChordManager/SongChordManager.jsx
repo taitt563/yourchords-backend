@@ -33,6 +33,7 @@ function SongChordManager() {
     const [orderBy, setOrderBy] = useState("song_title");
     const [order, setOrder] = useState("asc");
     const primaryColor = "#F1F1FB";
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     const darkTheme = createTheme({
         palette: {
@@ -45,7 +46,7 @@ function SongChordManager() {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8081/getSongAdmin")
+            .get(`${apiUrl}/getSongAdmin`)
             .then((res) => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
@@ -226,7 +227,7 @@ function SongChordManager() {
                                             <TableRow key={index}>
                                                 <TableCell>{song.id}</TableCell>
                                                 <TableCell>
-                                                    <img src={`http://localhost:8081/images/` + song.thumbnail} alt="" className="song_image" />
+                                                    <img src={`${apiUrl}/images/` + song.thumbnail} alt="" className="song_image" />
                                                 </TableCell>
                                                 {song.song_title.length > 30 ? (
                                                     <TableCell>
@@ -278,7 +279,7 @@ function SongChordManager() {
                             setRowsPerPage(+event.target.value);
                             setPage(0);
                         }}
-                        rowsPerPageOptions={[7, 10, 25, 50, 100]}
+                        rowsPerPageOptions={[6, 10, 25, 50, 100]}
                     />
 
 

@@ -1,4 +1,4 @@
-import './style.css'
+import './style.css';
 import { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import AppBarLogin from './component/AppBarLogin';
 function Login() {
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const navigate = useNavigate();
     axios.defaults.withCredentials = true;
     const [values, setValues] = useState({
@@ -15,10 +16,9 @@ function Login() {
     const [isLoginFailed, setIsLoginFailed] = useState(false);
     const [isLoginPending, setIsLoginPending] = useState(false);
     const [isLoginDisable, setIsLoginDisable] = useState(false);
-
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:8081/login', values)
+        axios.post(`${apiUrl}/login`, values)
             .then(res => {
                 if (res.data.Status === 'Success') {
                     if (res.data.Role === 'admin') {
@@ -59,8 +59,6 @@ function Login() {
             })
             .catch(err => console.log(err));
     }
-
-
 
     return (
         <>

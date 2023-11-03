@@ -33,7 +33,7 @@ function VerifySong() {
     const [orderBy, setOrderBy] = useState("song_title");
     const [order, setOrder] = useState("asc");
     const primaryColor = "#F1F1FB";
-
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const darkTheme = createTheme({
         palette: {
             mode: 'dark',
@@ -43,7 +43,7 @@ function VerifySong() {
         },
     });
     useEffect(() => {
-        axios.get('http://localhost:8081/getSongChordManager')
+        axios.get(`${apiUrl}/getSongChordManager`)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
@@ -54,7 +54,7 @@ function VerifySong() {
             .catch(err => console.log(err));
     }, [])
     const handleVerify = (id) => {
-        axios.put('http://localhost:8081/verifySong/' + id)
+        axios.put(`${apiUrl}/verifySong/` + id)
             .then(res => {
                 if (res.data.Status === "Success") {
                     window.location.reload(true);
@@ -233,7 +233,7 @@ function VerifySong() {
                                                 <TableCell>{song.id}</TableCell>
                                                 <TableCell>
                                                     {
-                                                        <img src={`http://localhost:8081/images/` + song.thumbnail} alt="" className="song_image" />
+                                                        <img src={`${apiUrl}/images/` + song.thumbnail} alt="" className="song_image" />
                                                     }
                                                 </TableCell>
                                                 {song.song_title.length > 30 ? (
@@ -283,7 +283,7 @@ function VerifySong() {
                             setRowsPerPage(+event.target.value);
                             setPage(0);
                         }}
-                        rowsPerPageOptions={[7, 10, 25, 50, 100]}
+                        rowsPerPageOptions={[6, 10, 25, 50, 100]}
                     />
 
 

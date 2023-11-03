@@ -11,14 +11,14 @@ function EditSongMusician() {
         link: '',
     });
     const navigate = useNavigate();
-
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const { id } = useParams();
     let time = new Date();
     let displaytodaysdate =
         time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate();
     useEffect(() => {
         axios
-            .get('http://localhost:8081/getSong/' + id)
+            .get(`${apiUrl}/getSong/` + id)
             .then((res) => {
                 setData({
                     ...data,
@@ -42,7 +42,7 @@ function EditSongMusician() {
         event.preventDefault();
 
         axios
-            .put('http://localhost:8081/updateSong/' + id, data)
+            .put(`${apiUrl}/updateSong/` + id, data)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     navigate(-1);

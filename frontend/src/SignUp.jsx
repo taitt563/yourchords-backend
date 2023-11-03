@@ -3,9 +3,8 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-import AppBarLogin from '../component/AppBarLogin';
-
-function SignUpCustomer() {
+import AppBarLogin from './component/AppBarLogin';
+function SignUp() {
     const navigate = useNavigate();
     axios.defaults.withCredentials = true;
     const [values, setValues] = useState({
@@ -16,12 +15,12 @@ function SignUpCustomer() {
         address: '',
         role: 'user',
     });
-
     const [isAccountExisted, setIsAccountExisted] = useState(false);
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     const handleSignin = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:8081/signUp', values)
+        axios.post(`${apiUrl}/signUp`, values)
             .then(res => {
                 if (res.data.Status === 'Success') {
                     navigate("/login");
@@ -72,4 +71,4 @@ function SignUpCustomer() {
     )
 }
 
-export default SignUpCustomer;
+export default SignUp;

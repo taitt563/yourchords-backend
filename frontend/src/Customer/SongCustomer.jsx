@@ -25,7 +25,7 @@ function SongCustomer() {
     const [dataPlaylist, setDataPlaylist] = useState([]);
     const [isRequestAccount, setIsRequestAccount] = useState(false);
     const navigate = useNavigate();
-
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const darkTheme = createTheme({
         palette: {
             mode: 'dark',
@@ -53,7 +53,7 @@ function SongCustomer() {
         width: '1400px',
     };
     const handleFavorite = () => {
-        axios.get(`/getPlaylist/` + userId)
+        axios.get(`${apiUrl}/getPlaylist/` + userId)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     setDataPlaylist(res.data.Result);
@@ -65,7 +65,7 @@ function SongCustomer() {
             .catch((err) => console.log(err));
     };
     useEffect(() => {
-        axios.get('http://localhost:8081/getSongAdmin')
+        axios.get(`${apiUrl}/getSongAdmin`)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     setData(res.data.Result);
@@ -85,7 +85,7 @@ function SongCustomer() {
         if (selectedSong && selectedPlaylist) {
             const songId = selectedSong.id;
             const collectionId = selectedPlaylist.id;
-            axios.post('http://localhost:8081/addToPlaylist', {
+            axios.post(`${apiUrl}/addToPlaylist`, {
                 collection_id: collectionId,
                 song_id: songId,
             })
@@ -121,7 +121,7 @@ function SongCustomer() {
     const handleRequestAccountMusician = () => {
         const username = userId
         axios
-            .put('http://localhost:8081/requestAccountMusician/' + username)
+            .put(`${apiUrl}/requestAccountMusician/` + username)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     setIsRequestAccount(true);
@@ -136,7 +136,7 @@ function SongCustomer() {
     const handleRequestAccountChordValidator = () => {
         const username = userId
         axios
-            .put('http://localhost:8081/requestAccountChordValidator/' + username)
+            .put(`${apiUrl}/requestAccountChordValidator/` + username)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     setIsRequestAccount(true);
@@ -260,7 +260,7 @@ function SongCustomer() {
                                         </IconButton>
                                     </div>
                                     <Link href={`/viewSongCustomer/` + song.id} underline="none">
-                                        <img src={`http://localhost:8081/images/` + song.thumbnail} className="song-thumbnail" />
+                                        <img src={`${apiUrl}/images/` + song.thumbnail} className="song-thumbnail" />
                                     </Link>
                                 </div>
                                 <Link href={`/viewSongCustomer/` + song.id} underline="none">
@@ -294,7 +294,7 @@ function SongCustomer() {
                                         <div className="rounded-image-container">
                                             <img
                                                 className="rounded-square-image"
-                                                src={`http://localhost:8081/images/${playlist.image}`}
+                                                src={`${apiUrl}/images/${playlist.image}`}
                                             />
                                             <div className="image-overlay">
                                                 <p className="playlist-name-modal">

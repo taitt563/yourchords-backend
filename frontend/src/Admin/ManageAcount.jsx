@@ -68,7 +68,7 @@ function ManageAccount() {
     const [value, setValue] = useState('1');
     const [open, setOpen] = useState(false);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(7);
+    const [rowsPerPage, setRowsPerPage] = useState(6);
     const [orderBy, setOrderBy] = useState("username");
     const [order, setOrder] = useState("asc");
     const primaryColor = '#F1F1FB';
@@ -77,10 +77,10 @@ function ManageAccount() {
         setValue(newValue);
         setStoredTabValue(newValue);
     };
-
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     useEffect(() => {
         axios
-            .get('http://localhost:8081/getAccount')
+            .get(`${apiUrl}/getAccount`)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     setData(res.data.Result);
@@ -93,7 +93,7 @@ function ManageAccount() {
 
     const handleDelete = (username) => {
         axios
-            .delete('http://localhost:8081/deleteAccount/' + username)
+            .delete(`${apiUrl}/deleteAccount/` + username)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     window.location.reload(true);
@@ -108,7 +108,7 @@ function ManageAccount() {
 
     const handleBanAccount = (username) => {
         axios
-            .put('http://localhost:8081/banAccount/' + username)
+            .put(`${apiUrl}/banAccount/` + username)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     setIsBanAccount(true);
@@ -123,7 +123,7 @@ function ManageAccount() {
 
     const handleUnBanAccount = (username) => {
         axios
-            .put('http://localhost:8081/unBanAccount/' + username)
+            .put(`${apiUrl}/unBanAccount/` + username)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     setIsUnBanAccount(true);
@@ -139,7 +139,7 @@ function ManageAccount() {
     const handleProfile = (username) => {
         setOpen(true);
         axios
-            .get('http://localhost:8081/getAccount/' + username)
+            .get(`${apiUrl}/getAccount/` + username)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     setDataProfile(res.data.Result);
@@ -422,7 +422,7 @@ function ManageAccount() {
                                     setRowsPerPage(+event.target.value);
                                     setPage(0);
                                 }}
-                                rowsPerPageOptions={[7, 10, 25, 50, 100]}
+                                rowsPerPageOptions={[6, 10, 25, 50, 100]}
                             />
 
                         </div>
@@ -568,7 +568,7 @@ function ManageAccount() {
                                     setRowsPerPage(+event.target.value);
                                     setPage(0);
                                 }}
-                                rowsPerPageOptions={[7, 10, 25, 50, 100]}
+                                rowsPerPageOptions={[6, 10, 25, 50, 100]}
                             />
 
                         </div>
@@ -712,7 +712,7 @@ function ManageAccount() {
                                     setRowsPerPage(+event.target.value);
                                     setPage(0);
                                 }}
-                                rowsPerPageOptions={[7, 10, 25, 50, 100]}
+                                rowsPerPageOptions={[6, 10, 25, 50, 100]}
                             />
 
                         </div>
@@ -858,7 +858,7 @@ function ManageAccount() {
                                     setRowsPerPage(+event.target.value);
                                     setPage(0);
                                 }}
-                                rowsPerPageOptions={[7, 10, 25, 50, 100]}
+                                rowsPerPageOptions={[6, 10, 25, 50, 100]}
                             />
 
                         </div>
@@ -883,7 +883,7 @@ function ManageAccount() {
                                         <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                                             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                                                 {viewAccount.image !== '' ?
-                                                    <img className="rounded-circle mt-6 border" src={`http://localhost:8081/images/` + viewAccount.image} width="150px" />
+                                                    <img className="rounded-circle mt-6 border" src={`${apiUrl}/images/` + viewAccount.image} width="150px" />
                                                     :
                                                     <AccountCircleIcon fontSize="large" />
                                                 }

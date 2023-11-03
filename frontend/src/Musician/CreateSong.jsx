@@ -15,6 +15,7 @@ function CreateSong() {
     const navigate = useNavigate();
 
     const [activeStep, setActiveStep] = useState(0);
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     const [data, setData] = useState({
         song_title: '',
@@ -46,7 +47,7 @@ function CreateSong() {
         formData.append("thumbnail", data.thumbnail);
         formData.append("link", data.link);
 
-        axios.post('http://localhost:8081/createSong', formData)
+        axios.post(`${apiUrl}/createSong`, formData)
             .then(() => navigate('/SongMusician'))
             .catch(err => console.log(err));
     };
