@@ -1,8 +1,13 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Your chord api doc",
-        "version": "1.0.1"
+        "title": "Your Chord API doc",
+        "version": "1.0.1",
+        "description": "YourChords - Build a system for instrument players to find, memorize, and practice with the chords of songs",
+        "contact": {
+            "name": "Yourchord Team Here",
+            "email": "huydnse140375@fpt.edu.vn"
+        }
     },
     "paths": {
         "/login": {
@@ -176,22 +181,23 @@
                 }
             }
         },
-        "/requestAccountChordValidatorRole/{username}": {
+        "/acceptAccountMusician/{username}": {
             "put": {
-                "summary": "Yêu cầu tài khoản xác minh hợp âm (Role)",
+                "summary": "Accept a musician account",
                 "parameters": [
                     {
-                        "in": "path",
                         "name": "username",
+                        "in": "path",
                         "required": true,
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "description": "The username of the musician account to accept"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Yêu cầu tài khoản xác minh hợp âm thành công (Role)",
+                        "description": "Success",
                         "content": {
                             "application/json": {
                                 "example": {
@@ -201,13 +207,133 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Lỗi khi gửi yêu cầu",
+                    "default": {
+                        "description": "Error",
                         "content": {
                             "application/json": {
                                 "example": {
                                     "Status": "Error",
-                                    "Error": "Lỗi khi gửi yêu cầu"
+                                    "Error": "update song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rejectAccountMusician/{username}": {
+            "put": {
+                "summary": "Reject a musician account",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The username of the musician account to reject"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "update song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/acceptAccountChordValidator/{username}": {
+            "put": {
+                "summary": "Accept a chord validator account",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The username of the chord validator account to accept"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "update song error in sql"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rejectAccountChordValidator/{username}": {
+            "put": {
+                "summary": "Reject a chord validator account",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The username of the chord validator account to reject"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Success",
+                                    "Result": {}
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "Status": "Error",
+                                    "Error": "update song error in sql"
                                 }
                             }
                         }

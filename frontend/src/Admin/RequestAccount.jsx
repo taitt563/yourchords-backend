@@ -56,8 +56,8 @@ const style = {
 };
 
 function RequestAccount() {
-    const [isBanAccount, setIsBanAccount] = useState(false);
-    const [isUnBanAccount, setIsUnBanAccount] = useState(false);
+    const [isAcceptAccount, setIsAcceptAccount] = useState(false);
+    const [isRejectAccount, setIsRejectAccount] = useState(false);
     const [search, setSearch] = useState('');
     const [data, setData] = useState([]);
     const [dataProfile, setDataProfile] = useState([]);
@@ -87,14 +87,28 @@ function RequestAccount() {
             .catch((err) => console.log(err));
     }, []);
 
-    const handleBanAccount = (username) => {
+    const handleAcceptAccountMusician = (username) => {
         axios
-            .put('http://localhost:8081/banAccount/' + username)
+            .put('http://localhost:8081/acceptAccountMusician/' + username)
             .then((res) => {
                 if (res.data.Status === 'Success') {
-                    setIsBanAccount(true);
+                    setIsAcceptAccount(true);
                     setTimeout(() => {
-                        setIsBanAccount(false);
+                        setIsAcceptAccount(false);
+                        window.location.reload(true);
+                    }, 2500);
+                }
+            })
+            .catch((err) => console.log(err));
+    };
+    const handleRejectAccountMusician = (username) => {
+        axios
+            .put('http://localhost:8081/rejectAccountMusician/' + username)
+            .then((res) => {
+                if (res.data.Status === 'Success') {
+                    setIsRejectAccount(true);
+                    setTimeout(() => {
+                        setIsRejectAccount(false);
                         window.location.reload(true);
                     }, 2500);
                 }
@@ -102,20 +116,35 @@ function RequestAccount() {
             .catch((err) => console.log(err));
     };
 
-    const handleUnBanAccount = (username) => {
+    const handleAcceptAccountChordValidator = (username) => {
         axios
-            .put('http://localhost:8081/unBanAccount/' + username)
+            .put('http://localhost:8081/acceptAccountChordValidator/' + username)
             .then((res) => {
                 if (res.data.Status === 'Success') {
-                    setIsUnBanAccount(true);
+                    setIsAcceptAccount(true);
                     setTimeout(() => {
-                        setIsUnBanAccount(false);
+                        setIsAcceptAccount(false);
                         window.location.reload(true);
                     }, 2500);
                 }
             })
             .catch((err) => console.log(err));
     };
+    const handleRejectAccountChordValidator = (username) => {
+        axios
+            .put('http://localhost:8081/rejectAccountChordValidator/' + username)
+            .then((res) => {
+                if (res.data.Status === 'Success') {
+                    setIsRejectAccount(true);
+                    setTimeout(() => {
+                        setIsRejectAccount(false);
+                        window.location.reload(true);
+                    }, 2500);
+                }
+            })
+            .catch((err) => console.log(err));
+    };
+
 
     const handleProfile = (username) => {
         setOpen(true);
@@ -254,14 +283,14 @@ function RequestAccount() {
                     </div>
                     <div className="px-2 py-4">
 
-                        {isBanAccount && (
+                        {isAcceptAccount && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
-                                <Alert severity="warning">Account disabled !</Alert>
+                                <Alert severity="success">The account has been approved !</Alert>
                             </Stack>
                         )}
-                        {isUnBanAccount && (
+                        {isRejectAccount && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
-                                <Alert severity="info">Account enabled !</Alert>
+                                <Alert severity="error">The account has been denied approval !</Alert>
                             </Stack>
                         )}
                         <div className='mt-4 pd-left'>
@@ -359,10 +388,10 @@ function RequestAccount() {
                                                             <Link onClick={() => { handleProfile(userAccount.username) }} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                                         </TableCell>
                                                         <TableCell>
-                                                            <CheckIcon onClick={() => handleBanAccount(userAccount.username)} fontSize='large' color='success' />
+                                                            <CheckIcon onClick={() => handleAcceptAccountChordValidator(userAccount.username)} fontSize='large' color='success' />
                                                         </TableCell>
                                                         <TableCell>
-                                                            <CloseIcon onClick={() => handleUnBanAccount(userAccount.username)} fontSize='large' color='error' />
+                                                            <CloseIcon onClick={() => handleRejectAccountChordValidator(userAccount.username)} fontSize='large' color='error' />
                                                         </TableCell>
                                                     </TableRow>
 
@@ -397,14 +426,14 @@ function RequestAccount() {
                     </div>
                     <div className="px-2 py-4">
 
-                        {isBanAccount && (
+                        {isAcceptAccount && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
-                                <Alert severity="warning">Account disabled !</Alert>
+                                <Alert severity="success">The account has been approved !</Alert>
                             </Stack>
                         )}
-                        {isUnBanAccount && (
+                        {isRejectAccount && (
                             <Stack sx={{ width: '100%' }} spacing={2} >
-                                <Alert severity="info">Account enable !</Alert>
+                                <Alert severity="error">The account has been denied approval !</Alert>
                             </Stack>
                         )}
                         <div className='mt-4 pd-left'>
@@ -505,14 +534,14 @@ function RequestAccount() {
 
                                                         </TableCell>
                                                         <TableCell>
-                                                            <CheckIcon onClick={() => handleBanAccount(userAccount.username)} fontSize='large' color='success' />
+                                                            <CheckIcon onClick={() => handleAcceptAccountMusician(userAccount.username)} fontSize='large' color='success' />
 
 
 
                                                         </TableCell>
                                                         <TableCell>
 
-                                                            <CloseIcon onClick={() => handleUnBanAccount(userAccount.username)} fontSize='large' color='error' />
+                                                            <CloseIcon onClick={() => handleRejectAccountMusician(userAccount.username)} fontSize='large' color='error' />
 
 
                                                         </TableCell>

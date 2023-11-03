@@ -129,10 +129,38 @@ app.put('/requestAccountChordValidator/:username', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
-app.put('/requestAccountChordValidator/:username', (req, res) => {
+app.put('/acceptAccountMusician/:username', (req, res) => {
     const username = req.params.username;
-    const sql = "UPDATE user_acc SET ban = 'Pending' Where username = ? AND role = ?";
-    con.query(sql, [username, "chord"], (err, result) => {
+    console.log(res)
+
+    const sql = "UPDATE user_acc SET ban = 'Enable', role = 'musician' Where username = ? ";
+    con.query(sql, [username], (err, result) => {
+        if (err) return res.json({ Error: "update song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
+app.put('/rejectAccountMusician/:username', (req, res) => {
+    const username = req.params.username;
+    console.log(res)
+
+    const sql = "UPDATE user_acc SET ban = 'Enable', role = 'user' Where username = ? ";
+    con.query(sql, [username], (err, result) => {
+        if (err) return res.json({ Error: "update song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
+app.put('/acceptAccountChordValidator/:username', (req, res) => {
+    const username = req.params.username;
+    const sql = "UPDATE user_acc SET ban = 'Enable', role = 'chord' Where username = ? ";
+    con.query(sql, [username], (err, result) => {
+        if (err) return res.json({ Error: "update song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
+app.put('/rejectAccountChordValidator/:username', (req, res) => {
+    const username = req.params.username;
+    const sql = "UPDATE user_acc SET ban = 'Enable', role = 'user' Where username = ? ";
+    con.query(sql, [username], (err, result) => {
         if (err) return res.json({ Error: "update song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })
