@@ -18,6 +18,10 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import IconButton from '@mui/material/IconButton';
+//CHORD LIST
 import chordC from '../assets/C.png';
 import chordC_plus from '../assets/Cplus.png';
 import chordD from '../assets/D.png';
@@ -43,6 +47,7 @@ function ViewSongCustomer() {
     const [chordPopups, setChordPopups] = useState({});
     const [isEditing, setIsEditing] = useState(false);
     const [currentKey, setCurrentKey] = useState(0);
+
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const chordData = {
         "C": chordC,
@@ -71,7 +76,18 @@ function ViewSongCustomer() {
         "Bm": "",
     };
     const keys = Object.keys(chordData);
+    const majorChords = {};
+    const minorChords = {};
 
+    for (const chordName in chordData) {
+        if (chordName.endsWith('m')) {
+            // This is a minor chord
+            minorChords[chordName] = chordData[chordName];
+        } else {
+            // This is a major chord
+            majorChords[chordName] = chordData[chordName];
+        }
+    }
     const increaseKey = () => {
         setCurrentKey((currentKey + 1) % keys.length);
 
@@ -165,8 +181,9 @@ function ViewSongCustomer() {
         const chordImage = chordData[chordName];
 
         const handleTransposition = (direction) => {
-            const chordNames = Object.keys(chordData);
+            const chordNames = (chordName.endsWith('m')) ? Object.keys(minorChords) : Object.keys(majorChords);
             const currentIndex = chordNames.indexOf(chordName);
+
             let newIndex;
 
             if (direction === 'increase') {
@@ -176,20 +193,41 @@ function ViewSongCustomer() {
             }
 
             const newChord = chordNames[newIndex];
-            toggleChordPopup(chordName); // Close the current popup
-            toggleChordPopup(newChord); // Open the new popup with the updated chord
+            toggleChordPopup(chordName);
+            toggleChordPopup(newChord);
         };
+
         return (
 
             chordPopups[chordName] && (
                 <div className="chord-popup" style={{ display: chordPopups[chordName] ? 'block' : 'none' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+
                         <h2 style={{ marginBottom: '10px' }}>
                             {chordName}
                         </h2>
                         <img src={chordImage} style={{ width: '130px', height: '120px' }} />
-                        <button onClick={() => handleTransposition('decrease')}>Decrease </button>
-                        <button onClick={() => handleTransposition('increase')}>Increase </button>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <IconButton
+                                style={{ padding: '2px' }}
+                                color="#0d6efd"
+                                onClick={() => handleTransposition('decrease')}
+                                size="small"
+                            >
+                                <ArrowLeftIcon style={{ color: 'white' }} />
+                            </IconButton>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <p style={{ margin: 8, color: 'black', fontSize: '13px' }}><b>Đổi tông</b></p>
+                            </div>
+                            <IconButton
+                                style={{ padding: '2px' }}
+                                color="#0d6efd"
+                                onClick={() => handleTransposition('increase')}
+                                size="small"
+                            >
+                                <ArrowRightIcon style={{ color: 'white' }} />
+                            </IconButton>
+                        </div>
                     </div>
                 </div>
             )
@@ -325,18 +363,12 @@ function ViewSongCustomer() {
                                                                                 />
                                                                 )
                                                             }
-                                                            {renderChordPopup('C', [chordC, chordC])}
-                                                            {renderChordPopup('C#', [chordC_plus, chordC_plus])}
-                                                            {renderChordPopup('D', [chordD, chordD])}
-                                                            {renderChordPopup('D#', [chordD_plus, chordD_plus])}
-                                                            {renderChordPopup('E', [chordE, chordE])}
-                                                            {renderChordPopup('F', [chordF, chordF])}
-                                                            {renderChordPopup('F#', [chordF_plus, chordF_plus])}
-                                                            {renderChordPopup('G', [chordG, chordG])}
-                                                            {renderChordPopup('G#', [chordG_plus, chordG_plus])}
-                                                            {renderChordPopup('A', [chordA, chordA])}
-                                                            {renderChordPopup('A#', [chordA_plus, chordA_plus])}
-                                                            {renderChordPopup('B', [chordB, chordB])}
+
+                                                            {Object.keys(chordData).map((chordName) => (
+                                                                <div key={chordName}>
+                                                                    {renderChordPopup(chordName, [chordData[chordName], chordData[chordName]])}
+                                                                </div>
+                                                            ))}
 
                                                             {isEditing && (
 
@@ -488,7 +520,6 @@ function ViewSongCustomer() {
                 </div>
             </div>
         </>
-
     )
 }
 export default ViewSongCustomer;
