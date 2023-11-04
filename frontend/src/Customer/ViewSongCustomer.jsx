@@ -44,12 +44,34 @@ function ViewSongCustomer() {
     const [isEditing, setIsEditing] = useState(false);
     const [currentKey, setCurrentKey] = useState(0);
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+    const chordData = {
+        "C": chordC,
+        "C#": chordC_plus,
+        "D": chordD,
+        "D#": chordD_plus,
+        "E": chordE,
+        "F": chordF,
+        "F#": chordF_plus,
+        "G": chordG,
+        "G#": chordG_plus,
+        "A": chordA,
+        "A#": chordA_plus,
+        "B": chordB,
+        "Cm": "",
+        "C#m": "",
+        "Dm": "",
+        "D#m": "",
+        "Em": "",
+        "Fm": "",
+        "F#m": "",
+        "Gm": "",
+        "G#m": "",
+        "Am": "",
+        "A#m": "",
+        "Bm": "",
+    };
+    const keys = Object.keys(chordData);
 
-    const keys = [
-        "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B",
-        "Cm", "C#m", "Dm", "D#m", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "A#m", "Bm",
-        "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B",
-    ];
     const increaseKey = () => {
         setCurrentKey((currentKey + 1) % keys.length);
 
@@ -138,26 +160,36 @@ function ViewSongCustomer() {
             return updatedPopups;
         });
     };
-    const renderChordPopup = (chordName, imageSrc) => {
+
+    const renderChordPopup = (chordName) => {
+        const chordImage = chordData[chordName];
+
         const handleTransposition = (direction) => {
+            const chordNames = Object.keys(chordData);
+            const currentIndex = chordNames.indexOf(chordName);
+            let newIndex;
+
             if (direction === 'increase') {
-                setCurrentKey((currentKey + 1) % keys.length);
+                newIndex = (currentIndex + 1) % chordNames.length;
             } else if (direction === 'decrease') {
-                setCurrentKey((currentKey - 1 + keys.length) % keys.length);
+                newIndex = (currentIndex - 1 + chordNames.length) % chordNames.length;
             }
+
+            const newChord = chordNames[newIndex];
+            toggleChordPopup(chordName); // Close the current popup
+            toggleChordPopup(newChord); // Open the new popup with the updated chord
         };
         return (
+
             chordPopups[chordName] && (
                 <div className="chord-popup" style={{ display: chordPopups[chordName] ? 'block' : 'none' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
                         <h2 style={{ marginBottom: '10px' }}>
                             {chordName}
-
                         </h2>
-                        <img src={imageSrc[currentKey]} style={{ width: '130px', height: '120px' }} />
-                        <Link onClick={() => handleTransposition('decrease')}>Decrease Key</Link>
-                        <Link onClick={() => handleTransposition('increase')}>Increase Key</Link>
-
+                        <img src={chordImage} style={{ width: '130px', height: '120px' }} />
+                        <button onClick={() => handleTransposition('decrease')}>Decrease </button>
+                        <button onClick={() => handleTransposition('increase')}>Increase </button>
                     </div>
                 </div>
             )
@@ -166,19 +198,6 @@ function ViewSongCustomer() {
     return (
         <>
             <SearchAppBar />
-            {renderChordPopup('C', [chordC, chordC])}
-            {renderChordPopup('C#', [chordC_plus, chordC_plus])}
-            {renderChordPopup('D', [chordD, chordD])}
-            {renderChordPopup('D#', [chordD_plus, chordD_plus])}
-            {renderChordPopup('E', [chordE, chordE])}
-            {renderChordPopup('F', [chordF, chordF])}
-            {renderChordPopup('F#', [chordF_plus, chordF_plus])}
-            {renderChordPopup('G', [chordG, chordG])}
-            {renderChordPopup('G#', [chordG_plus, chordG_plus])}
-            {renderChordPopup('A', [chordA, chordA])}
-            {renderChordPopup('A#', [chordA_plus, chordA_plus])}
-            {renderChordPopup('B', [chordB, chordB])}
-
             <div className='d-flex flex-column align-items-center pt-5'>
                 <div className="chord-container">
                     {data.map((viewSong, index) => {
@@ -306,6 +325,19 @@ function ViewSongCustomer() {
                                                                                 />
                                                                 )
                                                             }
+                                                            {renderChordPopup('C', [chordC, chordC])}
+                                                            {renderChordPopup('C#', [chordC_plus, chordC_plus])}
+                                                            {renderChordPopup('D', [chordD, chordD])}
+                                                            {renderChordPopup('D#', [chordD_plus, chordD_plus])}
+                                                            {renderChordPopup('E', [chordE, chordE])}
+                                                            {renderChordPopup('F', [chordF, chordF])}
+                                                            {renderChordPopup('F#', [chordF_plus, chordF_plus])}
+                                                            {renderChordPopup('G', [chordG, chordG])}
+                                                            {renderChordPopup('G#', [chordG_plus, chordG_plus])}
+                                                            {renderChordPopup('A', [chordA, chordA])}
+                                                            {renderChordPopup('A#', [chordA_plus, chordA_plus])}
+                                                            {renderChordPopup('B', [chordB, chordB])}
+
                                                             {isEditing && (
 
                                                                 <div>
