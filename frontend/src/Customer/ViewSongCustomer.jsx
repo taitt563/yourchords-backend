@@ -22,6 +22,7 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import IconButton from '@mui/material/IconButton';
 //CHORD LIST
+//C - B
 import chordC from '../assets/C.png';
 import chordC_plus from '../assets/Cplus.png';
 import chordD from '../assets/D.png';
@@ -34,6 +35,20 @@ import chordG_plus from '../assets/Gplus.png';
 import chordA from '../assets/A.png';
 import chordA_plus from '../assets/Aplus.png';
 import chordB from '../assets/B.png';
+
+//Cm -Bm
+import chordCm from '../assets/Cm.png';
+import chordCm_plus from '../assets/Cmplus.png';
+import chordDm from '../assets/Dm.png';
+import chordDm_plus from '../assets/Dmplus.png';
+import chordEm from '../assets/Em.png';
+import chordFm from '../assets/Fm.png';
+import chordFm_plus from '../assets/Fmplus.png';
+import chordGm from '../assets/Gm.png';
+import chordGm_plus from '../assets/Gmplus.png';
+import chordAm from '../assets/Am.png';
+import chordAm_plus from '../assets/Amplus.png';
+import chordBm from '../assets/Bm.png';
 function ViewSongCustomer() {
     const [data, setData] = useState([]);
     const { id } = useParams();
@@ -51,7 +66,22 @@ function ViewSongCustomer() {
 
 
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-    const chordData = {
+    const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+        '& .MuiToggleButtonGroup-grouped': {
+            margin: theme.spacing(0.5),
+            border: 0,
+            '&.Mui-disabled': {
+                border: 0,
+            },
+            '&:not(:first-of-type)': {
+                borderRadius: theme.shape.borderRadius,
+            },
+            '&:first-of-type': {
+                borderRadius: theme.shape.borderRadius,
+            },
+        },
+    }));
+    const majorChords = {
         "C": chordC,
         "C#": chordC_plus,
         "D": chordD,
@@ -64,40 +94,31 @@ function ViewSongCustomer() {
         "A": chordA,
         "A#": chordA_plus,
         "B": chordB,
-        "Cm": "",
-        "C#m": "",
-        "Dm": "",
-        "D#m": "",
-        "Em": "",
-        "Fm": "",
-        "F#m": "",
-        "Gm": "",
-        "G#m": "",
-        "Am": "",
-        "A#m": "",
-        "Bm": "",
     };
+    const minorChords = {
+        "Cm": chordCm,
+        "C#m": chordCm_plus,
+        "Dm": chordDm,
+        "D#m": chordDm_plus,
+        "Em": chordEm,
+        "Fm": chordFm,
+        "F#m": chordFm_plus,
+        "Gm": chordGm,
+        "G#m": chordGm_plus,
+        "Am": chordAm,
+        "A#m": chordAm_plus,
+        "Bm": chordBm,
+    };
+    const chordData = { ...majorChords, ...minorChords };
     const keys = Object.keys(chordData);
-    const majorChords = {};
-    const minorChords = {};
-
-    for (const chordName in chordData) {
-        if (chordName.endsWith('m')) {
-            // This is a minor chord
-            minorChords[chordName] = chordData[chordName];
-        } else {
-            // This is a major chord
-            majorChords[chordName] = chordData[chordName];
-        }
-    }
-    const increaseKey = () => {
-        setCurrentKey((currentKey + 1) % keys.length);
-
+    const increaseKey = (isMajorChord) => {
+        const chordNames = isMajorChord ? Object.keys(majorChords) : Object.keys(minorChords);
+        setCurrentKey((currentKey + 1) % chordNames.length);
     };
 
-    const decreaseKey = () => {
-        setCurrentKey((currentKey - 1 + keys.length) % keys.length);
-
+    const decreaseKey = (isMajorChord) => {
+        const chordNames = isMajorChord ? Object.keys(majorChords) : Object.keys(minorChords);
+        setCurrentKey((currentKey - 1 + chordNames.length) % chordNames.length);
     };
     const handleEditClick = () => {
         setIsEditing(true);
@@ -127,21 +148,6 @@ function ViewSongCustomer() {
             ).catch(err => console.log(err));
     }
 
-    const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
-        '& .MuiToggleButtonGroup-grouped': {
-            margin: theme.spacing(0.5),
-            border: 0,
-            '&.Mui-disabled': {
-                border: 0,
-            },
-            '&:not(:first-of-type)': {
-                borderRadius: theme.shape.borderRadius,
-            },
-            '&:first-of-type': {
-                borderRadius: theme.shape.borderRadius,
-            },
-        },
-    }));
     const handleChordOn = () => {
         setIsOn(false)
 
