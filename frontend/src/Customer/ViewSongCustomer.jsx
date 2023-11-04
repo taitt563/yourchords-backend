@@ -47,6 +47,8 @@ function ViewSongCustomer() {
     const [chordPopups, setChordPopups] = useState({});
     const [isEditing, setIsEditing] = useState(false);
     const [currentKey, setCurrentKey] = useState(0);
+    const [isAnyPopupOpen, setIsAnyPopupOpen] = useState(false);
+
 
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const chordData = {
@@ -173,10 +175,18 @@ function ViewSongCustomer() {
         setChordPopups((prevPopups) => {
             const updatedPopups = { ...prevPopups };
             updatedPopups[chordName] = !updatedPopups[chordName];
+
+            // Kiểm tra nếu bất kỳ popup nào được mở, thiết lập isAnyPopupOpen thành true
+            const anyPopupOpen = Object.values(updatedPopups).some((value) => value);
+            setIsAnyPopupOpen(anyPopupOpen);
+
             return updatedPopups;
         });
     };
-
+    const handleCloseAllPopups = () => {
+        setChordPopups({});
+        setIsAnyPopupOpen(false);
+    };
     const renderChordPopup = (chordName) => {
         const chordImage = chordData[chordName];
 
@@ -364,11 +374,16 @@ function ViewSongCustomer() {
                                                                 )
                                                             }
 
-                                                            {Object.keys(chordData).map((chordName) => (
-                                                                <div key={chordName}>
-                                                                    {renderChordPopup(chordName, [chordData[chordName], chordData[chordName]])}
-                                                                </div>
-                                                            ))}
+                                                            <div
+                                                                onMouseLeave={handleCloseAllPopups}
+                                                                style={{ display: 'flex', justifyContent: 'space-between' }}
+                                                            >
+                                                                {Object.keys(chordData).map((chordName) => (
+                                                                    <div key={chordName}>
+                                                                        {renderChordPopup(chordName, [chordData[chordName], chordData[chordName]])}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
 
                                                             {isEditing && (
 
