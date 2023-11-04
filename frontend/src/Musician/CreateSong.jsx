@@ -63,7 +63,7 @@ function CreateSong() {
     };
 
     const handleClose = () => {
-        navigate('/chordMissMusician');
+        navigate('/chordMusician');
     };
 
     const renderStepContent = () => {

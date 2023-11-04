@@ -7,6 +7,8 @@
 }
 
 .chord-popup {
+    content: attr(data-chord);
+
     display: none;
     position: absolute;
     background-color: #fff;
@@ -14,6 +16,15 @@
     padding: 10px;
     width: 150px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 4px 8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.chord:hover+.chord-popup {
+    display: block;
+    color: #000;
 }
 
 .chord-popup h2 {
@@ -43,30 +54,24 @@
     background-color: #0d6efd;
 }
 
-/* Show the popup when hovering over the chord element */
 .chord:hover+.chord-popup {
     display: block;
 }
 
-/* Hide the popup when the mouse leaves the chord element or the popup itself */
 .chord-popup:hover {
     display: block;
 }
 
-/* Style the chord element on hover */
 .chord:hover {
     color: #0d6efd;
-    /* Add any other styling you want for the hovered chord element */
 }
 
 
 
-.chord-container .chord::before {
+.chord-container .chord-popup::before {
     content: attr(data-chord);
     /* Hiển thị thông tin hợp âm */
     position: absolute;
-    background-color: #333;
-    color: #fff;
     border-radius: 4px;
     padding: 4px 8px;
     font-size: 12px;
@@ -78,7 +83,6 @@
     transform: translateX(-50%);
     pointer-events: none;
     /* Prevents interaction with the element */
-    position: absolute;
     background-color: #fff;
     border: 1px solid #ccc;
     padding: 10px;
