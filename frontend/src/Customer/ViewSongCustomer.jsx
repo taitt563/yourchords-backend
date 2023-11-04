@@ -47,7 +47,7 @@ function ViewSongCustomer() {
     const [chordPopups, setChordPopups] = useState({});
     const [isEditing, setIsEditing] = useState(false);
     const [currentKey, setCurrentKey] = useState(0);
-    const [isAnyPopupOpen, setIsAnyPopupOpen] = useState(false);
+    const [, setIsAnyPopupOpen] = useState(false);
 
 
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
