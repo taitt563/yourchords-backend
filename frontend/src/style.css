@@ -8,23 +8,18 @@
 
 .chord-popup {
     content: attr(data-chord);
-    transform: translateX(-50%);
-
-    display: none;
-    position: absolute;
     background-color: #fff;
     border: 1px solid #ccc;
-    padding: 10px;
     width: 150px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 4px;
     padding: 4px 8px;
     left: 50%;
-    transform: translateX(-50%);
     border-radius: 4px;
     font-size: 12px;
     /* Ban đầu ẩn */
     transition: opacity 0.3s;
+
 }
 
 .chord:hover+.chord-popup {

@@ -110,14 +110,20 @@ function ViewSongCustomer() {
         "Bm": chordBm,
     };
     const chordData = { ...majorChords, ...minorChords };
-    const keys = Object.keys(chordData);
+    const majorKeys = Object.keys(majorChords);
+    const minorKeys = Object.keys(minorChords);
+    const keys = {
+        major: majorKeys,
+        minor: minorKeys,
+    };
+
     const increaseKey = (isMajorChord) => {
-        const chordNames = isMajorChord ? Object.keys(majorChords) : Object.keys(minorChords);
+        const chordNames = isMajorChord ? keys.major : keys.minor;
         setCurrentKey((currentKey + 1) % chordNames.length);
     };
 
     const decreaseKey = (isMajorChord) => {
-        const chordNames = isMajorChord ? Object.keys(majorChords) : Object.keys(minorChords);
+        const chordNames = isMajorChord ? keys.major : keys.minor;
         setCurrentKey((currentKey - 1 + chordNames.length) % chordNames.length);
     };
     const handleEditClick = () => {
@@ -181,7 +187,6 @@ function ViewSongCustomer() {
         setChordPopups((prevPopups) => {
             const updatedPopups = { ...prevPopups };
             updatedPopups[chordName] = !updatedPopups[chordName];
-
             // Kiểm tra nếu bất kỳ popup nào được mở, thiết lập isAnyPopupOpen thành true
             const anyPopupOpen = Object.values(updatedPopups).some((value) => value);
             setIsAnyPopupOpen(anyPopupOpen);
@@ -255,40 +260,61 @@ function ViewSongCustomer() {
             <div className='d-flex flex-column align-items-center pt-5'>
                 <div className="chord-container">
                     {data.map((viewSong, index) => {
-                        let dataChord = viewSong.lyrics
-                        dataChord = dataChord.replace(/.+/g, "<section>$&</section>")
+                        let dataChord = viewSong.lyrics;
+                        dataChord = dataChord.replace(/.+/g, "<section>$&</section>");
+                        const chordNamesMajor = majorKeys
+                        const chordNamesMinor = minorKeys
+
                         let songChordMain = dataChord.replace(
                             /\[(?<chord>\w+)\]/g,
-                            `<strong class='chord'>$<chord></strong>`
+                            (match, chord) => {
+                                if (chordNamesMajor.includes(chord)) {
+                                    return `<strong class='chord'>${chord}</strong>`;
+                                }
+                                if (chordNamesMinor.includes(chord)) {
+                                    return `<strong class='chord'>${chord}</strong>`;
+                                }
+                                return match;
+                            }
                         );
+
                         let hiddenChord = dataChord.replace(
                             /\[(?<chord>\w+)\]/g,
                             "<strong></strong>"
                         );
+
                         let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, (match, chord) => {
-                            const indexInKeys = keys.indexOf(chord);
-                            if (indexInKeys !== -1) {
-                                const transposedIndex = (indexInKeys + currentKey) % keys.length;
-                                return `<strong class='chord'>${keys[transposedIndex]}</strong>`;
+                            if (chordNamesMajor.includes(chord)) {
+                                const indexInKeys = chordNamesMajor.indexOf(chord);
+                                const transposedIndex = (indexInKeys + currentKey) % chordNamesMajor.length;
+                                return `<strong class='chord'>${chordNamesMajor[transposedIndex]}</strong>`;
+                            }
+                            if (chordNamesMinor.includes(chord)) {
+                                const indexInKeys = chordNamesMinor.indexOf(chord);
+                                const transposedIndex = (indexInKeys + currentKey) % chordNamesMinor.length;
+                                return `<strong class='chord'>${chordNamesMinor[transposedIndex]}</strong>`;
                             }
                             return match;
                         });
+
                         const chordContainer = document.getElementById('chordContainer');
                         if (chordContainer) {
                             chordContainer.innerHTML = songChord;
+
                             const chordElements = document.querySelectorAll('.chord');
                             chordElements.forEach(chord => {
                                 let chordName = chord.textContent;
-                                chord.addEventListener('mouseenter', function () {
+                                chord.addEventListener('click', function () {
                                     if (!chordPopups[chordName]) {
                                         toggleChordPopup(chordName);
                                     }
                                 });
-                                chord.addEventListener('mouseleave', function () {
+                                {/* chord.addEventListener('mouseleave', function () {
                                     toggleChordPopup(chordName);
-                                });
+                                }); */}
                             });
                         }
+
 
                         return <div key={index}>
                             <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
@@ -382,7 +408,7 @@ function ViewSongCustomer() {
 
                                                             <div
                                                                 onMouseLeave={handleCloseAllPopups}
-                                                                style={{ display: 'flex', justifyContent: 'space-between' }}
+                                                                style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '100px' }}
                                                             >
                                                                 {Object.keys(chordData).map((chordName) => (
                                                                     <div key={chordName}>
@@ -460,6 +486,7 @@ function ViewSongCustomer() {
                                                                     }
                                                                 </div>
                                                             )}
+
                                                         </a>
 
 
