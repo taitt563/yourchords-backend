@@ -478,7 +478,6 @@ textarea {
     columns: 3;
     width: 1700px;
     max-height: auto;
-    overflow-y: auto;
     column-rule: 1px dashed #ccc;
     break-inside: avoid;
 }
