@@ -421,6 +421,31 @@ app.post('/createSong', upload.single('thumbnail'), (req, res) => {
         return false;
     }
 })
+//CHORD
+app.post('/createChord', upload.single('image'), (req, res) => {
+    const sql = "INSERT INTO chord (`chord_name`,`description`,`image`) VALUES (?)";
+    if (req.body.chord_name.length > 0) {
+        const values = [
+            req.body.chord_name,
+            req.body.description,
+            req.file.filename,
+        ]
+        con.query(sql, [values], (err, result) => {
+            if (err) return res.json({ Error: "Error" });
+            return res.json({ Status: "Success" });
+        })
+    }
+    else {
+        return false;
+    }
+})
+app.get('/getChord', (req, res) => {
+    const sql = "SELECT * FROM chord ";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Get song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
 
 //ACCOUNT
 app.get('/getAccount/:username', (req, res) => {

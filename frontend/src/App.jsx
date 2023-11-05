@@ -27,6 +27,7 @@ import ChordMusician from './Musician/ChordMusician'
 import ManageBeat from './Musician/ManageBeat'
 import TransactionHistory from './Musician/TransactionHistory'
 import OrderMusician from './Musician/OrderMusician'
+import CreateChord from './Musician/CreateChord'
 /////CUSTOMER
 import DashboardCustomer from './Customer/DashboardCustomer'
 import SongCustomer from './Customer/SongCustomer'
@@ -70,6 +71,8 @@ function App() {
           <Route path='/manageBeat' element={<ManageBeat />}></Route>
           <Route path='/transactionHistory' element={<TransactionHistory />}></Route>
           <Route path='/orderMusician' element={<OrderMusician />}></Route>
+          <Route path='/createChord' element={<CreateChord />}></Route>
+
 
         </Route>
         {/* CUSTOMER ROLE */}

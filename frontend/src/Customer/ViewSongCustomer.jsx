@@ -63,6 +63,7 @@ function ViewSongCustomer() {
     const [isEditing, setIsEditing] = useState(false);
     const [currentKey, setCurrentKey] = useState(0);
     const [, setIsAnyPopupOpen] = useState(false);
+    const [transpose, setTranspose] = useState(0);
 
 
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -202,20 +203,26 @@ function ViewSongCustomer() {
         const chordImage = chordData[chordName];
 
         const handleTransposition = (direction) => {
-            const chordNames = (chordName.endsWith('m')) ? Object.keys(minorChords) : Object.keys(majorChords);
+            const chordNames = chordName.endsWith('m') ? Object.keys(minorChords) : Object.keys(majorChords);
             const currentIndex = chordNames.indexOf(chordName);
 
             let newIndex;
 
             if (direction === 'increase') {
                 newIndex = (currentIndex + 1) % chordNames.length;
+                setTranspose((transpose + 1) % chordNames.length);
+
             } else if (direction === 'decrease') {
                 newIndex = (currentIndex - 1 + chordNames.length) % chordNames.length;
+                setTranspose((transpose - 1 + chordNames.length) % chordNames.length);
+
             }
 
             const newChord = chordNames[newIndex];
             toggleChordPopup(chordName);
             toggleChordPopup(newChord);
+
+            // Update the transpose state
         };
 
         return (
@@ -286,12 +293,12 @@ function ViewSongCustomer() {
                         let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, (match, chord) => {
                             if (chordNamesMajor.includes(chord)) {
                                 const indexInKeys = chordNamesMajor.indexOf(chord);
-                                const transposedIndex = (indexInKeys + currentKey) % chordNamesMajor.length;
+                                const transposedIndex = (indexInKeys + currentKey + transpose) % chordNamesMajor.length;
                                 return `<strong class='chord'>${chordNamesMajor[transposedIndex]}</strong>`;
                             }
                             if (chordNamesMinor.includes(chord)) {
                                 const indexInKeys = chordNamesMinor.indexOf(chord);
-                                const transposedIndex = (indexInKeys + currentKey) % chordNamesMinor.length;
+                                const transposedIndex = (indexInKeys + currentKey + transpose) % chordNamesMinor.length;
                                 return `<strong class='chord'>${chordNamesMinor[transposedIndex]}</strong>`;
                             }
                             return match;
