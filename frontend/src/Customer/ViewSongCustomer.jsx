@@ -21,6 +21,8 @@ import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 //CHORD LIST
 //C - B
 import chordC from '../assets/C.png';
@@ -199,6 +201,7 @@ function ViewSongCustomer() {
         setChordPopups({});
         setIsAnyPopupOpen(false);
     };
+
     const renderChordPopup = (chordName) => {
         const chordImage = chordData[chordName];
 
@@ -207,7 +210,6 @@ function ViewSongCustomer() {
             const currentIndex = chordNames.indexOf(chordName);
 
             let newIndex;
-
             if (direction === 'increase') {
                 newIndex = (currentIndex + 1) % chordNames.length;
                 setTranspose((transpose + 1) % chordNames.length);
@@ -303,7 +305,12 @@ function ViewSongCustomer() {
                             }
                             return match;
                         });
+                        let firstChord = '';
 
+                        const firstChordMatch = songChord.match(/<strong class='chord'>(.*?)<\/strong>/);
+                        if (firstChordMatch) {
+                            firstChord = firstChordMatch[1];
+                        }
                         const chordContainer = document.getElementById('chordContainer');
                         if (chordContainer) {
                             chordContainer.innerHTML = songChord;
@@ -347,6 +354,63 @@ function ViewSongCustomer() {
                                             <div className="card_song">
                                                 <div className="row">
                                                     <div className="pd-left">
+                                                        <Paper
+                                                            elevation={1}
+                                                            sx={{
+                                                                display: 'flex',
+                                                                border: (theme) => `1px solid ${theme.palette.divider}`,
+                                                                flexWrap: 'wrap',
+                                                            }}
+                                                        >
+                                                            <Button onClick={decreaseKey}><RemoveIcon /></Button>
+                                                            <p style={{ color: "#0d6efd" }}>{firstChord}</p>
+                                                            <Button onClick={increaseKey}><AddIcon /></Button>
+                                                            <StyledToggleButtonGroup
+                                                                size="small"
+                                                                value={alignment}
+                                                                exclusive
+                                                                onChange={handleAlignment}
+                                                                aria-label="text alignment"
+                                                            >
+                                                                <ToggleButton value="left" aria-label="left aligned" onClick={handleChordLeft}>
+                                                                    <FormatAlignLeftIcon />
+                                                                </ToggleButton>
+                                                                <ToggleButton value="center" aria-label="centered" onClick={handleChordCenter}>
+                                                                    <FormatAlignCenterIcon />
+                                                                </ToggleButton>
+                                                                <ToggleButton value="right" aria-label="right aligned" onClick={handleChordRight}>
+                                                                    <FormatAlignRightIcon />
+                                                                </ToggleButton>
+
+                                                            </StyledToggleButtonGroup>
+                                                            <Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
+                                                            <StyledToggleButtonGroup
+                                                                size="small"
+                                                                value={formats}
+                                                                onChange={handleFormat}
+                                                                aria-label="text formatting"
+                                                            >
+                                                                {isBold ?
+                                                                    <ToggleButton value="bold" aria-label="bold" onClick={handleChordOnBold}>
+                                                                        <FormatBoldIcon />
+                                                                    </ToggleButton>
+                                                                    :
+                                                                    <ToggleButton value="bold" aria-label="bold" onClick={handleChordOffBold}>
+                                                                        <FormatBoldIcon />
+                                                                    </ToggleButton>
+                                                                }
+                                                                {isOn ?
+                                                                    <ToggleButton value="#F1F1FB" onClick={handleChordOn}>
+                                                                        <VisibilityOffIcon fontSize="medium" />  Chord
+                                                                    </ToggleButton>
+
+                                                                    :
+                                                                    <ToggleButton value="#F1F1FB" onClick={handleChordOff}>
+                                                                        <RemoveRedEyeIcon fontSize="medium" />  Chord
+                                                                    </ToggleButton>
+                                                                }
+                                                            </StyledToggleButtonGroup>
+                                                        </Paper>
                                                         <a className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
                                                             {isOn ?
                                                                 (
@@ -497,60 +561,7 @@ function ViewSongCustomer() {
                                                         </a>
 
 
-                                                        <Paper
-                                                            elevation={1}
-                                                            sx={{
-                                                                display: 'flex',
-                                                                border: (theme) => `1px solid ${theme.palette.divider}`,
-                                                                flexWrap: 'wrap',
-                                                            }}
-                                                        >
-                                                            <StyledToggleButtonGroup
-                                                                size="small"
-                                                                value={alignment}
-                                                                exclusive
-                                                                onChange={handleAlignment}
-                                                                aria-label="text alignment"
-                                                            >
-                                                                <ToggleButton value="left" aria-label="left aligned" onClick={handleChordLeft}>
-                                                                    <FormatAlignLeftIcon />
-                                                                </ToggleButton>
-                                                                <ToggleButton value="center" aria-label="centered" onClick={handleChordCenter}>
-                                                                    <FormatAlignCenterIcon />
-                                                                </ToggleButton>
-                                                                <ToggleButton value="right" aria-label="right aligned" onClick={handleChordRight}>
-                                                                    <FormatAlignRightIcon />
-                                                                </ToggleButton>
 
-                                                            </StyledToggleButtonGroup>
-                                                            <Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
-                                                            <StyledToggleButtonGroup
-                                                                size="small"
-                                                                value={formats}
-                                                                onChange={handleFormat}
-                                                                aria-label="text formatting"
-                                                            >
-                                                                {isBold ?
-                                                                    <ToggleButton value="bold" aria-label="bold" onClick={handleChordOnBold}>
-                                                                        <FormatBoldIcon />
-                                                                    </ToggleButton>
-                                                                    :
-                                                                    <ToggleButton value="bold" aria-label="bold" onClick={handleChordOffBold}>
-                                                                        <FormatBoldIcon />
-                                                                    </ToggleButton>
-                                                                }
-                                                                {isOn ?
-                                                                    <ToggleButton value="#F1F1FB" onClick={handleChordOn}>
-                                                                        <VisibilityOffIcon fontSize="medium" />  Chord
-                                                                    </ToggleButton>
-
-                                                                    :
-                                                                    <ToggleButton value="#F1F1FB" onClick={handleChordOff}>
-                                                                        <RemoveRedEyeIcon fontSize="medium" />  Chord
-                                                                    </ToggleButton>
-                                                                }
-                                                            </StyledToggleButtonGroup>
-                                                        </Paper>
                                                     </div>
                                                 </div>
 
@@ -558,8 +569,7 @@ function ViewSongCustomer() {
                                                     <hr />
                                                     <Button onClick={handleEditClick} className='btn btn-success'>COMPARE <SyncAltIcon />
                                                     </Button>
-                                                    <Button onClick={increaseKey}>Nâng tông</Button>
-                                                    <Button onClick={decreaseKey}>Giảm tông</Button>
+
 
                                                 </div>
                                             </div>

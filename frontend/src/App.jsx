@@ -72,19 +72,17 @@ function App() {
           <Route path='/transactionHistory' element={<TransactionHistory />}></Route>
           <Route path='/orderMusician' element={<OrderMusician />}></Route>
           <Route path='/createChord' element={<CreateChord />}></Route>
-
-
         </Route>
         {/* CUSTOMER ROLE */}
         <Route path='/' element={<DashboardCustomer />}>
           <Route path='/songCustomer/:userId' element={<SongCustomer />}></Route>
-          <Route path='/viewSongCustomer/:id' element={<ViewSongCustomer />}></Route>
           <Route path='/payment' element={<Payment />}></Route>
           <Route path='/profileCustomer/:userId' element={<ProfileCustomer />}></Route>
           <Route path='/createPlaylist/:userId' element={<CreatePlaylist />}></Route>
           <Route path='/playlist/:userId' element={<Playlist />}></Route>
           <Route path='/viewPlaylist/:id' element={<ViewPlaylist />}></Route>
         </Route>
+        <Route path='/viewSongCustomer/:id' element={<ViewSongCustomer />}></Route>
       </Routes>
     </BrowserRouter>
   )
