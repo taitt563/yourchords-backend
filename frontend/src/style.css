@@ -464,14 +464,35 @@ textarea {
     }
 }
 
+.chord-list-container {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+
+}
+
+#chordContainer {
+    columns: 3;
+    width: 1700px;
+    max-height: auto;
+    overflow-y: auto;
+    column-rule: 1px dashed #ccc;
+    break-inside: avoid;
+}
+
 .card_song {
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0 4px 4px rgba(204, 197, 185, 0.5);
     background-color: #FFFFFF;
-    color: card-black-color;
     margin-bottom: 20px;
     position: relative;
-    z-index: 1;
+    width: auto;
+    max-height: auto;
+    background: #fff;
+    break-inside: avoid;
 
     h6 {
         font-size: font-size-small;
