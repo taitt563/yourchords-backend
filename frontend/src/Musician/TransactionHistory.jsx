@@ -10,6 +10,10 @@ function TransactionHistory() {
                 <div className='d-flex flex-column align-items-center pt-4'>
                     <h3 className="d-flex justify-content-center">Transaction History</h3>
                 </div>
+            <div className='form'>
+                
+            </div>
+
 
             </div>
         </>

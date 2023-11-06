@@ -30,7 +30,7 @@ import EditSongMusician from './Musician/EditSongMusician'
 import ProfileMusician from './Musician/ProfileMusician'
 import ChordMusician from './Musician/ChordMusician'
 import ManageBeat from './Musician/ManageBeat'
-import TransactionHistory from './Musician/transactionHIstory'
+import TransactionHistory from './Musician/TransactionHistory'
 import OrderMusician from './Musician/OrderMusician'
 /////CUSTOMER
 import LoginCustomer from './Customer/LoginCustomer'
