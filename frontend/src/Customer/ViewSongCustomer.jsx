@@ -23,36 +23,10 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-//CHORD LIST
-//C - B
-import chordC from '../assets/C.png';
-import chordC_plus from '../assets/Cplus.png';
-import chordD from '../assets/D.png';
-import chordD_plus from '../assets/Dplus.png';
-import chordE from '../assets/E.png';
-import chordF from '../assets/F.png';
-import chordF_plus from '../assets/Fplus.png';
-import chordG from '../assets/G.png';
-import chordG_plus from '../assets/Gplus.png';
-import chordA from '../assets/A.png';
-import chordA_plus from '../assets/Aplus.png';
-import chordB from '../assets/B.png';
-
-//Cm -Bm
-import chordCm from '../assets/Cm.png';
-import chordCm_plus from '../assets/Cmplus.png';
-import chordDm from '../assets/Dm.png';
-import chordDm_plus from '../assets/Dmplus.png';
-import chordEm from '../assets/Em.png';
-import chordFm from '../assets/Fm.png';
-import chordFm_plus from '../assets/Fmplus.png';
-import chordGm from '../assets/Gm.png';
-import chordGm_plus from '../assets/Gmplus.png';
-import chordAm from '../assets/Am.png';
-import chordAm_plus from '../assets/Amplus.png';
-import chordBm from '../assets/Bm.png';
 function ViewSongCustomer() {
     const [data, setData] = useState([]);
+    const [majorChordsData, setDataMajorChords] = useState([]);
+    const [minorChordsData, setDataMinorChords] = useState([]);
     const { id } = useParams();
     const navigate = useNavigate();
     const [alignment, setAlignment] = useState('left');
@@ -82,37 +56,47 @@ function ViewSongCustomer() {
             },
         },
     }));
-    const majorChords = {
-        "C": chordC,
-        "C#": chordC_plus,
-        "D": chordD,
-        "D#": chordD_plus,
-        "E": chordE,
-        "F": chordF,
-        "F#": chordF_plus,
-        "G": chordG,
-        "G#": chordG_plus,
-        "A": chordA,
-        "A#": chordA_plus,
-        "B": chordB,
-    };
-    const minorChords = {
-        "Cm": chordCm,
-        "C#m": chordCm_plus,
-        "Dm": chordDm,
-        "D#m": chordDm_plus,
-        "Em": chordEm,
-        "Fm": chordFm,
-        "F#m": chordFm_plus,
-        "Gm": chordGm,
-        "G#m": chordGm_plus,
-        "Am": chordAm,
-        "A#m": chordAm_plus,
-        "Bm": chordBm,
-    };
-    const chordData = { ...majorChords, ...minorChords };
-    const majorKeys = Object.keys(majorChords);
-    const minorKeys = Object.keys(minorChords);
+    useEffect(() => {
+        axios.get(`${apiUrl}/getSong/` + id, data)
+            .then(res => {
+                if (res.data.Status === "Success") {
+                    setData(res.data.Result);
+                } else {
+                    alert("Error")
+                }
+            })
+            .catch(err => console.log(err));
+        axios.get(`${apiUrl}/getChord`)
+            .then(res => {
+                if (res.data.Status === "Success") {
+                    const chordData = res.data.Result.map(chord => ({
+                        name: chord.chord_name,
+                        image: chord.image,
+                    }));
+                    const majorChordsData = {};
+                    const minorChordsData = {};
+
+                    chordData.forEach(chord => {
+                        if (chord.name.endsWith("m")) {
+                            minorChordsData[chord.name] = chord;
+                        } else {
+                            majorChordsData[chord.name] = chord;
+                        }
+                    });
+                    setDataMajorChords(majorChordsData);
+                    setDataMinorChords(minorChordsData);
+                } else {
+                    alert("Error")
+                }
+
+
+            })
+            .catch(err => console.log(err));
+    }, [id, currentKey])
+
+    const chordData = { ...majorChordsData, ...minorChordsData };
+    const majorKeys = Object.keys(majorChordsData);
+    const minorKeys = Object.keys(minorChordsData);
     const keys = {
         major: majorKeys,
         minor: minorKeys,
@@ -137,17 +121,6 @@ function ViewSongCustomer() {
     const handleAlignment = (event, newAlignment) => {
         setAlignment(newAlignment);
     };
-    useEffect(() => {
-        axios.get(`${apiUrl}/getSong/` + id, data)
-            .then(res => {
-                if (res.data.Status === "Success") {
-                    setData(res.data.Result);
-                } else {
-                    alert("Error")
-                }
-            })
-            .catch(err => console.log(err));
-    }, [id, currentKey])
     const handleLogout = () => {
         axios.get(`${apiUrl}/logout`)
             .then(
@@ -200,7 +173,7 @@ function ViewSongCustomer() {
     };
     const handleTranspositionList = (chordName, direction) => {
 
-        const chordNames = chordName.endsWith('m') ? Object.keys(minorChords) : Object.keys(majorChords);
+        const chordNames = chordName.endsWith('m') ? Object.keys(minorChordsData) : Object.keys(majorChordsData);
         const currentIndex = chordNames.indexOf(chordName);
 
         let newIndex;
@@ -223,7 +196,7 @@ function ViewSongCustomer() {
         const chordImage = chordData[chordName];
 
         const handleTransposition = (direction) => {
-            const chordNames = chordName.endsWith('m') ? Object.keys(minorChords) : Object.keys(majorChords);
+            const chordNames = chordName.endsWith('m') ? Object.keys(minorChordsData) : Object.keys(majorChordsData);
             const currentIndex = chordNames.indexOf(chordName);
 
             let newIndex;
@@ -239,8 +212,6 @@ function ViewSongCustomer() {
             const newChord = chordNames[newIndex];
             toggleChordPopup(chordName);
             toggleChordPopup(newChord);
-
-            // Update the transpose state
         };
 
         return (
@@ -252,7 +223,7 @@ function ViewSongCustomer() {
                         <h2 style={{ marginBottom: '10px' }}>
                             {chordName}
                         </h2>
-                        <img src={chordImage} style={{ width: '130px', height: '120px' }} />
+                        <img src={`${apiUrl}/images/` + chordImage.image} style={{ width: '130px', height: '120px' }} />
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <IconButton
                                 style={{ padding: '2px' }}
@@ -343,9 +314,14 @@ function ViewSongCustomer() {
                                     toggleChordPopup(chordName);
                                 }
                             });
-                            {/* chord.addEventListener('mouseleave', function () {
+                            chord.addEventListener('mouseenter', function () {
+                                if (!chordPopups[chordName]) {
                                     toggleChordPopup(chordName);
-                                }); */}
+                                }
+                            });
+                            chord.addEventListener('mouseleave', function () {
+                                toggleChordPopup(chordName);
+                            });
                         });
 
                     }
@@ -516,13 +492,10 @@ function ViewSongCustomer() {
 
                                                     <h5 className="font">Danh sách các hợp âm:</h5>
                                                     <div className="chord-list-container">
-
                                                         {[...uniqueChords].map((chordName) => (
-                                                            <div key={chordName} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'black' }} >
+                                                            <div key={chordName} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'black' }}>
                                                                 <label>{chordName}</label>
-
-                                                                <img src={chordData[chordName]} style={{ width: '130px', height: '120px' }} />
-
+                                                                <img src={`${apiUrl}/images/` + chordData[chordName].image} style={{ width: '130px', height: '120px' }} />
                                                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                                                     <IconButton
                                                                         style={{ padding: '2px' }}
