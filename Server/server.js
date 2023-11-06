@@ -51,6 +51,18 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
 });
+const storageChord = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/images/chord');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname));
+    },
+});
+
+const uploadChord = multer({
+    storage: storageChord,
+});
 
 const verifyUser = (req, res, next) => {
     const token = req.cookies.token;
@@ -422,7 +434,7 @@ app.post('/createSong', upload.single('thumbnail'), (req, res) => {
     }
 })
 //CHORD
-app.post('/createChord', upload.single('image'), (req, res) => {
+app.post('/createChord', uploadChord.single('image'), (req, res) => {
     const sql = "INSERT INTO chord (`chord_name`,`description`,`image`) VALUES (?)";
     if (req.body.chord_name.length > 0) {
         const values = [

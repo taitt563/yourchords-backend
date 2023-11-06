@@ -28,6 +28,7 @@ import ManageBeat from './Musician/ManageBeat'
 import TransactionHistory from './Musician/TransactionHistory'
 import OrderMusician from './Musician/OrderMusician'
 import CreateChord from './Musician/CreateChord'
+import SongMusician from './Musician/SongMusician'
 /////CUSTOMER
 import DashboardCustomer from './Customer/DashboardCustomer'
 import SongCustomer from './Customer/SongCustomer'
@@ -72,6 +73,8 @@ function App() {
           <Route path='/transactionHistory' element={<TransactionHistory />}></Route>
           <Route path='/orderMusician' element={<OrderMusician />}></Route>
           <Route path='/createChord' element={<CreateChord />}></Route>
+          <Route path='/songMusician' element={<SongMusician />}></Route>
+
         </Route>
         {/* CUSTOMER ROLE */}
         <Route path='/' element={<DashboardCustomer />}>

@@ -17,7 +17,6 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import IconButton from '@mui/material/IconButton';
@@ -36,7 +35,6 @@ function ViewSongCustomer() {
     const [isLeft, setIsLeft] = useState(true);
     const [isBold, setIsBold] = useState(false);
     const [chordPopups, setChordPopups] = useState({});
-    const [isEditing, setIsEditing] = useState(false);
     const [currentKey, setCurrentKey] = useState(0);
     const [, setIsAnyPopupOpen] = useState(false);
     const [transpose, setTranspose] = useState(0);
@@ -111,9 +109,6 @@ function ViewSongCustomer() {
         const chordNames = isMajorChord ? keys.major : keys.minor;
         setCurrentKey((currentKey - 1 + chordNames.length) % chordNames.length);
     };
-    const handleEditClick = () => {
-        setIsEditing(true);
-    };
 
     const handleFormat = (event, newFormats) => {
         setFormats(newFormats);
@@ -172,58 +167,72 @@ function ViewSongCustomer() {
         setIsAnyPopupOpen(false);
     };
     const handleTranspositionList = (chordName, direction) => {
-
         const chordNames = chordName.endsWith('m') ? Object.keys(minorChordsData) : Object.keys(majorChordsData);
-        const currentIndex = chordNames.indexOf(chordName);
 
-        let newIndex;
-        if (direction === 'increase') {
-            newIndex = (currentIndex + 1) % chordNames.length;
-            setTranspose((transpose + 1) % chordNames.length);
+        const updatedChordData = { ...chordData };
+        chordNames.forEach(currentChord => {
+            const currentIndex = chordNames.indexOf(currentChord);
+            let newIndex = currentIndex;
+            if (direction === 'increase') {
+                newIndex = (currentIndex + 1) % chordNames.length;
+                setTranspose((transpose + 1) % chordNames.length);
+            } else if (direction === 'decrease') {
+                newIndex = (currentIndex - 1 + chordNames.length) % chordNames.length;
+                setTranspose((transpose - 1 + chordNames.length) % chordNames.length);
+            }
+            const newChord = chordNames[newIndex];
+            toggleChordPopup(currentChord);
+            toggleChordPopup(newChord);
 
-        } else if (direction === 'decrease') {
-            newIndex = (currentIndex - 1 + chordNames.length) % chordNames.length;
-            setTranspose((transpose - 1 + chordNames.length) % chordNames.length);
-
-        }
-        const newChord = chordNames[newIndex];
-        toggleChordPopup(chordName);
-        toggleChordPopup(newChord);
-
-        // Update the transpose state
-    };
+            updatedChordData[currentChord].image = chordData[newChord].image;
+            updatedChordData[currentChord].name = newChord;
+        });
+    }
     const renderChordPopup = (chordName) => {
         const chordImage = chordData[chordName];
-
         const handleTransposition = (direction) => {
             const chordNames = chordName.endsWith('m') ? Object.keys(minorChordsData) : Object.keys(majorChordsData);
             const currentIndex = chordNames.indexOf(chordName);
-
             let newIndex;
             if (direction === 'increase') {
                 newIndex = (currentIndex + 1) % chordNames.length;
                 setTranspose((transpose + 1) % chordNames.length);
-
             } else if (direction === 'decrease') {
                 newIndex = (currentIndex - 1 + chordNames.length) % chordNames.length;
                 setTranspose((transpose - 1 + chordNames.length) % chordNames.length);
-
             }
             const newChord = chordNames[newIndex];
             toggleChordPopup(chordName);
             toggleChordPopup(newChord);
+            //////////////////////////////////////////////////
+            const updatedChordData = { ...chordData };
+            chordNames.forEach(currentChord => {
+                const currentIndex = chordNames.indexOf(currentChord);
+                let newIndex = currentIndex;
+
+                if (direction === 'increase') {
+                    newIndex = (currentIndex + 1) % chordNames.length;
+                    setTranspose((transpose + 1) % chordNames.length);
+                } else if (direction === 'decrease') {
+                    newIndex = (currentIndex - 1 + chordNames.length) % chordNames.length;
+                    setTranspose((transpose - 1 + chordNames.length) % chordNames.length);
+                }
+                const newChord = chordNames[newIndex];
+                toggleChordPopup(currentChord);
+                toggleChordPopup(newChord);
+
+                updatedChordData[currentChord].image = chordData[newChord].image;
+                updatedChordData[currentChord].name = newChord;
+            });
+
         };
 
         return (
-
             chordPopups[chordName] && (
                 <div className="chord-popup" style={{ display: chordPopups[chordName] ? 'block' : 'none' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-
-                        <h2 style={{ marginBottom: '10px' }}>
-                            {chordName}
-                        </h2>
-                        <img src={`${apiUrl}/images/` + chordImage.image} style={{ width: '130px', height: '120px' }} />
+                        <h2 style={{ marginBottom: '10px' }}>{chordName}</h2>
+                        <img src={`${apiUrl}/images/chord/` + chordImage.image} style={{ width: '130px', height: '120px' }} />
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <IconButton
                                 style={{ padding: '2px' }}
@@ -250,7 +259,6 @@ function ViewSongCustomer() {
             )
         );
     };
-
     return (
         <>
             <SearchAppBar />
@@ -260,18 +268,6 @@ function ViewSongCustomer() {
                     dataChord = dataChord.replace(/.+/g, "<section>$&</section>");
                     const chordNamesMajor = majorKeys
                     const chordNamesMinor = minorKeys
-                    let songChordMain = dataChord.replace(
-                        /\[(?<chord>\w+)\]/g,
-                        (match, chord) => {
-                            if (chordNamesMajor.includes(chord)) {
-                                return `<strong class='chord'>${chord}</strong>`;
-                            }
-                            if (chordNamesMinor.includes(chord)) {
-                                return `<strong class='chord'>${chord}</strong>`;
-                            }
-                            return match;
-                        }
-                    );
                     let hiddenChord = dataChord.replace(
                         /\[(?<chord>\w+)\]/g,
                         "<strong></strong>"
@@ -298,7 +294,6 @@ function ViewSongCustomer() {
                         return match;
                     });
                     let firstChord = '';
-
                     const firstChordMatch = songChord.match(/<strong class='chord'>(.*?)<\/strong>/);
                     if (firstChordMatch) {
                         firstChord = firstChordMatch[1];
@@ -314,23 +309,16 @@ function ViewSongCustomer() {
                                     toggleChordPopup(chordName);
                                 }
                             });
-                            chord.addEventListener('mouseenter', function () {
+                            {/* chord.addEventListener('mouseenter', function () {
                                 if (!chordPopups[chordName]) {
                                     toggleChordPopup(chordName);
                                 }
-                            });
-                            chord.addEventListener('mouseleave', function () {
-                                toggleChordPopup(chordName);
-                            });
+                            }); */}
+
                         });
-
                     }
-
-
                     return <div key={index}>
                         <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
-
-
                         <div className="row mt-5">
                             <p className="col-md-6">Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
                             {viewSong.updated_at != null ?
@@ -339,23 +327,19 @@ function ViewSongCustomer() {
                                 <p className="col-md-6" >Date updated: <b>Not update</b></p>
                             }
                             <p className="col-md-6 " >Artist:  <b>{viewSong.author}</b></p>
-
-
                             {viewSong.link != null ?
                                 <p className="col-md-6" >Link:  <b><Link href={viewSong.link} underline="hover">{viewSong.link}</Link></b></p>
                                 : <p className="col-md-6" >Link:  <b >Updating...</b></p>
                             }
                         </div>
-                        <div onMouseLeave={handleCloseAllPopups} style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '100px' }}>
-                            {Object.keys(chordData).map((chordName) => (
-                                <div key={chordName}>
-                                    {renderChordPopup(chordName, [chordData[chordName], chordData[chordName]])}
-                                </div>
-                            ))}
-                        </div>
-
                         <div className='d-flex flex-column align-items-center'>
-
+                            <div onMouseLeave={handleCloseAllPopups}>
+                                {Object.keys(chordData).map((chordName) => (
+                                    <div key={chordName} >
+                                        {renderChordPopup(chordName, chordData[chordName])}
+                                    </div>
+                                ))}
+                            </div>
                             <div className="px-2">
                                 <div className="row">
                                     <div className="card_song" style={{ width: 'fit-content' }}>
@@ -451,7 +435,7 @@ function ViewSongCustomer() {
                                                                             dangerouslySetInnerHTML={{ __html: songChord }}
                                                                         />
                                                                         :
-                                                                        <div id="chordContainer" className="font" style={{ textAlign: "center", columnRule: '1px dashed  #ccc' }}
+                                                                        <div id="chordContainer" className="font" style={{ textAlign: "center" }}
                                                                             dangerouslySetInnerHTML={{ __html: songChord }}
                                                                         />
                                                         )
@@ -489,118 +473,44 @@ function ViewSongCustomer() {
 
                                                         )
                                                     }
-
-                                                    <h5 className="font">Danh sách các hợp âm:</h5>
-                                                    <div className="chord-list-container">
-                                                        {[...uniqueChords].map((chordName) => (
-                                                            <div key={chordName} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'black' }}>
-                                                                <label>{chordName}</label>
-                                                                <img src={`${apiUrl}/images/` + chordData[chordName].image} style={{ width: '130px', height: '120px' }} />
-                                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                                    <IconButton
-                                                                        style={{ padding: '2px' }}
-                                                                        color="#0d6efd"
-                                                                        size="small"
-                                                                        onClick={() => handleTranspositionList('decrease')}
-                                                                    >
-                                                                        <ArrowLeftIcon style={{ color: '#0d6efd' }} />
-                                                                    </IconButton>
-                                                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                                                        <p style={{ margin: 8, color: 'black', fontSize: '13px' }}><b>Đổi tông</b></p>
-                                                                    </div>
-                                                                    <IconButton
-                                                                        style={{ padding: '2px' }}
-                                                                        color="#0d6efd"
-                                                                        size="small"
-                                                                        onClick={() => handleTranspositionList('increase')}
-                                                                    >
-                                                                        <ArrowRightIcon style={{ color: '#0d6efd' }} />
-                                                                    </IconButton>
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                    {isEditing && (
-
-                                                        <div>
-                                                            {isOn ?
-                                                                (
-                                                                    isRight ?
-                                                                        isBold ?
-                                                                            <div id="chordContainer" className="fontLyrics" style={{ textAlign: "right", fontWeight: 'bold' }}
-                                                                                dangerouslySetInnerHTML={{ __html: songChordMain }}
-                                                                            />
-                                                                            :
-                                                                            <div id="chordContainer" className="font" style={{ textAlign: "right" }}
-                                                                                dangerouslySetInnerHTML={{ __html: songChordMain }}
-                                                                            />
-                                                                        :
-                                                                        isLeft ?
-                                                                            isBold ?
-                                                                                <div id="chordContainer" className="font" style={{ textAlign: "left", fontWeight: 'bold' }}
-                                                                                    dangerouslySetInnerHTML={{ __html: songChordMain }}
-                                                                                />
-                                                                                :
-                                                                                <div id="chordContainer" className="font" style={{ textAlign: "left" }}
-                                                                                    dangerouslySetInnerHTML={{ __html: songChordMain }}
-                                                                                />
-                                                                            :
-                                                                            isBold ?
-                                                                                <div id="chordContainer" className="font" style={{ textAlign: "center", fontWeight: 'bold' }}
-                                                                                    dangerouslySetInnerHTML={{ __html: songChordMain }}
-                                                                                />
-                                                                                :
-                                                                                <div id="chordContainer" className="font" style={{ textAlign: "center" }}
-                                                                                    dangerouslySetInnerHTML={{ __html: songChordMain }}
-                                                                                />
-                                                                )
-                                                                :
-                                                                (
-                                                                    isRight ?
-                                                                        isBold ?
-                                                                            <div id="chordContainer" className="font" style={{ textAlign: "right", fontWeight: 'bold' }}
-                                                                                dangerouslySetInnerHTML={{ __html: hiddenChord }}
-                                                                            />
-                                                                            :
-                                                                            <div id="chordContainer" className="font" style={{ textAlign: "right" }}
-                                                                                dangerouslySetInnerHTML={{ __html: hiddenChord }}
-                                                                            />
-                                                                        :
-                                                                        isLeft ?
-                                                                            isBold ?
-                                                                                <div id="chordContainer" className="font" style={{ textAlign: "left", fontWeight: 'bold' }}
-                                                                                    dangerouslySetInnerHTML={{ __html: hiddenChord }}
-                                                                                />
-                                                                                :
-                                                                                <div id="chordContainer" className="font" style={{ textAlign: "left" }}
-                                                                                    dangerouslySetInnerHTML={{ __html: hiddenChord }}
-                                                                                />
-                                                                            :
-                                                                            isBold ?
-                                                                                <div id="chordContainer" className="font" style={{ textAlign: "center", fontWeight: 'bold' }}
-                                                                                    dangerouslySetInnerHTML={{ __html: hiddenChord }}
-                                                                                />
-                                                                                :
-                                                                                <div id="chordContainer" className="font" style={{ textAlign: "center" }}
-                                                                                    dangerouslySetInnerHTML={{ __html: hiddenChord }}
-                                                                                />
-                                                                )
-                                                            }
-                                                            <div className="font"><p> Note: <b style={{ color: "#7FFF00", padding: '10px' }}> Add</b> <b style={{ color: "red", textDecorationLine: 'line-through', padding: '10px' }}>Remove</b></p></div>
-
-                                                        </div>
-                                                    )}
                                                 </div>
                                             </div>
 
-
+                                            <h5 className="font">Danh sách các hợp âm:</h5>
+                                            <div className="chord-list-container">
+                                                {[...uniqueChords].map((chordName) => (
+                                                    <div key={chordName} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'black' }}>
+                                                        <label>{chordName}</label>
+                                                        <img src={`${apiUrl}/images/chord/` + chordData[chordName].image} style={{ width: '130px', height: '120px' }} />
+                                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                            <IconButton
+                                                                style={{ padding: '2px' }}
+                                                                color="#0d6efd"
+                                                                size="small"
+                                                                onClick={() => handleTranspositionList(chordName, 'decrease')}
+                                                            >
+                                                                <ArrowLeftIcon style={{ color: '#0d6efd' }} />
+                                                            </IconButton>
+                                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                                <p style={{ margin: 8, color: 'black', fontSize: '13px' }}><b>Đổi tông</b></p>
+                                                            </div>
+                                                            <IconButton
+                                                                style={{ padding: '2px' }}
+                                                                color="#0d6efd"
+                                                                size="small"
+                                                                onClick={() => handleTranspositionList(chordName, 'increase')}
+                                                            >
+                                                                <ArrowRightIcon style={{ color: '#0d6efd' }} />
+                                                            </IconButton>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
 
                                         </div>
 
                                         <div className="footer">
                                             <hr />
-                                            <Button onClick={handleEditClick} className='btn btn-success'>COMPARE <SyncAltIcon />
-                                            </Button>
                                             <Button variant="contained" onClick={handleLogout} className='btn-success'>CLOSE
                                             </Button>
                                         </div>
@@ -614,5 +524,6 @@ function ViewSongCustomer() {
             </div>
         </>
     )
+
 }
 export default ViewSongCustomer;
