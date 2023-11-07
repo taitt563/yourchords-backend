@@ -7,7 +7,7 @@
 }
 
 .chord-popup {
-    position: absolute;
+    position: fixed;
     background-color: #fff;
     border: 1px solid #ccc;
     width: 150px;
@@ -15,14 +15,10 @@
     border-radius: 4px;
     padding: 4px 8px;
     top: 50%;
-    /* Position at 50% from the top */
     left: 50%;
-    /* Position at 50% from the left */
     transform: translate(-50%, -50%);
-    /* Center the element */
     display: none;
     z-index: 999;
-    /* Set a high z-index to ensure it's in front */
 }
 
 .chord-popup .chord:hover::before {

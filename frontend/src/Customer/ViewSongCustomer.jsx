@@ -157,7 +157,17 @@ function ViewSongCustomer() {
     const toggleChordPopup = (chordName) => {
         setChordPopups((prevPopups) => {
             const updatedPopups = { ...prevPopups };
+
+            // Close all popups except the one being toggled
+            Object.keys(updatedPopups).forEach((popup) => {
+                if (popup !== chordName) {
+                    updatedPopups[popup] = false;
+                }
+            });
+
+            // Toggle the specified chord's popup
             updatedPopups[chordName] = !updatedPopups[chordName];
+
             const anyPopupOpen = Object.values(updatedPopups).some((value) => value);
             setIsAnyPopupOpen(anyPopupOpen);
 
@@ -265,18 +275,20 @@ function ViewSongCustomer() {
                         chordContainer.innerHTML = songChord;
                         const chordElements = document.querySelectorAll('.chord');
                         chordElements.forEach(chord => {
+                            let isHovered = false;
                             let chordName = chord.textContent;
-                            chord.addEventListener('click', function () {
+                            chord.addEventListener('mouseenter', function () {
+                                isHovered = true;
                                 if (!chordPopups[chordName]) {
                                     toggleChordPopup(chordName);
                                 }
                             });
-                            {/* chord.addEventListener('mouseenter', function () {
-                                if (!chordPopups[chordName]) {
+                            chord.addEventListener('mouseleave', function () {
+                                isHovered = false;
+                                if (!chordPopups[chordName] && !isHovered) {
                                     toggleChordPopup(chordName);
                                 }
-                            }); */}
-
+                            });
                         });
                     }
                     return <div key={index}>
@@ -302,7 +314,7 @@ function ViewSongCustomer() {
                                     </div>
                                 ))}
                             </div>
-                            <div className="px-2">
+                            <div className="px-1">
                                 <div className="row">
                                     <div className="card_song" style={{ width: 'fit-content' }}>
 
@@ -315,7 +327,8 @@ function ViewSongCustomer() {
                                             }}
                                         >
                                             <Button onClick={decreaseKey}><RemoveIcon /></Button>
-                                            <p style={{ color: "#0d6efd" }}><b>{firstChord}</b></p>
+                                            <p style={{ color: "#0d6efd" }}><b>{firstChord}</b>
+                                            </p>
                                             <Button onClick={increaseKey}><AddIcon /></Button>
                                             <StyledToggleButtonGroup
                                                 size="small"
