@@ -103,11 +103,13 @@ function ViewSongCustomer() {
     const increaseKey = (isMajorChord) => {
         const chordNames = isMajorChord ? keys.major : keys.minor;
         setCurrentKey((currentKey + 1) % chordNames.length);
+        handleCloseAllPopups();
     };
 
     const decreaseKey = (isMajorChord) => {
         const chordNames = isMajorChord ? keys.major : keys.minor;
         setCurrentKey((currentKey - 1 + chordNames.length) % chordNames.length);
+        handleCloseAllPopups();
     };
 
     const handleFormat = (event, newFormats) => {
@@ -166,28 +168,7 @@ function ViewSongCustomer() {
         setChordPopups({});
         setIsAnyPopupOpen(false);
     };
-    const handleTranspositionList = (chordName, direction) => {
-        const chordNames = chordName.endsWith('m') ? Object.keys(minorChordsData) : Object.keys(majorChordsData);
 
-        const updatedChordData = { ...chordData };
-        chordNames.forEach(currentChord => {
-            const currentIndex = chordNames.indexOf(currentChord);
-            let newIndex = currentIndex;
-            if (direction === 'increase') {
-                newIndex = (currentIndex + 1) % chordNames.length;
-                setTranspose((transpose + 1) % chordNames.length);
-            } else if (direction === 'decrease') {
-                newIndex = (currentIndex - 1 + chordNames.length) % chordNames.length;
-                setTranspose((transpose - 1 + chordNames.length) % chordNames.length);
-            }
-            const newChord = chordNames[newIndex];
-            toggleChordPopup(currentChord);
-            toggleChordPopup(newChord);
-
-            updatedChordData[currentChord].image = chordData[newChord].image;
-            updatedChordData[currentChord].name = newChord;
-        });
-    }
     const renderChordPopup = (chordName) => {
         const chordImage = chordData[chordName];
         const handleTransposition = (direction) => {
@@ -204,26 +185,7 @@ function ViewSongCustomer() {
             const newChord = chordNames[newIndex];
             toggleChordPopup(chordName);
             toggleChordPopup(newChord);
-            //////////////////////////////////////////////////
-            const updatedChordData = { ...chordData };
-            chordNames.forEach(currentChord => {
-                const currentIndex = chordNames.indexOf(currentChord);
-                let newIndex = currentIndex;
 
-                if (direction === 'increase') {
-                    newIndex = (currentIndex + 1) % chordNames.length;
-                    setTranspose((transpose + 1) % chordNames.length);
-                } else if (direction === 'decrease') {
-                    newIndex = (currentIndex - 1 + chordNames.length) % chordNames.length;
-                    setTranspose((transpose - 1 + chordNames.length) % chordNames.length);
-                }
-                const newChord = chordNames[newIndex];
-                toggleChordPopup(currentChord);
-                toggleChordPopup(newChord);
-
-                updatedChordData[currentChord].image = chordData[newChord].image;
-                updatedChordData[currentChord].name = newChord;
-            });
 
         };
 
@@ -353,7 +315,7 @@ function ViewSongCustomer() {
                                             }}
                                         >
                                             <Button onClick={decreaseKey}><RemoveIcon /></Button>
-                                            <p style={{ color: "#0d6efd" }}>{firstChord}</p>
+                                            <p style={{ color: "#0d6efd" }}><b>{firstChord}</b></p>
                                             <Button onClick={increaseKey}><AddIcon /></Button>
                                             <StyledToggleButtonGroup
                                                 size="small"
@@ -476,40 +438,19 @@ function ViewSongCustomer() {
                                                 </div>
                                             </div>
 
-                                            <h5 className="font">Danh sách các hợp âm:</h5>
+                                            <h5 className="fontDashboard">Danh sách các hợp âm:</h5>
                                             <div className="chord-list-container">
                                                 {[...uniqueChords].map((chordName) => (
-                                                    <div key={chordName} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'black' }}>
-                                                        <label>{chordName}</label>
-                                                        <img src={`${apiUrl}/images/chord/` + chordData[chordName].image} style={{ width: '130px', height: '120px' }} />
-                                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                            <IconButton
-                                                                style={{ padding: '2px' }}
-                                                                color="#0d6efd"
-                                                                size="small"
-                                                                onClick={() => handleTranspositionList(chordName, 'decrease')}
-                                                            >
-                                                                <ArrowLeftIcon style={{ color: '#0d6efd' }} />
-                                                            </IconButton>
-                                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                                                <p style={{ margin: 8, color: 'black', fontSize: '13px' }}><b>Đổi tông</b></p>
-                                                            </div>
-                                                            <IconButton
-                                                                style={{ padding: '2px' }}
-                                                                color="#0d6efd"
-                                                                size="small"
-                                                                onClick={() => handleTranspositionList(chordName, 'increase')}
-                                                            >
-                                                                <ArrowRightIcon style={{ color: '#0d6efd' }} />
-                                                            </IconButton>
-                                                        </div>
+                                                    <div key={chordName} className="chord-box">
+                                                        <p>{chordData[chordName].name}</p>
+                                                        <img src={`${apiUrl}/images/chord/${chordData[chordName].image}`} alt={chordData[chordName].name} style={{ width: '130px', height: '120px' }} />
                                                     </div>
                                                 ))}
                                             </div>
 
                                         </div>
 
-                                        <div className="footer">
+                                        <div className="footer" style={{ paddingBottom: '20px' }}>
                                             <hr />
                                             <Button variant="contained" onClick={handleLogout} className='btn-success'>CLOSE
                                             </Button>

@@ -472,9 +472,47 @@ textarea {
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    justify-content: space-between;
+    justify-content: space-around;
     display: flex;
     gap: 10px
+}
+
+
+.chord-box {
+    width: 150px;
+    height: 180px;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.chord-box p {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.chord-box img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+/* Hover effect */
+.chord-box:hover {
+    transform: scale(1.1);
+}
+
+.chord-box:hover img {
+    transform: scale(1.1);
+}
+
+.chord-box:hover p {
+    transform: scale(1.1);
+    color: #0d6efd;
 }
 
 #chordContainer {
