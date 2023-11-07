@@ -368,7 +368,7 @@ function ViewSongCustomer() {
                                                 onChange={handleAlignment}
                                                 aria-label="text alignment"
                                                 sx={{
-                                                    marginRight: 'auto',
+                                                    margin: 'auto',
                                                 }}
                                             >
                                                 <ToggleButton value="left" aria-label="left aligned" onClick={handleChordLeft}>
