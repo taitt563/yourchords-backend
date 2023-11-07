@@ -195,7 +195,7 @@ function ViewSongCustomer() {
                 <div className="chord-popup" style={{ display: chordPopups[chordName] ? 'block' : 'none' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
                         <h2 style={{ marginBottom: '10px' }}>{chordName}</h2>
-                        <img src={`${apiUrl}/images/chord/` + chordImage.image} style={{ width: '130px', height: '120px' }} />
+                        <img src={`${apiUrl}/images/chord/` + chordImage.image} style={{ width: '100%', height: '100%' }} />
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <IconButton
                                 style={{ padding: '2px' }}
@@ -314,7 +314,7 @@ function ViewSongCustomer() {
                     return <div key={index}>
                         <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
                         <div className="row mt-5 d-flex justify-content-center">
-                            <div className="col-md-5">
+                            <div className="col-md-7">
                                 <div className="row">
                                     <div className="col-md-6">
                                         <p><b>Artist:</b> {viewSong.author}</p>
@@ -353,6 +353,8 @@ function ViewSongCustomer() {
                                             sx={{
                                                 display: 'flex',
                                                 border: (theme) => `1px solid ${theme.palette.divider}`,
+                                                alignItems: 'center',
+                                                justifyContent: 'space-between',
                                                 flexWrap: 'wrap',
                                             }}
                                         >
@@ -365,6 +367,9 @@ function ViewSongCustomer() {
                                                 exclusive
                                                 onChange={handleAlignment}
                                                 aria-label="text alignment"
+                                                sx={{
+                                                    marginRight: 'auto',
+                                                }}
                                             >
                                                 <ToggleButton value="left" aria-label="left aligned" onClick={handleChordLeft}>
                                                     <FormatAlignLeftIcon />
@@ -375,6 +380,23 @@ function ViewSongCustomer() {
                                                 <ToggleButton value="right" aria-label="right aligned" onClick={handleChordRight}>
                                                     <FormatAlignRightIcon />
                                                 </ToggleButton>
+                                                <StyledToggleButtonGroup
+                                                    size="small"
+                                                    value={formats}
+                                                    onChange={handleFormat}
+                                                    aria-label="text formatting"
+                                                >
+                                                    {isBold ?
+                                                        <ToggleButton value="bold" aria-label="bold" onClick={handleChordOnBold}>
+                                                            <FormatBoldIcon />
+                                                        </ToggleButton>
+                                                        :
+                                                        <ToggleButton value="bold" aria-label="bold" onClick={handleChordOffBold}>
+                                                            <FormatBoldIcon />
+                                                        </ToggleButton>
+                                                    }
+
+                                                </StyledToggleButtonGroup>
 
                                             </StyledToggleButtonGroup>
                                             <Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
@@ -384,15 +406,6 @@ function ViewSongCustomer() {
                                                 onChange={handleFormat}
                                                 aria-label="text formatting"
                                             >
-                                                {isBold ?
-                                                    <ToggleButton value="bold" aria-label="bold" onClick={handleChordOnBold}>
-                                                        <FormatBoldIcon />
-                                                    </ToggleButton>
-                                                    :
-                                                    <ToggleButton value="bold" aria-label="bold" onClick={handleChordOffBold}>
-                                                        <FormatBoldIcon />
-                                                    </ToggleButton>
-                                                }
                                                 {isOn ?
                                                     <ToggleButton value="#F1F1FB" onClick={handleChordOn}>
                                                         <VisibilityOffIcon fontSize="medium" />  Chord
@@ -514,9 +527,9 @@ function ViewSongCustomer() {
 
                                         </div>
 
-                                        <div className="footer" style={{ paddingBottom: '20px' }}>
+                                        <div className="footer" style={{ paddingBottom: '20px', paddingLeft: '10px' }}>
                                             <hr />
-                                            <Button variant="contained" onClick={handleLogout} className='btn-success'>CLOSE
+                                            <Button variant="contained" onClick={handleLogout} className='btn-success' >CLOSE
                                             </Button>
                                         </div>
                                     </div>
