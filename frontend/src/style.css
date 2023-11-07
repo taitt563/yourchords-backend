@@ -470,31 +470,36 @@ textarea {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     justify-content: space-around;
     display: flex;
-    gap: 10px
 }
 
 
-.chord-box {
-    width: 150px;
-    height: 180px;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    text-align: center;
-    transition: transform 0.3s ease;
-}
 
 .chord-box p {
     font-weight: bold;
-    margin-bottom: 8px;
 }
 
 .chord-box img {
     width: 100px;
     height: 100px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 5px;
     transition: transform 0.3s ease;
+}
+
+.chord-box button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0d6efd;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.chord-box button:hover {
+    background-color: #0d6efd;
 }
 
 /* Hover effect */
@@ -503,7 +508,7 @@ textarea {
 }
 
 .chord-box:hover img {
-    transform: scale(1.1);
+    transform: scale(1);
 }
 
 .chord-box:hover p {
@@ -513,7 +518,7 @@ textarea {
 
 #chordContainer {
     columns: 3;
-    width: 1500px;
+    width: 1700px;
     max-height: auto;
     column-rule: 1px dashed #ccc;
     break-inside: avoid;

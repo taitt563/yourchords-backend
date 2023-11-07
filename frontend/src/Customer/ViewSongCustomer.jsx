@@ -157,17 +157,7 @@ function ViewSongCustomer() {
     const toggleChordPopup = (chordName) => {
         setChordPopups((prevPopups) => {
             const updatedPopups = { ...prevPopups };
-
-            // Close all popups except the one being toggled
-            Object.keys(updatedPopups).forEach((popup) => {
-                if (popup !== chordName) {
-                    updatedPopups[popup] = false;
-                }
-            });
-
-            // Toggle the specified chord's popup
             updatedPopups[chordName] = !updatedPopups[chordName];
-
             const anyPopupOpen = Object.values(updatedPopups).some((value) => value);
             setIsAnyPopupOpen(anyPopupOpen);
 
@@ -181,6 +171,7 @@ function ViewSongCustomer() {
 
     const renderChordPopup = (chordName) => {
         const chordImage = chordData[chordName];
+
         const handleTransposition = (direction) => {
             const chordNames = chordName.endsWith('m') ? Object.keys(minorChordsData) : Object.keys(majorChordsData);
             const currentIndex = chordNames.indexOf(chordName);
@@ -258,10 +249,19 @@ function ViewSongCustomer() {
                         return match;
                     });
                     const uniqueChords = new Set();
-                    dataChord.replace(/\[(?<chord>\w+)\]/g, (match, chord) => {
-                        if (chordNamesMajor.includes(chord) || chordNamesMinor.includes(chord)) {
-                            // Check if the chord is unique and add it to the Set
-                            uniqueChords.add(chord);
+                    dataChord = dataChord.replace(/\[(?<chord>\w+)\]/g, (match, chord) => {
+                        if (chordNamesMajor.includes(chord)) {
+                            const indexInKeys = chordNamesMajor.indexOf(chord);
+                            const transposedIndex = (indexInKeys + currentKey + transpose) % chordNamesMajor.length;
+                            const transposedChord = chordNamesMajor[transposedIndex];
+                            uniqueChords.add(transposedChord);
+                            return `<strong class='chord' data-chord="${transposedChord}">${transposedChord}</strong>`;
+                        } else if (chordNamesMinor.includes(chord)) {
+                            const indexInKeys = chordNamesMinor.indexOf(chord);
+                            const transposedIndex = (indexInKeys + currentKey + transpose) % chordNamesMinor.length;
+                            const transposedChord = chordNamesMinor[transposedIndex];
+                            uniqueChords.add(transposedChord);
+                            return `<strong class='chord' data-chord="${transposedChord}">${transposedChord}</strong>`;
                         }
                         return match;
                     });
@@ -276,35 +276,65 @@ function ViewSongCustomer() {
                         const chordElements = document.querySelectorAll('.chord');
                         chordElements.forEach(chord => {
                             let isHovered = false;
+
                             let chordName = chord.textContent;
+
+
                             chord.addEventListener('mouseenter', function () {
                                 isHovered = true;
                                 if (!chordPopups[chordName]) {
                                     toggleChordPopup(chordName);
                                 }
                             });
+
                             chord.addEventListener('mouseleave', function () {
                                 isHovered = false;
                                 if (!chordPopups[chordName] && !isHovered) {
                                     toggleChordPopup(chordName);
                                 }
                             });
+                            {/* chord.addEventListener('click', function (event) {
+                                const isClickedOutside = !chordContainer.contains(event.target);
+                                if (isClickedOutside) {
+                                    Object.keys(chordPopups).forEach(chordName => {
+                                        if (chordPopups[chordName]) {
+                                            toggleChordPopup(chordName);
+                                        }
+                                    });
+                                }
+                            }); */}
+                            {/* chord.addEventListener('mouseenter', function () {
+                                if (!chordPopups[chordName]) {
+                                    toggleChordPopup(chordName);
+                                }
+                            }); */}
+
                         });
                     }
                     return <div key={index}>
                         <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
-                        <div className="row mt-5">
-                            <p className="col-md-6">Date created: <b>{moment(viewSong.created_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
-                            {viewSong.updated_at != null ?
-                                <p className="col-md-6" >Date updated: <b>{moment(viewSong.updated_at).format(('YYYY/MM/DD - HH:mm:ss'))}</b></p>
-                                :
-                                <p className="col-md-6" >Date updated: <b>Not update</b></p>
-                            }
-                            <p className="col-md-6 " >Artist:  <b>{viewSong.author}</b></p>
-                            {viewSong.link != null ?
-                                <p className="col-md-6" >Link:  <b><Link href={viewSong.link} underline="hover">{viewSong.link}</Link></b></p>
-                                : <p className="col-md-6" >Link:  <b >Updating...</b></p>
-                            }
+                        <div className="row mt-5 d-flex justify-content-center">
+                            <div className="col-md-5">
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <p><b>Artist:</b> {viewSong.author}</p>
+                                        {viewSong.link != null ? (
+                                            <p><b>Link:</b> <Link href={viewSong.link} underline="hover">{viewSong.link}</Link></p>
+                                        ) : (
+                                            <p><b>Link:</b> Updating...</p>
+                                        )}
+                                    </div>
+                                    <div className="col-md-6">
+                                        <p><b>Date created:</b> {moment(viewSong.created_at).format('YYYY/MM/DD - HH:mm:ss')}</p>
+                                        {viewSong.updated_at != null ? (
+                                            <p><b>Date updated:</b> {moment(viewSong.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</p>
+                                        ) : (
+                                            <p><b>Date updated:</b> Not updated</p>
+                                        )}
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                         <div className='d-flex flex-column align-items-center'>
                             <div onMouseLeave={handleCloseAllPopups}>
@@ -314,7 +344,7 @@ function ViewSongCustomer() {
                                     </div>
                                 ))}
                             </div>
-                            <div className="px-1">
+                            <div className="px-2">
                                 <div className="row">
                                     <div className="card_song" style={{ width: 'fit-content' }}>
 
@@ -327,8 +357,7 @@ function ViewSongCustomer() {
                                             }}
                                         >
                                             <Button onClick={decreaseKey}><RemoveIcon /></Button>
-                                            <p style={{ color: "#0d6efd" }}><b>{firstChord}</b>
-                                            </p>
+                                            <p style={{ color: "#0d6efd" }}><b>{firstChord}</b></p>
                                             <Button onClick={increaseKey}><AddIcon /></Button>
                                             <StyledToggleButtonGroup
                                                 size="small"
@@ -452,11 +481,33 @@ function ViewSongCustomer() {
                                             </div>
 
                                             <h5 className="fontDashboard">Danh sách các hợp âm:</h5>
-                                            <div className="chord-list-container">
+                                            <div className="chord-list-container" >
                                                 {[...uniqueChords].map((chordName) => (
                                                     <div key={chordName} className="chord-box">
-                                                        <p>{chordData[chordName].name}</p>
+                                                        <p style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>{chordData[chordName].name}</p>
                                                         <img src={`${apiUrl}/images/chord/${chordData[chordName].image}`} alt={chordData[chordName].name} style={{ width: '130px', height: '120px' }} />
+                                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                            <IconButton
+                                                                style={{ padding: '2px' }}
+                                                                color="#0d6efd"
+                                                                onClick={() => increaseKey('decrease')}
+                                                                size="small"
+                                                            >
+                                                                <ArrowLeftIcon style={{ color: 'white' }} />
+                                                            </IconButton>
+
+                                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                                <p style={{ margin: 8, color: 'black', fontSize: '13px' }}><b>Đổi tông</b></p>
+                                                            </div>
+                                                            <IconButton
+                                                                style={{ padding: '2px' }}
+                                                                color="#0d6efd"
+                                                                size="small"
+                                                                onClick={() => decreaseKey('increase')}
+                                                            >
+                                                                <ArrowRightIcon style={{ color: 'white' }} />
+                                                            </IconButton>
+                                                        </div>
                                                     </div>
                                                 ))}
                                             </div>
