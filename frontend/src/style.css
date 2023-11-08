@@ -110,7 +110,7 @@
 section {
     line-height: 3em;
     position: relative;
-    font-size: 20px;
+    font-size: 17px;
 
 }
 
@@ -389,8 +389,6 @@ textarea {
 
 }
 
-
-
 .pd-bottom {
     padding-bottom: 10px;
 }
@@ -546,10 +544,10 @@ textarea {
 }
 
 .chord-box img {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 10px;
     transition: transform 0.3s ease;
 }
 
@@ -559,10 +557,6 @@ textarea {
     align-items: center;
     background-color: #0d6efd;
     color: #fff;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    margin-top: 10px;
 }
 
 .chord-box button:hover {
@@ -583,10 +577,11 @@ textarea {
     color: #0d6efd;
 }
 
+
 #chordContainer {
     column-count: 2;
-    width: 1700px;
-    column-rule: 1px dashed #ccc;
+    width: 1600px;
+    column-rule: 2px dashed #ccc;
     break-inside: avoid;
 }
 

@@ -25,7 +25,11 @@ import RemoveIcon from '@mui/icons-material/Remove';
 function ViewSongCustomer() {
     const [data, setData] = useState([]);
     const [majorChordsData, setDataMajorChords] = useState([]);
+    console.log(majorChordsData)
+
     const [minorChordsData, setDataMinorChords] = useState([]);
+    console.log(minorChordsData)
+
     const { id } = useParams();
     const navigate = useNavigate();
     const [alignment, setAlignment] = useState('left');
@@ -70,12 +74,12 @@ function ViewSongCustomer() {
                     const chordData = res.data.Result.map(chord => ({
                         name: chord.chord_name,
                         image: chord.image,
+                        type: chord.type_id,
                     }));
                     const majorChordsData = {};
                     const minorChordsData = {};
-
                     chordData.forEach(chord => {
-                        if (chord.name.endsWith("m")) {
+                        if (chord.type === 1) {
                             minorChordsData[chord.name] = chord;
                         } else {
                             majorChordsData[chord.name] = chord;
@@ -86,8 +90,6 @@ function ViewSongCustomer() {
                 } else {
                     alert("Error")
                 }
-
-
             })
             .catch(err => console.log(err));
     }, [id, currentKey])
@@ -171,9 +173,8 @@ function ViewSongCustomer() {
 
     const renderChordPopup = (chordName) => {
         const chordImage = chordData[chordName];
-
         const handleTransposition = (direction) => {
-            const chordNames = chordName.endsWith('m') ? Object.keys(minorChordsData) : Object.keys(majorChordsData);
+            const chordNames = chordData[chordName].type ? Object.keys(minorChordsData) : Object.keys(majorChordsData);
             const currentIndex = chordNames.indexOf(chordName);
             let newIndex;
             if (direction === 'increase') {
@@ -193,12 +194,12 @@ function ViewSongCustomer() {
         return (
             chordPopups[chordName] && (
                 <div className="chord-popup" style={{ display: chordPopups[chordName] ? 'block' : 'none' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-                        <h2 style={{ marginBottom: '10px' }}>{chordName}</h2>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                        <h2>{chordName}</h2>
                         <img src={`${apiUrl}/images/chord/` + chordImage.image} style={{ width: '100%', height: '100%' }} />
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <IconButton
-                                style={{ padding: '2px' }}
+                                style={{ padding: '1px' }}
                                 color="#0d6efd"
                                 onClick={() => handleTransposition('decrease')}
                                 size="small"
@@ -209,7 +210,7 @@ function ViewSongCustomer() {
                                 <p style={{ margin: 8, color: 'black', fontSize: '13px' }}><b>Đổi tông</b></p>
                             </div>
                             <IconButton
-                                style={{ padding: '2px' }}
+                                style={{ padding: '1px' }}
                                 color="#0d6efd"
                                 onClick={() => handleTransposition('increase')}
                                 size="small"
@@ -235,7 +236,7 @@ function ViewSongCustomer() {
                         /\[(?<chord>\w+)\]/g,
                         "<strong></strong>"
                     );
-                    let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, (match, chord) => {
+                    let songChord = dataChord.replace(/\[(?<chord>[\w#]+)\]/g, (match, chord) => {
                         if (chordNamesMajor.includes(chord)) {
                             const indexInKeys = chordNamesMajor.indexOf(chord);
                             const transposedIndex = (indexInKeys + currentKey + transpose) % chordNamesMajor.length;
@@ -249,7 +250,7 @@ function ViewSongCustomer() {
                         return match;
                     });
                     const uniqueChords = new Set();
-                    dataChord = dataChord.replace(/\[(?<chord>\w+)\]/g, (match, chord) => {
+                    dataChord = dataChord.replace(/\[(?<chord>[\w#]+)\]/g, (match, chord) => {
                         if (chordNamesMajor.includes(chord)) {
                             const indexInKeys = chordNamesMajor.indexOf(chord);
                             const transposedIndex = (indexInKeys + currentKey + transpose) % chordNamesMajor.length;
@@ -276,17 +277,13 @@ function ViewSongCustomer() {
                         const chordElements = document.querySelectorAll('.chord');
                         chordElements.forEach(chord => {
                             let isHovered = false;
-
                             let chordName = chord.textContent;
-
-
                             chord.addEventListener('mouseenter', function () {
                                 isHovered = true;
                                 if (!chordPopups[chordName]) {
                                     toggleChordPopup(chordName);
                                 }
                             });
-
                             chord.addEventListener('mouseleave', function () {
                                 isHovered = false;
                                 if (!chordPopups[chordName] && !isHovered) {
@@ -347,7 +344,6 @@ function ViewSongCustomer() {
                             <div className="px-2">
                                 <div className="row">
                                     <div className="card_song" style={{ width: 'fit-content' }}>
-
                                         <Paper
                                             elevation={1}
                                             sx={{
@@ -368,7 +364,7 @@ function ViewSongCustomer() {
                                                 onChange={handleAlignment}
                                                 aria-label="text alignment"
                                                 sx={{
-                                                    margin: 'auto',
+                                                    marginRight: 'auto',
                                                 }}
                                             >
                                                 <ToggleButton value="left" aria-label="left aligned" onClick={handleChordLeft}>
@@ -498,10 +494,10 @@ function ViewSongCustomer() {
                                                 {[...uniqueChords].map((chordName) => (
                                                     <div key={chordName} className="chord-box">
                                                         <p style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>{chordData[chordName].name}</p>
-                                                        <img src={`${apiUrl}/images/chord/${chordData[chordName].image}`} alt={chordData[chordName].name} style={{ width: '130px', height: '120px' }} />
+                                                        <img src={`${apiUrl}/images/chord/${chordData[chordName].image}`} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />
                                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                                             <IconButton
-                                                                style={{ padding: '2px' }}
+                                                                style={{ padding: '1px' }}
                                                                 color="#0d6efd"
                                                                 onClick={() => increaseKey('decrease')}
                                                                 size="small"
@@ -513,7 +509,7 @@ function ViewSongCustomer() {
                                                                 <p style={{ margin: 8, color: 'black', fontSize: '13px' }}><b>Đổi tông</b></p>
                                                             </div>
                                                             <IconButton
-                                                                style={{ padding: '2px' }}
+                                                                style={{ padding: '1px' }}
                                                                 color="#0d6efd"
                                                                 size="small"
                                                                 onClick={() => decreaseKey('increase')}

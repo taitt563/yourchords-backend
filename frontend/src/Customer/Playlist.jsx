@@ -15,6 +15,7 @@ function Playlist() {
     const [data, setData] = useState([]);
     const { userId } = useParams();
     const [search, setSearch] = useState("");
+    // const [songCount, setSongCount] = useState();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const darkTheme = createTheme({
         palette: {
@@ -36,6 +37,13 @@ function Playlist() {
             })
             .catch(err => console.log(err));
     }, []);
+    // useEffect(() => {
+    //     axios.get(`${apiUrl}/countSongPlaylist`)
+    //         .then(res => {
+    //             setSongCount(res.data.songCount); // Assuming the response contains a field 'songCount'
+    //         })
+    //         .catch(err => console.error(err));
+    // }, []);
     const handleDelete = (id) => {
         console.log(id);
 
@@ -136,6 +144,9 @@ function Playlist() {
                                             <b >{playlist.collection_name}
                                             </b>
                                         </Link>
+                                        {/* <div>
+                                            <label className="form-label">Total: <h2><b>{songCount}</b></h2></label>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>

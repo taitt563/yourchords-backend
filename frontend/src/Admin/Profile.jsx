@@ -128,9 +128,8 @@ function Profile() {
                                             <div className="col-md-12"><label>Phone number: </label><input className="form-control" value={data.phoneNumber} readOnly /></div>
                                             <div className="col-md-12"><label>Address Line: </label><input className="form-control" value={data.address} readOnly /></div>
                                             <div className="col-md-12"><label>Email: </label><input className="form-control" value={data.email} readOnly /></div>
-                                        </div>
-                                        <div className="row mt-4">
                                             <div className="col-md-12"><label>Job: </label><input className="form-control" value={data.job} readOnly /></div>
+
                                         </div>
                                     </div>
                                     <Button variant='contained' onClick={() => { handleProfile(data.userId) }}><ModeEditIcon className='pd-right' fontSize='medium' /> Edit
