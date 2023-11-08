@@ -25,7 +25,6 @@ export default function SearchAppBar() {
                         <Typography variant="h5"
                             noWrap
                             component="a"
-                            href="/homeAdmin"
                             sx={{
                                 mr: 2,
                                 display: { xs: 'none', md: 'flex' },
@@ -51,6 +50,6 @@ export default function SearchAppBar() {
                     </Toolbar>
                 </AppBar>
             </ThemeProvider>
-        </Box >
+        </Box>
     );
 }

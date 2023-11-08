@@ -25,11 +25,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 function ViewSongCustomer() {
     const [data, setData] = useState([]);
     const [majorChordsData, setDataMajorChords] = useState([]);
-    console.log(majorChordsData)
-
     const [minorChordsData, setDataMinorChords] = useState([]);
-    console.log(minorChordsData)
-
     const { id } = useParams();
     const navigate = useNavigate();
     const [alignment, setAlignment] = useState('left');
@@ -162,7 +158,6 @@ function ViewSongCustomer() {
             updatedPopups[chordName] = !updatedPopups[chordName];
             const anyPopupOpen = Object.values(updatedPopups).some((value) => value);
             setIsAnyPopupOpen(anyPopupOpen);
-
             return updatedPopups;
         });
     };

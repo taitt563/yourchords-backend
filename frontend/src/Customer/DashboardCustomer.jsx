@@ -18,6 +18,9 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import SearchIcon from "@mui/icons-material/Search";
+
 function DashboardCustomer() {
     const [data, setData] = useState([]);
     axios.defaults.withCredentials = true;
@@ -80,9 +83,19 @@ function DashboardCustomer() {
                                 }}>
                                     <ListItemButton href={"/songCustomer/" + profile.userId}>
                                         <ListItemIcon>
-                                            <QueueMusicIcon color="primary" fontSize='medium' />
+                                            <MusicNoteIcon color="primary" fontSize='medium' />
                                         </ListItemIcon>
                                         <ListItemText><span className="fontDashboard">Song</span></ListItemText>
+                                    </ListItemButton>
+                                </List>
+                                <List sx={{
+                                    width: '45%', paddingTop: '30px', paddingRight: '10px'
+                                }}>
+                                    <ListItemButton href="/chord">
+                                        <ListItemIcon>
+                                            <SearchIcon color="primary" fontSize='medium' />
+                                        </ListItemIcon>
+                                        <ListItemText><span className="fontDashboard">Search Chord</span></ListItemText>
                                     </ListItemButton>
                                 </List>
                                 <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
