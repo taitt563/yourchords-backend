@@ -23,15 +23,24 @@ import MenuList from '@mui/material/MenuList';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import LyricsIcon from '@mui/icons-material/Lyrics';
 import SettingsIcon from '@mui/icons-material/Settings';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
 function Chord() {
     const [isRequestAccount, setIsRequestAccount] = useState(false);
     const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [openRoot, setOpenRoot] = useState(false);
+    const [openShowMore, setOpenShowMore] = useState(false);
     const [openScale, setOpenScale] = useState(false);
     const anchorRefRoot = useRef(null);
     const anchorRefScale = useRef(null);
+    const anchorRefShowMore = useRef(null);
+
     const [selectedIndexRoot, setSelectedIndexRoot] = useState(1);
+    const [selectedIndexShowMore, setSelectedIndexShowMore] = useState(1);
+
     const [selectedIndexScale, setSelectedIndexScale] = useState(1);
     const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
     const [selectedChord, setSelectedChord] = useState(null);
@@ -43,6 +52,10 @@ function Chord() {
         setSelectedIndexRoot(index);
         setOpenRoot(false);
     };
+    const handleMenuItemClickShowMore = (event, index) => {
+        setSelectedIndexShowMore(index);
+        setOpenShowMore(false);
+    };
 
     const handleMenuItemClickScale = (event, index, titleIndex) => {
         setSelectedIndexScale(index);
@@ -52,6 +65,9 @@ function Chord() {
 
     const handleToggleRoot = () => {
         setOpenRoot((prevOpen) => !prevOpen);
+    };
+    const handleToggleShowMore = () => {
+        setOpenShowMore((prevOpen) => !prevOpen);
     };
     const handleToggleScale = () => {
         setOpenScale((prevOpen) => !prevOpen);
@@ -63,6 +79,13 @@ function Chord() {
         }
 
         setOpenRoot(false);
+    };
+    const handleCloseShowMore = (event) => {
+        if (anchorRefShowMore.current && anchorRefShowMore.current.contains(event.target)) {
+            return;
+        }
+
+        setOpenShowMore(false);
     };
     const handleCloseScale = (event) => {
         if (anchorRefScale.current && anchorRefScale.current.contains(event.target)) {
@@ -118,6 +141,8 @@ function Chord() {
             .catch((err) => console.log(err));
     };
     const optionsRoot = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+    const optionsShowMore = ['None', 'Note', 'Degree'];
+
     const optionsScale = [
         {
             scale: 'Major',
@@ -327,7 +352,7 @@ function Chord() {
                                             </button>
                                         </div>
                                         <div className="small-container" style={{ marginTop: '15px' }}>
-                                            <b>Your Chord - Scale</b> is a tool for finding guitar scales by customizing the `root` and `scale` accordingly and then clicking <ArrowForwardIcon color='success' fontSize='small' /> to search. Additionally, further customization can be made in the advanced settings section<SettingsIcon color='disabled' fontSize='small' />.
+                                            <b>Your Chord - <i>Scale    </i></b> is a tool for finding guitar scales by customizing the `root` and `scale` accordingly and then clicking <ArrowForwardIcon color='success' fontSize='small' /> to search. Additionally, further customization can be made in the advanced settings section<SettingsIcon color='disabled' fontSize='small' />.
                                         </div>
 
                                     </div>
@@ -469,6 +494,90 @@ function Chord() {
                                                     Search <ArrowForwardIcon fontSize='small' />
                                                 </Button>
                                             </div>
+                                            <p style={{ fontSize: '12px', marginTop: '30px' }}>Advanced settings:</p>
+                                            <hr style={{ width: '100%' }} />
+                                            <div className="row mt-2">
+
+
+                                                <div className="col-md-4">
+
+
+                                                    <label>Show more:</label>
+                                                    <br />
+                                                    <ButtonGroup variant="contained" ref={anchorRefShowMore} aria-label="split button">
+                                                        <Button style={{ width: '200px' }}
+                                                        >{optionsShowMore[selectedIndexShowMore]}</Button>
+                                                        <Button
+                                                            size="small"
+                                                            aria-controls={openShowMore ? 'split-button-menu' : undefined}
+                                                            aria-expanded={openShowMore ? 'true' : undefined}
+                                                            aria-label="select merge strategy"
+                                                            aria-haspopup="menu"
+                                                            onClick={handleToggleShowMore}
+                                                        >
+                                                            <ArrowDropDownIcon />
+                                                        </Button>
+                                                    </ButtonGroup>
+                                                    <Popper
+                                                        sx={{
+                                                            zIndex: 1,
+                                                        }}
+                                                        open={openShowMore}
+                                                        anchorEl={anchorRefShowMore.current}
+                                                        role={undefined}
+                                                        transition
+                                                        disablePortal
+                                                    >
+                                                        {({ TransitionProps, placement }) => (
+                                                            <Grow
+                                                                {...TransitionProps}
+                                                                style={{
+                                                                    transformOrigin:
+                                                                        placement === 'bottom' ? 'center top' : 'center bottom',
+                                                                }}
+                                                            >
+                                                                <Paper>
+                                                                    <ClickAwayListener onClickAway={handleCloseShowMore}>
+                                                                        <MenuList id="split-button-menu" autoFocusItem>
+                                                                            {optionsShowMore.map((option, index) => (
+                                                                                <MenuItem
+                                                                                    key={option}
+                                                                                    selected={index === selectedIndexShowMore}
+                                                                                    onClick={(event) => handleMenuItemClickShowMore(event, index)}
+                                                                                >
+                                                                                    {option}
+                                                                                </MenuItem>
+                                                                            ))}
+                                                                        </MenuList>
+                                                                    </ClickAwayListener>
+                                                                </Paper>
+                                                            </Grow>
+                                                        )}
+
+                                                    </Popper>
+
+                                                </div>
+
+                                                <div className="col-md-6">
+                                                    <label>Musical note: </label>
+                                                    <br />
+                                                    <FormControl>
+                                                        <RadioGroup
+                                                            aria-labelledby="demo-radio-buttons-group-label"
+                                                            defaultValue="female"
+                                                            name="radio-buttons-group"
+                                                        >
+                                                            <FormControlLabel value="Sharp" control={<Radio />} label="Sharp (#)" />
+                                                            <FormControlLabel value="Degree" control={<Radio />} label="Flat" />
+                                                        </RadioGroup>
+                                                    </FormControl>
+
+
+
+
+
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -476,20 +585,11 @@ function Chord() {
                                 <div className="col-md-7 border-right">
                                     <div className="py-5">
                                         <div className="row mt-2">
-
                                             <div style={{ marginBottom: '50px' }}>
-                                                {selectedChord ? (
-                                                    <h3><b>{selectedChord.root} {selectedChord.scale}</b></h3>
-                                                ) : (
-                                                    <>
-                                                        <h3>List Scale</h3>
-                                                        <p>Include all the listed scales below represented on the guitar fretboard.</p>
-                                                    </>
-                                                )}
+                                                <h3>List Scale</h3>
+                                                <p>Include all the listed scales below represented on the guitar fretboard.</p>
                                             </div>
                                             <div className="col-md-8">
-
-
                                                 {scaleModes.map((category, index) => (
                                                     <div key={index}>
                                                         <h4>{category.category}</h4>
@@ -501,18 +601,15 @@ function Chord() {
                                                     </div>
                                                 ))}
                                                 <br />
-
-
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
                             }
                         </div>
                     </div>
-                </form>
-            </div>
+                </form >
+            </div >
 
         </>
     );
