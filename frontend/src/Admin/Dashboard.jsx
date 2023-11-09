@@ -75,7 +75,7 @@ function Dashboard() {
                                     <span type="text" className='fs-100 font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton
-                                            onClick={() => handleListItemClick('/manageAccount')}
+                                            onClick={() => handleListItemClick('/manageAccount')} className='buttonDashBoard'
                                         >
                                             <ListItemIcon>
                                                 <ManageAccountsIcon color="primary" fontSize='medium' />
@@ -85,7 +85,7 @@ function Dashboard() {
                                     </List>
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton
-                                            onClick={() => handleListItemClick('/requestAccount')}
+                                            onClick={() => handleListItemClick('/requestAccount')} className='buttonDashBoard'
                                         >
                                             <ListItemIcon>
                                                 <ManageAccountsIcon color="primary" fontSize='medium' />
@@ -95,7 +95,7 @@ function Dashboard() {
                                     </List>
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton
-                                            onClick={() => handleListItemClick('/Song')}
+                                            onClick={() => handleListItemClick('/Song')} className='buttonDashBoard'
                                         >
                                             <ListItemIcon>
                                                 <QueueMusicIcon color="primary" fontSize='medium' />
@@ -105,7 +105,7 @@ function Dashboard() {
                                     </List>
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton
-                                            onClick={() => handleListItemClick('/manageFeedback')}
+                                            onClick={() => handleListItemClick('/manageFeedback')} className='buttonDashBoard'
                                         >
                                             <ListItemIcon>
                                                 <ThumbUpAltIcon color="primary" fontSize='medium' />
@@ -115,7 +115,7 @@ function Dashboard() {
                                     </List>
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton
-                                            onClick={() => handleListItemClick(`/profile/${profile.userId}`)}
+                                            onClick={() => handleListItemClick(`/profile/${profile.userId}`)} className='buttonDashBoard'
                                         >
                                             <ListItemIcon>
                                                 <ModeIcon color="primary" fontSize='medium' />
@@ -125,7 +125,7 @@ function Dashboard() {
                                     </List>
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
                                         <ListItemButton
-                                            onClick={() => handleListItemClick('/login')}
+                                            onClick={() => handleListItemClick('/login')} className='buttonDashBoard'
                                         >
                                             <ListItemIcon>
                                                 <LogoutIcon color="primary" fontSize='medium' />

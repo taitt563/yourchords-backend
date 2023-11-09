@@ -80,7 +80,7 @@ function DashboardChordManager() {
 
                                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start pd-top pd-right" id="menu">
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
-                                        <ListItemButton onClick={handleClick}>
+                                        <ListItemButton onClick={handleClick} className='buttonDashBoard'>
                                             <ListItemIcon>
                                                 <QueueMusicIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
@@ -89,13 +89,13 @@ function DashboardChordManager() {
                                         </ListItemButton>
                                         <Collapse in={open} timeout="auto" unmountOnExit>
                                             <List sx={{ width: '100%', pl: 3 }}>
-                                                <ListItemButton href="/songChordManager">
+                                                <ListItemButton href="/songChordManager" className='buttonDashBoard'>
                                                     <ListItemIcon>
                                                         <LibraryMusicIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
                                                     <ListItemText><span className="fontDashboard">List Song</span></ListItemText>
                                                 </ListItemButton>
-                                                <ListItemButton href="/verifySong">
+                                                <ListItemButton href="/verifySong" className='buttonDashBoard'>
                                                     <ListItemIcon>
                                                         <VerifiedUserIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
@@ -105,7 +105,7 @@ function DashboardChordManager() {
                                         </Collapse>
                                     </List>
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
-                                        <ListItemButton href={`/profileChordManager/` + profile.userId}>
+                                        <ListItemButton href={`/profileChordManager/` + profile.userId} className='buttonDashBoard'>
                                             <ListItemIcon>
                                                 <ModeIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
@@ -113,7 +113,7 @@ function DashboardChordManager() {
                                         </ListItemButton>
                                     </List>
                                     <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
-                                        <ListItemButton href="/login">
+                                        <ListItemButton href="/login" className='buttonDashBoard'>
                                             <ListItemIcon>
                                                 <LogoutIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>

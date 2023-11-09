@@ -6,6 +6,10 @@
     background-size: 100% 120%;
 }
 
+.buttonDashBoard:hover {
+    transform: scale(1.1);
+}
+
 .chord-popup {
     position: fixed;
     background-color: #fff;
@@ -549,6 +553,10 @@ textarea {
     text-align: center;
 }
 
+.small-container:hover {
+    transform: scale(1.1);
+}
+
 .button-container {
     display: flex;
     flex-direction: row;
@@ -570,6 +578,10 @@ textarea {
     transition-duration: 0.4s;
     cursor: pointer;
     width: 400px;
+}
+
+.custom-button:hover {
+    transform: scale(1.1);
 
 }
 

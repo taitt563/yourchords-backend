@@ -81,8 +81,8 @@ function DashboardCustomer() {
                                 <List sx={{
                                     width: '45%', paddingTop: '30px', paddingRight: '10px'
                                 }}>
-                                    <ListItemButton href={"/songCustomer/" + profile.userId}>
-                                        <ListItemIcon>
+                                    <ListItemButton href={"/songCustomer/" + profile.userId} className='buttonDashBoard'>
+                                        <ListItemIcon >
                                             <MusicNoteIcon color="primary" fontSize='medium' />
                                         </ListItemIcon>
                                         <ListItemText><span className="fontDashboard">Song</span></ListItemText>
@@ -91,7 +91,7 @@ function DashboardCustomer() {
                                 <List sx={{
                                     width: '45%', paddingTop: '30px', paddingRight: '10px'
                                 }}>
-                                    <ListItemButton href="/chord">
+                                    <ListItemButton href="/chord" className='buttonDashBoard'>
                                         <ListItemIcon>
                                             <SearchIcon color="primary" fontSize='medium' />
                                         </ListItemIcon>
@@ -99,7 +99,7 @@ function DashboardCustomer() {
                                     </ListItemButton>
                                 </List>
                                 <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
-                                    <ListItemButton onClick={handleClickPlaylist}>
+                                    <ListItemButton onClick={handleClickPlaylist} className='buttonDashBoard'>
                                         <ListItemIcon>
                                             <PlaylistPlayIcon color="primary" fontSize='medium' />
                                         </ListItemIcon>
@@ -108,13 +108,13 @@ function DashboardCustomer() {
                                     </ListItemButton>
                                     <Collapse in={openPlaylist} timeout="auto" unmountOnExit>
                                         <List sx={{ width: '100%', pl: 2 }}>
-                                            <ListItemButton href={"/playlist/" + profile.userId}>
+                                            <ListItemButton href={"/playlist/" + profile.userId} className='buttonDashBoard'>
                                                 <ListItemIcon>
                                                     <QueueMusicIcon color="primary" fontSize='medium' />
                                                 </ListItemIcon>
                                                 <ListItemText><span className="fontDashboard">Playlist</span></ListItemText>
                                             </ListItemButton>
-                                            <ListItemButton href={"/createPlaylist/" + profile.userId}>
+                                            <ListItemButton href={"/createPlaylist/" + profile.userId} className='buttonDashBoard'>
                                                 <ListItemIcon>
                                                     <AddIcon color="primary" fontSize='medium' />
                                                 </ListItemIcon>
@@ -126,7 +126,7 @@ function DashboardCustomer() {
                                 <List sx={{
                                     width: '45%', paddingTop: '30px', paddingRight: '10px'
                                 }}>
-                                    <ListItemButton href="/feedback">
+                                    <ListItemButton href="/feedback" className='buttonDashBoard'>
                                         <ListItemIcon>
                                             <ThumbUpAltIcon color="primary" fontSize='medium' />
                                         </ListItemIcon>
@@ -136,7 +136,7 @@ function DashboardCustomer() {
                                 <List sx={{
                                     width: '45%', paddingTop: '30px', paddingRight: '10px',
                                 }}>
-                                    <ListItemButton href={`/profileCustomer/` + profile.userId}>
+                                    <ListItemButton href={`/profileCustomer/` + profile.userId} className='buttonDashBoard'>
                                         <ListItemIcon>
                                             <ModeIcon color="primary" fontSize='medium' />
                                         </ListItemIcon>
@@ -147,7 +147,7 @@ function DashboardCustomer() {
                                 <List sx={{
                                     width: '45%', paddingTop: '30px', paddingRight: '10px'
                                 }}>
-                                    <ListItemButton href="/login">
+                                    <ListItemButton href="/login" className='buttonDashBoard'>
                                         <ListItemIcon>
                                             <LogoutIcon color="primary" fontSize='medium' />
                                         </ListItemIcon>
