@@ -33,9 +33,9 @@ function Chord() {
     const anchorRefScale = useRef(null);
     const anchorRefShowMore = useRef(null);
     const [dataScale, setDataScale] = useState([]);
-    const [selectedIndexRoot, setSelectedIndexRoot] = useState(1);
+    const [selectedIndexRoot, setSelectedIndexRoot] = useState(0);
     const [selectedIndexShowMore, setSelectedIndexShowMore] = useState(1);
-    const [selectedIndexScale, setSelectedIndexScale] = useState(1);
+    const [selectedIndexScale, setSelectedIndexScale] = useState(0);
     const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
     const [selectedChord, setSelectedChord] = useState(null);
     const [buttonClickedChord, setButtonClickedChord] = useState(true);
@@ -98,7 +98,9 @@ function Chord() {
         },
     });
     const optionsRoot = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-    const optionsShowMore = ['None', 'Note', 'Degree'];
+    const optionsShowMore = [
+        'None', 'Note', 'Degree'
+    ];
 
     const optionsScale = [
         {
@@ -112,16 +114,85 @@ function Chord() {
                 'Locrian']
         },
         {
-            scale: 'Dorian',
-            titles: ['Dorian']
+            scale: "Melodic",
+            titles: [
+                "Melodic Minor",
+                "Phrygian #6 (A.K.A. Dorian b2)",
+                "Lydian Augmented",
+                "Lydian Dominant (A.K.A. Mixolydian #4)",
+                "Fifth Mode (A.K.A. Mixolydian b6 )",
+                "Locrian #2 (A.K.A. Aeolian b5)",
+                "Altered (A.K.A. Diminished Whole Tone...)"
+            ]
         },
         {
-            scale: 'Phrygian',
-            titles: ['Phrygian']
+            scale: "Symmetric",
+            titles: [
+                "Whole Tone",
+                "Diminished Whole Half (A.K.A. Whole Half)",
+                "Diminished Half Whole (A.K.A. Half Whole)"
+            ]
         },
         {
-            scale: 'Altered (A.K.A. Diminished Whole Tone...)',
-            titles: ['Altered', 'Diminished Whole Tone']
+            scale: "Pentatonic",
+            titles: [
+                "Major Pentatonic",
+                "Minor Pentatonic",
+                "Suspended Pentatonic",
+                "Dominant Pentatonic (A.K.A. Mixolydian Pentatonic)",
+                "Traditional Japanese (in sen)",
+                "Traditional Japanese (Hirajoshi)"
+            ]
+        },
+        {
+            scale: "Blues",
+            titles: [
+                "Blues"
+            ]
+        },
+        {
+            scale: "Bepop",
+            titles: [
+                "Bepop Major",
+                "Bepop Minor (A.K.A. Bepop Dorian)",
+                "Bebop Dominant",
+                "Bebop Melodic Minor"
+            ]
+        },
+        {
+            scale: "Harmonic",
+            titles: [
+                "Harmonic Major",
+                "Harmonic Minor (A.K.A. Mohammedan)",
+                "Double Harmonic Major (A.K.A. Arabic)"
+            ]
+        },
+        {
+            scale: "Exotic",
+            titles: [
+                "Hungarian Gypsy (A.K.A. Hungarian Minor)",
+                "Hungarian Major",
+                "Phrygian Dominant (A.K.A. Spanish)",
+                "Neapolitan Minor",
+                "Neapolitan Major",
+                "Enicmatic Major",
+                "Eight-tone Spanish",
+                "Balinese Pelog (A.K.A. Balinese)",
+                "Oriental",
+                "Iwato",
+                "Yo",
+                "Prometheus",
+                "Symetrical",
+                "Major Locrian (A.K.A. Arabian)",
+            ]
+        },
+        {
+            scale: "Miscellaneous",
+            titles: [
+                "Chromatic",
+                "Augmented",
+                "Lydian Minor"
+            ]
         }
     ];
 
@@ -140,19 +211,26 @@ function Chord() {
     const handleSearch = () => {
         setSelectedChord({
             root: optionsRoot[selectedIndexRoot],
-            scale: optionsScale[selectedIndexScale]?.titles[selectedTitleIndex]
+            scale: optionsScale[selectedIndexScale]?.titles[selectedTitleIndex],
+            type: optionsShowMore[selectedIndexShowMore],
         });
 
-        if (selectedIndexRoot !== null && selectedIndexScale !== null && selectedTitleIndex !== null) {
+        if (
+            selectedIndexRoot !== null &&
+            selectedIndexScale !== null &&
+            selectedTitleIndex !== null &&
+            selectedIndexShowMore !== null
+        ) {
             axios.get(`${apiUrl}/getChordScale`, {
                 params: {
                     root: optionsRoot[selectedIndexRoot],
-                    scale: optionsScale[selectedIndexScale]?.titles[selectedTitleIndex]
-                }
+                    scale: optionsScale[selectedIndexScale]?.titles[selectedTitleIndex],
+                    type: optionsShowMore[selectedIndexShowMore],
+                },
             })
                 .then((res) => {
                     if (res.data.Status === 'Success') {
-                        setDataScale(res.data.Result); // Update state with fetched data
+                        setDataScale(res.data.Result);
                         setImageURL(res.data.Result)
                     } else {
                         alert('Error');
@@ -160,7 +238,7 @@ function Chord() {
                 })
                 .catch((err) => console.log(err));
         } else {
-            alert('Please select both root and scale.');
+            alert('Please select both root, scale, and show more.');
         }
     };
 
@@ -302,7 +380,7 @@ function Chord() {
 
 
 
-            <div className='d-flex flex-column align-items-center pt-3' style={{ paddingLeft: '100px' }}>
+            <div className='d-flex flex-column align-items-center' style={{ paddingLeft: '100px' }}>
 
                 <form className="row g-3 w-100">
                     <div className="container rounded bg-white mt-5 mb-5">
@@ -483,8 +561,8 @@ function Chord() {
                                                 </Button>
                                             </div>
                                             <div className="row mt-2">
-                                                <p style={{ fontSize: '12px', marginTop: '30px' }}>Advanced settings:
-                                                    <hr style={{ width: '100%' }} /></p>
+                                                <p style={{ fontSize: '12px', marginTop: '30px' }}>Advanced settings:</p>
+                                                <hr style={{ width: '100%' }} />
                                                 <div className="col-md-4">
                                                     <label>Show more:</label>
                                                     <br />

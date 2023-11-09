@@ -487,9 +487,9 @@ app.get('/getChord', (req, res) => {
 })
 //SCALE
 app.get('/getChordScale', (req, res) => {
-    const { root, scale } = req.query;
-    const sql = "SELECT * FROM chord_type WHERE root = ? AND scale = ? ";
-    con.query(sql, [root, scale], (err, result) => {
+    const { root, scale, type } = req.query;
+    const sql = "SELECT * FROM chord_type WHERE root = ? AND scale = ? AND type = ?";
+    con.query(sql, [root, scale, type], (err, result) => {
         if (err) return res.json({ Error: "Error fetching chord from the database" });
         return res.json({ Status: "Success", Result: result });
     });
