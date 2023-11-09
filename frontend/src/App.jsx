@@ -75,7 +75,6 @@ function App() {
           <Route path='/orderMusician' element={<OrderMusician />}></Route>
           <Route path='/createChord' element={<CreateChord />}></Route>
           <Route path='/songMusician' element={<SongMusician />}></Route>
-
         </Route>
         {/* CUSTOMER ROLE */}
         <Route path='/' element={<DashboardCustomer />}>
@@ -85,10 +84,9 @@ function App() {
           <Route path='/createPlaylist/:userId' element={<CreatePlaylist />}></Route>
           <Route path='/playlist/:userId' element={<Playlist />}></Route>
           <Route path='/viewPlaylist/:id' element={<ViewPlaylist />}></Route>
-
+          <Route path='/chord' element={<Chord />}></Route>
         </Route>
         <Route path='/viewSongCustomer/:id' element={<ViewSongCustomer />}></Route>
-        <Route path='/chord' element={<Chord />}></Route>
 
       </Routes>
     </BrowserRouter>

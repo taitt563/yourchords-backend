@@ -8,9 +8,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import HeadsetIcon from '@mui/icons-material/Headset';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
-import { useParams, useNavigate } from 'react-router-dom';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -28,8 +25,6 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 function Chord() {
-    const [isRequestAccount, setIsRequestAccount] = useState(false);
-    const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [openRoot, setOpenRoot] = useState(false);
     const [openShowMore, setOpenShowMore] = useState(false);
@@ -37,15 +32,15 @@ function Chord() {
     const anchorRefRoot = useRef(null);
     const anchorRefScale = useRef(null);
     const anchorRefShowMore = useRef(null);
-
+    const [dataScale, setDataScale] = useState([]);
     const [selectedIndexRoot, setSelectedIndexRoot] = useState(1);
     const [selectedIndexShowMore, setSelectedIndexShowMore] = useState(1);
-
     const [selectedIndexScale, setSelectedIndexScale] = useState(1);
     const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
     const [selectedChord, setSelectedChord] = useState(null);
     const [buttonClickedChord, setButtonClickedChord] = useState(true);
     const [buttonClickedDictionary, setButtonClickedDictionary] = useState(false);
+    const [imageURL, setImageURL] = useState(null);
 
 
     const handleMenuItemClickRoot = (event, index) => {
@@ -94,12 +89,6 @@ function Chord() {
 
         setOpenScale(false);
     };
-    const handleSearch = () => {
-        setSelectedChord({
-            root: optionsRoot[selectedIndexRoot],
-            scale: optionsScale[selectedIndexScale]?.titles[selectedTitleIndex]
-        });
-    };
     const darkTheme = createTheme({
         palette: {
             mode: 'dark',
@@ -108,38 +97,6 @@ function Chord() {
             },
         },
     });
-    const { userId } = useParams();
-
-    const handleRequestAccountMusician = () => {
-        const username = userId
-        axios
-            .put(`${apiUrl}/requestAccountMusician/` + username)
-            .then((res) => {
-                if (res.data.Status === 'Success') {
-                    setIsRequestAccount(true);
-                    setTimeout(() => {
-                        setIsRequestAccount(false);
-                        navigate("/login");
-                    }, 3500);
-                }
-            })
-            .catch((err) => console.log(err));
-    };
-    const handleRequestAccountChordValidator = () => {
-        const username = userId
-        axios
-            .put(`${apiUrl}/requestAccountChordValidator/` + username)
-            .then((res) => {
-                if (res.data.Status === 'Success') {
-                    setIsRequestAccount(true);
-                    setTimeout(() => {
-                        setIsRequestAccount(false);
-                        navigate("/login");
-                    }, 3500);
-                }
-            })
-            .catch((err) => console.log(err));
-    };
     const optionsRoot = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
     const optionsShowMore = ['None', 'Note', 'Degree'];
 
@@ -171,15 +128,42 @@ function Chord() {
 
     const handleSearchScale = (e) => {
         e.preventDefault();
-        setButtonClickedChord(true); // Thiết lập nút "Search Scale" đã được nhấn
-        setButtonClickedDictionary(false); // Thiết lập nút "Chord Dictionary" không được nhấn
+        setButtonClickedChord(true);
+        setButtonClickedDictionary(false);
     };
 
     const handleChordDictionary = (e) => {
         e.preventDefault();
-        setButtonClickedDictionary(true); // Thiết lập nút "Chord Dictionary" đã được nhấn
-        setButtonClickedChord(false); // Thiết lập nút "Search Scale" không được nhấn
+        setButtonClickedDictionary(true);
+        setButtonClickedChord(false);
     };
+    const handleSearch = () => {
+        setSelectedChord({
+            root: optionsRoot[selectedIndexRoot],
+            scale: optionsScale[selectedIndexScale]?.titles[selectedTitleIndex]
+        });
+
+        if (selectedIndexRoot !== null && selectedIndexScale !== null && selectedTitleIndex !== null) {
+            axios.get(`${apiUrl}/getChordScale`, {
+                params: {
+                    root: optionsRoot[selectedIndexRoot],
+                    scale: optionsScale[selectedIndexScale]?.titles[selectedTitleIndex]
+                }
+            })
+                .then((res) => {
+                    if (res.data.Status === 'Success') {
+                        setDataScale(res.data.Result); // Update state with fetched data
+                        setImageURL(res.data.Result)
+                    } else {
+                        alert('Error');
+                    }
+                })
+                .catch((err) => console.log(err));
+        } else {
+            alert('Please select both root and scale.');
+        }
+    };
+
     const scaleModes = [
         {
             category: "Major Scale Modes",
@@ -304,14 +288,6 @@ function Chord() {
                             >
                                 <b>YOUR CHORD</b>
                             </Typography>
-                            <Typography
-                                variant="h9"
-                                noWrap
-                                component="div"
-                                sx={{ color: '#0d6efd', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                            >
-                                <b>Register as a <Link onClick={() => handleRequestAccountMusician()} sx={{ color: '#0d6efd' }} underline='hover'>Musician</Link> / <Link onClick={() => handleRequestAccountChordValidator()} sx={{ color: '#0d6efd' }} underline='hover'>Chord validator</Link> partner</b>
-                            </Typography>
 
                             <input
                                 type="text"
@@ -326,13 +302,8 @@ function Chord() {
 
 
 
-            <div className='d-flex flex-column align-items-center pt-2'>
+            <div className='d-flex flex-column align-items-center pt-3' style={{ paddingLeft: '100px' }}>
 
-                {isRequestAccount && (
-                    <Stack sx={{ width: '100%' }} spacing={2} >
-                        <Alert severity="info">Request account successfully, your account status is currently pending. The admin will review your account after 3 days!</Alert>
-                    </Stack>
-                )}
                 <form className="row g-3 w-100">
                     <div className="container rounded bg-white mt-5 mb-5">
                         <div className="row">
@@ -376,9 +347,20 @@ function Chord() {
 
                                                 <label>Root:</label>
                                                 <br />
-                                                <ButtonGroup variant="contained" ref={anchorRefRoot} aria-label="split button">
-                                                    <Button >{optionsRoot[selectedIndexRoot]}</Button>
+                                                <ButtonGroup variant="contained" ref={anchorRefRoot} aria-label="split button" >
                                                     <Button
+                                                        sx={{
+                                                            color: 'white',
+                                                            backgroundColor: '#0d6efd'
+                                                        }}
+                                                    >
+                                                        {optionsRoot[selectedIndexRoot]}
+                                                    </Button>
+                                                    <Button
+                                                        sx={{
+                                                            color: 'white',
+                                                            backgroundColor: '#0d6efd'
+                                                        }}
                                                         size="small"
                                                         aria-controls={openRoot ? 'split-button-menu' : undefined}
                                                         aria-expanded={openRoot ? 'true' : undefined}
@@ -433,11 +415,18 @@ function Chord() {
                                                 <br />
                                                 <ButtonGroup variant="contained" ref={anchorRefScale} aria-label="split button">
                                                     <Button
-                                                        style={{ width: '300px' }}
+                                                        style={{
+                                                            width: '300px', color: 'white',
+                                                            backgroundColor: '#0d6efd'
+                                                        }}
                                                     >
                                                         {optionsScale[selectedIndexScale]?.titles[selectedTitleIndex]}
                                                     </Button>
                                                     <Button
+                                                        sx={{
+                                                            color: 'white',
+                                                            backgroundColor: '#0d6efd'
+                                                        }}
                                                         size="small"
                                                         aria-controls={openScale ? 'split-button-menu' : undefined}
                                                         aria-expanded={openScale ? 'true' : undefined}
@@ -489,25 +478,27 @@ function Chord() {
                                                         </Grow>
                                                     )}
                                                 </Popper>
-
                                                 <Button variant="contained" style={{ backgroundColor: 'green', marginLeft: '40px' }} onClick={handleSearch} >
                                                     Search <ArrowForwardIcon fontSize='small' />
                                                 </Button>
                                             </div>
-                                            <p style={{ fontSize: '12px', marginTop: '30px' }}>Advanced settings:</p>
-                                            <hr style={{ width: '100%' }} />
                                             <div className="row mt-2">
-
-
+                                                <p style={{ fontSize: '12px', marginTop: '30px' }}>Advanced settings:
+                                                    <hr style={{ width: '100%' }} /></p>
                                                 <div className="col-md-4">
-
-
                                                     <label>Show more:</label>
                                                     <br />
                                                     <ButtonGroup variant="contained" ref={anchorRefShowMore} aria-label="split button">
-                                                        <Button style={{ width: '200px' }}
-                                                        >{optionsShowMore[selectedIndexShowMore]}</Button>
+                                                        <Button style={{
+                                                            width: '200px', color: 'white',
+                                                            backgroundColor: '#0d6efd'
+                                                        }} >
+                                                            {optionsShowMore[selectedIndexShowMore]}</Button>
                                                         <Button
+                                                            sx={{
+                                                                color: 'white',
+                                                                backgroundColor: '#0d6efd'
+                                                            }}
                                                             size="small"
                                                             aria-controls={openShowMore ? 'split-button-menu' : undefined}
                                                             aria-expanded={openShowMore ? 'true' : undefined}
@@ -553,11 +544,8 @@ function Chord() {
                                                                 </Paper>
                                                             </Grow>
                                                         )}
-
                                                     </Popper>
-
                                                 </div>
-
                                                 <div className="col-md-6">
                                                     <label>Musical note: </label>
                                                     <br />
@@ -571,11 +559,13 @@ function Chord() {
                                                             <FormControlLabel value="Degree" control={<Radio />} label="Flat" />
                                                         </RadioGroup>
                                                     </FormControl>
-
-
-
-
-
+                                                </div>
+                                                <div style={{ marginTop: '50px' }}>
+                                                    {imageURL && dataScale.map((info, index) => (
+                                                        <div key={index} >
+                                                            <img src={`${apiUrl}/images/scale/` + info.image} style={{ width: '100%', height: '100%' }} />
+                                                        </div>
+                                                    ))}
                                                 </div>
                                             </div>
                                         </div>
@@ -592,7 +582,7 @@ function Chord() {
                                             <div className="col-md-8">
                                                 {scaleModes.map((category, index) => (
                                                     <div key={index}>
-                                                        <h4>{category.category}</h4>
+                                                        <h5><b>{category.category}</b></h5>
                                                         <ul style={{ paddingLeft: '100px' }}>
                                                             {category.modes.map((mode, idx) => (
                                                                 <li key={idx}><Link underline='hover'>{mode}</Link></li>
@@ -608,8 +598,8 @@ function Chord() {
                             }
                         </div>
                     </div>
-                </form >
-            </div >
+                </form>
+            </div>
 
         </>
     );
