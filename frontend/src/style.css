@@ -528,6 +528,62 @@ textarea {
     }
 }
 
+.large-container {
+    font-size: 20px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 400px;
+    height: 300px;
+    text-align: center;
+}
+
+.small-container {
+    font-size: 13px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 10px;
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+
+}
+
+.custom-button {
+    padding: 10px 20px;
+    width: fit-content;
+    background-color: #f0f0f0;
+    color: black;
+    border: none;
+    text-align: left;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    width: 400px;
+
+}
+
+.custom-button:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.custom-button.clicked {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+
 .chord-list-container {
     background-color: #f9f9f9;
     padding: 10px;
