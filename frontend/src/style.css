@@ -713,7 +713,25 @@ textarea {
 .item-8, .item-16 {
     background-color: #fdfdad;
 }
+/* Order Musician */
 
+.ant-table-row{
+    height: 90px;
+}
+.btn-accept{
+    padding: 3px 10px;
+    border: transparent;
+    background-color: #7bd500;
+    border-radius: 16px;
+}
+
+.ant-space-item .btn-decline{
+    padding: 3px 10px;
+    border: transparent;
+    background-color: #db524b;
+    color: white;
+    border-radius: 16px;
+}
 
 .item-grid h3{
     padding-bottom: 13px;

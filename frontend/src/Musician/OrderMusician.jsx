@@ -37,7 +37,7 @@ const columns = [
         render: (_, record) => (
             <Space size="middle">
                 <button className='btn-accept'>Accept</button>
-                <button className='btn-delete'>Delete</button>
+                <button className='btn-decline'>Decline</button>
             </Space>
         ),
     },
