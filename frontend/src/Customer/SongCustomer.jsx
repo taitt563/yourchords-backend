@@ -35,10 +35,10 @@ function SongCustomer() {
         },
     });
     const { userId } = useParams();
-
-
     const [selectedSong, setSelectedSong] = useState(null);
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+    const [imageURL, setImageURL] = useState(null);
+
     const style = {
         position: 'absolute',
         top: '50%',
@@ -57,6 +57,13 @@ function SongCustomer() {
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     setDataPlaylist(res.data.Result);
+                    if (res.data.Result.length > 0) {
+                        // Assuming each playlist has an array of images
+                        const playlistImages = res.data.Result.map(playlist => `${playlist.image}`);
+
+                        // Set the array of image URLs
+                        setImageURL(playlistImages);
+                    }
                     setModalOpen(true);
                 } else {
                     alert('Error');
@@ -292,10 +299,14 @@ function SongCustomer() {
                                 <div className="container rounded " style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <div className="d-flex flex-column align-items-center text-center">
                                         <div className="rounded-image-container">
-                                            <img
-                                                className="rounded-square-image"
-                                                src={`${apiUrl}/images/${playlist.image}`}
-                                            />
+                                            {imageURL && (
+                                                <img
+                                                    className="rounded-square-image"
+                                                    src={`data:image/png;base64,${playlist.image}`}
+
+
+                                                />
+                                            )}
                                             <div className="image-overlay">
                                                 <p className="playlist-name-modal">
                                                     <AddIcon

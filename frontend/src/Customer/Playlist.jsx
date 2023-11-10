@@ -15,7 +15,7 @@ function Playlist() {
     const [data, setData] = useState([]);
     const { userId } = useParams();
     const [search, setSearch] = useState("");
-    // const [songCount, setSongCount] = useState();
+    const [imageURL, setImageURL] = useState(null);
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const darkTheme = createTheme({
         palette: {
@@ -28,26 +28,28 @@ function Playlist() {
 
     useEffect(() => {
         axios.get(`${apiUrl}/getPlaylist/` + userId)
+
             .then(res => {
                 if (res.data.Status === "Success") {
-                    setData([...res.data.Result]);
+
+                    setData(res.data.Result);
+                    if (res.data.Result.length > 0) {
+                        // Assuming each playlist has an array of images
+                        const playlistImages = res.data.Result.map(playlist => `${playlist.image}`);
+
+                        // Set the array of image URLs
+                        setImageURL(playlistImages);
+                    }
                 } else {
-                    alert("Error")
+                    alert("Error");
                 }
             })
             .catch(err => console.log(err));
     }, []);
-    // useEffect(() => {
-    //     axios.get(`${apiUrl}/countSongPlaylist`)
-    //         .then(res => {
-    //             setSongCount(res.data.songCount); // Assuming the response contains a field 'songCount'
-    //         })
-    //         .catch(err => console.error(err));
-    // }, []);
     const handleDelete = (id) => {
         console.log(id);
 
-        axios.delete(`${apiUrl}/deleteCollection/` + id)
+        axios.delete(`${apiUrl}/deleteCollection/ ` + id)
             .then(res => {
                 if (res.data.Status === "Success") {
                     window.location.reload(true);
@@ -59,6 +61,7 @@ function Playlist() {
         return search.trim() === '' ||
             playlist.collection_name.toLowerCase().includes(search.toLowerCase());
     });
+
     return (
         <>
             <Box sx={{ flexGrow: 1, top: 0, position: "sticky", zIndex: "3" }}>
@@ -120,10 +123,15 @@ function Playlist() {
                                 <div className="container rounded bg-white" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <div className="d-flex flex-column align-items-center text-center">
                                         <div className="rounded-image-container">
-                                            <img
-                                                className="rounded-square-image"
-                                                src={`${apiUrl}/images/${playlist.image}`}
-                                            />
+
+                                            {imageURL && (
+                                                <img
+                                                    className="rounded-square-image"
+                                                    src={`data:image/png;base64,${playlist.image}`}
+
+
+                                                />
+                                            )}
                                             <div className="image-overlay">
                                                 <Link href={'/viewPlaylist/' + playlist.id} className="overlay-text" underline='none'><b>View Playlist</b></Link>
                                             </div>

@@ -1,3 +1,6 @@
+
+
+
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -17,6 +20,7 @@ function CreatePlaylist() {
     const [data, setData] = useState({
         collection_name: '',
         image: null,
+        imageSource: null,
     });
     const { userId } = useParams();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -32,21 +36,50 @@ function CreatePlaylist() {
         return true;
     };
 
+
+    const convertImageToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                resolve(reader.result.split(',')[1]);
+            };
+
+            reader.onerror = (error) => {
+                reject(error);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    };
+
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+
+        try {
+            const base64Image = await convertImageToBase64(file);
+            const imageSource = `${base64Image}`;
+            setData({ ...data, image: imageSource, imageSource });
+        } catch (error) {
+            console.error('Error converting image to Base64:', error);
+        }
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const formData = new FormData();
-        formData.append("collection_name", data.collection_name);
-        formData.append("image", data.image);
+        formData.append('collection_name', data.collection_name);
+        formData.append('image', data.image);
 
         axios.post(`${apiUrl}/createPlaylist/` + userId, formData)
-            .then(res => {
-                if (res.data.Status === "Success") {
-                    navigate("/playlist/" + userId)
+            .then((res) => {
+                if (res.data.Status === 'Success') {
+                    navigate('/playlist/' + userId);
                 } else {
-                    alert("Collection name is existed. Please try again !")
+                    alert('Collection name is existed. Please try again!');
                 }
             })
-            .catch(err => console.log(err));
+            .catch((err) => console.log(err));
     };
 
     const handleNext = () => {
@@ -86,8 +119,9 @@ function CreatePlaylist() {
                     <div className="d-flex flex-column w-100 align-items-center">
                         <label className="form-label">Select Image:</label>
                         <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                            <input type="file" onChange={(e) => setData({ ...data, image: e.target.files[0] })} />
+                            <input type="file" name="image" onChange={handleImageChange} />
                         </Button>
+                        {/* {data.imageSource && <img src={data.imageSource} alt="Selected" style={{ marginTop: '10px', maxWidth: '100%' }} />} */}
                     </div>
                 );
             case 2:

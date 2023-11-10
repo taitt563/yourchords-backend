@@ -413,7 +413,7 @@ function Chord() {
                                     <div className="py-5">
                                         <div className="row mt-2">
 
-                                            <div style={{ marginBottom: '50px' }}>
+                                            <div style={{ marginBottom: '40px' }}>
                                                 {selectedChord ? (
                                                     <h3><b>{selectedChord.root} {selectedChord.scale}</b></h3>
                                                 ) : (

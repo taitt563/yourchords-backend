@@ -223,7 +223,7 @@ app.post('/createPlaylist/:username', upload.single('image'), (req, res) => {
                 const values = [
                     req.params.username,
                     req.body.collection_name,
-                    req.file.filename,
+                    req.body.image,
                     req.params.username,
                 ];
                 con.query(insertSql, values, (err, result) => {
