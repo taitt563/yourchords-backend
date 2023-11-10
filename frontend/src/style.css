@@ -122,16 +122,16 @@ section {
 .profile-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: auto;
+    align-items: left;
 }
 
 .profile-content {
     margin-top: 60px;
+    padding-left: 50px;
 }
 
 .profile-header {
-    text-align: center;
+    text-align: left;
     margin-bottom: 20px;
 }
 
@@ -139,11 +139,8 @@ section {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
+    padding-left: 50px;
     margin-top: 20px;
-    background-color: #f9f9f9;
 }
 
 .profile-image {
@@ -157,7 +154,8 @@ section {
     width: 150px;
     height: 150px;
     object-fit: cover;
-    margin-left: 30px;
+    display: flex;
+    justify-content: center;
 }
 
 .email-text {
@@ -166,18 +164,14 @@ section {
 
 }
 
-.profile-details {
-    width: 70%;
-}
+
 
 .modal-details {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    margin-top: 20px;
     background-color: #f9f9f9;
 }
 
