@@ -389,8 +389,7 @@ function Chord() {
                                 <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                                     <div className="large-container">
                                         <h3 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Scale</h3>
-
-                                        <div className="button-container">
+                                        <div className="button-container pd-top">
                                             <button className={`custom-button ${buttonClickedChord ? 'clicked' : ''}`} onClick={(e) => { handleSearchScale(e) }}>
                                                 <SearchIcon />  Search Scale
                                             </button>
@@ -403,7 +402,6 @@ function Chord() {
                                         <div className="small-container" style={{ marginTop: '15px' }}>
                                             <b>Your Chord - <i>Scale    </i></b> is a tool for finding guitar scales by customizing the `root` and `scale` accordingly and then clicking <ArrowForwardIcon color='success' fontSize='small' /> to search. Additionally, further customization can be made in the advanced settings section<SettingsIcon color='disabled' fontSize='small' />.
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -423,7 +421,7 @@ function Chord() {
                                             <div className="col-md-2">
 
 
-                                                <label>Root:</label>
+                                                <label className='pd-bottom'>Root:</label>
                                                 <br />
                                                 <ButtonGroup variant="contained" ref={anchorRefRoot} aria-label="split button" >
                                                     <Button
@@ -489,7 +487,7 @@ function Chord() {
                                             </div>
 
                                             <div className="col-md-10">
-                                                <label>Scale: </label>
+                                                <label className='pd-bottom'>Scale: </label>
                                                 <br />
                                                 <ButtonGroup variant="contained" ref={anchorRefScale} aria-label="split button">
                                                     <Button
@@ -564,7 +562,7 @@ function Chord() {
                                                 <p style={{ fontSize: '12px', marginTop: '30px' }}>Advanced settings:</p>
                                                 <hr style={{ width: '100%' }} />
                                                 <div className="col-md-4">
-                                                    <label>Show more:</label>
+                                                    <label className='pd-bottom'>Show more:</label>
                                                     <br />
                                                     <ButtonGroup variant="contained" ref={anchorRefShowMore} aria-label="split button">
                                                         <Button style={{
