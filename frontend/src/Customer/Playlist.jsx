@@ -28,10 +28,8 @@ function Playlist() {
 
     useEffect(() => {
         axios.get(`${apiUrl}/getPlaylist/` + userId)
-
             .then(res => {
                 if (res.data.Status === "Success") {
-
                     setData(res.data.Result);
                     if (res.data.Result.length > 0) {
                         // Assuming each playlist has an array of images

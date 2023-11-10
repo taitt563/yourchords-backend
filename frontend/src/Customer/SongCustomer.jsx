@@ -38,7 +38,6 @@ function SongCustomer() {
     const [selectedSong, setSelectedSong] = useState(null);
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
     const [imageURL, setImageURL] = useState(null);
-
     const style = {
         position: 'absolute',
         top: '50%',
@@ -58,10 +57,7 @@ function SongCustomer() {
                 if (res.data.Status === 'Success') {
                     setDataPlaylist(res.data.Result);
                     if (res.data.Result.length > 0) {
-                        // Assuming each playlist has an array of images
                         const playlistImages = res.data.Result.map(playlist => `${playlist.image}`);
-
-                        // Set the array of image URLs
                         setImageURL(playlistImages);
                     }
                     setModalOpen(true);
@@ -303,8 +299,6 @@ function SongCustomer() {
                                                 <img
                                                     className="rounded-square-image"
                                                     src={`data:image/png;base64,${playlist.image}`}
-
-
                                                 />
                                             )}
                                             <div className="image-overlay">
