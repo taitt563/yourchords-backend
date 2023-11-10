@@ -34,7 +34,7 @@ function Chord() {
     const anchorRefShowMore = useRef(null);
     const [dataScale, setDataScale] = useState([]);
     const [selectedIndexRoot, setSelectedIndexRoot] = useState(0);
-    const [selectedIndexShowMore, setSelectedIndexShowMore] = useState(1);
+    const [selectedIndexShowMore, setSelectedIndexShowMore] = useState(0);
     const [selectedIndexScale, setSelectedIndexScale] = useState(0);
     const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
     const [selectedChord, setSelectedChord] = useState(null);
@@ -99,7 +99,7 @@ function Chord() {
     });
     const optionsRoot = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
     const optionsShowMore = [
-        'None', 'Note', 'Degree'
+        'Note', 'Degree'
     ];
 
     const optionsScale = [
@@ -175,14 +175,14 @@ function Chord() {
                 "Phrygian Dominant (A.K.A. Spanish)",
                 "Neapolitan Minor",
                 "Neapolitan Major",
-                "Enicmatic Major",
+                "Enigmatic",
                 "Eight-tone Spanish",
                 "Balinese Pelog (A.K.A. Balinese)",
                 "Oriental",
                 "Iwato",
                 "Yo",
                 "Prometheus",
-                "Symetrical",
+                "Symmetrical",
                 "Major Locrian (A.K.A. Arabian)",
             ]
         },
@@ -231,7 +231,7 @@ function Chord() {
                 .then((res) => {
                     if (res.data.Status === 'Success') {
                         setDataScale(res.data.Result);
-                        setImageURL(res.data.Result)
+                        setImageURL(`data:image/png;base64, ${res.data.Result.image}`);
                     } else {
                         alert('Error');
                     }
@@ -568,7 +568,7 @@ function Chord() {
                                                     <br />
                                                     <ButtonGroup variant="contained" ref={anchorRefShowMore} aria-label="split button">
                                                         <Button style={{
-                                                            width: '200px', color: 'white',
+                                                            width: '100px', color: 'white',
                                                             backgroundColor: '#0d6efd'
                                                         }} >
                                                             {optionsShowMore[selectedIndexShowMore]}</Button>
@@ -639,9 +639,11 @@ function Chord() {
                                                     </FormControl>
                                                 </div>
                                                 <div style={{ marginTop: '50px' }}>
+
                                                     {imageURL && dataScale.map((info, index) => (
                                                         <div key={index} >
-                                                            <img src={`${apiUrl}/images/scale/` + info.image} style={{ width: '100%', height: '100%' }} />
+
+                                                            <img src={`${info.image}`} />
                                                         </div>
                                                     ))}
                                                 </div>
