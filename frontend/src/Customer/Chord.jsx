@@ -388,7 +388,7 @@ function Chord() {
                             <div className="col-md-4 border-right">
                                 <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                                     <div className="large-container">
-                                        <h3>Scale</h3>
+                                        <h3 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Scale</h3>
 
                                         <div className="button-container">
                                             <button className={`custom-button ${buttonClickedChord ? 'clicked' : ''}`} onClick={(e) => { handleSearchScale(e) }}>
@@ -417,7 +417,7 @@ function Chord() {
                                                 {selectedChord ? (
                                                     <h3><b>{selectedChord.root} {selectedChord.scale}</b></h3>
                                                 ) : (
-                                                    <h3>Search Chord</h3>
+                                                    <h3 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Search Chord</h3>
                                                 )}
                                             </div>
                                             <div className="col-md-2">
@@ -656,7 +656,7 @@ function Chord() {
                                     <div className="py-5">
                                         <div className="row mt-2">
                                             <div style={{ marginBottom: '50px' }}>
-                                                <h3>List Scale</h3>
+                                                <h3 style={{ color: '#0d6efd', fontWeight: 'bold' }}>List Scale</h3>
                                                 <p>Include all the listed scales below represented on the guitar fretboard.</p>
                                             </div>
                                             <div className="col-md-8">

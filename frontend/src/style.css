@@ -130,9 +130,11 @@ section {
     padding-left: 50px;
 }
 
-.profile-header {
-    text-align: left;
+.profile-image {
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .profile-form-container {
@@ -143,7 +145,7 @@ section {
     margin-top: 20px;
 }
 
-.profile-image {
+.profile-header {
     display: flex;
     flex-direction: column;
     align-items: center;
