@@ -117,7 +117,7 @@ function Playlist() {
                     <div className="d-flex flex-wrap justify-content-start">
 
                         {filteredPlaylist.map((playlist, index) => (
-                            <div key={index} className="m-4 playlist-container p-3">
+                            <div key={index} className="m-3 playlist-container p-2">
                                 <div className="container rounded bg-white" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <div className="d-flex flex-column align-items-center text-center">
                                         <div className="rounded-image-container">
