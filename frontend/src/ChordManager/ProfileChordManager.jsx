@@ -92,7 +92,7 @@ function ProfileChordManager() {
                 <div className="profile-content">
                     <div className="profile-header">
 
-                        <h3 className="profile-header"><b>Account Settings</b></h3>
+                        <h3 className="profile-header" style={{ color: '#0d6efd' }}><b>Account Settings</b></h3>
 
                     </div>
                     <hr style={{ width: '95%' }} />
@@ -106,18 +106,19 @@ function ProfileChordManager() {
                         <p>{data.email}</p>
 
                     </div>
-                    <div className="mt-4">
+                    <div className="mt-2">
                         <h3><b>Profile</b></h3>
                     </div>
                     <div className="mt-4" style={{ display: 'flex', flexDirection: 'row', paddingTop: '50px' }}>
                         <div className="col-md-6"><b>Name: </b><p>{data.name}</p></div>
-                        <div className="col-md-6"><b>Sur name: </b><p>{data.surname}</p></div>
+                        {data.surname ?
+                            <div className="col-md-6"><b>Sur name: </b><p>{data.surname}</p></div>
+                            :
+                            <div className="col-md-6"><b>Sur name: </b><p>None</p></div>
+
+                        }
                     </div>
-
-
-
                     <div className="mt-4" style={{ display: 'flex', flexDirection: 'row' }}>
-
                         <div className="col-md-6"><b>Email: </b>
                             <p>{data.email}</p>
                         </div>
@@ -130,14 +131,25 @@ function ProfileChordManager() {
                         </div>
                     </div>
                     <div className="mt-4" style={{ display: 'flex', flexDirection: 'row' }}>
-                        <div className="col-md-6"><b>Username:</b><p>{data.username}</p></div>
+                        {data.username !== "" ?
+                            <div className="col-md-6"><b>Username:</b><p>{data.username}</p></div>
+                            :
+                            <div className="col-md-6"><b>Username:</b><p>None</p></div>
+                        }
                         <div className="col-md-6"><b>Role: </b><p>{data.role}</p></div>
                     </div>
 
 
                     <div className="mt-4" style={{ display: 'flex', flexDirection: 'row' }} >
-                        <div className="col-md-6"><b>Phone number: </b><p>{data.phoneNumber}</p></div>
-                        <div className="col-md-6"><b>Address Line: </b><p>{data.address}</p></div>
+                        {data.phoneNumber !== "" ?
+                            <div className="col-md-6"><b>Phone number: </b><p>{data.phoneNumber}</p></div>
+                            : <div className="col-md-6"><b>Phone number: </b><p>None</p></div>
+                        }
+                        {data.phoneNumber !== "" ?
+                            <div className="col-md-6"><b>Address Line: </b><p>{data.address}</p></div>
+                            :
+                            <div className="col-md-6"><b>Address Line: </b><p>None</p></div>
+                        }
 
                     </div>
                     <div className="mt-4" style={{ display: 'flex', flexDirection: 'row' }}>
@@ -147,7 +159,12 @@ function ProfileChordManager() {
 
                     <div className="mt-4" style={{ display: 'flex', flexDirection: 'row' }} >
                         <div className="col-md-6"><b>Email: </b><p>{data.email}</p></div>
-                        <div className="col-md-6"><b>Job: </b><p>{data.job}</p></div>
+                        {data.job !== "" ?
+                            <div className="col-md-6"><b>Job: </b><p>{data.job}</p></div>
+                            :
+                            <div className="col-md-6"><b>Job: </b><p>None</p></div>
+
+                        }
                     </div>
 
                     <div className="mt-4 pd-bottom">
