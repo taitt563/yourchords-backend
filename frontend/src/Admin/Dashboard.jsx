@@ -73,7 +73,7 @@ function Dashboard() {
                                     </ListItem>
                                     <br />
                                     <span type="text" className='fs-100 font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
-                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                    <List sx={{ width: '40%', paddingTop: '30px' }}>
                                         <ListItemButton
                                             onClick={() => handleListItemClick('/manageAccount')} className='buttonDashBoard'
                                         >
@@ -83,7 +83,7 @@ function Dashboard() {
                                             <ListItemText><span className="fontDashboard">Manage Account</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                    <List sx={{ width: '40%', paddingTop: '30px' }}>
                                         <ListItemButton
                                             onClick={() => handleListItemClick('/requestAccount')} className='buttonDashBoard'
                                         >
@@ -93,7 +93,7 @@ function Dashboard() {
                                             <ListItemText><span className="fontDashboard">Request Account</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                    <List sx={{ width: '40%', paddingTop: '30px' }}>
                                         <ListItemButton
                                             onClick={() => handleListItemClick('/Song')} className='buttonDashBoard'
                                         >
@@ -103,7 +103,7 @@ function Dashboard() {
                                             <ListItemText><span className="fontDashboard">Song</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                    <List sx={{ width: '40%', paddingTop: '30px' }}>
                                         <ListItemButton
                                             onClick={() => handleListItemClick('/manageFeedback')} className='buttonDashBoard'
                                         >
@@ -113,7 +113,7 @@ function Dashboard() {
                                             <ListItemText><span className="fontDashboard">Manage feedback</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                    <List sx={{ width: '40%', paddingTop: '30px' }}>
                                         <ListItemButton
                                             onClick={() => handleListItemClick(`/profile/${profile.userId}`)} className='buttonDashBoard'
                                         >
@@ -123,7 +123,7 @@ function Dashboard() {
                                             <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ width: '45%', paddingTop: '30px', paddingRight: '10px' }}>
+                                    <List sx={{ width: '40%', paddingTop: '30px' }}>
                                         <ListItemButton
                                             onClick={() => handleListItemClick('/login')} className='buttonDashBoard'
                                         >

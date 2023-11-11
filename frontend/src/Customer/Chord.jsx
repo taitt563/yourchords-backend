@@ -413,7 +413,7 @@ function Chord() {
 
                                             <div style={{ marginBottom: '40px' }}>
                                                 {selectedChord ? (
-                                                    <h3><b>{selectedChord.root} {selectedChord.scale}</b></h3>
+                                                    <h3 style={{ color: '#0d6efd', fontWeight: 'bold' }}><b>{selectedChord.root} {selectedChord.scale}</b></h3>
                                                 ) : (
                                                     <h3 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Search Chord</h3>
                                                 )}
@@ -641,7 +641,7 @@ function Chord() {
                                                     {imageURL && dataScale.map((info, index) => (
                                                         <div key={index} >
 
-                                                            <img src={`${info.image}`} />
+                                                            <img src={`${info.image}`} style={{ width: '100%', height: '100%' }} />
                                                         </div>
                                                     ))}
                                                 </div>
