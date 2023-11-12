@@ -71,6 +71,8 @@ function ManageAccount() {
     const [rowsPerPage, setRowsPerPage] = useState(6);
     const [orderBy, setOrderBy] = useState("username");
     const [order, setOrder] = useState("asc");
+    const [imageURL, setImageURL] = useState(null);
+
     const primaryColor = '#F1F1FB';
 
     const handleChange = (event, newValue) => {
@@ -143,6 +145,10 @@ function ManageAccount() {
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     setDataProfile(res.data.Result);
+                    if (res.data.Result.length > 0) {
+                        const profileImages = res.data.Result.map(data => `${data.image}`);
+                        setImageURL(profileImages);
+                    }
                 } else {
                     alert('Error');
                 }
@@ -882,11 +888,14 @@ function ManageAccount() {
                                     <div className="col-md-4 border-right">
                                         <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                                             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-                                                {viewAccount.image !== '' ?
-                                                    <img className="rounded-circle mt-6 border" src={`${apiUrl}/images/` + viewAccount.image} width="150px" />
-                                                    :
-                                                    <AccountCircleIcon fontSize="large" />
-                                                }
+
+                                                {imageURL && (
+                                                    viewAccount.image !== '' ?
+
+                                                        <img className="rounded-circle mt-6 border" src={`data:image/png;base64,${viewAccount.image}`} width="150px" />
+                                                        :
+                                                        <AccountCircleIcon fontSize="large" />
+                                                )}
                                             </div>
                                             <span className="text-black-50">{viewAccount.email}</span>
                                         </div>
