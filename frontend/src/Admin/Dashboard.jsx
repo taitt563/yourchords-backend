@@ -18,6 +18,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 function Dashboard() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [datachord, setDataChord] = useState([]);
+    const [imageURL, setImageURL] = useState(null);
+
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
     let showDate = new Date();
@@ -28,6 +30,14 @@ function Dashboard() {
             .then(res => {
                 if (res.data.Status === "Success") {
                     setDataChord(res.data.Result);
+                    if (res.data.Result.length > 0) {
+                        // Assuming each playlist has an array of images
+                        const profileImages = res.data.Result.map(data => `${data.image}`);
+
+
+                        // Set the array of image URLs
+                        setImageURL(profileImages);
+                    }
                 } else {
                     alert("Error")
                 }
@@ -57,8 +67,11 @@ function Dashboard() {
                                     <ListItem>
                                         <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
                                             <Avatar>
-                                                <img src={`${apiUrl}/images/` + profile.image} alt="" className='profile_image' />
-                                            </Avatar>
+                                                {imageURL &&
+                                                    (
+                                                        <img src={`data:image/png;base64,${profile.image}`} alt="" className='profile_image' />
+                                                    )
+                                                }                                            </Avatar>
                                         </ListItemAvatar>
                                         <ListItemText className="font" primary={profile.name.length > 10 ?
                                             <b>{profile.name.substring(0, 10)}...</b>

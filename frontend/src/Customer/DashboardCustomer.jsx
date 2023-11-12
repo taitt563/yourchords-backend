@@ -26,6 +26,8 @@ function DashboardCustomer() {
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
     const [openPlaylist, setOpenPlaylist] = useState(false);
+    const [imageURL, setImageURL] = useState(null);
+
     const handleClickPlaylist = () => {
         setOpenPlaylist(!openPlaylist);
     };
@@ -39,6 +41,10 @@ function DashboardCustomer() {
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
+                    if (res.data.Result.length > 0) {
+                        const profileImages = res.data.Result.map(data => `${data.image}`);
+                        setImageURL(profileImages);
+                    }
                 } else {
                     alert("Error")
                 }
@@ -60,8 +66,10 @@ function DashboardCustomer() {
                                 }} >
                                     <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
                                         <Avatar>
-                                            {
-                                                <img src={`${apiUrl}/images/` + profile.image} alt="" className='profile_image' />
+                                            {imageURL &&
+                                                (
+                                                    <img src={`data:image/png;base64,${profile.image}`} className='profile_image' />
+                                                )
                                             }
                                         </Avatar>
                                     </ListItemAvatar>

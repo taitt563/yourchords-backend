@@ -11,6 +11,8 @@ const swaggerUI = require('swagger-ui-express');
 const fs = require('fs');
 
 const app = express();
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 const spacs = JSON.parse(fs.readFileSync('./swagger.json'));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(spacs))
 const salt = 10;
@@ -360,11 +362,11 @@ app.get('/getProfile/:userId', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
-app.put('/updateProfile/:userId', upload.single("image"), (req, res) => {
+app.put('/updateProfile/:userId', (req, res) => {
     const userId = req.params.userId;
-    const sql = "UPDATE profile SET name = ?, surname=?, phoneNumber= ?, job=? , email = ?, address= ? WHERE userId = ?";
+    const sql = "UPDATE profile SET name = ?, surname=?, phoneNumber= ?, job=? , email = ?, address= ?, image= ? WHERE userId = ?";
 
-    con.query(sql, [req.body.name, req.body.surname, req.body.phoneNumber, req.body.job, req.body.email, req.body.address, userId], (err, result) => {
+    con.query(sql, [req.body.name, req.body.surname, req.body.phoneNumber, req.body.job, req.body.email, req.body.address, req.body.image, userId], (err, result) => {
         if (err) return res.json({ Error: "Error" });
         return res.json({ Status: "Success", Result: result });
     })

@@ -108,7 +108,7 @@ function Playlist() {
                 </ThemeProvider>
             </Box>
             <div className='d-flex flex-column align-items-center pt-4'>
-                <h3 className="d-flex justify-content-center">PLAYLIST</h3>
+                <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Library</h3>
             </div>
             {filteredPlaylist.length === 0 ? (
                 <p className="d-flex justify-content-center" style={{ color: '#0d6efd', paddingTop: '200px' }}>No result found. Try again !</p>

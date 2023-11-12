@@ -11,6 +11,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import moment from 'moment'
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 function ProfileCustomer() {
     const [data, setData] = useState({
@@ -18,7 +19,7 @@ function ProfileCustomer() {
         email: '',
         address: '',
         surname: '',
-        image: '',
+        image: null,
         username: '',
         phoneNumber: '',
         job: '',
@@ -28,6 +29,7 @@ function ProfileCustomer() {
     const [open, setOpen] = useState(false);
     const [dataProfile, setDataProfile] = useState([]);
     const { userId } = useParams();
+    const [imageURL, setImageURL] = useState(null);
     const style = {
         position: 'absolute',
         top: '50%',
@@ -58,6 +60,10 @@ function ProfileCustomer() {
                     image: res.data.Result[0].image,
                     registration_time: res.data.Result[0].registration_time,
                 })
+                if (res.data.Result.length > 0) {
+                    const profileImages = res.data.Result.map(data => `${data.image}`);
+                    setImageURL(profileImages);
+                }
             })
             .catch(err => console.log(err));
     }, [])
@@ -67,6 +73,15 @@ function ProfileCustomer() {
             .then(res => {
                 if (res.data.Status === "Success") {
                     setDataProfile(res.data.Result);
+                    if (res.data.Result.length > 0) {
+                        // Assuming each playlist has an array of images
+                        const profileImages = res.data.Result.map(editAccount => `${editAccount.image}`);
+
+
+                        // Set the array of image URLs
+                        setImageURL(profileImages);
+                    }
+
                 } else {
                     alert("Error")
                 }
@@ -84,6 +99,33 @@ function ProfileCustomer() {
             .catch(err => console.log(err));
     }
 
+    const convertImageToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                resolve(reader.result.split(',')[1]);
+            };
+
+            reader.onerror = (error) => {
+                reject(error);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    };
+
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+
+        try {
+            const base64Image = await convertImageToBase64(file);
+            const imageSource = `${base64Image}`;
+            setData({ ...data, image: imageSource, imageSource });
+        } catch (error) {
+            console.error('Error converting image to Base64:', error);
+        }
+    };
     return (
         <>
             <SearchAppBar />
@@ -97,11 +139,15 @@ function ProfileCustomer() {
                     </div>
                     <hr style={{ width: '95%' }} />
                     <div className="profile-image">
+                        {imageURL && (
+                            data.image !== "" ?
 
-                        {data.image !== "" ?
-                            <img className="profile-avatar" src={`${apiUrl}/images/` + data.image} />
-                            :
-                            <AccountCircleIcon fontSize="large" />
+                                <img className="profile-avatar" src={`data:image/png;base64,${data.image}`} />
+
+
+                                :
+                                <AccountCircleIcon fontSize="large" />
+                        )
                         }
                         <p>{data.email}</p>
 
@@ -206,7 +252,7 @@ function ProfileCustomer() {
 
                                                                         <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                                                                             {editAccount.image != "" ?
-                                                                                <img className="rounded-circle mt-6 border" src={`${apiUrl}/images/` + editAccount.image} width="150px" />
+                                                                                <img className="rounded-circle mt-6 border" src={`data:image/png;base64,${editAccount.image}`} width="150px" />
                                                                                 :
                                                                                 <AccountCircleIcon fontSize="large" />
                                                                             }
@@ -237,6 +283,9 @@ function ProfileCustomer() {
                                                                         </div>
                                                                         <div className="row mt-4">
                                                                             <div className="col-md-12">Job: <input className="form-control" onChange={e => setData({ ...data, job: e.target.value })} value={data.job} placeholder='Your job...' /></div>
+                                                                            <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                                                                                <input type="file" name="image" onChange={handleImageChange} />
+                                                                            </Button>
                                                                         </div>
                                                                         <div className="mt-3">
                                                                             <Button variant="contained" onClick={handleSubmit} className='btn btn-success'>UPDATE
