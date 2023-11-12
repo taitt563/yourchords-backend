@@ -50,22 +50,23 @@ function App() {
           <Route path='/song' element={<Song />}></Route>
           <Route path='/manageAccount' element={<ManageAccount />}></Route>
           <Route path='/requestAccount' element={<RequestAccount />}></Route>
-          <Route path='/viewSong/:id' element={<ViewSong />}></Route>
           <Route path='/manageFeedback' element={<ManageFeedback />}></Route>
           <Route path='/viewFeedback/:username' element={<ViewFeedback />}></Route>
         </Route>
+        <Route path='/viewSong/:id' element={<ViewSong />}></Route>
+
         {/* CHORD MANAGER ROLE */}
         <Route path='/' element={<DashboardChordManager />}>
           <Route path='/verifySong' element={<VerifySong />}></Route>
-          <Route path='/viewSongChordManager/:id' element={<ViewSongChordManager />}></Route>
           <Route path='/profileChordManager/:userId' element={<ProfileChordManager />}></Route>
           <Route path='/songChordManager' element={<SongChordManager />}></Route>
         </Route>
+        <Route path='/viewSongChordManager/:id' element={<ViewSongChordManager />}></Route>
+
 
         {/* MUSICIAN ROLE */}
         <Route path='/' element={<DashboardMusician />}>
           <Route path='/chordMissMusician' element={<ChordMissMusician />}></Route>
-          <Route path='/viewSongMusician/:id' element={<ViewSongMusician />}></Route>
           <Route path='/createSong' element={<CreateSong />}></Route>
           <Route path='/editSongMusician/:id' element={<EditSongMusician />}></Route>
           <Route path='/profileMusician/:userId' element={<ProfileMusician />}></Route>
@@ -76,6 +77,8 @@ function App() {
           <Route path='/createChord' element={<CreateChord />}></Route>
           <Route path='/songMusician' element={<SongMusician />}></Route>
         </Route>
+        <Route path='/viewSongMusician/:id' element={<ViewSongMusician />}></Route>
+
         {/* CUSTOMER ROLE */}
         <Route path='/' element={<DashboardCustomer />}>
           <Route path='/songCustomer/:userId' element={<SongCustomer />}></Route>
