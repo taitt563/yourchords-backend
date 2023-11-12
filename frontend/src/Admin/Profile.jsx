@@ -280,8 +280,13 @@ function Profile() {
                                                                             <div className="col-md-12">Address Line: <input className="form-control" onChange={e => setData({ ...data, address: e.target.value })} value={data.address} placeholder='Enter your address' /></div>
                                                                             <div className="col-md-12">Email: <input className="form-control" type="email" onChange={e => setData({ ...data, email: e.target.value })} value={data.email} placeholder='Enter your email' /></div>
                                                                         </div>
-                                                                        <div className="row mt-4">
+                                                                        <div className="row mt-2">
                                                                             <div className="col-md-12">Job: <input className="form-control" onChange={e => setData({ ...data, job: e.target.value })} value={data.job} placeholder='Your job...' /></div>
+                                                                        </div>
+                                                                        <div className="mt-2">
+                                                                            <div className="col-md-6">Upload Image:
+                                                                            </div>
+
                                                                             <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                                                                                 <input type="file" name="image" onChange={handleImageChange} />
                                                                             </Button>
