@@ -204,7 +204,6 @@ function ProfileChordManager() {
                     </div>
 
                     <div className="mt-4" style={{ display: 'flex', flexDirection: 'row' }} >
-                        <div className="col-md-6"><b>Email: </b><p>{data.email}</p></div>
                         {data.job !== "" ?
                             <div className="col-md-6"><b>Job: </b><p>{data.job}</p></div>
                             :
