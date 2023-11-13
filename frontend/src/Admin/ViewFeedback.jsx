@@ -141,7 +141,7 @@ function ViewFeedback() {
                                     <CardHeader
                                         avatar={
                                             data.image != "" ?
-                                                <img src={`${apiUrl}/images/` + data.image} alt="" className='profile_image' />
+                                                <img src={`${apiUrl}/images/` + data.image} alt="" className='profile-avatar' />
                                                 :
                                                 (
                                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
