@@ -35,10 +35,10 @@ function Profile() {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 700,
-        height: 700,
+        width: 1000,
+        height: 800,
+        borderRadius: 5,
         bgcolor: 'background.paper',
-        border: '2px solid #000',
         boxShadow: 24,
         p: 4,
     };
@@ -218,94 +218,76 @@ function Profile() {
                     </div>
 
                 </div>
+
                 <Modal
                     open={open}
-                    onClose={() => setOpen(false)}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}>
+                    <Box sx={style} >
                         {dataProfile.map((editAccount, index) => {
-                            return (
-                                <div key={index}>
-                                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                                        Profile - <b>{editAccount.name}</b>
-                                    </Typography>
-                                    <div className="modal-details">
-                                        <Modal
-                                            open={open}
-                                            onClose={() => { setOpen(false) }}
-                                            aria-labelledby="modal-modal-title"
-                                            aria-describedby="modal-modal-description"
-                                        >
-                                            <Box sx={style} >
-                                                {dataProfile.map((editAccount, index) => {
-                                                    return <div key={index}>
-                                                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                                                            Profile - <b>{editAccount.name}</b>
-                                                        </Typography>
-                                                        <div className=" bg-white mt-6 mb-5">
-                                                            <div className="row">
-                                                                <div className="col-md-4 border-right">
-                                                                    <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-                                                                        <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-                                                                            {editAccount.image != "" ?
-                                                                                <img className="rounded-circle mt-6 border" src={`data:image/png;base64,${editAccount.image}`} width="150px" />
-                                                                                :
-                                                                                <AccountCircleIcon fontSize="large" />
-                                                                            }
-                                                                        </div>
-                                                                        <span className="text-black-50">{editAccount.email}</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-md-7 border-right">
-                                                                    <div className="py-6">
-                                                                        <div className="row mt-4">
-                                                                            <div className="col-md-6"><b>Name: </b><input className="form-control" onChange={e => setData({ ...data, name: e.target.value })} value={data.name} placeholder='Enter your name' /></div>
-                                                                            <div className="col-md-6"><b>Sur name: </b><input className="form-control" onChange={e => setData({ ...data, surname: e.target.value })} value={data.surname} placeholder='Enter your surname' /></div>
-                                                                        </div>
-                                                                        <div className="row mt-4">
-                                                                            <div className="col-md-6"><b>Active: </b>
-                                                                                {editAccount.ban == "Enable" ?
-                                                                                    <p style={{ color: 'green' }}><b>{editAccount.ban}</b></p>
-                                                                                    :
-                                                                                    <p style={{ color: 'red' }}><b>{editAccount.ban}</b></p>
-                                                                                }
-                                                                            </div>
-                                                                            <div className="col-md-6"><b>Register date: </b><p>{moment(editAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
-                                                                            <div className="col-md-6"><b>Username: </b><p>{editAccount.username}</p></div>
-                                                                            <div className="col-md-6"><b>Role: </b><p>{editAccount.role}</p></div>
-                                                                            <div className="col-md-12">Phone number: <input className="form-control" type="number" onChange={e => setData({ ...data, phoneNumber: e.target.value })} value={data.phoneNumber} placeholder='Enter your phone number' /></div>
-                                                                            <div className="col-md-12">Address Line: <input className="form-control" onChange={e => setData({ ...data, address: e.target.value })} value={data.address} placeholder='Enter your address' /></div>
-                                                                            <div className="col-md-12">Email: <input className="form-control" type="email" onChange={e => setData({ ...data, email: e.target.value })} value={data.email} placeholder='Enter your email' /></div>
-                                                                        </div>
-                                                                        <div className="row mt-2">
-                                                                            <div className="col-md-12">Job: <input className="form-control" onChange={e => setData({ ...data, job: e.target.value })} value={data.job} placeholder='Your job...' /></div>
-                                                                        </div>
-                                                                        <div className="mt-2">
-                                                                            <div className="col-md-6">Upload Image:
-                                                                            </div>
+                            return <div key={index}>
+                                <Typography id="modal-modal-title" variant="h6" component="h2" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <span style={{ flex: '1 1 auto' }}>Profile - <b>{editAccount.name}</b></span>
 
-                                                                            <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                                                                                <input type="file" name="image" onChange={handleImageChange} />
-                                                                            </Button>
-                                                                        </div>
-                                                                        <div className="mt-3">
-                                                                            <Button variant="contained" onClick={handleSubmit} className='btn btn-success'>UPDATE
-                                                                            </Button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => setOpen(false)}></button>
+
+                                </Typography>
+                                <div className=" bg-white mt-6 mb-5">
+                                    <div className="row">
+                                        <div className="col-md-4 border-right">
+                                            <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+                                                <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+                                                    {editAccount.image != "" ?
+                                                        <img className="profile-avatar" src={`data:image/png;base64,${editAccount.image}`} width="150px" />
+                                                        :
+                                                        <AccountCircleIcon fontSize="large" />
+                                                    }
+                                                </div>
+                                                <span className="text-black-50">{editAccount.email}</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-7 border-right">
+                                            <div className="py-6">
+                                                <div className="row mt-4">
+                                                    <div className="col-md-6"><b>Name: </b><input className="form-control" onChange={e => setData({ ...data, name: e.target.value })} value={data.name} placeholder='Enter your name' /></div>
+                                                    <div className="col-md-6"><b>Sur name: </b><input className="form-control" onChange={e => setData({ ...data, surname: e.target.value })} value={data.surname} placeholder='Enter your surname' /></div>
+                                                </div>
+                                                <div className="row mt-4">
+                                                    <div className="col-md-6"><b>Active: </b>
+                                                        {editAccount.ban == "Enable" ?
+                                                            <p style={{ color: 'green' }}><b>{editAccount.ban}</b></p>
+                                                            :
+                                                            <p style={{ color: 'red' }}><b>{editAccount.ban}</b></p>
+                                                        }
                                                     </div>
-                                                })}
-                                            </Box>
-                                        </Modal>
+                                                    <div className="col-md-6"><b>Register date: </b><p>{moment(editAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
+                                                    <div className="col-md-6"><b>Username: </b><p>{editAccount.username}</p></div>
+                                                    <div className="col-md-6"><b>Role: </b><p>{editAccount.role}</p></div>
+                                                    <div className="col-md-12">Phone number: <input className="form-control" type="number" onChange={e => setData({ ...data, phoneNumber: e.target.value })} value={data.phoneNumber} placeholder='Enter your phone number' /></div>
+                                                    <div className="col-md-12">Address Line: <input className="form-control" onChange={e => setData({ ...data, address: e.target.value })} value={data.address} placeholder='Enter your address' /></div>
+                                                    <div className="col-md-12">Email: <input className="form-control" type="email" onChange={e => setData({ ...data, email: e.target.value })} value={data.email} placeholder='Enter your email' /></div>
+                                                </div>
+                                                <div className="row mt-2">
+                                                    <div className="col-md-12">Job: <input className="form-control" onChange={e => setData({ ...data, job: e.target.value })} value={data.job} placeholder='Your job...' /></div>
+                                                </div>
+                                                <div className="mt-2">
+                                                    <div className="col-md-6">Upload Image:
+                                                    </div>
+
+                                                    <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                                                        <input type="file" name="image" onChange={handleImageChange} />
+                                                    </Button>
+                                                </div>
+                                                <div className="mt-5">
+                                                    <Button variant="contained" onClick={handleSubmit} className='btn btn-success'>UPDATE
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <Button variant="contained" onClick={handleSubmit} className='btn btn-success'>UPDATE</Button>
                                 </div>
-                            );
+                            </div>
                         })}
                     </Box>
                 </Modal>

@@ -61,7 +61,7 @@ function RequestAccount() {
     const [search, setSearch] = useState('');
     const [data, setData] = useState([]);
     const [dataProfile, setDataProfile] = useState([]);
-    const [value, setValue] = useState('1');
+    const [value, setValue] = useState(1);
     const [open, setOpen] = useState(false);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(6);
@@ -467,6 +467,8 @@ function RequestAccount() {
                                                     </TableCell>
                                                     <TableCell><b>Active</b></TableCell>
                                                     <TableCell></TableCell>
+                                                    <TableCell>Accept</TableCell>
+                                                    <TableCell>Reject</TableCell>
                                                 </TableRow>
                                             </TableHead>
                                         </Table>

@@ -61,9 +61,7 @@ function DashboardCustomer() {
                     }}>
                         {data.map((profile, index) => {
                             return <div key={index}>
-                                <ListItem sx={{
-
-                                }} >
+                                <ListItem>
                                     <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
                                         <Avatar>
                                             {imageURL &&

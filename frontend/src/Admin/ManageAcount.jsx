@@ -50,13 +50,14 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 700,
+    width: 1000,
     height: 700,
+    borderRadius: 5,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
+
 
 function ManageAccount() {
     const [isDeleted, setIsDeleted] = useState(false);
@@ -873,26 +874,24 @@ function ManageAccount() {
             </TabContext>
             <Modal
                 open={open}
-                onClose={() => { setOpen(false) }}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style} >
                     {dataProfile.map((viewAccount, index) => {
                         return <div key={index}>
-                            <Typography id="modal-modal-title" display={"inline"} variant="h6" component="h2">
-                                Profile - <b>{viewAccount.name}</b>
+                            <Typography id="modal-modal-title" variant="h6" component="h2" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <span style={{ flex: '1 1 auto' }}>Profile - <b>{viewAccount.name}</b></span>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => setOpen(false)}></button>
                             </Typography>
                             <div className="container rounded bg-white mt-6 mb-5">
                                 <div className="row">
                                     <div className="col-md-4 border-right">
                                         <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                                             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-
                                                 {imageURL && (
                                                     viewAccount.image !== '' ?
-
-                                                        <img className="rounded-circle mt-6 border" src={`data:image/png;base64,${viewAccount.image}`} width="150px" />
+                                                        <img className="profile-avatar" src={`data:image/png;base64,${viewAccount.image}`} width="150px" />
                                                         :
                                                         <AccountCircleIcon fontSize="large" />
                                                 )}
