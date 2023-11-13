@@ -941,3 +941,80 @@ textarea {
 .container-login.active .toggle-right {
     transform: translateX(200%);
 }
+/* 
+    ManageBeat
+*/
+.d-grid{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.list-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+.item-grid{
+    padding: 20px 110px;
+    border-radius: 5px;
+}
+
+.item-grid h6{
+    font-weight: 600;
+}
+.item-1, .item-9 {
+    background-color: #c7cdff;
+}
+.item-2, .item-10 {
+    background-color: #9ea9f3;
+}
+.item-3, .item-11 {
+    background-color: #d6ffc3;
+}
+.item-4, .item-12 {
+    background-color: #ffe2e2;
+}
+.item-5, .item-13 {
+    background-color: #eed9be;
+}
+.item-6, .item-14 {
+    background-color: #e2f9ff;
+}
+.item-7, .item-15 {
+    background-color: #ffeab5;
+}
+.item-8, .item-16 {
+    background-color: #fdfdad;
+}
+/* Order Musician */
+
+.ant-table-row{
+    height: 90px;
+}
+.btn-accept{
+    padding: 3px 10px;
+    border: transparent;
+    background-color: #7bd500;
+    border-radius: 16px;
+}
+
+.ant-space-item .btn-decline{
+    padding: 3px 10px;
+    border: transparent;
+    background-color: #db524b;
+    color: white;
+    border-radius: 16px;
+}
+
+.item-grid h3{
+    padding-bottom: 13px;
+    font-size: 22px;
+    text-align: center;
+}
+.item-grid h6{
+    font-size: 14px;
+    text-align: center;
+}
