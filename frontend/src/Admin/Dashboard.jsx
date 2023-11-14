@@ -52,7 +52,7 @@ function Dashboard() {
         <div className="container-fluid">
             <div className="row flex-nowrap" >
                 <div className="col-auto col-md-3 col-xl-2 px-0 tabLeft">
-                    <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 text-white min-vh-100" style={{
+                    <div className="d-flex flex-column align-items-center align-items-sm-start px-2 pt-3 text-white min-vh-100" style={{
                         top: 0,
                         position: "sticky"
                     }}>
@@ -118,7 +118,7 @@ function Dashboard() {
                                             <ListItemIcon>
                                                 <ThumbUpAltIcon color="primary" fontSize='medium' />
                                             </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Manage feedback</span></ListItemText>
+                                            <ListItemText><span className="fontDashboard">Manage Feedback</span></ListItemText>
                                         </ListItemButton>
                                     </List>
                                     <List sx={{ width: '40%', paddingTop: '30px' }}>

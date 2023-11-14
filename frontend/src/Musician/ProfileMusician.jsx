@@ -36,7 +36,7 @@ function ProfileMusician() {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 1000,
-        height: 800,
+        height: 700,
         borderRadius: 5,
         bgcolor: 'background.paper',
         boxShadow: 24,
@@ -275,7 +275,7 @@ function ProfileMusician() {
                                                         <input type="file" name="image" onChange={handleImageChange} />
                                                     </Button>
                                                 </div>
-                                                <div className="mt-5">
+                                                <div className="mt-4">
                                                     <Button variant="contained" onClick={handleSubmit} className='btn btn-success'>UPDATE
                                                     </Button>
                                                 </div>
