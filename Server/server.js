@@ -487,6 +487,15 @@ app.get('/getChord', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
+app.get('/findSongByChord', (req, res) => {
+    const { chord_name } = req.query;
+    const sql = "SELECT DISTINCT s.* FROM song s JOIN chord c ON s.lyrics LIKE CONCAT('%', c.chord_name, '%') WHERE c.chord_name = ?";
+    con.query(sql, [chord_name], (err, result) => {
+        if (err) return res.json({ Error: "Error fetching songs with chords from the database" });
+        return res.json({ Status: "Success", Result: result });
+    });
+});
+
 //SCALE
 app.get('/getChordScale', (req, res) => {
     const { root, scale, type } = req.query;

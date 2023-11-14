@@ -39,6 +39,7 @@ import Playlist from './Customer/Playlist'
 import CreatePlaylist from './Customer/CreatePlaylist'
 import ViewPlaylist from './Customer/ViewPlaylist'
 import Chord from './Customer/Chord'
+import SearchChord from './Customer/SearchChord'
 function App() {
   return (
     <BrowserRouter>
@@ -88,6 +89,7 @@ function App() {
           <Route path='/playlist/:userId' element={<Playlist />}></Route>
           <Route path='/viewPlaylist/:id' element={<ViewPlaylist />}></Route>
           <Route path='/chord' element={<Chord />}></Route>
+          <Route path='/searchChord' element={<SearchChord />}></Route>
         </Route>
         <Route path='/viewSongCustomer/:id' element={<ViewSongCustomer />}></Route>
 

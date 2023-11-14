@@ -20,6 +20,7 @@ import Collapse from '@mui/material/Collapse';
 import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import SearchIcon from "@mui/icons-material/Search";
+import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 
 function DashboardCustomer() {
     const [data, setData] = useState([]);
@@ -98,6 +99,16 @@ function DashboardCustomer() {
                                     width: '40%', paddingTop: '30px'
                                 }}>
                                     <ListItemButton href="/chord" className='buttonDashBoard'>
+                                        <ListItemIcon>
+                                            <GraphicEqIcon color="primary" fontSize='medium' />
+                                        </ListItemIcon>
+                                        <ListItemText><span className="fontDashboard">Chord</span></ListItemText>
+                                    </ListItemButton>
+                                </List>
+                                <List sx={{
+                                    width: '40%', paddingTop: '30px'
+                                }}>
+                                    <ListItemButton href="/searchChord" className='buttonDashBoard'>
                                         <ListItemIcon>
                                             <SearchIcon color="primary" fontSize='medium' />
                                         </ListItemIcon>
