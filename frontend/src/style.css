@@ -668,7 +668,7 @@ textarea {
 /* 
     ManageBeat
 */
-.d-grid{
+/* .d-grid{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -712,7 +712,18 @@ textarea {
 }
 .item-8, .item-16 {
     background-color: #fdfdad;
+} */
+.item-grid {
+    padding: 20px 110px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #0d6efd;
+    color: white;
 }
+.item-grid:hover {
+    background-color: #ccc;
+}
+
 /* Order Musician */
 
 .ant-table-row{
