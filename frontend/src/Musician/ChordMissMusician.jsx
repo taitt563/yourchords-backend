@@ -84,14 +84,6 @@ function ChordMissMusician() {
             }
         });
     }
-    // const filteredSongs = sortData(data)
-    // .filter(song => {
-    //     let dataChord = song.lyrics;
-    //     dataChord = dataChord.replace(/.+/g, "<section>$&</section>");
-    //     let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
-    //     return !songChord.includes('<strong>') && (search.trim() === '' ? true : song.song_title.toLowerCase().includes(search.toLowerCase()));
-    // })
-    // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
     const filteredSongs = sortData(data)
         .filter((song) => {
             let dataChord = song.lyrics;

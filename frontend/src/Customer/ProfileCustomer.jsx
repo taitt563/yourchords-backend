@@ -74,11 +74,7 @@ function ProfileCustomer() {
                 if (res.data.Status === "Success") {
                     setDataProfile(res.data.Result);
                     if (res.data.Result.length > 0) {
-                        // Assuming each playlist has an array of images
                         const profileImages = res.data.Result.map(editAccount => `${editAccount.image}`);
-
-
-                        // Set the array of image URLs
                         setImageURL(profileImages);
                     }
 
