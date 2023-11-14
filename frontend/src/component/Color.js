@@ -1,7 +1,7 @@
 const COLORS = {
     white: '#FFF',
     dark: '#000',
-    primary: 'orange', //đổi màu nền ở trên
+    primary: 'orange',
     secondary: '#e1e8e9',
     light: '#f9f9f9',
     grey: '#dddedd',

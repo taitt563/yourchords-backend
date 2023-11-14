@@ -32,10 +32,7 @@ function Playlist() {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
                     if (res.data.Result.length > 0) {
-                        // Assuming each playlist has an array of images
                         const playlistImages = res.data.Result.map(playlist => `${playlist.image}`);
-
-                        // Set the array of image URLs
                         setImageURL(playlistImages);
                     }
                 } else {

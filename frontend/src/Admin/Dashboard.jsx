@@ -31,11 +31,7 @@ function Dashboard() {
                 if (res.data.Status === "Success") {
                     setDataChord(res.data.Result);
                     if (res.data.Result.length > 0) {
-                        // Assuming each playlist has an array of images
                         const profileImages = res.data.Result.map(data => `${data.image}`);
-
-
-                        // Set the array of image URLs
                         setImageURL(profileImages);
                     }
                 } else {
@@ -46,11 +42,10 @@ function Dashboard() {
     }, [userId]);
 
     const handleListItemClick = (path) => {
-        // Handle the animation when a ListItemButton is clicked
-        document.documentElement.classList.add('animate-dashboard'); // Add a class to trigger the animation
+        document.documentElement.classList.add('animate-dashboard');
         setTimeout(() => {
-            window.location.href = path; // Redirect to the new page after the animation
-        }, 300); // Adjust the time according to your animation duration
+            window.location.href = path;
+        }, 300);
     };
 
     return (

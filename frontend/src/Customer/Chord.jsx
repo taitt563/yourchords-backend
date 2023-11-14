@@ -333,7 +333,6 @@ function Chord() {
                 "Lydian Minor"
             ]
         }
-        // Add other categories with their respective modes here
     ];
 
     return (
