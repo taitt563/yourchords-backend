@@ -151,11 +151,15 @@ function ViewSongCustomer() {
     const handleChordOnBold = () => {
         setIsBold(false)
     }
-
-    const toggleChordPopup = (chordName) => {
+    const toggleChordPopup = (chordName, isHovered) => {
         setChordPopups((prevPopups) => {
             const updatedPopups = { ...prevPopups };
-            updatedPopups[chordName] = !updatedPopups[chordName];
+            updatedPopups[chordName] = isHovered;
+            if (!isHovered) {
+                Object.keys(updatedPopups).forEach((prevChord) => {
+                    updatedPopups[prevChord] = false;
+                });
+            }
             const anyPopupOpen = Object.values(updatedPopups).some((value) => value);
             setIsAnyPopupOpen(anyPopupOpen);
             return updatedPopups;
@@ -180,10 +184,8 @@ function ViewSongCustomer() {
                 setTranspose((transpose - 1 + chordNames.length) % chordNames.length);
             }
             const newChord = chordNames[newIndex];
-            toggleChordPopup(chordName);
-            toggleChordPopup(newChord);
-
-
+            toggleChordPopup(chordName, false);
+            toggleChordPopup(newChord, true);
         };
 
 
@@ -272,22 +274,27 @@ function ViewSongCustomer() {
                         chordContainer.innerHTML = isOn ? songChord : hiddenChord;
                         const chordElements = document.querySelectorAll('.chord');
                         chordElements.forEach(chord => {
-                            let isHovered = false;
                             let chordName = chord.textContent;
-                            chord.addEventListener('mouseenter', function () {
-                                isHovered = true;
-                                if (!chordPopups[chordName]) {
-                                    toggleChordPopup(chordName);
-                                }
-                            });
-                            chord.addEventListener('mouseleave', function () {
-                                isHovered = false;
-                                if (!chordPopups[chordName] && !isHovered) {
-                                    toggleChordPopup(chordName);
-                                }
+                            chord.addEventListener('click', function () {
+                                Object.keys(chordPopups).forEach(existingChord => {
+                                    if (existingChord !== chordName && chordPopups[existingChord]) {
+                                        toggleChordPopup(existingChord, false);
+                                    }
+                                });
+                                toggleChordPopup(chordName, !chordPopups[chordName]);
                             });
 
-                        })
+                            chord.addEventListener('mouseenter', function () {
+                                if (isOn) {
+                                    Object.keys(chordPopups).forEach(existingChord => {
+                                        if (existingChord !== chordName && chordPopups[existingChord]) {
+                                            toggleChordPopup(existingChord, false);
+                                        }
+                                    });
+                                    toggleChordPopup(chordName, true);
+                                }
+                            });
+                        });
                     }
                     return <div key={index}>
                         <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
@@ -410,15 +417,15 @@ function ViewSongCustomer() {
                                                         onMouseEnter={() => {
                                                             if (isOn) {
                                                                 const firstChordName = Object.keys(chordData);
-                                                                toggleChordPopup(firstChordName);
+                                                                toggleChordPopup(firstChordName, true);
                                                             }
                                                         }}
-                                                        dangerouslySetInnerHTML={{ __html: songChord }}                 >
+                                                        dangerouslySetInnerHTML={{ __html: songChord }}>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <h5 className="fontDashboard">Danh sách các hợp âm:</h5>
+                                            <h5 className="font" style={{ color: "#0d6efd", fontWeight: 'bold' }}>Danh sách các hợp âm:</h5>
                                             <div className="chord-list-container" >
                                                 {[...uniqueChords].map((chordName) => (
                                                     <div key={chordName} className="chord-box">
