@@ -640,7 +640,7 @@ function Chord() {
                                                     {imageURL && dataScale.map((info, index) => (
                                                         <div key={index} >
 
-                                                            <img src={`${info.image}`} style={{ width: '100%', height: '100%' }} />
+                                                            <img src={`${info.image}`} />
                                                         </div>
                                                     ))}
                                                 </div>
