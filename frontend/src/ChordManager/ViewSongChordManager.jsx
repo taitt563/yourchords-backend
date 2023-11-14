@@ -269,7 +269,7 @@ function ViewSongChordManager() {
                     }
                     const chordContainer = document.getElementById('chordContainer');
                     if (chordContainer) {
-                        chordContainer.innerHTML = songChord;
+                        chordContainer.innerHTML = isOn ? songChord : hiddenChord;
                         const chordElements = document.querySelectorAll('.chord');
                         chordElements.forEach(chord => {
                             let isHovered = false;
@@ -415,73 +415,15 @@ function ViewSongChordManager() {
 
                                             <div className="d-flex align-items-center  mb-md-1 mt-md-3  text-white row">
                                                 <div className="container">
-                                                    {isOn ?
-                                                        (
-                                                            isRight ?
-                                                                isBold ?
-
-                                                                    <div id="chordContainer" className="font" style={{ textAlign: "right", fontWeight: 'bold' }}
-                                                                        dangerouslySetInnerHTML={{ __html: songChord }} />
-
-
-                                                                    :
-                                                                    <div id="chordContainer" className="font" style={{ textAlign: "right", }}
-                                                                        dangerouslySetInnerHTML={{ __html: songChord }}
-                                                                    />
-                                                                :
-                                                                isLeft ?
-                                                                    isBold ?
-                                                                        <div id="chordContainer" className="font" style={{ textAlign: "left", fontWeight: 'bold' }}
-                                                                            dangerouslySetInnerHTML={{ __html: songChord }}
-                                                                        />
-                                                                        :
-                                                                        <div id="chordContainer" className="font" style={{ textAlign: "left" }}
-                                                                            dangerouslySetInnerHTML={{ __html: songChord }}
-                                                                        />
-                                                                    :
-                                                                    isBold ?
-                                                                        <div id="chordContainer" className="font" style={{ textAlign: "center", fontWeight: 'bold' }}
-                                                                            dangerouslySetInnerHTML={{ __html: songChord }}
-                                                                        />
-                                                                        :
-                                                                        <div id="chordContainer" className="font" style={{ textAlign: "center" }}
-                                                                            dangerouslySetInnerHTML={{ __html: songChord }}
-                                                                        />
-                                                        )
-                                                        :
-                                                        (
-                                                            isRight ?
-                                                                isBold ?
-
-                                                                    <div id="chordContainer" className="font" style={{ textAlign: "right", fontWeight: 'bold' }}
-                                                                        dangerouslySetInnerHTML={{ __html: hiddenChord }}
-                                                                    />
-                                                                    :
-                                                                    <div id="chordContainer" className="font" style={{ textAlign: "right" }}
-                                                                        dangerouslySetInnerHTML={{ __html: hiddenChord }}
-                                                                    />
-                                                                :
-                                                                isLeft ?
-                                                                    isBold ?
-                                                                        <div id="chordContainer" className="font" style={{ textAlign: "left", fontWeight: 'bold' }}
-                                                                            dangerouslySetInnerHTML={{ __html: hiddenChord }}
-                                                                        />
-                                                                        :
-                                                                        <div id="chordContainer" className="font" style={{ textAlign: "left" }}
-                                                                            dangerouslySetInnerHTML={{ __html: hiddenChord }}
-                                                                        />
-                                                                    :
-                                                                    isBold ?
-                                                                        <div id="chordContainer" className="font" style={{ textAlign: "center", fontWeight: 'bold' }}
-                                                                            dangerouslySetInnerHTML={{ __html: hiddenChord }}
-                                                                        />
-                                                                        :
-                                                                        <div id="chordContainer" className="font" style={{ textAlign: "center" }}
-                                                                            dangerouslySetInnerHTML={{ __html: hiddenChord }}
-                                                                        />
-
-                                                        )
-                                                    }
+                                                    <div
+                                                        id="chordContainer"
+                                                        className={`font ${isBold ? 'bold' : ''}`}
+                                                        style={{
+                                                            textAlign: isRight ? 'right' : isLeft ? 'left' : 'center',
+                                                            fontWeight: isBold ? 'bold' : 'normal',
+                                                        }}
+                                                        dangerouslySetInnerHTML={{ __html: isOn ? songChord : hiddenChord }}
+                                                    />
                                                 </div>
                                             </div>
 
