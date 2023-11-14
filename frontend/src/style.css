@@ -190,7 +190,7 @@ strong {
 }
 
 .song-card-list {
-    width: calc(100% - 200px);
+    width: calc(100% - 100px);
     box-sizing: border-box;
 }
 
@@ -360,6 +360,13 @@ textarea {
 
 .tabLeft {
     background-color: #F1F1FB;
+
+}
+
+@media (max-width: 1000px) {
+    .tabLeft {
+        display: none;
+    }
 }
 
 .font {
@@ -538,9 +545,9 @@ textarea {
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 20px;
-    width: 500px;
     height: 400px;
     text-align: center;
+    width: calc(100% - 100px);
 }
 
 .small-container {
