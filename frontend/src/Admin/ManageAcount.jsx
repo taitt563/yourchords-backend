@@ -923,8 +923,6 @@ function ManageAccount() {
                                                 )}
                                                 <div className="col-md-12"><label>Address Line: </label><input className="form-control" value={viewAccount.address} readOnly /></div>
                                                 <div className="col-md-12"><label>Email: </label><input className="form-control" value={viewAccount.email} readOnly /></div>
-                                            </div>
-                                            <div className="row mt-4">
                                                 <div className="col-md-12"><label>Job: </label><input className="form-control" value={viewAccount.job} readOnly /></div>
                                             </div>
                                         </div>
