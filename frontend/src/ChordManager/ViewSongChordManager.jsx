@@ -422,8 +422,14 @@ function ViewSongChordManager() {
                                                             textAlign: isRight ? 'right' : isLeft ? 'left' : 'center',
                                                             fontWeight: isBold ? 'bold' : 'normal',
                                                         }}
-                                                        dangerouslySetInnerHTML={{ __html: isOn ? songChord : hiddenChord }}
-                                                    />
+                                                        onMouseEnter={() => {
+                                                            if (isOn) {
+                                                                const firstChordName = Object.keys(chordData);
+                                                                toggleChordPopup(firstChordName);
+                                                            }
+                                                        }}
+                                                        dangerouslySetInnerHTML={{ __html: songChord }}                 >
+                                                    </div>
                                                 </div>
                                             </div>
 
