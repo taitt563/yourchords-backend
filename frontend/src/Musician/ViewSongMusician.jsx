@@ -23,7 +23,7 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ModeIcon from '@mui/icons-material/Mode';
-
+import Tooltip from '@material-ui/core/Tooltip';
 function ViewSongMusician() {
     const [data, setData] = useState([]);
     const [majorChordsData, setDataMajorChords] = useState([]);
@@ -346,9 +346,17 @@ function ViewSongMusician() {
                                                 flexWrap: 'wrap',
                                             }}
                                         >
-                                            <Button onClick={decreaseKey}><RemoveIcon /></Button>
+                                            <Tooltip title={<p>Decrease Key</p>}
+                                                arrow
+                                                placement="top">
+                                                <Button onClick={decreaseKey}><RemoveIcon /></Button>
+                                            </Tooltip>
                                             <p style={{ color: "#0d6efd" }}><b>{firstChord}</b></p>
-                                            <Button onClick={increaseKey}><AddIcon /></Button>
+                                            <Tooltip title={<p>Increase Key</p>}
+                                                arrow
+                                                placement="top">
+                                                <Button onClick={increaseKey}><AddIcon /></Button>
+                                            </Tooltip>
                                             <StyledToggleButtonGroup
                                                 size="small"
                                                 value={alignment}
@@ -394,16 +402,20 @@ function ViewSongMusician() {
                                                 onChange={handleFormat}
                                                 aria-label="text formatting"
                                             >
-                                                {isOn ?
-                                                    <ToggleButton value="#F1F1FB" onClick={handleChordOn}>
-                                                        <VisibilityOffIcon fontSize="medium" />  Chord
-                                                    </ToggleButton>
+                                                <Tooltip title={<p>On/Off Chord</p>}
+                                                    arrow
+                                                    placement="top">
+                                                    {isOn ?
+                                                        <ToggleButton value="#F1F1FB" onClick={handleChordOn}>
+                                                            <VisibilityOffIcon fontSize="medium" />  Chord
+                                                        </ToggleButton>
 
-                                                    :
-                                                    <ToggleButton value="#F1F1FB" onClick={handleChordOff}>
-                                                        <RemoveRedEyeIcon fontSize="medium" />  Chord
-                                                    </ToggleButton>
-                                                }
+                                                        :
+                                                        <ToggleButton value="#F1F1FB" onClick={handleChordOff}>
+                                                            <RemoveRedEyeIcon fontSize="medium" />  Chord
+                                                        </ToggleButton>
+                                                    }
+                                                </Tooltip>
                                             </StyledToggleButtonGroup>
                                         </Paper>
 

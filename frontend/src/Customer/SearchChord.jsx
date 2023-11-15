@@ -1,14 +1,20 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import { Link } from '@mui/material';
 import SearchAppBarBack from '../component/SearchAppBarBack';
+import finger_1 from '../../../Server/public/finger/finger_1.png'
+import finger_2 from '../../../Server/public/finger/finger_2.png'
+import finger_3 from '../../../Server/public/finger/finger_3.png'
+import finger_4 from '../../../Server/public/finger/finger_4.png'
 function SearchChord() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [data, setData] = useState([]);
     const [buttonClickedChord, setButtonClickedChord] = useState(null);
+    const [searchedChords, setSearchedChords] = useState([]);
+
     const predefinedChords = ["C,G,Am,Em,F", "Am,F,C,G", "G,Em,C,D", "D,Bm,G,A", "C,Am,Dm,G", "Am,Dm,E"];
     const handlePredefinedChordSearch = (chord, index, e) => {
         e.preventDefault();
@@ -16,6 +22,9 @@ function SearchChord() {
         setButtonClickedChord(index);
         handleSearch();
     };
+    useEffect(() => {
+        handleSearch();
+    }, []);
     const handleSearch = () => {
         const chordInput = document.getElementById('chordInput').value.toLowerCase();
         const encodedChordInput = encodeURIComponent(chordInput);
@@ -29,19 +38,17 @@ function SearchChord() {
             }
             return matches;
         };
-        // Split the input chord string by commas
+        setSearchedChords(chordInput);
         const searchChords = chordInput.split(',');
-
         axios.get(`${apiUrl}/getSongAdmin?chord_name=${encodedChordInput}`)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     const filteredResults = res.data.Result.filter((song) => {
                         const songChords = extractChords(song.lyrics);
-                        // Check if every search chord is present in the song chords
                         if (searchChords.every(searchChord => songChords.includes(searchChord.trim()))) {
-                            return true; // Add the song to results
+                            return true;
                         } else {
-                            return false; // Do not include the song in results
+                            return false;
                         }
                     });
                     setData(filteredResults);
@@ -55,14 +62,10 @@ function SearchChord() {
 
         let match;
         while ((match = chordRegex.exec(lyrics)) !== null) {
-            // Thêm hợp âm (cả in hoa và in thường) vào Set
             uniqueChords.add(match[1]);
         }
-        // Chuyển đổi Set thành mảng để sử dụng trong việc ánh xạ hoặc xử lý tiếp theo
         return Array.from(uniqueChords);
     };
-
-
     return (
         <>
             <SearchAppBarBack />
@@ -122,54 +125,104 @@ function SearchChord() {
                                                 </button>
                                             ))}
                                         </div>
-
-
-
                                     </div>
-
-
                                 </div>
-
                             </div>
-                            {data.length > 0 ?
+                            {data.length > 0 ? (
+                                <div className="row">
+                                    <div className="col-md-8" style={{ paddingLeft: '100px' }}>
+                                        <h5 style={{ color: '#0d6efd', paddingLeft: '30px' }}>
+                                            Search Results: <b>{searchedChords}</b>
+                                        </h5>
+                                        <div>
+                                            {data.map((song, index) => {
+                                                const songChords = extractChords(song.lyrics);
 
-                                <div className="col-md-8" style={{ paddingLeft: '100px' }}>
-                                    <h5 style={{ color: '#0d6efd', paddingLeft: '30px' }} >
-                                        Search Results:  {data.length}
-
-                                    </h5>
-                                    <div >
-                                        {data.map((song, index) => {
-                                            const songChords = extractChords(song.lyrics);
-
-                                            return <div key={index} className="d-flex flex-wrap">
-
-                                                <Link href={`/viewSongCustomer/` + song.id} key={index} className="song-card-list" style={{ paddingLeft: '30px', color: 'black', textDecoration: 'none' }}>
-                                                    <div style={{ border: '1px solid #ccc', padding: '50px', paddingLeft: '10px', color: 'black' }}>
-                                                        <span style={{ fontWeight: 'bold' }}>{song.song_title}</span><br />
-                                                        <span>{song.lyrics.substring(0, 60)}...</span>
-                                                        <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap' }}>
-                                                            {songChords.map((chord, chordIndex) => (
-                                                                <div key={chordIndex} style={{ border: '1px solid #000', padding: '5px', marginRight: '5px', marginBottom: '5px' }}>{chord}</div>
-                                                            ))}
-                                                        </div>
+                                                return (
+                                                    <div key={index} className="d-flex flex-wrap">
+                                                        <Link href={`/viewSongCustomer/` + song.id} key={index} className="song-card-list" style={{ paddingLeft: '30px', color: 'black', textDecoration: 'none' }}>
+                                                            <div style={{ border: '1px solid #ccc', padding: '50px', paddingLeft: '10px', color: 'black' }}>
+                                                                <span style={{ fontSize: '20px' }}>{song.song_title}</span><br />
+                                                                <span style={{ color: 'gray', fontStyle: 'italic' }}>{song.lyrics.substring(0, 60)}...</span>
+                                                                <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+                                                                    {songChords.map((chord, chordIndex) => (
+                                                                        <div
+                                                                            key={chordIndex}
+                                                                            style={{
+                                                                                padding: '6px',
+                                                                                marginRight: '15px',
+                                                                                marginBottom: '5px',
+                                                                                background: '#eee',
+                                                                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                                                                borderRadius: '5px',
+                                                                            }}
+                                                                        >
+                                                                            {chord}
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                        </Link>
                                                     </div>
-                                                </Link>
-                                            </div>
-                                        })}
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <div style={{
+                                            backgroundColor: '#f0f0f0',
+                                            padding: '10px',
+                                            marginBottom: '20px',
+                                            height: 'auto',
+                                            textAlign: 'center',
+                                            width: '400px',
+                                            margin: '10px',
+                                            borderRadius: '10px',
+                                            marginTop: '30px'
+                                        }}>
+                                            <h3 style={{ color: '#0d6efd', fontWeight: 'bold' }}>How to Read Chords</h3>
+                                            <p>Here a guide to reading chords and finger positions:</p>
+                                            <ul>
+                                                <li style={{ textAlign: 'left' }}>Finger Positions:</li>
+                                                <div className="row" style={{ textAlign: 'left', paddingLeft: '50px', paddingTop: '10px' }}>
+                                                    <div className="column" >
+                                                        <img src={finger_1} style={{ height: '60%' }} /> <b> Index finger</b>
+                                                    </div>
+                                                    <div className="column" >
+                                                        <img src={finger_2} style={{ height: '60%' }} /> <b> Middle finger</b>
+                                                    </div>
+                                                    <div className="column" >
+                                                        <img src={finger_3} style={{ height: '60%' }} /> <b> Ring finger</b>
+                                                    </div>
+                                                    <div className="column" >
+                                                        <img src={finger_4} style={{ height: '60%' }} /> <b> Pinky finger</b>
+                                                    </div>
+
+                                                </div>
+                                            </ul>
+                                            <ul style={{ textAlign: 'left' }}>
+                                                <li><b style={{ fontSize: '12px' }}>O:</b> String on the first fret (open string)</li>
+                                                <li><b style={{ fontSize: '12px' }}>X:</b> Unfretted string</li>
+                                                <li><b style={{ fontSize: '12px' }}>3fr:</b> Third fret on the guitar</li>
+                                            </ul>
+
+
+                                        </div>
                                     </div>
                                 </div>
-                                :
-                                <div className="d-flex justify-content-center align-items-center" >
+                            ) : (
+                                <div className="d-flex justify-content-center align-items-center">
                                     <h5 style={{ color: '#0d6efd', fontWeight: 'bold' }}>
                                         Not Found
                                     </h5>
                                 </div>
-                            }
+                            )}
+
+
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
 
         </>
     );

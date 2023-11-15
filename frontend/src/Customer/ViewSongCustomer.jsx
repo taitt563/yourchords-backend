@@ -22,6 +22,11 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import finger_1 from '../../../Server/public/finger/finger_1.png'
+import finger_2 from '../../../Server/public/finger/finger_2.png'
+import finger_3 from '../../../Server/public/finger/finger_3.png'
+import finger_4 from '../../../Server/public/finger/finger_4.png'
+import Tooltip from '@material-ui/core/Tooltip';
 function ViewSongCustomer() {
     const [data, setData] = useState([]);
     const [majorChordsData, setDataMajorChords] = useState([]);
@@ -341,9 +346,17 @@ function ViewSongCustomer() {
                                                 flexWrap: 'wrap',
                                             }}
                                         >
-                                            <Button onClick={decreaseKey}><RemoveIcon /></Button>
+                                            <Tooltip title={<p>Decrease Key</p>}
+                                                arrow
+                                                placement="top">
+                                                <Button onClick={decreaseKey}><RemoveIcon /></Button>
+                                            </Tooltip>
                                             <p style={{ color: "#0d6efd" }}><b>{firstChord}</b></p>
-                                            <Button onClick={increaseKey}><AddIcon /></Button>
+                                            <Tooltip title={<p>Increase Key</p>}
+                                                arrow
+                                                placement="top">
+                                                <Button onClick={increaseKey}><AddIcon /></Button>
+                                            </Tooltip>
                                             <StyledToggleButtonGroup
                                                 size="small"
                                                 value={alignment}
@@ -389,16 +402,20 @@ function ViewSongCustomer() {
                                                 onChange={handleFormat}
                                                 aria-label="text formatting"
                                             >
-                                                {isOn ?
-                                                    <ToggleButton value="#F1F1FB" onClick={handleChordOn}>
-                                                        <VisibilityOffIcon fontSize="medium" />  Chord
-                                                    </ToggleButton>
+                                                <Tooltip title={<p>On/Off Chord</p>}
+                                                    arrow
+                                                    placement="top">
+                                                    {isOn ?
+                                                        <ToggleButton value="#F1F1FB" onClick={handleChordOn}>
+                                                            <VisibilityOffIcon fontSize="medium" />  Chord
+                                                        </ToggleButton>
 
-                                                    :
-                                                    <ToggleButton value="#F1F1FB" onClick={handleChordOff}>
-                                                        <RemoveRedEyeIcon fontSize="medium" />  Chord
-                                                    </ToggleButton>
-                                                }
+                                                        :
+                                                        <ToggleButton value="#F1F1FB" onClick={handleChordOff}>
+                                                            <RemoveRedEyeIcon fontSize="medium" />  Chord
+                                                        </ToggleButton>
+                                                    }
+                                                </Tooltip>
                                             </StyledToggleButtonGroup>
                                         </Paper>
 
@@ -427,34 +444,76 @@ function ViewSongCustomer() {
                                             <h5 className="font" style={{ color: "#0d6efd", fontWeight: 'bold' }}>Danh sách các hợp âm:</h5>
                                             <div className="chord-list-container" >
                                                 {[...uniqueChords].map((chordName) => (
-                                                    <div key={chordName} className="chord-box">
-                                                        <p style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>{chordData[chordName].name}</p>
-                                                        {imageURL &&
-                                                            <img src={chordData[chordName].image} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />
-                                                        }
-                                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                            <IconButton
-                                                                style={{ padding: '1px' }}
-                                                                color="#0d6efd"
-                                                                onClick={() => increaseKey('decrease')}
-                                                                size="small"
-                                                            >
-                                                                <ArrowLeftIcon style={{ color: 'white' }} />
-                                                            </IconButton>
-
-                                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                                                <p style={{ margin: 8, color: 'black', fontSize: '13px' }}><b>Đổi tông</b></p>
+                                                    <Tooltip
+                                                        key={chordName}
+                                                        title={
+                                                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                                <div style={{
+                                                                    padding: '10px',
+                                                                    marginBottom: '20px',
+                                                                    height: 'auto',
+                                                                    textAlign: 'center',
+                                                                    margin: '10px',
+                                                                }}>
+                                                                    <h5 style={{ fontWeight: 'bold', marginTop: '20px' }}>How to Read Chords</h5>
+                                                                    <p>Here is a guide to reading chords and finger positions:</p>
+                                                                    <ul>
+                                                                        <li style={{ textAlign: 'left' }}>Finger Positions:</li>
+                                                                        <div className="row" style={{ textAlign: 'left', paddingLeft: '50px', paddingTop: '10px' }}>
+                                                                            <div className="column" >
+                                                                                <img src={finger_1} style={{ height: '60%' }} /> <b> Index finger</b>
+                                                                            </div>
+                                                                            <div className="column" >
+                                                                                <img src={finger_2} style={{ height: '60%' }} /> <b> Middle finger</b>
+                                                                            </div>
+                                                                            <div className="column" >
+                                                                                <img src={finger_3} style={{ height: '60%' }} /> <b> Ring finger</b>
+                                                                            </div>
+                                                                            <div className="column" >
+                                                                                <img src={finger_4} style={{ height: '60%' }} /> <b> Pinky finger</b>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ul>
+                                                                    <ul style={{ textAlign: 'left' }}>
+                                                                        <li><b style={{ fontSize: '12px' }}>O:</b> String on the first fret (open string)</li>
+                                                                        <li><b style={{ fontSize: '12px' }}>X:</b> Unfretted string</li>
+                                                                        <li><b style={{ fontSize: '12px' }}>3fr:</b> Third fret on the guitar</li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
-                                                            <IconButton
-                                                                style={{ padding: '1px' }}
-                                                                color="#0d6efd"
-                                                                size="small"
-                                                                onClick={() => decreaseKey('increase')}
-                                                            >
-                                                                <ArrowRightIcon style={{ color: 'white' }} />
-                                                            </IconButton>
+                                                        }
+                                                        arrow
+                                                        placement="right"
+                                                    >
+                                                        <div key={chordName} className="chord-box">
+                                                            <p style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>{chordData[chordName].name}</p>
+                                                            {imageURL &&
+                                                                <img src={chordData[chordName].image} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />
+                                                            }
+                                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                                <IconButton
+                                                                    style={{ padding: '1px' }}
+                                                                    color="#0d6efd"
+                                                                    onClick={() => increaseKey('decrease')}
+                                                                    size="small"
+                                                                >
+                                                                    <ArrowLeftIcon style={{ color: 'white' }} />
+                                                                </IconButton>
+
+                                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                                    <p style={{ margin: 8, color: 'black', fontSize: '13px' }}><b>Đổi tông</b></p>
+                                                                </div>
+                                                                <IconButton
+                                                                    style={{ padding: '1px' }}
+                                                                    color="#0d6efd"
+                                                                    size="small"
+                                                                    onClick={() => decreaseKey('increase')}
+                                                                >
+                                                                    <ArrowRightIcon style={{ color: 'white' }} />
+                                                                </IconButton>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </Tooltip>
                                                 ))}
                                             </div>
 
@@ -470,7 +529,6 @@ function ViewSongCustomer() {
                             </div>
                         </div>
                     </div>
-
                 })}
             </div>
         </>
