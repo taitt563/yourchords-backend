@@ -3,7 +3,7 @@ import { Link } from '@mui/material';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import SearchAppBar from "../component/SearchAppBar";
+import SearchAppBarBack from "../component/SearchAppBarBack";
 import { Button } from '@mui/material';
 import moment from 'moment';
 import { styled } from '@mui/material/styles';
@@ -120,12 +120,6 @@ function ViewSong() {
     const handleAlignment = (event, newAlignment) => {
         setAlignment(newAlignment);
     };
-    const handleLogout = () => {
-        axios.get(`${apiUrl}/logout`)
-            .then(
-                navigate(-1)
-            ).catch(err => console.log(err));
-    }
 
     const handleChordOn = () => {
         setIsOn(false)
@@ -229,7 +223,7 @@ function ViewSong() {
     };
     return (
         <>
-            <SearchAppBar />
+            <SearchAppBarBack />
             <div className='d-flex flex-column align-items-center pt-5'>
                 {data.map((viewSong, index) => {
                     let dataChord = viewSong.lyrics;
@@ -472,7 +466,7 @@ function ViewSong() {
 
                                         <div className="footer" style={{ paddingBottom: '20px', paddingLeft: '10px' }}>
                                             <hr />
-                                            <Button variant="contained" onClick={handleLogout} className='btn-success' >CLOSE
+                                            <Button variant="contained" onClick={() => navigate(-1)} className='btn-success'>CLOSE
                                             </Button>
                                         </div>
                                     </div>
