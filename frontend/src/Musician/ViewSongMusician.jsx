@@ -3,7 +3,7 @@ import { Link } from '@mui/material';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import SearchAppBar from "../component/SearchAppBar";
+import SearchAppBarBack from "../component/SearchAppBarBack";
 import { Button } from '@mui/material';
 import moment from 'moment';
 import { styled } from '@mui/material/styles';
@@ -121,12 +121,7 @@ function ViewSongMusician() {
     const handleAlignment = (event, newAlignment) => {
         setAlignment(newAlignment);
     };
-    const handleLogout = () => {
-        axios.get(`${apiUrl}/logout`)
-            .then(
-                navigate(-1)
-            ).catch(err => console.log(err));
-    }
+
 
     const handleChordOn = () => {
         setIsOn(false)
@@ -202,7 +197,7 @@ function ViewSongMusician() {
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                         <h2>{chordName}</h2>
                         {imageURL &&
-                            <img src={`${apiUrl}/images/chord/` + chordImage.image} style={{ width: '100%', height: '100%' }} />
+                            <img src={chordImage.image} style={{ width: '100%', height: '100%' }} />
                         }
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <IconButton
@@ -232,7 +227,7 @@ function ViewSongMusician() {
     };
     return (
         <>
-            <SearchAppBar />
+            <SearchAppBarBack />
             <div className='d-flex flex-column align-items-center pt-5'>
                 {data.map((viewSong, index) => {
                     let dataChord = viewSong.lyrics;
@@ -441,7 +436,7 @@ function ViewSongMusician() {
                                                         <div key={chordName} className="chord-box">
                                                             <p style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>{chordData[chordName].name}</p>
                                                             {imageURL &&
-                                                                <img src={`${apiUrl}/images/chord/${chordData[chordName].image}`} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />
+                                                                <img src={chordData[chordName].image} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />
                                                             }
                                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                                                 <IconButton
@@ -473,16 +468,18 @@ function ViewSongMusician() {
 
                                         </div>
 
-                                        <div className="footer" style={{ paddingBottom: '20px', paddingLeft: '10px' }}>
-                                            <hr />
-                                            <Button variant="contained" onClick={handleLogout} className='btn-success' >CLOSE
+                                        <div className="footer" style={{ paddingBottom: '10px', paddingLeft: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <Button variant="contained" className='btn-success' onClick={() => navigate(-1)} style={{ marginTop: '10px' }}>
+                                                CLOSE
                                             </Button>
-                                            {viewSong.status === 1 ?
+                                            <hr />
+                                            {viewSong.status === 1 ? (
                                                 ""
-                                                :
-                                                <Button onClick={() => navigate(`/editSongMusician/` + viewSong.id)} className='btn btn-success'><ModeIcon /> EDIT
+                                            ) : (
+                                                <Button onClick={() => navigate(`/editSongMusician/` + viewSong.id)} className='btn btn-success' style={{ paddingTop: '10px' }}>
+                                                    <ModeIcon /> EDIT
                                                 </Button>
-                                            }
+                                            )}
                                         </div>
                                     </div>
                                 </div>

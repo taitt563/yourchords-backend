@@ -1,13 +1,7 @@
 import { Link } from '@mui/material';
 import axios from 'axios';
 import { useState, useRef } from 'react';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
-import HeadsetIcon from '@mui/icons-material/Headset';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -24,6 +18,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+import SearchAppBarBack from '../component/SearchAppBarBack';
 function Chord() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [openRoot, setOpenRoot] = useState(false);
@@ -89,14 +84,7 @@ function Chord() {
 
         setOpenScale(false);
     };
-    const darkTheme = createTheme({
-        palette: {
-            mode: 'dark',
-            primary: {
-                main: '#F1F1FB',
-            },
-        },
-    });
+
     const optionsRoot = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
     const optionsShowMore = [
         'Note', 'Degree'
@@ -337,45 +325,7 @@ function Chord() {
 
     return (
         <>
-            <Box sx={{ flexGrow: 1, top: 0, position: 'sticky', zIndex: '3' }}>
-                <ThemeProvider theme={darkTheme}>
-                    <AppBar position="static" color="primary" enableColorOnDark>
-                        <Toolbar>
-                            <Typography
-                                variant="h5"
-                                noWrap
-                                component="a"
-                                sx={{
-                                    mr: 2,
-                                    display: { xs: 'none', md: 'flex' },
-                                    fontFamily: 'monospace',
-                                    fontWeight: 700,
-                                    letterSpacing: '.3rem',
-                                    color: '#0d6efd',
-                                    textDecoration: 'none',
-                                }}
-                            >
-                                <HeadsetIcon fontSize="large" />
-                            </Typography>
-                            <Typography
-                                variant="h6"
-                                noWrap
-                                component="div"
-                                sx={{ color: '#0d6efd', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                            >
-                                <b>YOUR CHORD</b>
-                            </Typography>
-
-                            <input
-                                type="text"
-                                className="input-box"
-                                placeholder="Search.."
-                            />
-                            <SearchIcon className="inputIcon" />
-                        </Toolbar>
-                    </AppBar>
-                </ThemeProvider>
-            </Box>
+            <SearchAppBarBack />
 
 
 
@@ -398,6 +348,7 @@ function Chord() {
                                                 <LyricsIcon />  Chord Dictionary
                                             </button>
                                         </div>
+
                                         <div className="small-container" style={{ marginTop: '15px' }}>
                                             <b>Your Chord - <i>Scale    </i></b> is a tool for finding guitar scales by customizing the `root` and `scale` accordingly and then clicking <ArrowForwardIcon color='success' fontSize='small' /> to search. Additionally, further customization can be made in the advanced settings section<SettingsIcon color='disabled' fontSize='small' />.
                                         </div>

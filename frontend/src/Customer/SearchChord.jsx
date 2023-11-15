@@ -1,28 +1,21 @@
 import axios from 'axios';
 import { useState } from 'react';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import SearchIcon from '@mui/icons-material/Search';
-import HeadsetIcon from '@mui/icons-material/Headset';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import { Link } from '@mui/material';
-
+import SearchAppBarBack from '../component/SearchAppBarBack';
 function SearchChord() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [data, setData] = useState([]);
-    const darkTheme = createTheme({
-        palette: {
-            mode: 'dark',
-            primary: {
-                main: '#F1F1FB',
-            },
-        },
-    });
+    const [buttonClickedChord, setButtonClickedChord] = useState(null);
+    const predefinedChords = ["C,G,Am,Em,F", "Am,F,C,G", "G,Em,C,D", "D,Bm,G,A", "C,Am,Dm,G", "Am,Dm,E"];
+    const handlePredefinedChordSearch = (chord, index, e) => {
+        e.preventDefault();
+        document.getElementById('chordInput').value = chord;
+        setButtonClickedChord(index);
+        handleSearch();
+    };
     const handleSearch = () => {
         const chordInput = document.getElementById('chordInput').value.toLowerCase();
         const encodedChordInput = encodeURIComponent(chordInput);
@@ -56,47 +49,23 @@ function SearchChord() {
             })
             .catch((err) => console.log(err));
     };
+    const extractChords = (lyrics) => {
+        const chordRegex = /\[(?<chord>[\w#]+)\]/g;
+        const uniqueChords = new Set();
+
+        let match;
+        while ((match = chordRegex.exec(lyrics)) !== null) {
+            // Thêm hợp âm (cả in hoa và in thường) vào Set
+            uniqueChords.add(match[1]);
+        }
+        // Chuyển đổi Set thành mảng để sử dụng trong việc ánh xạ hoặc xử lý tiếp theo
+        return Array.from(uniqueChords);
+    };
+
+
     return (
         <>
-            <Box sx={{ flexGrow: 1, top: 0, position: 'sticky', zIndex: '3' }}>
-                <ThemeProvider theme={darkTheme}>
-                    <AppBar position="static" color="primary" enableColorOnDark>
-                        <Toolbar>
-                            <Typography
-                                variant="h5"
-                                noWrap
-                                component="a"
-                                sx={{
-                                    mr: 2,
-                                    display: { xs: 'none', md: 'flex' },
-                                    fontFamily: 'monospace',
-                                    fontWeight: 700,
-                                    letterSpacing: '.3rem',
-                                    color: '#0d6efd',
-                                    textDecoration: 'none',
-                                }}
-                            >
-                                <HeadsetIcon fontSize="large" />
-                            </Typography>
-                            <Typography
-                                variant="h6"
-                                noWrap
-                                component="div"
-                                sx={{ color: '#0d6efd', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                            >
-                                <b>YOUR CHORD</b>
-                            </Typography>
-
-                            <input
-                                type="text"
-                                className="input-box"
-                                placeholder="Search.."
-                            />
-                            <SearchIcon className="inputIcon" />
-                        </Toolbar>
-                    </AppBar>
-                </ThemeProvider>
-            </Box>
+            <SearchAppBarBack />
             <div className='d-flex flex-column align-items-center' style={{ paddingLeft: '100px' }}>
                 <div className="row g-3 w-100" >
                     <div className="container rounded bg-white mt-5 mb-5">
@@ -141,38 +110,21 @@ function SearchChord() {
                                             <h5>Click on the chord progressions to search</h5>
 
                                         </div>
-                                        <div className="col-md-2">
+                                        <div className="button-container">
+                                            {predefinedChords.map((chord, index) => (
+                                                <button
+                                                    key={index}
+                                                    className={`custom-button-search-option ${buttonClickedChord === index ? 'clicked' : ''}`}
+                                                    onClick={(e) => handlePredefinedChordSearch(chord, index, e)}
+                                                >
+                                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{chord}</div>
 
-
-                                            <label className='pd-bottom'>Root:</label>
-                                            <br />
-
-
+                                                </button>
+                                            ))}
                                         </div>
 
-                                        <div className="col-md-10">
-                                            <label className='pd-bottom'>Scale: </label>
-                                            <br />
 
 
-
-                                        </div>
-                                        <div className="row mt-2">
-                                            <p style={{ fontSize: '12px', marginTop: '30px' }}>Advanced settings:</p>
-                                            <hr style={{ width: '100%' }} />
-                                            <div className="col-md-4">
-                                                <label className='pd-bottom'>Show more:</label>
-                                                <br />
-
-
-                                            </div>
-                                            <div className="col-md-6">
-                                                <label>Musical note: </label>
-                                                <br />
-
-                                            </div>
-
-                                        </div>
                                     </div>
 
 
@@ -180,28 +132,37 @@ function SearchChord() {
 
                             </div>
                             {data.length > 0 ?
-                                <div className="col-md-12">
-                                    <h5 style={{ color: '#0d6efd', fontWeight: 'bold', paddingLeft: '30px' }}>
+
+                                <div className="col-md-8" style={{ paddingLeft: '100px' }}>
+                                    <h5 style={{ color: '#0d6efd', paddingLeft: '30px' }} >
                                         Search Results:  {data.length}
 
                                     </h5>
                                     <div >
                                         {data.map((song, index) => {
+                                            const songChords = extractChords(song.lyrics);
+
                                             return <div key={index} className="d-flex flex-wrap">
 
                                                 <Link href={`/viewSongCustomer/` + song.id} key={index} className="song-card-list" style={{ paddingLeft: '30px', color: 'black', textDecoration: 'none' }}>
                                                     <div style={{ border: '1px solid #ccc', padding: '50px', paddingLeft: '10px', color: 'black' }}>
                                                         <span style={{ fontWeight: 'bold' }}>{song.song_title}</span><br />
                                                         <span>{song.lyrics.substring(0, 60)}...</span>
+                                                        <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap' }}>
+                                                            {songChords.map((chord, chordIndex) => (
+                                                                <div key={chordIndex} style={{ border: '1px solid #000', padding: '5px', marginRight: '5px', marginBottom: '5px' }}>{chord}</div>
+                                                            ))}
+                                                        </div>
                                                     </div>
                                                 </Link>
                                             </div>
                                         })}
                                     </div>
                                 </div>
-                                : <div className="col-md-12">
-                                    <h5 style={{ color: '#0d6efd', fontWeight: 'bold', paddingLeft: '30px' }}>
-                                        Search Results:  Not Found
+                                :
+                                <div className="d-flex justify-content-center align-items-center" >
+                                    <h5 style={{ color: '#0d6efd', fontWeight: 'bold' }}>
+                                        Not Found
                                     </h5>
                                 </div>
                             }

@@ -545,7 +545,7 @@ textarea {
     margin-bottom: 20px;
     height: 400px;
     text-align: center;
-    width: calc(120%);
+    width: 500px;
 }
 
 .small-container {
@@ -582,7 +582,7 @@ textarea {
     margin: 4px 2px;
     transition-duration: 0.4s;
     cursor: pointer;
-    width: 500px;
+    width: 700px;
 }
 
 .custom-button:hover {
@@ -596,6 +596,32 @@ textarea {
 }
 
 .custom-button.clicked {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+.custom-button-search-option {
+    padding: 5px 20px;
+    width: fit-content;
+    background-color: #f0f0f0;
+    color: black;
+    border: none;
+    text-align: left;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    width: 500px;
+}
+
+.custom-button-search-option:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.custom-button-search-option.clicked {
     background-color: #0d6efd;
     color: #fff;
 }

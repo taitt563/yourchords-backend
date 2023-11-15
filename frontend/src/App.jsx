@@ -88,9 +88,9 @@ function App() {
           <Route path='/createPlaylist/:userId' element={<CreatePlaylist />}></Route>
           <Route path='/playlist/:userId' element={<Playlist />}></Route>
           <Route path='/viewPlaylist/:id' element={<ViewPlaylist />}></Route>
-          <Route path='/chord' element={<Chord />}></Route>
-          <Route path='/searchChord' element={<SearchChord />}></Route>
         </Route>
+        <Route path='/chord' element={<Chord />}></Route>
+        <Route path='/searchChord' element={<SearchChord />}></Route>
         <Route path='/viewSongCustomer/:id' element={<ViewSongCustomer />}></Route>
 
       </Routes>
