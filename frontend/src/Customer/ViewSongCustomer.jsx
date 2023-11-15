@@ -44,6 +44,7 @@ function ViewSongCustomer() {
     const [, setIsAnyPopupOpen] = useState(false);
     const [transpose, setTranspose] = useState(0);
     const [imageURL, setImageURL] = useState(null);
+    const [hoveredTooltip, setHoveredTooltip] = useState(null);
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
         '& .MuiToggleButtonGroup-grouped': {
@@ -442,78 +443,82 @@ function ViewSongCustomer() {
                                             </div>
 
                                             <h5 className="font" style={{ color: "#0d6efd", fontWeight: 'bold' }}>Danh sách các hợp âm:</h5>
-                                            <div className="chord-list-container" >
+                                            <div className="chord-list-container">
                                                 {[...uniqueChords].map((chordName) => (
-                                                    <Tooltip
-                                                        key={chordName}
-                                                        title={
-                                                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                                                <div style={{
-                                                                    padding: '10px',
-                                                                    marginBottom: '20px',
-                                                                    height: 'auto',
-                                                                    textAlign: 'center',
-                                                                    margin: '10px',
-                                                                }}>
-                                                                    <h5 style={{ fontWeight: 'bold', marginTop: '20px' }}>How to Read Chords</h5>
-                                                                    <p>Here is a guide to reading chords and finger positions:</p>
-                                                                    <ul>
-                                                                        <li style={{ textAlign: 'left' }}>Finger Positions:</li>
-                                                                        <div className="row" style={{ textAlign: 'left', paddingLeft: '50px', paddingTop: '10px' }}>
-                                                                            <div className="column" >
-                                                                                <img src={finger_1} style={{ height: '60%' }} /> <b> Index finger</b>
+                                                    <div key={chordName} className="chord-box" style={{ position: 'relative' }}>
+                                                        <Tooltip
+                                                            title={
+                                                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                                    <div style={{
+                                                                        padding: '10px',
+                                                                        marginBottom: '20px',
+                                                                        height: 'auto',
+                                                                        textAlign: 'center',
+                                                                        margin: '10px',
+                                                                    }}>
+                                                                        <h5 style={{ fontWeight: 'bold', marginTop: '20px' }}>How to Read Chords</h5>
+                                                                        <p>Here is a guide to reading chords and finger positions:</p>
+                                                                        <ul>
+                                                                            <li style={{ textAlign: 'left' }}>Finger Positions:</li>
+                                                                            <div className="row" style={{ textAlign: 'left', paddingLeft: '50px', paddingTop: '10px' }}>
+                                                                                <div className="column" >
+                                                                                    <img src={finger_1} style={{ height: '60%' }} /> <b> Index finger</b>
+                                                                                </div>
+                                                                                <div className="column" >
+                                                                                    <img src={finger_2} style={{ height: '60%' }} /> <b> Middle finger</b>
+                                                                                </div>
+                                                                                <div className="column" >
+                                                                                    <img src={finger_3} style={{ height: '60%' }} /> <b> Ring finger</b>
+                                                                                </div>
+                                                                                <div className="column" >
+                                                                                    <img src={finger_4} style={{ height: '60%' }} /> <b> Pinky finger</b>
+                                                                                </div>
                                                                             </div>
-                                                                            <div className="column" >
-                                                                                <img src={finger_2} style={{ height: '60%' }} /> <b> Middle finger</b>
-                                                                            </div>
-                                                                            <div className="column" >
-                                                                                <img src={finger_3} style={{ height: '60%' }} /> <b> Ring finger</b>
-                                                                            </div>
-                                                                            <div className="column" >
-                                                                                <img src={finger_4} style={{ height: '60%' }} /> <b> Pinky finger</b>
-                                                                            </div>
-                                                                        </div>
-                                                                    </ul>
-                                                                    <ul style={{ textAlign: 'left' }}>
-                                                                        <li><b style={{ fontSize: '12px' }}>O:</b> String on the first fret (open string)</li>
-                                                                        <li><b style={{ fontSize: '12px' }}>X:</b> Unfretted string</li>
-                                                                        <li><b style={{ fontSize: '12px' }}>3fr:</b> Third fret on the guitar</li>
-                                                                    </ul>
+                                                                        </ul>
+                                                                        <ul style={{ textAlign: 'left' }}>
+                                                                            <li><b style={{ fontSize: '12px' }}>O:</b> String on the first fret (open string)</li>
+                                                                            <li><b style={{ fontSize: '12px' }}>X:</b> Unfretted string</li>
+                                                                            <li><b style={{ fontSize: '12px' }}>3fr:</b> Third fret on the guitar</li>
+                                                                        </ul>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        }
-                                                        arrow
-                                                        placement="right"
-                                                    >
-                                                        <div key={chordName} className="chord-box">
-                                                            <p style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>{chordData[chordName].name}</p>
-                                                            {imageURL &&
-                                                                <img src={chordData[chordName].image} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />
                                                             }
-                                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                                <IconButton
-                                                                    style={{ padding: '1px' }}
-                                                                    color="#0d6efd"
-                                                                    onClick={() => increaseKey('decrease')}
-                                                                    size="small"
-                                                                >
-                                                                    <ArrowLeftIcon style={{ color: 'white' }} />
-                                                                </IconButton>
-
-                                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                                                    <p style={{ margin: 8, color: 'black', fontSize: '13px' }}><b>Đổi tông</b></p>
-                                                                </div>
-                                                                <IconButton
-                                                                    style={{ padding: '1px' }}
-                                                                    color="#0d6efd"
-                                                                    size="small"
-                                                                    onClick={() => decreaseKey('increase')}
-                                                                >
-                                                                    <ArrowRightIcon style={{ color: 'white' }} />
-                                                                </IconButton>
+                                                            arrow
+                                                            placement="right"
+                                                            open={hoveredTooltip === chordName}
+                                                        >
+                                                            <div
+                                                                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                                                                onMouseEnter={() => setHoveredTooltip(chordName)}
+                                                                onMouseLeave={() => setHoveredTooltip(null)}
+                                                            >
+                                                                <p>{chordData[chordName].name}</p>
+                                                                {imageURL && <img src={chordData[chordName].image} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />}
                                                             </div>
+                                                        </Tooltip>
+                                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                            <IconButton
+                                                                style={{ padding: '1px' }}
+                                                                color="#0d6efd"
+                                                                onClick={() => increaseKey('decrease')}
+                                                                size="small"
+                                                            >
+                                                                <ArrowLeftIcon style={{ color: 'white' }} />
+                                                            </IconButton>
+
+                                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                                <p style={{ margin: 8, color: 'black', fontSize: '13px' }}><b>Đổi tông</b></p>
+                                                            </div>
+                                                            <IconButton
+                                                                style={{ padding: '1px' }}
+                                                                color="#0d6efd"
+                                                                size="small"
+                                                                onClick={() => decreaseKey('increase')}
+                                                            >
+                                                                <ArrowRightIcon style={{ color: 'white' }} />
+                                                            </IconButton>
                                                         </div>
-                                                    </Tooltip>
+                                                    </div>
                                                 ))}
                                             </div>
 
