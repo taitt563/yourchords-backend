@@ -408,7 +408,7 @@ function Chord() {
 
                                 <div className="col-md-7 border-right">
                                     <div className="py-5">
-                                        <div className="row mt-2">
+                                        <div className="row mt-2" style={{ paddingLeft: '50px' }}>
 
                                             <div style={{ marginBottom: '40px' }}>
                                                 {selectedChord ? (
@@ -651,7 +651,7 @@ function Chord() {
                                 :
                                 <div className="col-md-7 border-right">
                                     <div className="py-5">
-                                        <div className="row mt-2">
+                                        <div className="row mt-2" style={{ paddingLeft: '50px' }}>
                                             <div style={{ marginBottom: '50px' }}>
                                                 <h3 style={{ color: '#0d6efd', fontWeight: 'bold' }}>List Scale</h3>
                                                 <p>Include all the listed scales below represented on the guitar fretboard.</p>
@@ -659,7 +659,7 @@ function Chord() {
                                             <div className="col-md-8">
                                                 {scaleModes.map((category, index) => (
                                                     <div key={index}>
-                                                        <h5><b>{category.category}</b></h5>
+                                                        <h6><b>{category.category}</b></h6>
                                                         <ul style={{ paddingLeft: '100px' }}>
                                                             {category.modes.map((mode, idx) => (
                                                                 <li key={idx}><Link underline='hover'>{mode}</Link></li>

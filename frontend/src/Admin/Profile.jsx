@@ -131,7 +131,6 @@ function Profile() {
                     <div className="profile-header">
 
                         <h3 className="profile-header" style={{ color: '#0d6efd' }}><b>Account Settings</b></h3>
-
                     </div>
                     <hr style={{ width: '95%' }} />
                     <div className="profile-image">

@@ -15,7 +15,6 @@ import { Link } from '@mui/material';
 function SearchChord() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [data, setData] = useState([]);
-    console.log(data)
     const darkTheme = createTheme({
         palette: {
             mode: 'dark',
@@ -25,20 +24,38 @@ function SearchChord() {
         },
     });
     const handleSearch = () => {
-        const chordInput = document.getElementById('chordInput').value;
-        const encodedChordInput = encodeURIComponent(chordInput.toLowerCase()).replace(/#/g, '%23');
+        const chordInput = document.getElementById('chordInput').value.toLowerCase();
+        const encodedChordInput = encodeURIComponent(chordInput);
+        const extractChords = (lyrics) => {
+            const chordRegex = /\[(?<chord>[\w#]+)\]/g;
+            const matches = [];
 
-        axios.get(`${apiUrl}/findSongByChord?chord_name=${encodedChordInput}`)
+            let match;
+            while ((match = chordRegex.exec(lyrics)) !== null) {
+                matches.push(match[1].toLowerCase());
+            }
+            return matches;
+        };
+        // Split the input chord string by commas
+        const searchChords = chordInput.split(',');
+
+        axios.get(`${apiUrl}/getSongAdmin?chord_name=${encodedChordInput}`)
             .then((res) => {
                 if (res.data.Status === 'Success') {
-                    setData(res.data.Result);
-                } else {
-                    alert('Error');
+                    const filteredResults = res.data.Result.filter((song) => {
+                        const songChords = extractChords(song.lyrics);
+                        // Check if every search chord is present in the song chords
+                        if (searchChords.every(searchChord => songChords.includes(searchChord.trim()))) {
+                            return true; // Add the song to results
+                        } else {
+                            return false; // Do not include the song in results
+                        }
+                    });
+                    setData(filteredResults);
                 }
             })
             .catch((err) => console.log(err));
     };
-
     return (
         <>
             <Box sx={{ flexGrow: 1, top: 0, position: 'sticky', zIndex: '3' }}>
@@ -116,7 +133,7 @@ function SearchChord() {
                             </div>
                             <div className="col-md-7 border-right ">
                                 <div className="py-5">
-                                    <div className="row mt-2">
+                                    <div className="row mt-2" style={{ paddingLeft: '50px' }}>
 
                                         <div style={{ marginBottom: '40px' }}>
 
@@ -162,25 +179,32 @@ function SearchChord() {
                                 </div>
 
                             </div>
+                            {data.length > 0 ?
+                                <div className="col-md-12">
+                                    <h5 style={{ color: '#0d6efd', fontWeight: 'bold', paddingLeft: '30px' }}>
+                                        Search Results:  {data.length}
 
-                            <div className="col-md-12">
-                                <h5 style={{ color: '#0d6efd', fontWeight: 'bold', paddingLeft: '50px' }}>
-                                    Search Results:  {data.length}
+                                    </h5>
+                                    <div >
+                                        {data.map((song, index) => {
+                                            return <div key={index} className="d-flex flex-wrap">
 
-                                </h5>
-
-                                <div className="d-flex flex-wrap">
-                                    {data.map((song, index) => (
-                                        <Link href={`/viewSongCustomer/` + song.id} key={index} className="song-card-list" style={{ paddingLeft: '50px', color: 'black', textDecoration: 'none' }}>
-                                            <div style={{ border: '1px solid #ccc', padding: '50px', paddingLeft: '10px', color: 'black' }}>
-                                                <span style={{ fontWeight: 'bold' }}>{song.song_title}</span><br />
-                                                <span>{song.lyrics.substring(0, 60)}...</span>
+                                                <Link href={`/viewSongCustomer/` + song.id} key={index} className="song-card-list" style={{ paddingLeft: '30px', color: 'black', textDecoration: 'none' }}>
+                                                    <div style={{ border: '1px solid #ccc', padding: '50px', paddingLeft: '10px', color: 'black' }}>
+                                                        <span style={{ fontWeight: 'bold' }}>{song.song_title}</span><br />
+                                                        <span>{song.lyrics.substring(0, 60)}...</span>
+                                                    </div>
+                                                </Link>
                                             </div>
-                                        </Link>
-                                    ))}
+                                        })}
+                                    </div>
                                 </div>
-
-                            </div>
+                                : <div className="col-md-12">
+                                    <h5 style={{ color: '#0d6efd', fontWeight: 'bold', paddingLeft: '30px' }}>
+                                        Search Results:  Not Found
+                                    </h5>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

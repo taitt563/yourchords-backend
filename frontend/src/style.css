@@ -540,14 +540,12 @@ textarea {
 }
 
 .large-container {
-    font-size: 20px;
     background-color: #fff;
     padding: 10px;
-    border-radius: 10px;
     margin-bottom: 20px;
     height: 400px;
     text-align: center;
-    width: calc(100% - 100px);
+    width: calc(120%);
 }
 
 .small-container {
