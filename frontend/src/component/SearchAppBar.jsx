@@ -43,7 +43,6 @@ export default function SearchAppBar() {
                             component="div"
                             sx={{ color: '#0d6efd', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                         >
-
                             <b>YOUR CHORD</b>
                         </Typography>
 
