@@ -56,7 +56,7 @@ function DashboardCustomer() {
         <div className="container-fluid">
             <div className="row flex-nowrap" >
                 <div className=" col-auto col-md-3 col-xl-2 px-0 tabLeft">
-                    <div className="d-flex flex-column align-items-center align-items-sm-start px-2 pt-3 text-white min-vh-100" style={{
+                    <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 text-white min-vh-100" style={{
                         top: 0,
                         position: 'sticky'
                     }}>
@@ -96,7 +96,7 @@ function DashboardCustomer() {
                                     </ListItemButton>
                                 </List>
                                 <List sx={{
-                                    width: '40%', paddingTop: '30px'
+                                    width: '40%', paddingTop: '20px'
                                 }}>
                                     <ListItemButton href="/chord" className='buttonDashBoard'>
                                         <ListItemIcon>
@@ -106,7 +106,7 @@ function DashboardCustomer() {
                                     </ListItemButton>
                                 </List>
                                 <List sx={{
-                                    width: '40%', paddingTop: '30px'
+                                    width: '40%', paddingTop: '20px'
                                 }}>
                                     <ListItemButton href="/searchChord" className='buttonDashBoard'>
                                         <ListItemIcon>
@@ -115,7 +115,7 @@ function DashboardCustomer() {
                                         <ListItemText><span className="fontDashboard">Search Chord</span></ListItemText>
                                     </ListItemButton>
                                 </List>
-                                <List sx={{ width: '40%', paddingTop: '30px' }}>
+                                <List sx={{ width: '40%', paddingTop: '20px' }}>
                                     <ListItemButton onClick={handleClickPlaylist} className='buttonDashBoard'>
                                         <ListItemIcon>
                                             <PlaylistPlayIcon color="primary" fontSize='medium' />
@@ -141,7 +141,7 @@ function DashboardCustomer() {
                                     </Collapse>
                                 </List>
                                 <List sx={{
-                                    width: '40%', paddingTop: '30px'
+                                    width: '40%', paddingTop: '20px'
                                 }}>
                                     <ListItemButton href="/feedback" className='buttonDashBoard'>
                                         <ListItemIcon>
@@ -151,7 +151,7 @@ function DashboardCustomer() {
                                     </ListItemButton>
                                 </List>
                                 <List sx={{
-                                    width: '40%', paddingTop: '30px',
+                                    width: '40%', paddingTop: '20px',
                                 }}>
                                     <ListItemButton href={`/profileCustomer/` + profile.userId} className='buttonDashBoard'>
                                         <ListItemIcon>
@@ -162,7 +162,7 @@ function DashboardCustomer() {
                                 </List>
 
                                 <List sx={{
-                                    width: '40%', paddingTop: '30px'
+                                    width: '40%', paddingTop: '20px'
                                 }}>
                                     <ListItemButton href="/login" className='buttonDashBoard'>
                                         <ListItemIcon>

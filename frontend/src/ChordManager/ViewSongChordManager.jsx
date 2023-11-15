@@ -39,6 +39,8 @@ function ViewSongChordManager() {
     const [currentKey, setCurrentKey] = useState(0);
     const [, setIsAnyPopupOpen] = useState(false);
     const [transpose, setTranspose] = useState(0);
+    const [imageURL, setImageURL] = useState(null);
+
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
         '& .MuiToggleButtonGroup-grouped': {
@@ -60,6 +62,7 @@ function ViewSongChordManager() {
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
+                    setImageURL(`data:image/png;base64, ${res.data.Result.image}`);
                 } else {
                     alert("Error")
                 }
@@ -197,7 +200,9 @@ function ViewSongChordManager() {
                 <div className="chord-popup" style={{ display: chordPopups[chordName] ? 'block' : 'none' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                         <h2>{chordName}</h2>
-                        <img src={`${apiUrl}/images/chord/` + chordImage.image} style={{ width: '100%', height: '100%' }} />
+                        {imageURL &&
+                            <img src={chordImage.image} style={{ width: '100%', height: '100%' }} />
+                        }
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <IconButton
                                 style={{ padding: '1px' }}
@@ -434,7 +439,9 @@ function ViewSongChordManager() {
                                                     {[...uniqueChords].map((chordName) => (
                                                         <div key={chordName} className="chord-box">
                                                             <p style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>{chordData[chordName].name}</p>
-                                                            <img src={`${apiUrl}/images/chord/${chordData[chordName].image}`} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />
+                                                            {imageURL &&
+                                                                <img src={chordData[chordName].image} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />
+                                                            }
                                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                                                 <IconButton
                                                                     style={{ padding: '1px' }}
