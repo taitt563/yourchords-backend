@@ -9,6 +9,8 @@ import finger_1 from '../../../Server/public/finger/finger_1.png'
 import finger_2 from '../../../Server/public/finger/finger_2.png'
 import finger_3 from '../../../Server/public/finger/finger_3.png'
 import finger_4 from '../../../Server/public/finger/finger_4.png'
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 function SearchChord() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [data, setData] = useState([]);
@@ -17,6 +19,17 @@ function SearchChord() {
     const predefinedChords = ["C,G,Am,Em,F", "Am,F,C,G", "G,E#m,C,D", "D,Bm,G,A", "C,Am,Dm,G", "Am,Dm,E"];
     const [majorChordsData, setDataMajorChords] = useState([]);
     const [minorChordsData, setDataMinorChords] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+
+    // ... (rest of the code)
+
+    // Pagination logic
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+    const totalPages = Math.ceil(data.length / itemsPerPage);
     const handlePredefinedChordSearch = (chord, index, e) => {
         e.preventDefault();
         document.getElementById('chordInput').value = chord;
@@ -41,7 +54,6 @@ function SearchChord() {
         const extractChords = (lyrics) => {
             const chordRegex = /\[(?<chord>[\w#]+)\]/g;
             const matches = [];
-
             let match;
             while ((match = chordRegex.exec(lyrics)) !== null) {
                 matches.push(match[1].toLowerCase());
@@ -50,19 +62,25 @@ function SearchChord() {
         };
         const chordInputResult = document.getElementById('chordInput').value;
         setSearchedChords(chordInputResult);
+        setCurrentPage(1);
         const searchChords = chordInput.split(',');
         axios.get(`${apiUrl}/getSongAdmin?chord_name=${encodedChordInput}`)
             .then((res) => {
                 if (res.data.Status === 'Success') {
+
                     const filteredResults = res.data.Result.filter((song) => {
                         const songChords = extractChords(song.lyrics);
                         if (searchChords.every(searchChord => songChords.includes(searchChord.trim()))) {
                             return true;
+
                         } else {
                             return false;
                         }
                     });
                     setData(filteredResults);
+
+
+
                 }
             })
             .catch((err) => console.log(err));
@@ -164,7 +182,7 @@ function SearchChord() {
                                         </h5>
 
                                         <div>
-                                            {data.map((song, index) => {
+                                            {currentItems.map((song, index) => {
                                                 console.log('searchedChords:', searchedChords)
                                                 console.log('chorddata:', chordData)
 
@@ -199,22 +217,38 @@ function SearchChord() {
                                                                     </div>
                                                                 </div>
                                                                 <span style={{ color: 'gray', fontStyle: 'italic' }}>{song.lyrics.substring(0, 60)}...</span>
-                                                                <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-                                                                    {Array.from(uniqueChordsSet).map((chordName) => (
-                                                                        <div key={chordName} className="chord-box" style={{ position: 'relative', textAlign: 'center', margin: '10px' }}>
+                                                                <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+                                                                    {Array.from(uniqueChordsSet).slice(0, 5).map((chordName, index) => (
+                                                                        <div key={index} className="chord-box" style={{ position: 'relative', textAlign: 'center', margin: '10px' }}>
                                                                             <p style={{ marginTop: '5px' }}>{chordData[chordName]?.name}</p>
                                                                             {chordData[chordName]?.image && (
                                                                                 <img src={chordData[chordName].image} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />
                                                                             )}
                                                                         </div>
                                                                     ))}
+                                                                    {Array.from(uniqueChordsSet).length > 5 && (
+                                                                        <div className="chord-box" style={{ position: 'relative', textAlign: 'center', margin: '10px' }}>
+                                                                            <p style={{ marginTop: '5px', fontSize: '15px' }}>View more</p>
+                                                                        </div>
+                                                                    )}
                                                                 </div>
+
+
                                                             </div>
                                                         </Link>
                                                     </div>
                                                 );
                                             })}
                                         </div>
+                                        <Stack spacing={2} direction="row" justifyContent="center" mt={3}>
+                                            <Pagination
+                                                count={totalPages}
+                                                page={currentPage}
+                                                onChange={(event, value) => setCurrentPage(value)}
+                                                color="primary"
+                                                size="large"
+                                            />
+                                        </Stack>
                                     </div>
                                     <div className="col-md-4">
                                         <div style={{
