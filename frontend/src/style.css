@@ -722,6 +722,7 @@ textarea {
 }
 .item-grid:hover {
     background-color: #ccc;
+    color: #0d6efd;
 }
 
 /* Order Musician */
@@ -752,4 +753,10 @@ textarea {
 .item-grid h6{
     font-size: 14px;
     text-align: center;
+}
+
+/* ListSong */
+.headP {
+    display: inline;
+    
 }

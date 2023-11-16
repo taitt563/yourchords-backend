@@ -4,6 +4,7 @@ import SearchAppBar from '../component/SearchAppBar';
 // import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useState } from 'react';
 import { Radio, Space, Table, Tag } from 'antd';
+import { Link } from 'react-router-dom';
 
 const columns = [
     {

@@ -6,17 +6,17 @@ function ListSong() {
 
     return (
         <>
-            <table style={{ margin: '100px', border: '1px', width: '1000px' }} className="table table-sm">
-                <tbody>
-                    <tr>
-                        <th>
-                            <div>Ước Vọng Tình Xuân - tên nhạc sĩ
-                            </div>
-                            <div>Hi</div>
-                        </th>
-                    </tr>
-                </tbody>
-            </table>
+            <div className="card mx-3 my-5">
+                <div className="card-body">
+                    <p className='headP'>Lạ lùng</p> <p className='headP'>- Vũ</p>
+                    <p>Description</p>
+                    <p className='headP'>Pic</p>
+                    <p className='headP'>-Vũ</p>
+                    <p className='headP'>-Ngày tháng năm</p>
+                    <p className='headP' style={{ marginLeft: '50px' }}>Hợp âm</p>
+                    <p className='headP' style={{ marginLeft: '50px' }}>Lượt xem</p>
+                </div>
+            </div>
         </>
     )
 }
