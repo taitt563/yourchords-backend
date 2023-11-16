@@ -545,7 +545,7 @@ textarea {
     margin-bottom: 20px;
     height: 400px;
     text-align: center;
-    width: 500px;
+    width: calc(100%);
 }
 
 .small-container {
@@ -553,9 +553,9 @@ textarea {
     background-color: #f0f0f0;
     padding: 10px;
     border-radius: 10px;
-    width: fit-content;
     height: fit-content;
     text-align: center;
+    width: calc(100%);
 }
 
 .small-container:hover {
@@ -582,7 +582,7 @@ textarea {
     margin: 4px 2px;
     transition-duration: 0.4s;
     cursor: pointer;
-    width: 700px;
+    width: calc(100%);
 }
 
 .custom-button:hover {
@@ -613,7 +613,7 @@ textarea {
     margin: 4px 2px;
     transition-duration: 0.4s;
     cursor: pointer;
-    width: 500px;
+    width: calc(100%);
 }
 
 .custom-button-search-option:hover {
@@ -639,7 +639,7 @@ textarea {
     margin: 4px 2px;
     transition-duration: 0.4s;
     cursor: pointer;
-    width: 500px;
+    width: calc(100%);
 }
 
 .custom-button-search:hover {
@@ -663,8 +663,9 @@ textarea {
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    justify-content: space-around;
+    justify-content: flex-start;
     display: flex;
+    flex-wrap: wrap;
 }
 
 
