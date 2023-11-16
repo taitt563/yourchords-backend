@@ -445,7 +445,7 @@ function ViewSongCustomer() {
                                             <h5 className="font" style={{ color: "#0d6efd", fontWeight: 'bold' }}>Danh sách các hợp âm:</h5>
                                             <div className="chord-list-container">
                                                 {[...uniqueChords].map((chordName) => (
-                                                    <div key={chordName} className="chord-box" style={{ position: 'relative' }}>
+                                                    <div key={chordName} className="chord-box" style={{ position: 'relative', paddingLeft: '40px' }}>
                                                         <Tooltip
                                                             title={
                                                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -496,7 +496,7 @@ function ViewSongCustomer() {
                                                                 {imageURL && <img src={chordData[chordName].image} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />}
                                                             </div>
                                                         </Tooltip>
-                                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
                                                             <IconButton
                                                                 style={{ padding: '1px' }}
                                                                 color="#0d6efd"

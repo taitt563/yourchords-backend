@@ -443,7 +443,7 @@ function ViewSongChordManager() {
                                             {[...uniqueChords] != "" ?
                                                 <div className="chord-list-container" >
                                                     {[...uniqueChords].map((chordName) => (
-                                                        <div key={chordName} className="chord-box">
+                                                        <div key={chordName} className="chord-box" style={{ position: 'relative', paddingLeft: '40px' }}>
                                                             <p style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>{chordData[chordName].name}</p>
                                                             {imageURL &&
                                                                 <img src={chordData[chordName].image} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />
