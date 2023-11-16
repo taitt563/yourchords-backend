@@ -14,7 +14,7 @@ function SearchChord() {
     const [data, setData] = useState([]);
     const [buttonClickedChord, setButtonClickedChord] = useState(null);
     const [searchedChords, setSearchedChords] = useState([]);
-    const predefinedChords = ["C,G,Am,Em,F", "Am,F,C,G", "G,Em,C,D", "D,Bm,G,A", "C,Am,Dm,G", "Am,Dm,E"];
+    const predefinedChords = ["C,G,Am,Em,F", "Am,F,C,G", "G,E#m,C,D", "D,Bm,G,A", "C,Am,Dm,G", "Am,Dm,E"];
     const [majorChordsData, setDataMajorChords] = useState([]);
     const [minorChordsData, setDataMinorChords] = useState([]);
     const handlePredefinedChordSearch = (chord, index, e) => {
@@ -48,7 +48,8 @@ function SearchChord() {
             }
             return matches;
         };
-        setSearchedChords(chordInput);
+        const chordInputResult = document.getElementById('chordInput').value;
+        setSearchedChords(chordInputResult);
         const searchChords = chordInput.split(',');
         axios.get(`${apiUrl}/getSongAdmin?chord_name=${encodedChordInput}`)
             .then((res) => {
@@ -145,6 +146,7 @@ function SearchChord() {
                                                 <button
                                                     key={index}
                                                     className={`custom-button-search-option ${buttonClickedChord === index ? 'clicked' : ''}`}
+                                                    style={{ borderRadius: '10px' }}
                                                     onClick={(e) => handlePredefinedChordSearch(chord, index, e)}
                                                 >
                                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{chord}</div>
@@ -158,7 +160,7 @@ function SearchChord() {
                                 <div className="row">
                                     <div className="col-md-8" >
                                         <h5 style={{ color: '#0d6efd' }}>
-                                            Search Results: <b>{searchedChords}</b>
+                                            Search Results: <b>{searchedChords}</b> - {data.length} song found
                                         </h5>
 
                                         <div>
@@ -173,7 +175,7 @@ function SearchChord() {
                                                     <div key={index} className="d-flex flex-wrap">
 
                                                         <Link href={`/viewSongCustomer/` + song.id} key={index} className="song-card-list" style={{ color: 'black', textDecoration: 'none' }}>
-                                                            <div style={{ border: '1px solid #ccc', padding: '50px', paddingLeft: '10px', color: 'black' }}>
+                                                            <div style={{ border: '1px solid #ccc', padding: '10px', paddingLeft: '10px', color: 'black' }}>
                                                                 <div className='column'>
                                                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                                                         <span style={{ fontSize: '20px', marginRight: '10px' }}>{song.song_title}</span>
@@ -187,7 +189,7 @@ function SearchChord() {
                                                                                         marginBottom: '5px',
                                                                                         background: '#eee',
                                                                                         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                                                                                        borderRadius: '5px',
+                                                                                        borderRadius: '5px'
                                                                                     }}
                                                                                 >
                                                                                     {chord}
@@ -199,8 +201,8 @@ function SearchChord() {
                                                                 <span style={{ color: 'gray', fontStyle: 'italic' }}>{song.lyrics.substring(0, 60)}...</span>
                                                                 <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                                                                     {Array.from(uniqueChordsSet).map((chordName) => (
-                                                                        <div key={chordName} className="chord-box" style={{ position: 'relative' }}>
-                                                                            <p style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>{chordData[chordName]?.name}</p>
+                                                                        <div key={chordName} className="chord-box" style={{ position: 'relative', textAlign: 'center', margin: '10px' }}>
+                                                                            <p style={{ marginTop: '5px' }}>{chordData[chordName]?.name}</p>
                                                                             {chordData[chordName]?.image && (
                                                                                 <img src={chordData[chordName].image} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />
                                                                             )}
