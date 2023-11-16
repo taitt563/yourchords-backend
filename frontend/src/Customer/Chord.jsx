@@ -437,7 +437,7 @@ function Chord() {
                                                 <ButtonGroup variant="contained" ref={anchorRefScale} aria-label="split button">
                                                     <Button
                                                         style={{
-                                                            width: '300px', color: 'white',
+                                                            width: 'fit-content', color: 'white',
                                                             backgroundColor: '#0d6efd'
                                                         }}
                                                         onClick={handleToggleScale}

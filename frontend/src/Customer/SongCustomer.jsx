@@ -38,18 +38,18 @@ function SongCustomer() {
     const [selectedSong, setSelectedSong] = useState(null);
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
     const [imageURL, setImageURL] = useState(null);
-    const style = {
+    const styles = {
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         bgcolor: 'background.paper',
-        border: '1px solid #0d6efd',
         boxShadow: 24,
         p: 4,
         height: '800px',
         overflowY: 'scroll',
         width: '1400px',
+        borderRadius: '30px'
     };
     const handleFavorite = () => {
         axios.get(`${apiUrl}/getPlaylist/` + userId)
@@ -283,7 +283,7 @@ function SongCustomer() {
                 open={modalOpen}
                 onClose={() => { setModalOpen(false) }}
             >
-                <Box sx={style} >
+                <Box sx={styles} >
 
                     <div className="d-flex flex-wrap justify-content-start">
                         <div className="w-100 text-center">
@@ -309,12 +309,14 @@ function SongCustomer() {
                                                             handleAddToPlayList();
                                                         }}
                                                         fontSize='large'
+                                                        style={{ cursor: 'pointer' }}
                                                     />
                                                     <br />
-                                                    <Link onClick={() => {
-                                                        setSelectedPlaylist(playlist);
-                                                        handleAddToPlayList();
-                                                    }} className="playlist-name-modal" underline='none'>Add to playlist</Link>
+                                                    <Link style={{ cursor: 'pointer' }}
+                                                        onClick={() => {
+                                                            setSelectedPlaylist(playlist);
+                                                            handleAddToPlayList();
+                                                        }} className="playlist-name-modal" underline='none'>Add to playlist</Link>
                                                 </p>
                                             </div>
                                         </div>
