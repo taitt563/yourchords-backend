@@ -14,8 +14,9 @@ function SearchChord() {
     const [data, setData] = useState([]);
     const [buttonClickedChord, setButtonClickedChord] = useState(null);
     const [searchedChords, setSearchedChords] = useState([]);
-
     const predefinedChords = ["C,G,Am,Em,F", "Am,F,C,G", "G,Em,C,D", "D,Bm,G,A", "C,Am,Dm,G", "Am,Dm,E"];
+    const [majorChordsData, setDataMajorChords] = useState([]);
+    const [minorChordsData, setDataMinorChords] = useState([]);
     const handlePredefinedChordSearch = (chord, index, e) => {
         e.preventDefault();
         document.getElementById('chordInput').value = chord;
@@ -25,6 +26,15 @@ function SearchChord() {
     useEffect(() => {
         handleSearch();
     }, []);
+    const extractChords = (lyrics) => {
+        const chordRegex = /\[(?<chord>[\w#]+)\]/g;
+        const uniqueChords = new Set();
+        let match;
+        while ((match = chordRegex.exec(lyrics)) !== null) {
+            uniqueChords.add(match[1]);
+        }
+        return Array.from(uniqueChords);
+    };
     const handleSearch = () => {
         const chordInput = document.getElementById('chordInput').value.toLowerCase();
         const encodedChordInput = encodeURIComponent(chordInput);
@@ -56,16 +66,33 @@ function SearchChord() {
             })
             .catch((err) => console.log(err));
     };
-    const extractChords = (lyrics) => {
-        const chordRegex = /\[(?<chord>[\w#]+)\]/g;
-        const uniqueChords = new Set();
-
-        let match;
-        while ((match = chordRegex.exec(lyrics)) !== null) {
-            uniqueChords.add(match[1]);
-        }
-        return Array.from(uniqueChords);
-    };
+    useEffect(() => {
+        axios.get(`${apiUrl}/getChord`)
+            .then(res => {
+                if (res.data.Status === "Success") {
+                    const chordData = res.data.Result.map(chord => ({
+                        name: chord.chord_name,
+                        image: chord.image,
+                        type: chord.type_id,
+                    }));
+                    const majorChordsData = {};
+                    const minorChordsData = {};
+                    chordData.forEach(chord => {
+                        if (chord.type === 1) {
+                            minorChordsData[chord.name] = chord;
+                        } else {
+                            majorChordsData[chord.name] = chord;
+                        }
+                    });
+                    setDataMajorChords(majorChordsData);
+                    setDataMinorChords(minorChordsData);
+                } else {
+                    alert("Error")
+                }
+            })
+            .catch(err => console.log(err));
+    }, [])
+    const chordData = { ...majorChordsData, ...minorChordsData };
     return (
         <>
             <SearchAppBarBack />
@@ -121,7 +148,6 @@ function SearchChord() {
                                                     onClick={(e) => handlePredefinedChordSearch(chord, index, e)}
                                                 >
                                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{chord}</div>
-
                                                 </button>
                                             ))}
                                         </div>
@@ -130,34 +156,54 @@ function SearchChord() {
                             </div>
                             {data.length > 0 ? (
                                 <div className="row">
-                                    <div className="col-md-8" style={{ paddingLeft: '100px' }}>
-                                        <h5 style={{ color: '#0d6efd', paddingLeft: '30px' }}>
+                                    <div className="col-md-8" >
+                                        <h5 style={{ color: '#0d6efd' }}>
                                             Search Results: <b>{searchedChords}</b>
                                         </h5>
+
                                         <div>
                                             {data.map((song, index) => {
+                                                console.log('searchedChords:', searchedChords)
+                                                console.log('chorddata:', chordData)
+
                                                 const songChords = extractChords(song.lyrics);
+                                                const uniqueChordsSet = new Set(songChords);
 
                                                 return (
                                                     <div key={index} className="d-flex flex-wrap">
-                                                        <Link href={`/viewSongCustomer/` + song.id} key={index} className="song-card-list" style={{ paddingLeft: '30px', color: 'black', textDecoration: 'none' }}>
+
+                                                        <Link href={`/viewSongCustomer/` + song.id} key={index} className="song-card-list" style={{ color: 'black', textDecoration: 'none' }}>
                                                             <div style={{ border: '1px solid #ccc', padding: '50px', paddingLeft: '10px', color: 'black' }}>
-                                                                <span style={{ fontSize: '20px' }}>{song.song_title}</span><br />
+                                                                <div className='column'>
+                                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                                        <span style={{ fontSize: '20px', marginRight: '10px' }}>{song.song_title}</span>
+                                                                        <div style={{ marginLeft: 'auto', display: 'flex' }}>
+                                                                            {songChords.map((chord, chordIndex) => (
+                                                                                <div
+                                                                                    key={chordIndex}
+                                                                                    style={{
+                                                                                        padding: '6px',
+                                                                                        marginRight: '15px',
+                                                                                        marginBottom: '5px',
+                                                                                        background: '#eee',
+                                                                                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                                                                        borderRadius: '5px',
+                                                                                    }}
+                                                                                >
+                                                                                    {chord}
+                                                                                </div>
+                                                                            ))}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                                 <span style={{ color: 'gray', fontStyle: 'italic' }}>{song.lyrics.substring(0, 60)}...</span>
                                                                 <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-                                                                    {songChords.map((chord, chordIndex) => (
-                                                                        <div
-                                                                            key={chordIndex}
-                                                                            style={{
-                                                                                padding: '6px',
-                                                                                marginRight: '15px',
-                                                                                marginBottom: '5px',
-                                                                                background: '#eee',
-                                                                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                                                                                borderRadius: '5px',
-                                                                            }}
-                                                                        >
-                                                                            {chord}
+                                                                    {Array.from(uniqueChordsSet).map((chordName) => (
+                                                                        <div key={chordName} className="chord-box" style={{ position: 'relative' }}>
+                                                                            <p style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>{chordData[chordName]?.name}</p>
+                                                                            {chordData[chordName]?.image && (
+                                                                                <img src={chordData[chordName].image} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />
+                                                                            )}
                                                                         </div>
                                                                     ))}
                                                                 </div>
@@ -175,12 +221,12 @@ function SearchChord() {
                                             marginBottom: '20px',
                                             height: 'auto',
                                             textAlign: 'center',
-                                            width: '400px',
+                                            width: '350px',
                                             margin: '10px',
                                             borderRadius: '10px',
                                             marginTop: '30px'
                                         }}>
-                                            <h3 style={{ color: '#0d6efd', fontWeight: 'bold' }}>How to Read Chords</h3>
+                                            <h4 style={{ color: '#0d6efd', fontWeight: 'bold' }}>How to Read Chords</h4>
                                             <p>Here a guide to reading chords and finger positions:</p>
                                             <ul>
                                                 <li style={{ textAlign: 'left' }}>Finger Positions:</li>
@@ -217,13 +263,10 @@ function SearchChord() {
                                     </h5>
                                 </div>
                             )}
-
-
                         </div>
                     </div>
                 </div>
-            </div >
-
+            </div>
         </>
     );
 
