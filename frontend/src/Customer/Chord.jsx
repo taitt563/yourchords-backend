@@ -379,6 +379,7 @@ function Chord() {
                                                             color: 'white',
                                                             backgroundColor: '#0d6efd'
                                                         }}
+                                                        onClick={handleToggleRoot}
                                                     >
                                                         {optionsRoot[selectedIndexRoot]}
                                                     </Button>
@@ -445,6 +446,7 @@ function Chord() {
                                                             width: '300px', color: 'white',
                                                             backgroundColor: '#0d6efd'
                                                         }}
+                                                        onClick={handleToggleScale}
                                                     >
                                                         {optionsScale[selectedIndexScale]?.titles[selectedTitleIndex]}
                                                     </Button>
@@ -517,8 +519,10 @@ function Chord() {
                                                     <ButtonGroup variant="contained" ref={anchorRefShowMore} aria-label="split button">
                                                         <Button style={{
                                                             width: '100px', color: 'white',
-                                                            backgroundColor: '#0d6efd'
-                                                        }} >
+                                                            backgroundColor: '#0d6efd',
+                                                        }}
+                                                            onClick={handleToggleShowMore}
+                                                        >
                                                             {optionsShowMore[selectedIndexShowMore]}</Button>
                                                         <Button
                                                             sx={{
