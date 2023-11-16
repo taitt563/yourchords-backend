@@ -18,7 +18,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import SearchAppBarBack from '../component/SearchAppBarBack';
+import SearchAppBarBackCustomer from '../component/SearchAppBarBackCustomer';
 function Chord() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [openRoot, setOpenRoot] = useState(false);
@@ -325,12 +325,8 @@ function Chord() {
 
     return (
         <>
-            <SearchAppBarBack />
-
-
-
+            <SearchAppBarBackCustomer />
             <div className='d-flex flex-column align-items-center' style={{ paddingLeft: '100px' }}>
-
                 <form className="row g-3 w-100">
                     <div className="container rounded bg-white mt-5 mb-5">
                         <div className="row">
@@ -356,7 +352,6 @@ function Chord() {
                                 </div>
                             </div>
                             {buttonClickedChord ?
-
                                 <div className="col-md-7 border-right">
                                     <div className="py-5">
                                         <div className="row mt-2" style={{ paddingLeft: '50px' }}>
@@ -436,7 +431,6 @@ function Chord() {
                                                 </Popper>
 
                                             </div>
-
                                             <div className="col-md-10">
                                                 <label className='pd-bottom'>Scale: </label>
                                                 <br />

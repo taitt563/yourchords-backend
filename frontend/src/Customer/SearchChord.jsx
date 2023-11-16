@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import { Link } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import SearchAppBarBack from '../component/SearchAppBarBack';
+import SearchAppBarBackCustomer from '../component/SearchAppBarBackCustomer';
 import finger_1 from '../../../Server/public/finger/finger_1.png'
 import finger_2 from '../../../Server/public/finger/finger_2.png'
 import finger_3 from '../../../Server/public/finger/finger_3.png'
@@ -16,7 +16,7 @@ function SearchChord() {
     const [data, setData] = useState([]);
     const [buttonClickedChord, setButtonClickedChord] = useState(null);
     const [searchedChords, setSearchedChords] = useState([]);
-    const predefinedChords = ["C,G,Am,Em,F", "Am,F,C,G", "G,E#m,C,D", "D,Bm,G,A", "C,Am,Dm,G", "Am,Dm,E"];
+    const predefinedChords = ["C,G,Am,Em,F", "Am,F,C,G", "G,Em,C,D", "D,Bm,G,A", "C,Am,Dm,G", "Am,Dm,E"];
     const [majorChordsData, setDataMajorChords] = useState([]);
     const [minorChordsData, setDataMinorChords] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -114,7 +114,7 @@ function SearchChord() {
     const chordData = { ...majorChordsData, ...minorChordsData };
     return (
         <>
-            <SearchAppBarBack />
+            <SearchAppBarBackCustomer />
             <div className='d-flex flex-column align-items-center' style={{ paddingLeft: '100px' }}>
                 <div className="row g-3 w-100" >
                     <div className="container rounded bg-white mt-5 mb-5">
@@ -280,7 +280,7 @@ function SearchChord() {
                                                 </div>
                                             </ul>
                                             <ul style={{ textAlign: 'left' }}>
-                                                <li><b style={{ fontSize: '12px' }}>O:</b> String on the first fret (open string)</li>
+                                                <li><b style={{ fontSize: '10px' }}>O:</b> String on the first fret (open string)</li>
                                                 <li><b style={{ fontSize: '12px' }}>X:</b> Unfretted string</li>
                                                 <li><b style={{ fontSize: '12px' }}>3fr:</b> Third fret on the guitar</li>
                                             </ul>
