@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import { Link } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import SearchAppBarBack from '../component/SearchAppBarBack';
 import finger_1 from '../../../Server/public/finger/finger_1.png'
 import finger_2 from '../../../Server/public/finger/finger_2.png'
@@ -128,7 +128,7 @@ function SearchChord() {
                                         <div className="button-container">
                                             <Paper
                                                 component="form"
-                                                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 500, border: '1px solid #f0f0f0' }}
+                                                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 700, border: '1px solid #f0f0f0' }}
                                             >
 
                                                 <InputBase
@@ -139,11 +139,11 @@ function SearchChord() {
                                             </Paper>
                                         </div>
                                         <div className="button-container">
-                                            <button className={`custom-button-search clicked`} onClick={handleSearch}>
-                                                <KeyboardArrowRightIcon fontSize='medium' /> Find all songs with these chords
+                                            <button className={`custom-button-search clicked`} style={{ width: '350px', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 'auto', borderRadius: '10px' }} onClick={handleSearch}>
+                                                <SearchIcon fontSize='medium' /> Find all songs with these chords
                                             </button>
                                         </div>
-                                        <div className="small-container" style={{ marginTop: '15px' }}>
+                                        <div className="small-container" style={{ width: '350px', justifyContent: 'center', alignItems: 'center', margin: 'auto', borderRadius: '10px', marginTop: '10px' }}>
                                             Enter `<b>Am, F, C, G</b>` then press the Search button, and the website will list all songs that have the 4 chords `<b>Am, F, C, G</b>` - the results will attempt to exclude songs with chords not in the given list as much as possible.
                                         </div>
                                     </div>
@@ -181,7 +181,7 @@ function SearchChord() {
                                             Search Results: <b>{searchedChords}</b> - {data.length} song found
                                         </h5>
 
-                                        <div>
+                                        <div style={{ borderRadius: '10px', border: '1px solid #ccc', margin: '10px' }}>
                                             {currentItems.map((song, index) => {
                                                 console.log('searchedChords:', searchedChords)
                                                 console.log('chorddata:', chordData)
@@ -190,10 +190,9 @@ function SearchChord() {
                                                 const uniqueChordsSet = new Set(songChords);
 
                                                 return (
-                                                    <div key={index} className="d-flex flex-wrap">
-
+                                                    <div key={index} className="d-flex flex-wrap" style={{ borderBottom: '1px solid #ccc', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px' }}>
                                                         <Link href={`/viewSongCustomer/` + song.id} key={index} className="song-card-list" style={{ color: 'black', textDecoration: 'none' }}>
-                                                            <div style={{ border: '1px solid #ccc', padding: '10px', paddingLeft: '10px', color: 'black' }}>
+                                                            <div style={{ padding: '10px', paddingLeft: '10px', color: 'black' }}>
                                                                 <div className='column'>
                                                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                                                         <span style={{ fontSize: '20px', marginRight: '10px' }}>{song.song_title}</span>
@@ -216,7 +215,7 @@ function SearchChord() {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <span style={{ color: 'gray', fontStyle: 'italic' }}>{song.lyrics.substring(0, 60)}...</span>
+                                                                <span style={{ color: 'gray', fontStyle: 'italic' }}>{song.lyrics.substring(0, 100)}...</span>
                                                                 <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
                                                                     {Array.from(uniqueChordsSet).slice(0, 5).map((chordName, index) => (
                                                                         <div key={index} className="chord-box" style={{ position: 'relative', textAlign: 'center', margin: '10px' }}>
@@ -232,8 +231,6 @@ function SearchChord() {
                                                                         </div>
                                                                     )}
                                                                 </div>
-
-
                                                             </div>
                                                         </Link>
                                                     </div>
