@@ -3,7 +3,7 @@ import { Link } from '@mui/material';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import SearchAppBarBack from "../component/SearchAppBarBack";
+import SearchAppBarBackMusician from "../component/SearchAppBarBackMusician";
 import { Button } from '@mui/material';
 import moment from 'moment';
 import { styled } from '@mui/material/styles';
@@ -227,7 +227,7 @@ function ViewSongMusician() {
     };
     return (
         <>
-            <SearchAppBarBack />
+            <SearchAppBarBackMusician />
             <div className='d-flex flex-column align-items-center pt-5'>
                 {data.map((viewSong, index) => {
                     let dataChord = viewSong.lyrics;
