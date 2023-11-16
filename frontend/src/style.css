@@ -190,7 +190,7 @@ strong {
 }
 
 .song-card-list {
-    width: calc(100% - 100px);
+    width: calc(100%);
     box-sizing: border-box;
 }
 
