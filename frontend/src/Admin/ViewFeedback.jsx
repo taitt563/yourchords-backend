@@ -137,7 +137,6 @@ function ViewFeedback() {
                                             </Box>
                                         </Modal>
                                     </div>
-
                                     <CardHeader
                                         avatar={
                                             data.image != "" ?
@@ -148,9 +147,7 @@ function ViewFeedback() {
                                                         U
                                                     </Avatar>
                                                 )
-
                                         }
-
                                         action={
                                             <Button onClick={() => { handleGetReply(data.username) }} size="small" >REPLY<TurnLeftIcon color='primary' /></Button>
                                         }
@@ -207,7 +204,6 @@ function ViewFeedback() {
                         <Button variant={'contained'} onClick={() => navigate(-1)} type="submit" className="btn btn-primary">Close</Button>
                     </div>
                 </div>
-
             </div>
 
         </>

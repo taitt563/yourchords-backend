@@ -28,6 +28,7 @@ function ViewSong() {
     const [data, setData] = useState([]);
     const [majorChordsData, setDataMajorChords] = useState([]);
     const [minorChordsData, setDataMinorChords] = useState([]);
+    const [c7ChordsData, setDataC7Chords] = useState([]);
     const { id } = useParams();
     const navigate = useNavigate();
     const [alignment, setAlignment] = useState('left');
@@ -79,15 +80,21 @@ function ViewSong() {
                     }));
                     const majorChordsData = {};
                     const minorChordsData = {};
+                    const c7ChordsData = {};
                     chordData.forEach(chord => {
+                        if (chord.type === 0) {
+                            majorChordsData[chord.name] = chord;
+                        }
                         if (chord.type === 1) {
                             minorChordsData[chord.name] = chord;
-                        } else {
-                            majorChordsData[chord.name] = chord;
+                        }
+                        if (chord.type === 2) {
+                            c7ChordsData[chord.name] = chord;
                         }
                     });
                     setDataMajorChords(majorChordsData);
                     setDataMinorChords(minorChordsData);
+                    setDataC7Chords(c7ChordsData)
                 } else {
                     alert("Error")
                 }
@@ -95,22 +102,38 @@ function ViewSong() {
             .catch(err => console.log(err));
     }, [id, currentKey])
 
-    const chordData = { ...majorChordsData, ...minorChordsData };
+    const chordData = { ...majorChordsData, ...minorChordsData, ...c7ChordsData };
     const majorKeys = Object.keys(majorChordsData);
     const minorKeys = Object.keys(minorChordsData);
+    const c7Keys = Object.keys(c7ChordsData);
     const keys = {
         major: majorKeys,
         minor: minorKeys,
+        c7: c7Keys,
     };
 
     const increaseKey = (isMajorChord) => {
-        const chordNames = isMajorChord ? keys.major : keys.minor;
+        let chordNames;
+        if (isMajorChord) {
+            chordNames = keys.major;
+        } else if (!isMajorChord && keys.minor.includes(currentKey)) {
+            chordNames = keys.minor;
+        } else if (!isMajorChord && keys.c7.includes(currentKey)) {
+            chordNames = keys.c7;
+        }
         setCurrentKey((currentKey + 1) % chordNames.length);
         handleCloseAllPopups();
     };
 
     const decreaseKey = (isMajorChord) => {
-        const chordNames = isMajorChord ? keys.major : keys.minor;
+        let chordNames;
+        if (isMajorChord) {
+            chordNames = keys.major;
+        } else if (!isMajorChord && keys.minor.includes(currentKey)) {
+            chordNames = keys.minor;
+        } else if (!isMajorChord && keys.c7.includes(currentKey)) {
+            chordNames = keys.c7;
+        }
         setCurrentKey((currentKey - 1 + chordNames.length) % chordNames.length);
         handleCloseAllPopups();
     };
@@ -173,7 +196,16 @@ function ViewSong() {
     const renderChordPopup = (chordName) => {
         const chordImage = chordData[chordName];
         const handleTransposition = (direction) => {
-            const chordNames = chordData[chordName].type ? Object.keys(minorChordsData) : Object.keys(majorChordsData);
+            let chordNames
+            if (chordData[chordName].type === 0) {
+                chordNames = Object.keys(majorChordsData)
+            }
+            if (chordData[chordName].type === 1) {
+                chordNames = Object.keys(minorChordsData)
+            }
+            if (chordData[chordName].type === 2) {
+                chordNames = Object.keys(c7ChordsData)
+            }
             const currentIndex = chordNames.indexOf(chordName);
             let newIndex;
             if (direction === 'increase') {
@@ -231,6 +263,8 @@ function ViewSong() {
                     dataChord = dataChord.replace(/.+/g, "<section>$&</section>");
                     const chordNamesMajor = majorKeys
                     const chordNamesMinor = minorKeys
+                    const chordNamesC7 = c7Keys
+
                     let hiddenChord = dataChord.replace(
                         /\[(?<chord>\w+)\]/g,
                         "<strong></strong>"
@@ -246,6 +280,11 @@ function ViewSong() {
                             const transposedIndex = (indexInKeys + currentKey + transpose) % chordNamesMinor.length;
                             return `<strong class='chord'>${chordNamesMinor[transposedIndex]}</strong>`;
                         }
+                        if (chordNamesC7.includes(chord)) {
+                            const indexInKeys = chordNamesC7.indexOf(chord);
+                            const transposedIndex = (indexInKeys + currentKey + transpose) % chordNamesC7.length;
+                            return `<strong class='chord'>${chordNamesC7[transposedIndex]}</strong>`;
+                        }
                         return match;
                     });
                     const uniqueChords = new Set();
@@ -256,10 +295,18 @@ function ViewSong() {
                             const transposedChord = chordNamesMajor[transposedIndex];
                             uniqueChords.add(transposedChord);
                             return `<strong class='chord' data-chord="${transposedChord}">${transposedChord}</strong>`;
-                        } else if (chordNamesMinor.includes(chord)) {
+                        }
+                        if (chordNamesMinor.includes(chord)) {
                             const indexInKeys = chordNamesMinor.indexOf(chord);
                             const transposedIndex = (indexInKeys + currentKey + transpose) % chordNamesMinor.length;
                             const transposedChord = chordNamesMinor[transposedIndex];
+                            uniqueChords.add(transposedChord);
+                            return `<strong class='chord' data-chord="${transposedChord}">${transposedChord}</strong>`;
+                        }
+                        if (chordNamesC7.includes(chord)) {
+                            const indexInKeys = chordNamesC7.indexOf(chord);
+                            const transposedIndex = (indexInKeys + currentKey + transpose) % chordNamesC7.length;
+                            const transposedChord = chordNamesC7[transposedIndex];
                             uniqueChords.add(transposedChord);
                             return `<strong class='chord' data-chord="${transposedChord}">${transposedChord}</strong>`;
                         }
@@ -451,7 +498,7 @@ function ViewSong() {
                                                                 <IconButton
                                                                     style={{ padding: '1px' }}
                                                                     color="#0d6efd"
-                                                                    onClick={() => increaseKey('decrease')}
+                                                                    onClick={() => decreaseKey('decrease')}
                                                                     size="small"
                                                                 >
                                                                     <ArrowLeftIcon style={{ color: 'white' }} />
@@ -464,7 +511,7 @@ function ViewSong() {
                                                                     style={{ padding: '1px' }}
                                                                     color="#0d6efd"
                                                                     size="small"
-                                                                    onClick={() => decreaseKey('increase')}
+                                                                    onClick={() => increaseKey('increase')}
                                                                 >
                                                                     <ArrowRightIcon style={{ color: 'white' }} />
                                                                 </IconButton>

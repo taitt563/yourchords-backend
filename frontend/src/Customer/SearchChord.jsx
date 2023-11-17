@@ -182,9 +182,6 @@ function SearchChord() {
 
                                         <div style={{ borderRadius: '10px', border: '1px solid #ccc', margin: '10px' }}>
                                             {currentItems.map((song, index) => {
-                                                console.log('searchedChords:', searchedChords)
-                                                console.log('chorddata:', chordData)
-
                                                 const songChords = extractChords(song.lyrics);
                                                 const uniqueChordsSet = new Set(songChords);
 
