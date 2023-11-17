@@ -11,7 +11,7 @@ function TransactionHistory() {
                 <div className='d-flex flex-column align-items-center pt-4'>
                     <h3 className="d-flex justify-content-center">Transaction History</h3>
                 </div>
-                <table class="table" style={{ marginLeft: "100px", marginRight: "200px", width: "1000px" }}>
+                <table className="table" style={{ marginLeft: "100px", marginRight: "200px", width: "1000px" }}>
                     <thead>
                         <tr style={{ border: "2px" }}>
                             <th scope="col">Transaction Time</th>
