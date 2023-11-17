@@ -70,13 +70,14 @@ function ManageAccount() {
     const [order, setOrder] = useState("asc");
     const [imageURL, setImageURL] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 6;
+    const itemsPerPage = 5;
 
     const primaryColor = '#F1F1FB';
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
         setStoredTabValue(newValue);
+        setCurrentPage(1)
     };
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     useEffect(() => {
