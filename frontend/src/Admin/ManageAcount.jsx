@@ -13,8 +13,6 @@ import {
     TableSortLabel,
     Modal,
 } from '@mui/material';
-import TablePagination from "@mui/material/TablePagination";
-
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -35,7 +33,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-
+import Pagination from '@mui/material/Pagination';
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
@@ -68,11 +66,11 @@ function ManageAccount() {
     const [dataProfile, setDataProfile] = useState([]);
     const [value, setValue] = useState('1');
     const [open, setOpen] = useState(false);
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(6);
     const [orderBy, setOrderBy] = useState("username");
     const [order, setOrder] = useState("asc");
     const [imageURL, setImageURL] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 6;
 
     const primaryColor = '#F1F1FB';
 
@@ -207,28 +205,46 @@ function ManageAccount() {
                 : userAccount.username.toLowerCase().includes(search.toLowerCase());
         })
         .filter((userAccount) => userAccount.role === 'user' && userAccount.ban !== 'Pending')
-        .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
     const filteredAccountAdmin = sortData(data)
         .filter((userAccount) => {
             return search.trim() === '' ? userAccount
                 : userAccount.username.toLowerCase().includes(search.toLowerCase());
         })
         .filter((userAccount) => userAccount.role === 'admin' && userAccount.ban !== 'Pending')
-        .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
     const filteredAccountChordManager = sortData(data)
         .filter((userAccount) => {
             return search.trim() === '' ? userAccount
                 : userAccount.username.toLowerCase().includes(search.toLowerCase());
         })
         .filter((userAccount) => userAccount.role === 'chord' && userAccount.ban !== 'Pending')
-        .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
     const filteredAccountMusician = sortData(data)
         .filter((userAccount) => {
             return search.trim() === '' ? userAccount
                 : userAccount.username.toLowerCase().includes(search.toLowerCase());
         })
         .filter((userAccount) => userAccount.role === 'musician' && userAccount.ban !== 'Pending')
-        .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
+
+    // Pagination logic
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    // For filteredAccountUser
+    const currentItems = filteredAccountUser.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredAccountUser.length / itemsPerPage);
+
+
+    // For filteredAccountAdmin
+    const currentItemsAdmin = filteredAccountAdmin.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPagesAdmin = Math.ceil(filteredAccountAdmin.length / itemsPerPage);
+
+    // For filteredAccountChordManager
+    const currentItemsChordManager = filteredAccountChordManager.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPagesChordManager = Math.ceil(filteredAccountChordManager.length / itemsPerPage);
+
+    // For filteredAccountMusician
+    const currentItemsMusician = filteredAccountMusician.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPagesMusician = Math.ceil(filteredAccountMusician.length / itemsPerPage);
+
+
     return (
         <>
             <Box sx={{ top: 0, position: 'sticky', zIndex: '3' }}>
@@ -378,7 +394,7 @@ function ManageAccount() {
                                         </TableHead>
                                         <TableBody>
                                             {
-                                                filteredAccountUser.map((userAccount, index) => (
+                                                currentItems.map((userAccount, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell><PersonIcon /></TableCell>
                                                         <TableCell>{userAccount.username}</TableCell>
@@ -419,18 +435,15 @@ function ManageAccount() {
 
                             )
                             }
-                            <TablePagination
-                                component="div"
-                                count={data.length}
-                                page={page}
-                                onPageChange={(event, newPage) => setPage(newPage)}
-                                rowsPerPage={rowsPerPage}
-                                onRowsPerPageChange={(event) => {
-                                    setRowsPerPage(+event.target.value);
-                                    setPage(0);
-                                }}
-                                rowsPerPageOptions={[6, 10, 25, 50, 100]}
-                            />
+                            <Stack spacing={2} direction="row" justifyContent="center" mt={3}>
+                                <Pagination
+                                    count={totalPages}
+                                    page={currentPage}
+                                    onChange={(event, value) => setCurrentPage(value)}
+                                    color="primary"
+                                    size="large"
+                                />
+                            </Stack>
 
                         </div>
                     </div>
@@ -456,7 +469,7 @@ function ManageAccount() {
                             </Stack>
                         )}
                         <div className='mt-4 pd-left'>
-                            {filteredAccountAdmin.length === 0 ? (
+                            {currentItemsAdmin.length === 0 ? (
                                 <>
 
                                     <TableContainer component={Paper}>
@@ -565,19 +578,15 @@ function ManageAccount() {
                                 </TableContainer>
 
                             )}
-                            <TablePagination
-                                component="div"
-                                count={data.length}
-                                page={page}
-                                onPageChange={(event, newPage) => setPage(newPage)}
-                                rowsPerPage={rowsPerPage}
-                                onRowsPerPageChange={(event) => {
-                                    setRowsPerPage(+event.target.value);
-                                    setPage(0);
-                                }}
-                                rowsPerPageOptions={[6, 10, 25, 50, 100]}
-                            />
-
+                            <Stack spacing={2} direction="row" justifyContent="center" mt={3}>
+                                <Pagination
+                                    count={totalPagesAdmin}
+                                    page={currentPage}
+                                    onChange={(event, value) => setCurrentPage(value)}
+                                    color="primary"
+                                    size="large"
+                                />
+                            </Stack>
                         </div>
                     </div>
                 </TabPanel>
@@ -670,7 +679,7 @@ function ManageAccount() {
                                         </TableHead>
                                         <TableBody>
                                             {
-                                                filteredAccountChordManager.map((userAccount, index) => (
+                                                currentItemsChordManager.map((userAccount, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell><PersonIcon /></TableCell>
                                                         <TableCell>{userAccount.username}</TableCell>
@@ -709,19 +718,15 @@ function ManageAccount() {
                                     </Table>
                                 </TableContainer>
                             )}
-                            <TablePagination
-                                component="div"
-                                count={data.length}
-                                page={page}
-                                onPageChange={(event, newPage) => setPage(newPage)}
-                                rowsPerPage={rowsPerPage}
-                                onRowsPerPageChange={(event) => {
-                                    setRowsPerPage(+event.target.value);
-                                    setPage(0);
-                                }}
-                                rowsPerPageOptions={[6, 10, 25, 50, 100]}
-                            />
-
+                            <Stack spacing={2} direction="row" justifyContent="center" mt={3}>
+                                <Pagination
+                                    count={totalPagesChordManager}
+                                    page={currentPage}
+                                    onChange={(event, value) => setCurrentPage(value)}
+                                    color="primary"
+                                    size="large"
+                                />
+                            </Stack>
                         </div>
                     </div>
                 </TabPanel>
@@ -815,7 +820,7 @@ function ManageAccount() {
                                         </TableHead>
                                         <TableBody>
                                             {
-                                                filteredAccountMusician.map((userAccount, index) => (
+                                                currentItemsMusician.map((userAccount, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell><PersonIcon /></TableCell>
                                                         <TableCell>{userAccount.username}</TableCell>
@@ -855,19 +860,16 @@ function ManageAccount() {
                                 </TableContainer>
 
                             )}
-                            <TablePagination
-                                component="div"
-                                count={data.length}
-                                page={page}
-                                onPageChange={(event, newPage) => setPage(newPage)}
-                                rowsPerPage={rowsPerPage}
-                                onRowsPerPageChange={(event) => {
-                                    setRowsPerPage(+event.target.value);
-                                    setPage(0);
-                                }}
-                                rowsPerPageOptions={[6, 10, 25, 50, 100]}
-                            />
+                            <Stack spacing={2} direction="row" justifyContent="center" mt={3}>
+                                <Pagination
+                                    count={totalPagesMusician}
+                                    page={currentPage}
 
+                                    onChange={(event, value) => setCurrentPage(value)}
+                                    color="primary"
+                                    size="large"
+                                />
+                            </Stack>
                         </div>
                     </div>
                 </TabPanel>
