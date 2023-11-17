@@ -13,7 +13,6 @@ import {
     TableSortLabel,
     Modal,
 } from '@mui/material';
-import TablePagination from "@mui/material/TablePagination";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
@@ -33,6 +32,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import Pagination from '@mui/material/Pagination';
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
@@ -63,16 +63,17 @@ function RequestAccount() {
     const [dataProfile, setDataProfile] = useState([]);
     const [value, setValue] = useState(1);
     const [open, setOpen] = useState(false);
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(6);
     const [orderBy, setOrderBy] = useState("username");
     const [order, setOrder] = useState("asc");
+    const [currentPage, setCurrentPage] = useState(1);
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const primaryColor = '#F1F1FB';
+    const itemsPerPage = 5;
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
         setStoredTabValue(newValue);
+        setCurrentPage(1)
     };
 
     useEffect(() => {
@@ -213,14 +214,22 @@ function RequestAccount() {
                 : userAccount.username.toLowerCase().includes(search.toLowerCase());
         })
         .filter((userAccount) => userAccount.role === 'chord' && userAccount.ban === 'Pending')
-        .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
     const filteredAccountMusicianRequest = sortData(data)
         .filter((userAccount) => {
             return search.trim() === '' ? userAccount
                 : userAccount.username.toLowerCase().includes(search.toLowerCase());
         })
         .filter((userAccount) => userAccount.role === 'musician' && userAccount.ban === 'Pending')
-        .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+
+    const currentItemsMusician = filteredAccountMusicianRequest.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPagesMusician = Math.ceil(filteredAccountMusicianRequest.length / itemsPerPage);
+
+    const currentItemsChordValidator = filteredAccountChordValidatorRequest.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPagesChordValidator = Math.ceil(filteredAccountChordValidatorRequest.length / itemsPerPage);
     return (
         <>
             <Box sx={{ top: 0, position: 'sticky', zIndex: '3' }}>
@@ -368,7 +377,7 @@ function RequestAccount() {
                                         </TableHead>
                                         <TableBody>
                                             {
-                                                filteredAccountChordValidatorRequest.map((userAccount, index) => (
+                                                currentItemsChordValidator.map((userAccount, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell><PersonIcon /></TableCell>
                                                         <TableCell>{userAccount.username}</TableCell>
@@ -403,18 +412,15 @@ function RequestAccount() {
 
                             )
                             }
-                            <TablePagination
-                                component="div"
-                                count={data.length}
-                                page={page}
-                                onPageChange={(event, newPage) => setPage(newPage)}
-                                rowsPerPage={rowsPerPage}
-                                onRowsPerPageChange={(event) => {
-                                    setRowsPerPage(+event.target.value);
-                                    setPage(0);
-                                }}
-                                rowsPerPageOptions={[6, 10, 25, 50, 100]}
-                            />
+                            <Stack spacing={2} direction="row" justifyContent="center" mt={3}>
+                                <Pagination
+                                    count={totalPagesChordValidator}
+                                    page={currentPage}
+                                    onChange={(event, value) => setCurrentPage(value)}
+                                    color="primary"
+                                    size="large"
+                                />
+                            </Stack>
 
                         </div>
                     </div>
@@ -513,7 +519,7 @@ function RequestAccount() {
                                         </TableHead>
                                         <TableBody>
                                             {
-                                                filteredAccountMusicianRequest.map((userAccount, index) => (
+                                                currentItemsMusician.map((userAccount, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell><PersonIcon /></TableCell>
                                                         <TableCell>{userAccount.username}</TableCell>
@@ -556,18 +562,15 @@ function RequestAccount() {
                                 </TableContainer>
 
                             )}
-                            <TablePagination
-                                component="div"
-                                count={data.length}
-                                page={page}
-                                onPageChange={(event, newPage) => setPage(newPage)}
-                                rowsPerPage={rowsPerPage}
-                                onRowsPerPageChange={(event) => {
-                                    setRowsPerPage(+event.target.value);
-                                    setPage(0);
-                                }}
-                                rowsPerPageOptions={[6, 10, 25, 50, 100]}
-                            />
+                            <Stack spacing={2} direction="row" justifyContent="center" mt={3}>
+                                <Pagination
+                                    count={totalPagesMusician}
+                                    page={currentPage}
+                                    onChange={(event, value) => setCurrentPage(value)}
+                                    color="primary"
+                                    size="large"
+                                />
+                            </Stack>
 
                         </div>
                     </div>

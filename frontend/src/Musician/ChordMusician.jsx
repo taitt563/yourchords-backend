@@ -22,14 +22,15 @@ import {
     Paper,
     TableSortLabel,
 } from "@mui/material";
-import TablePagination from "@mui/material/TablePagination";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 function ChordMusician() {
     const [data, setData] = useState([]);
-    const [page, setPage] = useState(0);
     const [search, setSearch] = useState("");
-    const [rowsPerPage, setRowsPerPage] = useState(8);
     const [orderBy, setOrderBy] = useState("song_title");
     const [order, setOrder] = useState("asc");
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
     const primaryColor = "#F1F1FB";
     const darkTheme = createTheme({
         palette: {
@@ -82,6 +83,17 @@ function ChordMusician() {
             }
         });
     }
+    const filteredSongs = sortData(data)
+        .filter(song => {
+            let dataChord = song.lyrics;
+            dataChord = dataChord.replace(/.+/g, "<section>$&</section>");
+            let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
+            return songChord.includes('<strong>') && (search.trim() === '' ? true : song.song_title.toLowerCase().includes(search.toLowerCase()));
+        })
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredSongs.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredSongs.length / itemsPerPage);
     return (
         <>
             <Box sx={{ flexGrow: 1, top: 0, position: "sticky", zIndex: '3' }}>
@@ -122,102 +134,90 @@ function ChordMusician() {
                         </Toolbar>
                     </AppBar>
                 </ThemeProvider>
-            </Box>            <div className="px-2 py-5">
-                <div>
-                    <h3 className="d-flex flex-column align-items-center pt-4">MANAGE CHORD</h3>
-                </div>
-                <div className='mt-4 pd-left'>
-                    <TableContainer component={Paper}>
-                        <Table>
-                            <TableHead sx={{ backgroundColor: primaryColor }}>
-                                <TableRow>
-                                    <TableCell><b>ID</b></TableCell>
-                                    <TableCell></TableCell>
-                                    <TableCell>
-                                        <TableSortLabel
-                                        >
-                                            <b>Name song</b>
-                                        </TableSortLabel>
-                                    </TableCell>
-                                    <TableCell><b>Link</b></TableCell>
-                                    <TableCell>
-                                        <TableSortLabel
-                                            onClick={() => handleSort("created_at")}
-                                        >
-                                            <b><CalendarMonthIcon color="primary" /> Date created</b>
-                                        </TableSortLabel>
-                                    </TableCell>
-                                    <TableCell>
-                                        <TableSortLabel
-                                            onClick={() => handleSort("updated_at")}
-                                        >
-                                            <b><CalendarMonthIcon color="primary" /> Date updated</b>
-                                        </TableSortLabel>
-                                    </TableCell>
-                                    <TableCell><b>Status</b></TableCell>
-                                    <TableCell></TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {sortData(data)
-                                    .filter(song => {
-                                        let dataChord = song.lyrics;
-                                        dataChord = dataChord.replace(/.+/g, "<section>$&</section>");
-                                        let songChord = dataChord.replace(/\[(?<chord>\w+)\]/g, "<strong>$<chord></strong>");
-                                        return songChord.includes('<strong>') && (search.trim() === '' ? true : song.song_title.toLowerCase().includes(search.toLowerCase()));
-                                    })
-                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((song, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>{song.id}</TableCell>
-                                            <TableCell>
-                                                {
-                                                    <img src={`${apiUrl}/images/` + song.thumbnail} alt="" className="song_image" />
-                                                }
-                                            </TableCell>
-                                            <TableCell>
-                                                {song.song_title.length > 30 ?
-                                                    <b>{song.song_title.substring(0, 20)}...</b> :
-                                                    <b>{song.song_title} </b>
-                                                }
-                                            </TableCell>
-                                            {song.link != null ?
-                                                <TableCell><Link to={song.link}>{song.link.substring(0, 30)}...</Link></TableCell> :
-                                                <TableCell>Updating...</TableCell>
+            </Box>
+            <div className="d-flex flex-column align-items-center pt-4">
+                <h3 className="d-flex justify-content-center">MANAGE CHORD</h3>
+            </div>
+            <div className='mt-4 pd-left'>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead sx={{ backgroundColor: primaryColor }}>
+                            <TableRow>
+                                <TableCell><b>ID</b></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell>
+                                    <TableSortLabel
+                                    >
+                                        <b>Name song</b>
+                                    </TableSortLabel>
+                                </TableCell>
+                                <TableCell><b>Link</b></TableCell>
+                                <TableCell>
+                                    <TableSortLabel
+                                        onClick={() => handleSort("created_at")}
+                                    >
+                                        <b><CalendarMonthIcon color="primary" /> Date created</b>
+                                    </TableSortLabel>
+                                </TableCell>
+                                <TableCell>
+                                    <TableSortLabel
+                                        onClick={() => handleSort("updated_at")}
+                                    >
+                                        <b><CalendarMonthIcon color="primary" /> Date updated</b>
+                                    </TableSortLabel>
+                                </TableCell>
+                                <TableCell><b>Status</b></TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {
+                                currentItems.map((song, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{song.id}</TableCell>
+                                        <TableCell>
+                                            {
+                                                <img src={`${apiUrl}/images/` + song.thumbnail} alt="" className="song_image" />
                                             }
-                                            <TableCell>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
-                                            {song.updated_at != null ?
-                                                <TableCell>{moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</TableCell> :
-                                                <TableCell>Not update</TableCell>
+                                        </TableCell>
+                                        <TableCell>
+                                            {song.song_title.length > 30 ?
+                                                <b>{song.song_title.substring(0, 20)}...</b> :
+                                                <b>{song.song_title} </b>
                                             }
-                                            <TableCell className="text-warning"><b>Waiting Approve</b></TableCell>
-                                            <TableCell>
-                                                <Link to={`/viewSongMusician/` + song.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                                {song.status === 0 ?
-                                                    <Link onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></Link>
-                                                    :
-                                                    ""
-                                                }
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        component="div"
-                        count={data.length}
-                        page={page}
-                        onPageChange={(event, newPage) => setPage(newPage)}
-                        rowsPerPage={rowsPerPage}
-                        onRowsPerPageChange={(event) => {
-                            setRowsPerPage(+event.target.value);
-                            setPage(0);
-                        }}
-                        rowsPerPageOptions={[8, 10, 25, 50, 100]}
-
+                                        </TableCell>
+                                        {song.link != null ?
+                                            <TableCell><Link to={song.link}>{song.link.substring(0, 30)}...</Link></TableCell> :
+                                            <TableCell>Updating...</TableCell>
+                                        }
+                                        <TableCell>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
+                                        {song.updated_at != null ?
+                                            <TableCell>{moment(song.updated_at).format('YYYY/MM/DD - HH:mm:ss')}</TableCell> :
+                                            <TableCell>Not update</TableCell>
+                                        }
+                                        <TableCell className="text-warning"><b>Waiting Approve</b></TableCell>
+                                        <TableCell>
+                                            <Link to={`/viewSongMusician/` + song.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                                            {song.status === 0 ?
+                                                <Link onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></Link>
+                                                :
+                                                ""
+                                            }
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <Stack spacing={2} direction="row" justifyContent="center" mt={3}>
+                    <Pagination
+                        count={totalPages}
+                        page={currentPage}
+                        onChange={(event, value) => setCurrentPage(value)}
+                        color="primary"
+                        size="large"
                     />
-                </div>
+                </Stack>
             </div>
         </>
     )

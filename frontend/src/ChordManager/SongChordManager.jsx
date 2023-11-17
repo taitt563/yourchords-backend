@@ -23,15 +23,15 @@ import {
     Paper,
     TableSortLabel,
 } from "@mui/material";
-import TablePagination from "@mui/material/TablePagination";
-
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 function SongChordManager() {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState("");
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(6);
     const [orderBy, setOrderBy] = useState("song_title");
     const [order, setOrder] = useState("asc");
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
     const primaryColor = "#F1F1FB";
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -81,7 +81,10 @@ function SongChordManager() {
         .filter(song => {
             return search.trim() === "" ? song : song.song_title.toLowerCase().includes(search.toLowerCase());
         })
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredSongs.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredSongs.length / itemsPerPage);
     return (
         <>
             <Box sx={{ flexGrow: 1, top: 0, position: "sticky", zIndex: '3' }} >
@@ -223,7 +226,7 @@ function SongChordManager() {
 
                                 <TableBody>
                                     {
-                                        filteredSongs.map((song, index) => (
+                                        currentItems.map((song, index) => (
                                             <TableRow key={index}>
                                                 <TableCell>{song.id}</TableCell>
                                                 <TableCell>
@@ -269,19 +272,15 @@ function SongChordManager() {
                             </Table>
                         </TableContainer>
                     )}
-                    <TablePagination
-                        component="div"
-                        count={data.length}
-                        page={page}
-                        onPageChange={(event, newPage) => setPage(newPage)}
-                        rowsPerPage={rowsPerPage}
-                        onRowsPerPageChange={(event) => {
-                            setRowsPerPage(+event.target.value);
-                            setPage(0);
-                        }}
-                        rowsPerPageOptions={[6, 10, 25, 50, 100]}
-                    />
-
+                    <Stack spacing={2} direction="row" justifyContent="center" mt={3}>
+                        <Pagination
+                            count={totalPages}
+                            page={currentPage}
+                            onChange={(event, value) => setCurrentPage(value)}
+                            color="primary"
+                            size="large"
+                        />
+                    </Stack>
 
                 </div>
             </div>
