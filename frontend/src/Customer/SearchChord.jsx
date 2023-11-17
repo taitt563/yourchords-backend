@@ -22,14 +22,13 @@ function SearchChord() {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
-    // ... (rest of the code)
 
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-
     const totalPages = Math.ceil(data.length / itemsPerPage);
+
     const handlePredefinedChordSearch = (chord, index, e) => {
         e.preventDefault();
         document.getElementById('chordInput').value = chord;
@@ -177,7 +176,7 @@ function SearchChord() {
                             {data.length > 0 ? (
                                 <div className="row">
                                     <div className="col-md-8" >
-                                        <h5 style={{ color: '#0d6efd' }}>
+                                        <h5 style={{ color: '#0d6efd', paddingLeft: '10px' }}>
                                             Search Results: <b>{searchedChords}</b> - {data.length} song found
                                         </h5>
 
