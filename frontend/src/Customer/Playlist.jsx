@@ -11,12 +11,14 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 function Playlist() {
     const [data, setData] = useState([]);
     const { userId } = useParams();
     const [search, setSearch] = useState("");
     const [imageURL, setImageURL] = useState(null);
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+    const [playlistSongsCount, setPlaylistSongsCount] = useState([]);
     const darkTheme = createTheme({
         palette: {
             mode: "dark",
@@ -26,21 +28,38 @@ function Playlist() {
         },
     });
 
-    useEffect(() => {
-        axios.get(`${apiUrl}/getPlaylist/` + userId)
-            .then(res => {
-                if (res.data.Status === "Success") {
-                    setData(res.data.Result);
-                    if (res.data.Result.length > 0) {
-                        const playlistImages = res.data.Result.map(playlist => `${playlist.image}`);
-                        setImageURL(playlistImages);
+    const fetchPlaylistData = async () => {
+        try {
+            const playlistResponse = await axios.get(`${apiUrl}/getPlaylist/` + userId);
+            if (playlistResponse.data.Status === "Success") {
+                setData(playlistResponse.data.Result);
+                if (playlistResponse.data.Result.length > 0) {
+                    const playlistImages = playlistResponse.data.Result.map(playlist => `${playlist.image}`);
+                    setImageURL(playlistImages);
+
+                    for (const playlist of playlistResponse.data.Result) {
+                        try {
+                            const countResponse = await axios.get(`${apiUrl}/countSongPlaylist/` + playlist.id);
+                            setPlaylistSongsCount((prevCounts) => {
+                                return { ...prevCounts, [playlist.id]: countResponse.data.songCount };
+                            });
+                        } catch (countError) {
+                            console.error("Error fetching song count", countError);
+                        }
                     }
-                } else {
-                    alert("Error");
                 }
-            })
-            .catch(err => console.log(err));
+            } else {
+                alert("Error");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchPlaylistData();
     }, []);
+
     const handleDelete = (id) => {
         console.log(id);
 
@@ -115,43 +134,41 @@ function Playlist() {
 
                         {filteredPlaylist.map((playlist, index) => (
                             <div key={index} className="m-3 playlist-container p-2">
-                                <div className="container rounded bg-white" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <div className="d-flex flex-column align-items-center text-center">
-                                        <div className="rounded-image-container">
+                                <Tooltip title={<b>{playlistSongsCount[playlist.id]} Tracks</b>}
+                                    arrow
+                                    placement="top">
+                                    <div className="container rounded bg-white" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                        <div className="d-flex flex-column align-items-center text-center">
+                                            <div className="rounded-image-container">
+                                                {imageURL && (
+                                                    <img
+                                                        className="rounded-square-image"
+                                                        src={`data:image/png;base64,${playlist.image}`}
+                                                    />
+                                                )}
+                                                <div className="image-overlay">
+                                                    <Link href={'/viewPlaylist/' + playlist.id} underline='none'><b>View Playlist</b></Link>
+                                                </div>
+                                                <IconButton
+                                                    size="small"
+                                                    aria-label="account of current user"
+                                                    aria-controls="menu-appbar"
+                                                    aria-haspopup="true"
+                                                    onClick={() => handleDelete(playlist.id)}
 
-                                            {imageURL && (
-                                                <img
-                                                    className="rounded-square-image"
-                                                    src={`data:image/png;base64,${playlist.image}`}
-
-
-                                                />
-                                            )}
-                                            <div className="image-overlay">
-                                                <Link href={'/viewPlaylist/' + playlist.id} className="overlay-text" underline='none'><b>View Playlist</b></Link>
+                                                    color="error"
+                                                    className="favorite-button"
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
                                             </div>
-                                            <IconButton
-                                                size="small"
-                                                aria-label="account of current user"
-                                                aria-controls="menu-appbar"
-                                                aria-haspopup="true"
-                                                onClick={() => handleDelete(playlist.id)}
-
-                                                color="error"
-                                                className="favorite-button"
-                                            >
-                                                <DeleteIcon />
-                                            </IconButton>
+                                            <Link href={'/viewPlaylist/' + playlist.id} className="playlist-name" underline='none' >
+                                                <b >{playlist.collection_name}
+                                                </b>
+                                            </Link>
                                         </div>
-                                        <Link href={'/viewPlaylist/' + playlist.id} className="playlist-name" underline='none' >
-                                            <b >{playlist.collection_name}
-                                            </b>
-                                        </Link>
-                                        {/* <div>
-                                            <label className="form-label">Total: <h2><b>{songCount}</b></h2></label>
-                                        </div> */}
                                     </div>
-                                </div>
+                                </Tooltip>
                             </div>
                         ))}
                     </div>
