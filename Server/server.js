@@ -325,33 +325,34 @@ app.delete('/deleteCollection/:id', (req, res) => {
         });
     });
 });
-// app.get('/countSongPlaylist', (req, res) => {
-//     const collection_id = req.params.id;
+app.get('/countSongPlaylist/:id', (req, res) => {
+    const collection_id = req.params.id;
 
-//     const songCountQuery = "SELECT COUNT(song_id) as songCount FROM collection_songs WHERE collection_id = ?";
-//     const collectionQuery = "SELECT * FROM collection WHERE id = ?";
+    const songCountQuery = "SELECT COUNT(song_id) as songCount FROM collection_songs WHERE collection_id = ?";
+    const collectionQuery = "SELECT * FROM collection WHERE id = ?";
 
-//     con.query(songCountQuery, collection_id, (err, songCountResult) => {
-//         if (err) {
-//             console.error("Error counting songs:", err);
-//             return res.status(500).json({ Error: "Error counting songs" });
-//         }
-//         console.log(collection_id)
-//         con.query(collectionQuery, collection_id, (err, collectionResult) => {
-//             if (err) {
-//                 console.error("Error fetching collection:", err);
-//                 return res.status(500).json({ Error: "Error fetching collection" });
-//             }
+    con.query(songCountQuery, [collection_id], (err, songCountResult) => {
+        if (err) {
+            console.error("Error counting songs:", err);
+            return res.status(500).json({ Error: "Error counting songs" });
+        }
 
-//             const result = {
-//                 songCount: songCountResult[0].songCount,
-//                 collection: collectionResult
-//             };
+        con.query(collectionQuery, [collection_id], (err, collectionResult) => {
+            if (err) {
+                console.error("Error fetching collection:", err);
+                return res.status(500).json({ Error: "Error fetching collection" });
+            }
 
-//             return res.json(result);
-//         });
-//     });
-// });
+            const result = {
+                songCount: songCountResult[0].songCount,
+                collection: collectionResult[0]
+            };
+
+            return res.json(result);
+
+        });
+    });
+});
 
 //PROFILE
 app.get('/getProfile/:userId', (req, res) => {
