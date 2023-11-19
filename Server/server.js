@@ -564,25 +564,24 @@ app.get('/getFeedback/:username', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
-app.get('/viewFeedback/:username', (req, res) => {
-    const username = req.params.username;
-    let sql = "SELECT * FROM feedback WHERE username = ?";
-    con.query(sql, [username], (err, result) => {
+app.get('/viewFeedback/:id', (req, res) => {
+    const id = req.params.id;
+    let sql = "SELECT * FROM feedback WHERE id = ?";
+    con.query(sql, [id], (err, result) => {
         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
         if (result.length > 0) {
             return res.json({ Status: "Success", Result: result });
         }
     })
 })
-app.put('/replyFeedbackCustomer/:username', (req, res) => {
+app.put('/replyFeedbackCustomer/:id', (req, res) => {
     const username = req.params.username;
-
+    const id = req.params.id;
     let sql = "UPDATE feedback f " +
         "INNER JOIN profile p ON f.username = p.userId " +
         "SET f.email = p.email, f.comment = ?, f.date_feedback = CURRENT_TIMESTAMP, f.image = p.image, f.rating = ? " +
-        "WHERE f.username = ?";
-
-    const values = [req.body.comment, req.body.rating, username];
+        "WHERE f.id = ?";
+    const values = [req.body.comment, req.body.rating, id];
 
     con.query(sql, values, (err, result) => {
         if (err) {
@@ -598,10 +597,34 @@ app.put('/replyFeedbackCustomer/:username', (req, res) => {
     });
 });
 
-app.put('/replyFeedback/:username', (req, res) => {
-    const username = req.params.username;
-    let sql = "UPDATE feedback SET status = 1, reply = ?, date_reply = CURRENT_TIMESTAMP WHERE username = ?";
-    con.query(sql, [req.body.reply, username], (err, result) => {
+app.post('/feedbackCustomer', (req, res) => {
+    const { userId, comment, rating } = req.body;
+
+    let sql = "INSERT INTO feedback (username, email, image, comment, date_feedback, rating) " +
+        "SELECT p.userId, p.email, p.image, ?, CURRENT_TIMESTAMP, ? " +
+        "FROM profile p " +
+        "WHERE p.userId = ?";
+
+    const values = [comment, rating, userId];
+
+    con.query(sql, values, (err, result) => {
+        if (err) {
+            console.error("Error in SQL query:", err);
+            return res.json({ Status: "Error", Error: "Error in running query" });
+        }
+
+        if (result.affectedRows > 0) {
+            return res.json({ Status: "Success", Result: result });
+        } else {
+            return res.json({ Status: "Error", Error: "Failed to insert feedback" });
+        }
+    });
+});
+
+app.put('/replyFeedback/:id', (req, res) => {
+    const id = req.params.id;
+    let sql = "UPDATE feedback SET status = 1, reply = ?, date_reply = CURRENT_TIMESTAMP WHERE id = ?";
+    con.query(sql, [req.body.reply, id], (err, result) => {
         if (err) return res.json({ Status: "Error", Error: "Error in runnig query" });
         if (result.length > 0) {
             return res.json({ Status: "Success", Result: result });
