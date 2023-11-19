@@ -556,6 +556,14 @@ app.get('/getFeedback', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
+app.get('/getFeedback/:username', (req, res) => {
+    const username = req.params.username;
+    const sql = "SELECT * FROM feedback WHERE username = ?";
+    con.query(sql, [username], (err, result) => {
+        if (err) return res.json({ Error: "Get song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
 app.get('/viewFeedback/:username', (req, res) => {
     const username = req.params.username;
     let sql = "SELECT * FROM feedback WHERE username = ?";
@@ -566,6 +574,29 @@ app.get('/viewFeedback/:username', (req, res) => {
         }
     })
 })
+app.put('/replyFeedbackCustomer/:username', (req, res) => {
+    const username = req.params.username;
+
+    let sql = "UPDATE feedback f " +
+        "INNER JOIN profile p ON f.username = p.userId " +
+        "SET f.email = p.email, f.comment = ?, f.date_feedback = CURRENT_TIMESTAMP, f.image = p.image, f.rating = ? " +
+        "WHERE f.username = ?";
+
+    const values = [req.body.comment, req.body.rating, username];
+
+    con.query(sql, values, (err, result) => {
+        if (err) {
+            console.error("Error in SQL query:", err);
+            return res.json({ Status: "Error", Error: "Error in running query" });
+        }
+
+        if (result.affectedRows > 0) {
+            return res.json({ Status: "Success", Result: result });
+        } else {
+            return res.json({ Status: "No feedback found for the username" });
+        }
+    });
+});
 
 app.put('/replyFeedback/:username', (req, res) => {
     const username = req.params.username;
