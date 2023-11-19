@@ -113,7 +113,7 @@ function Dashboard() {
                                     </List>
                                     <List sx={{ width: '40%', paddingTop: '20px' }}>
                                         <ListItemButton
-                                            onClick={() => handleListItemClick('/manageFeedback')} className='buttonDashBoard'
+                                            onClick={() => handleListItemClick('/manageFeedback/' + profile.userId)} className='buttonDashBoard'
                                         >
                                             <ListItemIcon>
                                                 <ThumbUpAltIcon color="primary" fontSize='medium' />

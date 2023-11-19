@@ -53,8 +53,8 @@ function App() {
           <Route path='/song' element={<Song />}></Route>
           <Route path='/manageAccount' element={<ManageAccount />}></Route>
           <Route path='/requestAccount' element={<RequestAccount />}></Route>
-          <Route path='/manageFeedback' element={<ManageFeedback />}></Route>
-          <Route path='/viewFeedback/:username' element={<ViewFeedback />}></Route>
+          <Route path='/manageFeedback/:userId' element={<ManageFeedback />}></Route>
+          <Route path='/viewFeedback/:id' element={<ViewFeedback />}></Route>
         </Route>
         <Route path='/viewSong/:id' element={<ViewSong />}></Route>
 
@@ -91,7 +91,7 @@ function App() {
           <Route path='/playlist/:userId' element={<Playlist />}></Route>
           <Route path='/viewPlaylist/:id' element={<ViewPlaylist />}></Route>
           <Route path='/feedback/:userId' element={<Feedback />}></Route>
-          <Route path='/viewFeedbackCustomer/:username' element={<ViewFeedbackCustomer />}></Route>
+          <Route path='/viewFeedbackCustomer/:id' element={<ViewFeedbackCustomer />}></Route>
 
 
         </Route>
