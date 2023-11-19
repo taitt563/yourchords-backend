@@ -187,7 +187,7 @@ function ProfileCustomer() {
                             <div className="col-md-6"><b>Phone number: </b><p>{data.phoneNumber}</p></div>
                             : <div className="col-md-6"><b>Phone number: </b><p>None</p></div>
                         }
-                        {data.phoneNumber !== "" ?
+                        {data.address !== "" ?
                             <div className="col-md-6"><b>Address Line: </b><p>{data.address}</p></div>
                             :
                             <div className="col-md-6"><b>Address Line: </b><p>None</p></div>

@@ -47,7 +47,6 @@ function SongCustomer() {
         boxShadow: 24,
         p: 4,
         height: '800px',
-        overflowY: 'scroll',
         width: '1400px',
         borderRadius: '30px'
     };
