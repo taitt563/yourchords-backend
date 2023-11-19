@@ -143,7 +143,7 @@ function DashboardCustomer() {
                                 <List sx={{
                                     width: '40%', paddingTop: '20px'
                                 }}>
-                                    <ListItemButton href="/feedback" className='buttonDashBoard'>
+                                    <ListItemButton href={"/feedback/" + profile.userId} className='buttonDashBoard'>
                                         <ListItemIcon>
                                             <ThumbUpAltIcon color="primary" fontSize='medium' />
                                         </ListItemIcon>

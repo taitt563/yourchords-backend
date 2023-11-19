@@ -18,7 +18,7 @@ import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 import Modal from '@mui/material/Modal';
 
-function ViewFeedback() {
+function ViewFeedbackCustomer() {
     const [data, setData] = useState([])
     const [dataReply, setDataReply] = useState([]);
     const { username } = useParams();
@@ -50,7 +50,7 @@ function ViewFeedback() {
     }, [])
 
     const handleSubmit = () => {
-        axios.put(`${apiUrl}/replyFeedback/` + username, data)
+        axios.put(`${apiUrl}/replyFeedbackCustomer/` + username, data)
             .then(
                 navigate(-1)
             )
@@ -126,7 +126,7 @@ function ViewFeedback() {
                                                 <p>Reply date: <b>{moment(data.date_reply).format('YYYY-MM-DD - HH:mm:ss')}</b></p>
                                                 <div className="col-md-7 border-right pd-top">
                                                     <div className="py-6">
-                                                        <textarea cols="34" rows="5" onChange={e => setData({ ...data, reply: e.target.value })} value={data.reply} placeholder='Your reply...'>{data.reply}
+                                                        <textarea cols="34" rows="5" onChange={e => setData({ ...data, comment: e.target.value })} value={data.comment} placeholder='Your reply...'>{data.comment}
                                                         </textarea>
                                                         <div className="mt-5">
                                                             <Button variant={'contained'} onClick={handleSubmit} type="submit" className="btn btn-primary">SUBMIT</Button>
@@ -149,7 +149,7 @@ function ViewFeedback() {
                                                 )
                                         }
                                         action={
-                                            <Button onClick={() => { handleGetReply(data.username) }} size="small" >REPLY<TurnLeftIcon color='primary' /></Button>
+                                            <Button onClick={() => { handleGetReply(data.username) }} size="small" >EDIT COMMENT<TurnLeftIcon color='primary' /></Button>
                                         }
                                         title={<h4><b>{data.username}</b></h4>}
 
@@ -209,4 +209,4 @@ function ViewFeedback() {
         </>
     )
 }
-export default ViewFeedback
+export default ViewFeedbackCustomer
