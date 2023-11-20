@@ -139,7 +139,7 @@ function CreatePlaylist() {
         <>
             <SearchAppBar />
             <div className='d-flex flex-column align-items-center pt-4'>
-                <h3 className="d-flex justify-content-center">NEW PLAYLIST</h3>
+                <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>New Playlist</h3>
             </div>
             <div className='d-flex flex-column align-items-center justify-content-center pt-5' style={{ minHeight: '60vh' }}>
                 <div className='step-container'>

@@ -345,7 +345,7 @@ function ViewSongMusician() {
                         });
                     }
                     return <div key={index}>
-                        <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
+                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd' }}><b>{viewSong.song_title}</b></h3>
                         <div className="row mt-5 d-flex justify-content-center">
                             <div className="col-md-7">
                                 <div className="row">

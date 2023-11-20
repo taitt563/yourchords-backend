@@ -35,7 +35,7 @@ function Login() {
                     }
                     else if (res.data.Role === 'musician') {
                         sessionStorage.setItem('id_musician', values.username);
-                        navigate("/chordMissMusician");
+                        navigate("/chordMusician");
                     }
                 }
                 if (res.data.Status === 'Error') {

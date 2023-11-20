@@ -8,6 +8,7 @@ import moment from 'moment';
 import SearchAppBar from '../component/SearchAppBar';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Link } from "react-router-dom";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 export default function BottomAppBar() {
 
@@ -50,8 +51,8 @@ export default function BottomAppBar() {
                         </td>
                         <td>{feedbackUser.username}</td>
                         <td>{moment(feedbackUser.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</td>
-                        {feedbackUser.status === true ?
-                            <td style={{ color: 'green' }}><b>Seen</b></td>
+                        {feedbackUser.status === 1 ?
+                            <td style={{ color: 'green' }}><CheckCircleIcon color='success' /></td>
                             :
                             <td className="text-warning"><b>Not seen</b></td>
                         }
@@ -70,10 +71,10 @@ export default function BottomAppBar() {
                         </td>
                         <td>{feedbackUser.username}</td>
                         <td>{moment(feedbackUser.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</td>
-                        {feedbackUser.status === true ?
-                            <td style={{ color: 'green' }}><b>Seen</b></td>
+                        {feedbackUser.status === 1 ?
+                            <td style={{ color: 'green' }}><CheckCircleIcon color='success' /></td>
                             :
-                            <td className="text-warning"><b>Not seen</b></td>
+                            <td className="text-warning"><b>Not reply</b></td>
                         }
                         <td>
                             <Link to={`/viewFeedback/` + feedbackUser.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
@@ -90,7 +91,7 @@ export default function BottomAppBar() {
             <SearchAppBar />
             <React.Fragment>
                 <div className='d-flex flex-column align-items-center pt-4'>
-                    <h3 className="d-flex justify-content-center">FEEDBACK</h3>
+                    <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Manage Feedback</h3>
                 </div>
 
                 {/* LIST TODAY */}
@@ -102,13 +103,13 @@ export default function BottomAppBar() {
                         {!renderTableRows('today').some(row => row !== null) ?
                             (
 
-                                <div className="text-center"><em>No comment available</em></div>
+                                <div className="text-center"><b>No comment available</b></div>
                             )
                             :
                             <table className='table'>
                                 <thead>
                                     <tr>
-                                        <th></th>p
+                                        <th></th>
                                         <th>Username</th>
                                         <th>Date</th>
                                         <th>Status</th>
@@ -131,7 +132,7 @@ export default function BottomAppBar() {
                         {!renderTableRows('recently').some(row => row !== null) ?
                             (
 
-                                <div className="text-center"><em>No comment available</em></div>
+                                <div className="text-center"><b>No comment available</b></div>
                             )
                             :
                             <table className='table'>

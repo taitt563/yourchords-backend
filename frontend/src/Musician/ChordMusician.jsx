@@ -96,7 +96,7 @@ function ChordMusician() {
     const totalPages = Math.ceil(filteredSongs.length / itemsPerPage);
     return (
         <>
-            <Box sx={{ flexGrow: 1, top: 0, position: "sticky", zIndex: '3' }}>
+            <Box sx={{ flexGrow: 1, top: 0, position: "sticky", zIndex: "3" }}>
                 <ThemeProvider theme={darkTheme}>
                     <AppBar position="static" color="primary" enableColorOnDark>
                         <Toolbar>
@@ -106,12 +106,12 @@ function ChordMusician() {
                                 component="a"
                                 sx={{
                                     mr: 2,
-                                    display: { xs: 'none', md: 'flex' },
-                                    fontFamily: 'monospace',
+                                    display: { xs: "none", md: "flex" },
+                                    fontFamily: "monospace",
                                     fontWeight: 700,
-                                    letterSpacing: '.3rem',
-                                    color: 'inherit',
-                                    textDecoration: 'none',
+                                    letterSpacing: ".3rem",
+                                    color: "#0d6efd",
+                                    textDecoration: "none",
                                 }}
                             >
                                 <HeadsetIcon fontSize="large" />
@@ -120,23 +120,29 @@ function ChordMusician() {
                                 variant="h6"
                                 noWrap
                                 component="div"
-                                sx={{ color: 'inherit', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                                sx={{
+                                    color: "#0d6efd",
+                                    letterSpacing: ".3rem",
+                                    fontWeight: 700,
+                                    flexGrow: 1,
+                                    display: { xs: "none", sm: "block" },
+                                }}
                             >
-
                                 <b>YOUR CHORD</b>
                             </Typography>
                             <input
                                 type="text"
                                 className="input-box"
                                 placeholder="Search.."
-                                onChange={(e) => setSearch(e.target.value)} />
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
                             <SearchIcon className="inputIcon" />
                         </Toolbar>
                     </AppBar>
                 </ThemeProvider>
             </Box>
             <div className="d-flex flex-column align-items-center pt-4">
-                <h3 className="d-flex justify-content-center">MANAGE CHORD</h3>
+                <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }} >Manage Chord</h3>
             </div>
             <div className='mt-4 pd-left'>
                 <TableContainer component={Paper}>

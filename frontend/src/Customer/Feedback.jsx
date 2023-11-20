@@ -14,6 +14,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Link, useParams } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 export default function Feedback() {
     const [data, setData] = useState([]);
@@ -127,6 +128,54 @@ export default function Feedback() {
         // Use the selected label when available, otherwise use the default
         return selectedLabel !== null ? selectedLabel : `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
     };
+    const renderTableRows = (filterDate) => {
+        return data.map((feedbackUser, index) => {
+            const date1 = moment(displaytodaysdate).format("YYYY-MM-DD");
+            const date2 = moment(feedbackUser.date_feedback).format("YYYY-MM-DD");
+
+            if (date1 === date2 && filterDate === 'today') {
+                return (
+                    <tr key={index}>
+                        <td>
+
+                            {imageURL && <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />}
+
+                        </td>
+                        <td>{moment(feedbackUser.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</td>
+                        {feedbackUser.status === 1 ?
+                            <td style={{ color: 'green' }}><CheckCircleIcon color='success' /></td>
+                            :
+                            <td className="text-warning"><b>Not seen</b></td>
+                        }
+                        <td>
+                            <Link to={`/viewFeedbackCustomer/` + feedbackUser.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                        </td>
+                    </tr>
+                );
+            }
+
+            if (date1 > date2 && filterDate === 'recently') {
+                return (
+                    <tr key={index}>
+                        <td>
+                            {imageURL && <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />}
+                        </td>
+                        <td>{moment(feedbackUser.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</td>
+                        {feedbackUser.status === 1 ?
+                            <td style={{ color: 'green' }}><CheckCircleIcon color='success' /></td>
+                            :
+                            <td className="text-warning"><b>Not reply</b></td>
+                        }
+                        <td>
+                            <Link to={`/viewFeedbackCustomer/` + feedbackUser.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
+                        </td>
+                    </tr>
+                );
+            }
+
+            return null;
+        });
+    };
     return (
         <>
             <SearchAppBar />
@@ -141,54 +190,26 @@ export default function Feedback() {
                 </ListItem>
                 <List sx={{ mb: 2 }}>
                     <div className="mt-4 pd-left">
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Username</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>View</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data.map((feedbackUser, index) => {
-                                    const date1 = moment(displaytodaysdate).format("YYYY-MM-DD");
-                                    const date2 = moment(feedbackUser.date_feedback).format("YYYY-MM-DD");
-                                    if (date1 == date2) {
-                                        return (
-                                            <tr key={index}>
-                                                <td>
-                                                    {imageURL &&
-                                                        <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />
+                        {!renderTableRows('today').some(row => row !== null) ?
+                            (
 
-                                                    }
-                                                </td>
-                                                <td>{feedbackUser.username}</td>
-                                                <td>{moment(feedbackUser.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</td>
-                                                {feedbackUser.status == true ? (
-                                                    <td style={{ color: 'green' }}>
-                                                        <b>Seen</b>
-                                                    </td>
-                                                ) : (
-                                                    <td className="text-warning">
-                                                        <b>Not seen</b>
-                                                    </td>
-                                                )}
-                                                <td>
-                                                    <Link
-                                                        to={`/viewFeedbackCustomer/` + feedbackUser.id}
-                                                        className="btn btn-success btn-sm me-2"
-                                                    >
-                                                        <RemoveRedEyeIcon />
-                                                    </Link>
-                                                </td>
-                                            </tr>
-                                        );
-                                    }
-                                })}
-                            </tbody>
-                        </table>
+                                <div className="text-center"><b>No comment available</b></div>
+                            )
+                            :
+                            <table className='table'>
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>View</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {renderTableRows('today')}
+                                </tbody>
+                            </table>
+                        }
                     </div>
                 </List>
                 {/* LIST RECENTLY */}
@@ -197,54 +218,26 @@ export default function Feedback() {
                 </ListItem>
                 <List sx={{ mb: 2 }}>
                     <div className="mt-4 pd-left">
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Username</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>View</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data.map((feedbackUser, index) => {
-                                    const date1 = moment(displaytodaysdate).format("YYYY-MM-DD");
-                                    const date2 = moment(feedbackUser.date_feedback).format("YYYY-MM-DD");
-                                    if (date1 > date2) {
-                                        return (
-                                            <tr key={index}>
-                                                <td>
-                                                    {imageURL &&
-                                                        <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />
+                        {!renderTableRows('recently').some(row => row !== null) ?
+                            (
 
-                                                    }
-                                                </td>
-                                                <td>{feedbackUser.username}</td>
-                                                <td>{moment(feedbackUser.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</td>
-                                                {feedbackUser.status == true ? (
-                                                    <td style={{ color: 'green' }}>
-                                                        <b>Seen</b>
-                                                    </td>
-                                                ) : (
-                                                    <td className="text-warning">
-                                                        <b>Not seen</b>
-                                                    </td>
-                                                )}
-                                                <td>
-                                                    <Link
-                                                        to={`/viewFeedbackCustomer/` + feedbackUser.id}
-                                                        className="btn btn-success btn-sm me-2"
-                                                    >
-                                                        <RemoveRedEyeIcon />
-                                                    </Link>
-                                                </td>
-                                            </tr>
-                                        );
-                                    }
-                                })}
-                            </tbody>
-                        </table>
+                                <div className="text-center"><em>No comment available</em></div>
+                            )
+                            :
+                            <table className='table'>
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>View</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {renderTableRows('recently')}
+                                </tbody>
+                            </table>
+                        }
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <Button variant={'contained'} onClick={openModal}>New Feedback</Button>

@@ -117,7 +117,7 @@ function ViewFeedbackCustomer() {
             <SearchAppBar />
             <div className='d-flex flex-column align-items-center pt-2'>
                 <div className='d-flex flex-column align-items-center pt-4'>
-                    <h3 className="d-flex justify-content-center">FEEDBACK</h3>
+                    <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Feedback</h3>
                 </div>
                 <div className='d-flex flex-column align-items-center pt-4'>
                     <div className="container">
@@ -229,8 +229,27 @@ function ViewFeedbackCustomer() {
                                                     </div>
                                                 })}
                                             </div>
-                                            Comment:
-                                            <h5>{data.comment}</h5>
+                                            {data.reply.length > 0 ?
+                                                (
+                                                    <>
+
+
+                                                        Comment:
+                                                        <h5>{data.comment}</h5>
+                                                        Reply:
+                                                        <h5>{data.reply}</h5>
+                                                    </>
+                                                )
+                                                :
+                                                (
+                                                    <>
+                                                        Comment:
+                                                        <h5>{data.comment}</h5>
+
+                                                    </>
+                                                )
+
+                                            }
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
 
@@ -244,7 +263,7 @@ function ViewFeedbackCustomer() {
                         <Button variant={'contained'} onClick={() => navigate(-1)} type="submit" className="btn btn-primary">Close</Button>
                     </div>
                 </div>
-            </div>
+            </div >
 
         </>
     )

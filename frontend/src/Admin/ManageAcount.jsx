@@ -307,7 +307,7 @@ function ManageAccount() {
                 </Box>
                 <TabPanel value="1">
                     <div>
-                        <h3 className="d-flex justify-content-center">USER ACCOUNT MANAGEMENT</h3>
+                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>USER ACCOUNT MANAGEMENT</h3>
                     </div>
                     <div className="px-2 py-4">
                         {isDeleted && (
@@ -451,7 +451,7 @@ function ManageAccount() {
                 </TabPanel>
                 <TabPanel value="2">
                     <div>
-                        <h3 className="d-flex justify-content-center">ADMIN ACCOUNT MANAGEMENT</h3>
+                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>ADMIN ACCOUNT MANAGEMENT</h3>
                     </div>
                     <div className="px-2 py-4">
                         {isDeleted && (
@@ -593,7 +593,7 @@ function ManageAccount() {
                 </TabPanel>
                 <TabPanel value="3">
                     <div>
-                        <h3 className="d-flex justify-content-center">CHORD MANAGER ACCOUNT MANAGEMENT</h3>
+                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>CHORD MANAGER ACCOUNT MANAGEMENT</h3>
                     </div>
                     <div className="px-2 py-4">
                         {isDeleted && (
@@ -733,7 +733,8 @@ function ManageAccount() {
                 </TabPanel>
                 <TabPanel value="4">
                     <div>
-                        <h3 className="d-flex justify-content-center">MUSICIAN ACCOUNT MANAGEMENT</h3>
+                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>MUSICIAN ACCOUNT MANAGEMENT</h3>
+
                     </div>
                     <div className="px-2 py-4">
                         {isDeleted && (
