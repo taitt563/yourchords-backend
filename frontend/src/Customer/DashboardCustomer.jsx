@@ -21,8 +21,9 @@ import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import SearchIcon from "@mui/icons-material/Search";
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
-import HdrStrongIcon from '@mui/icons-material/HdrStrong';
-import HdrWeakIcon from '@mui/icons-material/HdrWeak';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+
 function DashboardCustomer() {
     const [data, setData] = useState([]);
     axios.defaults.withCredentials = true;
@@ -68,8 +69,13 @@ function DashboardCustomer() {
 
                         {data.map((profile, index) => {
                             return <div key={index}>
-                                <button onClick={handleToggleCollapse} className="btn" >
-                                    {collapsed ? <HdrWeakIcon color='primary' fontSize='medium' /> : <HdrStrongIcon color='primary' fontSize='medium' />}
+                                <button onClick={handleToggleCollapse} className="btn btn-sm" >
+                                    {collapsed ?
+                                        <ArrowRightIcon color='primary' fontSize='medium'
+                                            style={{ position: 'absolute', right: '-20%', top: '10%', width: '35px', height: '35px', background: '#fff', borderRadius: '40px' }} />
+                                        :
+                                        <ArrowLeftIcon color='primary' fontSize='medium'
+                                            style={{ position: 'absolute', right: '-4%', top: '10%', width: '35px', height: '35px', background: '#fff', borderRadius: '40px' }} />}
                                 </button>
                                 {!collapsed ?
                                     <>

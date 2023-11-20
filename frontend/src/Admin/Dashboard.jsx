@@ -14,8 +14,8 @@ import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import HdrStrongIcon from '@mui/icons-material/HdrStrong';
-import HdrWeakIcon from '@mui/icons-material/HdrWeak';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 function Dashboard() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [datachord, setDataChord] = useState([]);
@@ -63,8 +63,13 @@ function Dashboard() {
                         {datachord.map((profile, index) => {
                             return (
                                 <div key={index}>
-                                    <button onClick={handleToggleCollapse} className="btn" >
-                                        {collapsed ? <HdrWeakIcon color='primary' fontSize='medium' /> : <HdrStrongIcon color='primary' fontSize='medium' />}
+                                    <button onClick={handleToggleCollapse} className="btn btn-sm" >
+                                        {collapsed ?
+                                            <ArrowRightIcon color='primary' fontSize='medium'
+                                                style={{ position: 'absolute', right: '-20%', top: '10%', width: '35px', height: '35px', background: '#fff', borderRadius: '40px' }} />
+                                            :
+                                            <ArrowLeftIcon color='primary' fontSize='medium'
+                                                style={{ position: 'absolute', right: '-4%', top: '10%', width: '35px', height: '35px', background: '#fff', borderRadius: '40px' }} />}
                                     </button>
                                     {!collapsed ?
                                         (
@@ -90,7 +95,6 @@ function Dashboard() {
                                                             <b>{profile.email} </b>
                                                         } />
                                                 </ListItem>
-                                                <br />
                                                 <span type="text" className='fs-100 font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
                                                     <ListItemButton

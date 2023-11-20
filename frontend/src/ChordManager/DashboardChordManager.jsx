@@ -17,8 +17,8 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import ModeIcon from '@mui/icons-material/Mode';
-import HdrStrongIcon from '@mui/icons-material/HdrStrong';
-import HdrWeakIcon from '@mui/icons-material/HdrWeak';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 function DashboardChordManager() {
     const [data, setData] = useState([]);
     axios.defaults.withCredentials = true;
@@ -63,8 +63,13 @@ function DashboardChordManager() {
                     }}>
                         {data.map((profile, index) => {
                             return <div key={index}>
-                                <button onClick={handleToggleCollapse} className="btn" >
-                                    {collapsed ? <HdrWeakIcon color='primary' fontSize='medium' /> : <HdrStrongIcon color='primary' fontSize='medium' />}
+                                <button onClick={handleToggleCollapse} className="btn btn-sm" >
+                                    {collapsed ?
+                                        <ArrowRightIcon color='primary' fontSize='medium'
+                                            style={{ position: 'absolute', right: '-20%', top: '10%', width: '35px', height: '35px', background: '#fff', borderRadius: '40px' }} />
+                                        :
+                                        <ArrowLeftIcon color='primary' fontSize='medium'
+                                            style={{ position: 'absolute', right: '-4%', top: '10%', width: '35px', height: '35px', background: '#fff', borderRadius: '40px' }} />}
                                 </button>
                                 {!collapsed ?
                                     (
@@ -91,52 +96,48 @@ function DashboardChordManager() {
 
                                                     } />
                                             </ListItem>
-                                            <br />
                                             <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
-
-                                            <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start pd-top pd-right" id="menu">
-                                                <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                    <ListItemButton onClick={handleClick} className='buttonDashBoard'>
-                                                        <ListItemIcon>
-                                                            <QueueMusicIcon color="primary" fontSize='medium' />
-                                                        </ListItemIcon>
-                                                        <ListItemText><span className="fontDashboard">Song</span></ListItemText>
-                                                        {open ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
-                                                    </ListItemButton>
-                                                    <Collapse in={open} timeout="auto" unmountOnExit>
-                                                        <List sx={{ width: '100%', pl: 3 }}>
-                                                            <ListItemButton href="/songChordManager" className='buttonDashBoard'>
-                                                                <ListItemIcon>
-                                                                    <LibraryMusicIcon color="primary" fontSize='medium' />
-                                                                </ListItemIcon>
-                                                                <ListItemText><span className="fontDashboard">List Song</span></ListItemText>
-                                                            </ListItemButton>
-                                                            <ListItemButton href="/verifySong" className='buttonDashBoard'>
-                                                                <ListItemIcon>
-                                                                    <VerifiedUserIcon color="primary" fontSize='medium' />
-                                                                </ListItemIcon>
-                                                                <ListItemText><span className="fontDashboard">Verify Song</span></ListItemText>
-                                                            </ListItemButton>
-                                                        </List>
-                                                    </Collapse>
-                                                </List>
-                                                <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                    <ListItemButton href={`/profileChordManager/` + profile.userId} className='buttonDashBoard'>
-                                                        <ListItemIcon>
-                                                            <ModeIcon color="primary" fontSize='medium' />
-                                                        </ListItemIcon>
-                                                        <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
-                                                    </ListItemButton>
-                                                </List>
-                                                <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                    <ListItemButton href="/login" className='buttonDashBoard'>
-                                                        <ListItemIcon>
-                                                            <LogoutIcon color="primary" fontSize='medium' />
-                                                        </ListItemIcon>
-                                                        <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
-                                                    </ListItemButton>
-                                                </List>
-                                            </ul>
+                                            <List sx={{ width: '40%', paddingTop: '20px' }}>
+                                                <ListItemButton onClick={handleClick} className='buttonDashBoard'>
+                                                    <ListItemIcon>
+                                                        <QueueMusicIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                    <ListItemText><span className="fontDashboard">Song</span></ListItemText>
+                                                    {open ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
+                                                </ListItemButton>
+                                                <Collapse in={open} timeout="auto" unmountOnExit>
+                                                    <List sx={{ width: '100%', pl: 3 }}>
+                                                        <ListItemButton href="/songChordManager" className='buttonDashBoard'>
+                                                            <ListItemIcon>
+                                                                <LibraryMusicIcon color="primary" fontSize='medium' />
+                                                            </ListItemIcon>
+                                                            <ListItemText><span className="fontDashboard">List Song</span></ListItemText>
+                                                        </ListItemButton>
+                                                        <ListItemButton href="/verifySong" className='buttonDashBoard'>
+                                                            <ListItemIcon>
+                                                                <VerifiedUserIcon color="primary" fontSize='medium' />
+                                                            </ListItemIcon>
+                                                            <ListItemText><span className="fontDashboard">Verify Song</span></ListItemText>
+                                                        </ListItemButton>
+                                                    </List>
+                                                </Collapse>
+                                            </List>
+                                            <List sx={{ width: '40%', paddingTop: '20px' }}>
+                                                <ListItemButton href={`/profileChordManager/` + profile.userId} className='buttonDashBoard'>
+                                                    <ListItemIcon>
+                                                        <ModeIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                    <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
+                                                </ListItemButton>
+                                            </List>
+                                            <List sx={{ width: '40%', paddingTop: '20px' }}>
+                                                <ListItemButton href="/login" className='buttonDashBoard'>
+                                                    <ListItemIcon>
+                                                        <LogoutIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                    <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                                </ListItemButton>
+                                            </List>
                                         </>
                                     )
                                     :
