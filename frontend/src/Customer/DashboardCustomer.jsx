@@ -21,16 +21,21 @@ import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import SearchIcon from "@mui/icons-material/Search";
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
-
+import HdrStrongIcon from '@mui/icons-material/HdrStrong';
+import HdrWeakIcon from '@mui/icons-material/HdrWeak';
 function DashboardCustomer() {
     const [data, setData] = useState([]);
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
     const [openPlaylist, setOpenPlaylist] = useState(false);
     const [imageURL, setImageURL] = useState(null);
+    const [collapsed, setCollapsed] = useState(false); // New state for sidebar collapse
 
     const handleClickPlaylist = () => {
         setOpenPlaylist(!openPlaylist);
+    };
+    const handleToggleCollapse = () => {
+        setCollapsed(!collapsed);
     };
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
@@ -53,124 +58,228 @@ function DashboardCustomer() {
             .catch(err => console.log(err));
     }, [userId])
     return (
-        <div className="container-fluid">
+        <div className={`container-fluid${collapsed ? ' collapsed' : ''}`}>
             <div className="row flex-nowrap" >
-                <div className=" col-auto col-md-3 col-xl-2 px-0 tabLeft">
-                    <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 text-white min-vh-100" style={{
+                <div className={`col-auto col-md-3 col-xl-2 px-0 tabLeft${collapsed ? ' collapsed' : ''}`}>
+                    <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100" style={{
                         top: 0,
                         position: 'sticky'
                     }}>
+
                         {data.map((profile, index) => {
                             return <div key={index}>
-                                <ListItem>
-                                    <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
-                                        <Avatar>
-                                            {imageURL &&
-                                                (
-                                                    <img src={`data:image/png;base64,${profile.image}`} className='profile_image' />
-                                                )
+                                <button onClick={handleToggleCollapse} className="btn">
+                                    {collapsed ? <HdrWeakIcon color='primary' fontSize='large' className='pd-left' /> : <HdrStrongIcon color='primary' fontSize='large' className='pd-left' />}
+                                </button>
+                                {!collapsed ?
+                                    <>
+                                        <ListItem>
+                                            <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
+                                                <Avatar>
+                                                    {imageURL &&
+                                                        (
+                                                            <img src={`data:image/png;base64,${profile.image}`} className='profile_image' />
+                                                        )
+                                                    }
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText className="font" primary={profile.name.length > 10 ?
+                                                <b>{profile.name.substring(0, 10)}...</b>
+                                                :
+                                                <b>{profile.name} </b>
                                             }
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText className="font" primary={profile.name.length > 10 ?
-                                        <b>{profile.name.substring(0, 10)}...</b>
-                                        :
-                                        <b>{profile.name} </b>
-                                    }
-                                        secondary={profile.email.length > 17 ?
-                                            <b>{profile.email.substring(0, 17)}...</b>
-                                            :
-                                            <b>{profile.email} </b>
-                                        } />
-                                </ListItem>
-                                <br />
-                                <span type="text" className='fs-100 font pd-left '>Date current: <b>{displaytodaysdate}</b></span>
-                                <List sx={{
-                                    width: '40%', paddingTop: '30px'
-                                }}>
-                                    <ListItemButton href={"/songCustomer/" + profile.userId} className='buttonDashBoard'>
-                                        <ListItemIcon >
-                                            <MusicNoteIcon color="primary" fontSize='medium' />
-                                        </ListItemIcon>
-                                        <ListItemText><span className="fontDashboard">Song</span></ListItemText>
-                                    </ListItemButton>
-                                </List>
-                                <List sx={{
-                                    width: '40%', paddingTop: '20px'
-                                }}>
-                                    <ListItemButton href="/chord" className='buttonDashBoard'>
-                                        <ListItemIcon>
-                                            <GraphicEqIcon color="primary" fontSize='medium' />
-                                        </ListItemIcon>
-                                        <ListItemText><span className="fontDashboard">Chord</span></ListItemText>
-                                    </ListItemButton>
-                                </List>
-                                <List sx={{
-                                    width: '40%', paddingTop: '20px'
-                                }}>
-                                    <ListItemButton href="/searchChord" className='buttonDashBoard'>
-                                        <ListItemIcon>
-                                            <SearchIcon color="primary" fontSize='medium' />
-                                        </ListItemIcon>
-                                        <ListItemText><span className="fontDashboard">Search Chord</span></ListItemText>
-                                    </ListItemButton>
-                                </List>
-                                <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                    <ListItemButton onClick={handleClickPlaylist} className='buttonDashBoard'>
-                                        <ListItemIcon>
-                                            <PlaylistPlayIcon color="primary" fontSize='medium' />
-                                        </ListItemIcon>
-                                        <ListItemText><span className="fontDashboard">Your Playlist</span></ListItemText>
-                                        {openPlaylist ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
-                                    </ListItemButton>
-                                    <Collapse in={openPlaylist} timeout="auto" unmountOnExit>
-                                        <List sx={{ width: '100%', pl: 2 }}>
-                                            <ListItemButton href={"/playlist/" + profile.userId} className='buttonDashBoard'>
-                                                <ListItemIcon>
-                                                    <QueueMusicIcon color="primary" fontSize='medium' />
+                                                secondary={profile.email.length > 17 ?
+                                                    <b>{profile.email.substring(0, 17)}...</b>
+                                                    :
+                                                    <b>{profile.email} </b>
+                                                } />
+                                        </ListItem>
+                                        <span type="text" className='fs-100 font pd-left '>Date current: <b>{displaytodaysdate}</b></span>
+                                        <List sx={{
+                                            width: '40%', paddingTop: '30px'
+                                        }}>
+                                            <ListItemButton href={"/songCustomer/" + profile.userId} className='buttonDashBoard'>
+                                                <ListItemIcon >
+                                                    <MusicNoteIcon color="primary" fontSize='medium' />
                                                 </ListItemIcon>
-                                                <ListItemText><span className="fontDashboard">Playlist</span></ListItemText>
-                                            </ListItemButton>
-                                            <ListItemButton href={"/createPlaylist/" + profile.userId} className='buttonDashBoard'>
-                                                <ListItemIcon>
-                                                    <AddIcon color="primary" fontSize='medium' />
-                                                </ListItemIcon>
-                                                <ListItemText><span className="fontDashboard">Add New Playlist</span></ListItemText>
+                                                <ListItemText><span className="fontDashboard">Song</span></ListItemText>
                                             </ListItemButton>
                                         </List>
-                                    </Collapse>
-                                </List>
-                                <List sx={{
-                                    width: '40%', paddingTop: '20px'
-                                }}>
-                                    <ListItemButton href={"/feedback/" + profile.userId} className='buttonDashBoard'>
-                                        <ListItemIcon>
-                                            <ThumbUpAltIcon color="primary" fontSize='medium' />
-                                        </ListItemIcon>
-                                        <ListItemText><span className="fontDashboard">Feedback</span></ListItemText>
-                                    </ListItemButton>
-                                </List>
-                                <List sx={{
-                                    width: '40%', paddingTop: '20px',
-                                }}>
-                                    <ListItemButton href={`/profileCustomer/` + profile.userId} className='buttonDashBoard'>
-                                        <ListItemIcon>
-                                            <ModeIcon color="primary" fontSize='medium' />
-                                        </ListItemIcon>
-                                        <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
-                                    </ListItemButton>
-                                </List>
+                                        <List sx={{
+                                            width: '40%', paddingTop: '20px'
+                                        }}>
+                                            <ListItemButton href="/chord" className='buttonDashBoard'>
+                                                <ListItemIcon>
+                                                    <GraphicEqIcon color="primary" fontSize='medium' />
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Chord</span></ListItemText>
+                                            </ListItemButton>
+                                        </List>
+                                        <List sx={{
+                                            width: '40%', paddingTop: '20px'
+                                        }}>
+                                            <ListItemButton href="/searchChord" className='buttonDashBoard'>
+                                                <ListItemIcon>
+                                                    <SearchIcon color="primary" fontSize='medium' />
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Search Chord</span></ListItemText>
+                                            </ListItemButton>
+                                        </List>
+                                        <List sx={{ width: '40%', paddingTop: '20px' }}>
+                                            <ListItemButton onClick={handleClickPlaylist} className='buttonDashBoard'>
+                                                <ListItemIcon>
+                                                    <PlaylistPlayIcon color="primary" fontSize='medium' />
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Your Playlist</span></ListItemText>
+                                                {openPlaylist ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
+                                            </ListItemButton>
+                                            <Collapse in={openPlaylist} timeout="auto" unmountOnExit>
+                                                <List sx={{ width: '100%', pl: 2 }}>
+                                                    <ListItemButton href={"/playlist/" + profile.userId} className='buttonDashBoard'>
+                                                        <ListItemIcon>
+                                                            <QueueMusicIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                        <ListItemText><span className="fontDashboard">Playlist</span></ListItemText>
+                                                    </ListItemButton>
+                                                    <ListItemButton href={"/createPlaylist/" + profile.userId} className='buttonDashBoard'>
+                                                        <ListItemIcon>
+                                                            <AddIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                        <ListItemText><span className="fontDashboard">Add New Playlist</span></ListItemText>
+                                                    </ListItemButton>
+                                                </List>
+                                            </Collapse>
+                                        </List>
+                                        <List sx={{
+                                            width: '40%', paddingTop: '20px'
+                                        }}>
+                                            <ListItemButton href={"/feedback/" + profile.userId} className='buttonDashBoard'>
+                                                <ListItemIcon>
+                                                    <ThumbUpAltIcon color="primary" fontSize='medium' />
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Feedback</span></ListItemText>
+                                            </ListItemButton>
+                                        </List>
+                                        <List sx={{
+                                            width: '40%', paddingTop: '20px',
+                                        }}>
+                                            <ListItemButton href={`/profileCustomer/` + profile.userId} className='buttonDashBoard'>
+                                                <ListItemIcon>
+                                                    <ModeIcon color="primary" fontSize='medium' />
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
+                                            </ListItemButton>
+                                        </List>
 
-                                <List sx={{
-                                    width: '40%', paddingTop: '20px'
-                                }}>
-                                    <ListItemButton href="/login" className='buttonDashBoard'>
-                                        <ListItemIcon>
-                                            <LogoutIcon color="primary" fontSize='medium' />
-                                        </ListItemIcon>
-                                        <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
-                                    </ListItemButton>
-                                </List>
+                                        <List sx={{
+                                            width: '40%', paddingTop: '20px'
+                                        }}>
+                                            <ListItemButton href="/login" className='buttonDashBoard'>
+                                                <ListItemIcon>
+                                                    <LogoutIcon color="primary" fontSize='medium' />
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                            </ListItemButton>
+                                        </List>
+                                    </>
+                                    :
+                                    (
+                                        <>
+
+                                            <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 pt-4 text-white text-decoration-none pd-left">
+                                                <Avatar>
+                                                    {imageURL &&
+                                                        (
+                                                            <img src={`data:image/png;base64,${profile.image}`} className='profile_image' />
+                                                        )
+                                                    }
+                                                </Avatar>
+                                            </ListItemAvatar>
+
+                                            <br />
+                                            <span type="text" className='fs-100 font pd-left '>{""}</span>
+
+                                            <List sx={{
+                                                width: '60%', paddingTop: '20px'
+                                            }}>
+                                                <ListItemButton href={"/songCustomer/" + profile.userId} className='buttonDashBoard'>
+                                                    <ListItemIcon >
+                                                        <MusicNoteIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                </ListItemButton>
+                                            </List>
+                                            <List sx={{
+                                                width: '60%', paddingTop: '20px'
+                                            }}>
+                                                <ListItemButton href="/chord" className='buttonDashBoard'>
+                                                    <ListItemIcon>
+                                                        <GraphicEqIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                </ListItemButton>
+                                            </List>
+                                            <List sx={{
+                                                width: '60%', paddingTop: '20px'
+                                            }}>
+                                                <ListItemButton href="/searchChord" className='buttonDashBoard'>
+                                                    <ListItemIcon>
+                                                        <SearchIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                </ListItemButton>
+                                            </List>
+                                            <List sx={{ width: '70%', paddingTop: '20px' }}>
+                                                <ListItemButton onClick={handleClickPlaylist} className='buttonDashBoard'>
+                                                    <ListItemIcon>
+                                                        <PlaylistPlayIcon color="primary" fontSize='medium' />
+                                                        {openPlaylist ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
+
+                                                    </ListItemIcon>
+                                                </ListItemButton>
+                                                <Collapse in={openPlaylist} timeout="auto" unmountOnExit>
+                                                    <List sx={{ width: '100%', pl: 1 }}>
+                                                        <ListItemButton href={"/playlist/" + profile.userId} className='buttonDashBoard'>
+                                                            <ListItemIcon>
+                                                                <QueueMusicIcon color="primary" fontSize='medium' />
+                                                            </ListItemIcon>
+                                                        </ListItemButton>
+                                                        <ListItemButton href={"/createPlaylist/" + profile.userId} className='buttonDashBoard'>
+                                                            <ListItemIcon>
+                                                                <AddIcon color="primary" fontSize='medium' />
+                                                            </ListItemIcon>
+                                                        </ListItemButton>
+                                                    </List>
+                                                </Collapse>
+                                            </List>
+                                            <List sx={{
+                                                width: '60%', paddingTop: '20px'
+                                            }}>
+                                                <ListItemButton href={"/feedback/" + profile.userId} className='buttonDashBoard'>
+                                                    <ListItemIcon>
+                                                        <ThumbUpAltIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                </ListItemButton>
+                                            </List>
+                                            <List sx={{
+                                                width: '60%', paddingTop: '20px',
+                                            }}>
+                                                <ListItemButton href={`/profileCustomer/` + profile.userId} className='buttonDashBoard'>
+                                                    <ListItemIcon>
+                                                        <ModeIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                </ListItemButton>
+                                            </List>
+
+                                            <List sx={{
+                                                width: '60%', paddingTop: '20px'
+                                            }}>
+                                                <ListItemButton href="/login" className='buttonDashBoard'>
+                                                    <ListItemIcon>
+                                                        <LogoutIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                </ListItemButton>
+                                            </List>
+                                        </>
+                                    )
+                                }
 
                             </div>
                         })}

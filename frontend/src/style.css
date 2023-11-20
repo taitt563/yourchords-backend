@@ -358,6 +358,18 @@ textarea {
     transform: scale(1.5);
 }
 
+.container-fluid.collapsed {
+    transition: all 0.3s;
+}
+
+.col-auto.collapsed {
+    width: 90px;
+}
+
+.tabLeft.collapsed {
+    width: 90px;
+}
+
 .tabLeft {
     background-color: #F1F1FB;
 }
