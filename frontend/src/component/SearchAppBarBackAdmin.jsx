@@ -63,6 +63,15 @@ export default function SearchAppBarBackCustomer() {
             window.location.href = path;
         }, 300);
     };
+    const menuStyles = {
+        flexDirection: 'column',
+        position: 'absolute',
+        with: '250px',
+        left: 0,
+        backgroundColor: '#fff',
+        padding: '10px',
+        borderRadius: '10px',
+    };
     return (
         <Box sx={{ top: 0, position: "sticky", zIndex: '3' }}>
             <ThemeProvider theme={darkTheme}>
@@ -87,6 +96,9 @@ export default function SearchAppBarBackCustomer() {
                             anchorEl={anchorEl}
                             open={Boolean(anchorEl)}
                             onClose={handleMenuClose}
+                            PaperProps={{
+                                style: menuStyles,
+                            }}
                         >
                             {data.map((profile, index) => {
                                 return <div key={index}>
