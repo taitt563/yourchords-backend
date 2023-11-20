@@ -28,7 +28,6 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import axios from 'axios';
-
 const darkTheme = createTheme({
     palette: {
         primary: {
