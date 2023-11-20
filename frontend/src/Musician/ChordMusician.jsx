@@ -142,7 +142,7 @@ function ChordMusician() {
                 </ThemeProvider>
             </Box>
             <div className="d-flex flex-column align-items-center pt-4">
-                <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }} >Manage Chord</h3>
+                <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }} >Waiting Approve</h3>
             </div>
             <div className='mt-4 pd-left'>
                 <TableContainer component={Paper}>

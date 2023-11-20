@@ -133,7 +133,7 @@ function SongMusician() {
                 </ThemeProvider>
             </Box>
             <div className="d-flex flex-column align-items-center pt-4">
-                <h3 className="d-flex justify-content-center">SONG</h3>
+                <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Song</h3>
             </div>
             <div className="px-2 py-4">
                 <div className="mt-4 pd-left">
