@@ -144,7 +144,7 @@ function ChordMissMusician() {
                 </ThemeProvider>
             </Box>
             <div className="d-flex flex-column align-items-center pt-4">
-                <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>List Song</h3>
+                <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Missing Chord</h3>
             </div>
             <div className="mt-4 pd-left">
                 {filteredSongs.length === 0 ? (
