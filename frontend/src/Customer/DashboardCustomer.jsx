@@ -68,8 +68,8 @@ function DashboardCustomer() {
 
                         {data.map((profile, index) => {
                             return <div key={index}>
-                                <button onClick={handleToggleCollapse} className="btn">
-                                    {collapsed ? <HdrWeakIcon color='primary' fontSize='large' className='pd-left' /> : <HdrStrongIcon color='primary' fontSize='large' className='pd-left' />}
+                                <button onClick={handleToggleCollapse} className="btn" >
+                                    {collapsed ? <HdrWeakIcon color='primary' fontSize='medium' /> : <HdrStrongIcon color='primary' fontSize='medium' />}
                                 </button>
                                 {!collapsed ?
                                     <>

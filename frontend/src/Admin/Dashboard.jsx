@@ -14,11 +14,13 @@ import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-
+import HdrStrongIcon from '@mui/icons-material/HdrStrong';
+import HdrWeakIcon from '@mui/icons-material/HdrWeak';
 function Dashboard() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [datachord, setDataChord] = useState([]);
     const [imageURL, setImageURL] = useState(null);
+    const [collapsed, setCollapsed] = useState(false);
 
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
@@ -40,7 +42,9 @@ function Dashboard() {
             })
             .catch(err => console.log(err));
     }, [userId]);
-
+    const handleToggleCollapse = () => {
+        setCollapsed(!collapsed);
+    };
     const handleListItemClick = (path) => {
         document.documentElement.classList.add('animate-dashboard');
         setTimeout(() => {
@@ -49,98 +53,179 @@ function Dashboard() {
     };
 
     return (
-        <div className="container-fluid">
+        <div className={`container-fluid${collapsed ? ' collapsed' : ''}`}>
             <div className="row flex-nowrap" >
-                <div className="col-auto col-md-3 col-xl-2 px-0 tabLeft">
-                    <div className="d-flex flex-column align-items-center align-items-sm-start px-2 pt-3 text-white min-vh-100" style={{
+                <div className={`col-auto col-md-3 col-xl-2 px-0 tabLeft${collapsed ? ' collapsed' : ''}`}>
+                    <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100" style={{
                         top: 0,
-                        position: "sticky"
+                        position: 'sticky'
                     }}>
                         {datachord.map((profile, index) => {
                             return (
                                 <div key={index}>
-                                    <ListItem>
-                                        <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
-                                            <Avatar>
-                                                {imageURL &&
-                                                    (
-                                                        <img src={`data:image/png;base64,${profile.image}`} alt="" className='profile_image' />
-                                                    )
-                                                }                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText className="font" primary={profile.name.length > 10 ?
-                                            <b>{profile.name.substring(0, 10)}...</b>
-                                            :
-                                            <b>{profile.name} </b>
-                                        }
-                                            secondary={profile.email.length > 17 ?
-                                                <b>{profile.email.substring(0, 17)}...</b>
-                                                :
-                                                <b>{profile.email} </b>
-                                            } />
-                                    </ListItem>
-                                    <br />
-                                    <span type="text" className='fs-100 font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
-                                    <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                        <ListItemButton
-                                            onClick={() => handleListItemClick('/manageAccount')} className='buttonDashBoard'
-                                        >
-                                            <ListItemIcon>
-                                                <ManageAccountsIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Manage Account</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
-                                    <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                        <ListItemButton
-                                            onClick={() => handleListItemClick('/requestAccount')} className='buttonDashBoard'
-                                        >
-                                            <ListItemIcon>
-                                                <ManageAccountsIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Request Account</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
-                                    <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                        <ListItemButton
-                                            onClick={() => handleListItemClick('/Song')} className='buttonDashBoard'
-                                        >
-                                            <ListItemIcon>
-                                                <QueueMusicIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Song</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
-                                    <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                        <ListItemButton
-                                            onClick={() => handleListItemClick('/manageFeedback/' + profile.userId)} className='buttonDashBoard'
-                                        >
-                                            <ListItemIcon>
-                                                <ThumbUpAltIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Manage Feedback</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
-                                    <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                        <ListItemButton
-                                            onClick={() => handleListItemClick(`/profile/${profile.userId}`)} className='buttonDashBoard'
-                                        >
-                                            <ListItemIcon>
-                                                <ModeIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
-                                    <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                        <ListItemButton
-                                            onClick={() => handleListItemClick('/login')} className='buttonDashBoard'
-                                        >
-                                            <ListItemIcon>
-                                                <LogoutIcon color="primary" fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
+                                    <button onClick={handleToggleCollapse} className="btn" >
+                                        {collapsed ? <HdrWeakIcon color='primary' fontSize='medium' /> : <HdrStrongIcon color='primary' fontSize='medium' />}
+                                    </button>
+                                    {!collapsed ?
+                                        (
+                                            <>
+                                                <ListItem >
+                                                    <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none" >
+                                                        <Avatar>
+                                                            {imageURL &&
+                                                                (
+                                                                    <img src={`data:image/png;base64,${profile.image}`} className='profile_image' />
+                                                                )
+                                                            }
+                                                        </Avatar>
+                                                    </ListItemAvatar>
+                                                    <ListItemText className="font" primary={profile.name.length > 10 ?
+                                                        <b>{profile.name.substring(0, 10)}...</b>
+                                                        :
+                                                        <b>{profile.name} </b>
+                                                    }
+                                                        secondary={profile.email.length > 17 ?
+                                                            <b>{profile.email.substring(0, 17)}...</b>
+                                                            :
+                                                            <b>{profile.email} </b>
+                                                        } />
+                                                </ListItem>
+                                                <br />
+                                                <span type="text" className='fs-100 font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
+                                                <List sx={{ width: '40%', paddingTop: '20px' }}>
+                                                    <ListItemButton
+                                                        onClick={() => handleListItemClick('/manageAccount')} className='buttonDashBoard'
+                                                    >
+                                                        <ListItemIcon>
+                                                            <ManageAccountsIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                        <ListItemText><span className="fontDashboard">Manage Account</span></ListItemText>
+                                                    </ListItemButton>
+                                                </List>
+                                                <List sx={{ width: '40%', paddingTop: '20px' }}>
+                                                    <ListItemButton
+                                                        onClick={() => handleListItemClick('/requestAccount')} className='buttonDashBoard'
+                                                    >
+                                                        <ListItemIcon>
+                                                            <ManageAccountsIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                        <ListItemText><span className="fontDashboard">Request Account</span></ListItemText>
+                                                    </ListItemButton>
+                                                </List>
+                                                <List sx={{ width: '40%', paddingTop: '20px' }}>
+                                                    <ListItemButton
+                                                        onClick={() => handleListItemClick('/Song')} className='buttonDashBoard'
+                                                    >
+                                                        <ListItemIcon>
+                                                            <QueueMusicIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                        <ListItemText><span className="fontDashboard">Song</span></ListItemText>
+                                                    </ListItemButton>
+                                                </List>
+                                                <List sx={{ width: '40%', paddingTop: '20px' }}>
+                                                    <ListItemButton
+                                                        onClick={() => handleListItemClick('/manageFeedback/' + profile.userId)} className='buttonDashBoard'
+                                                    >
+                                                        <ListItemIcon>
+                                                            <ThumbUpAltIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                        <ListItemText><span className="fontDashboard">Manage Feedback</span></ListItemText>
+                                                    </ListItemButton>
+                                                </List>
+                                                <List sx={{ width: '40%', paddingTop: '20px' }}>
+                                                    <ListItemButton
+                                                        onClick={() => handleListItemClick(`/profile/${profile.userId}`)} className='buttonDashBoard'
+                                                    >
+                                                        <ListItemIcon>
+                                                            <ModeIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                        <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
+                                                    </ListItemButton>
+                                                </List>
+                                                <List sx={{ width: '40%', paddingTop: '20px' }}>
+                                                    <ListItemButton
+                                                        onClick={() => handleListItemClick('/login')} className='buttonDashBoard'
+                                                    >
+                                                        <ListItemIcon>
+                                                            <LogoutIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                        <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                                    </ListItemButton>
+                                                </List>
+
+                                            </>
+                                        )
+                                        :
+                                        (
+                                            <>
+
+                                                <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 pt-4 text-white text-decoration-none pd-left">
+                                                    <Avatar>
+                                                        {imageURL &&
+                                                            (
+                                                                <img src={`data:image/png;base64,${profile.image}`} className='profile_image' />
+                                                            )
+                                                        }
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <br />
+                                                <span type="text" className='fs-100 font pd-left '>{""}</span>                                                <List sx={{ width: '60%', paddingTop: '20px' }}>
+                                                    <ListItemButton
+                                                        onClick={() => handleListItemClick('/manageAccount')} className='buttonDashBoard'
+                                                    >
+                                                        <ListItemIcon>
+                                                            <ManageAccountsIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                    </ListItemButton>
+                                                </List>
+                                                <List sx={{ width: '60%', paddingTop: '20px' }}>
+                                                    <ListItemButton
+                                                        onClick={() => handleListItemClick('/requestAccount')} className='buttonDashBoard'
+                                                    >
+                                                        <ListItemIcon>
+                                                            <ManageAccountsIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                    </ListItemButton>
+                                                </List>
+                                                <List sx={{ width: '60%', paddingTop: '20px' }}>
+                                                    <ListItemButton
+                                                        onClick={() => handleListItemClick('/Song')} className='buttonDashBoard'
+                                                    >
+                                                        <ListItemIcon>
+                                                            <QueueMusicIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                    </ListItemButton>
+                                                </List>
+                                                <List sx={{ width: '60%', paddingTop: '20px' }}>
+                                                    <ListItemButton
+                                                        onClick={() => handleListItemClick('/manageFeedback/' + profile.userId)} className='buttonDashBoard'
+                                                    >
+                                                        <ListItemIcon>
+                                                            <ThumbUpAltIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                    </ListItemButton>
+                                                </List>
+                                                <List sx={{ width: '60%', paddingTop: '20px' }}>
+                                                    <ListItemButton
+                                                        onClick={() => handleListItemClick(`/profile/${profile.userId}`)} className='buttonDashBoard'
+                                                    >
+                                                        <ListItemIcon>
+                                                            <ModeIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                    </ListItemButton>
+                                                </List>
+                                                <List sx={{ width: '60%', paddingTop: '20px' }}>
+                                                    <ListItemButton
+                                                        onClick={() => handleListItemClick('/login')} className='buttonDashBoard'
+                                                    >
+                                                        <ListItemIcon>
+                                                            <LogoutIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                    </ListItemButton>
+                                                </List>
+                                            </>
+                                        )
+                                    }
                                 </div>
                             );
                         })}
