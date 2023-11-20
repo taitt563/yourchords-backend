@@ -29,7 +29,7 @@ function DashboardCustomer() {
     const { userId } = useParams();
     const [openPlaylist, setOpenPlaylist] = useState(false);
     const [imageURL, setImageURL] = useState(null);
-    const [collapsed, setCollapsed] = useState(false); // New state for sidebar collapse
+    const [collapsed, setCollapsed] = useState(false);
 
     const handleClickPlaylist = () => {
         setOpenPlaylist(!openPlaylist);
@@ -230,7 +230,7 @@ function DashboardCustomer() {
                                                 <ListItemButton onClick={handleClickPlaylist} className='buttonDashBoard'>
                                                     <ListItemIcon>
                                                         <PlaylistPlayIcon color="primary" fontSize='medium' />
-                                                        {openPlaylist ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
+                                                        {openPlaylist ? <ExpandLess color="primary" fontSize='small' /> : <ExpandMore color="primary" fontSize='small' />}
 
                                                     </ListItemIcon>
                                                 </ListItemButton>
