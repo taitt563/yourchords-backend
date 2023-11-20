@@ -65,7 +65,15 @@ export default function SearchAppBarBackChordManager() {
     const handleClick = () => {
         setOpen(!open);
     };
-
+    const menuStyles = {
+        flexDirection: 'column',
+        position: 'absolute',
+        with: '250px',
+        left: 0,
+        backgroundColor: '#fff',
+        padding: '10px',
+        borderRadius: '10px',
+    };
     return (
         <Box sx={{ top: 0, position: "sticky", zIndex: '3' }}>
             <ThemeProvider theme={darkTheme}>
@@ -91,6 +99,9 @@ export default function SearchAppBarBackChordManager() {
                             open={Boolean(anchorEl)}
                             onClose={handleMenuClose}
                             color="#0d6efd"
+                            PaperProps={{
+                                style: menuStyles,
+                            }}
                         >
                             {data.map((profile, index) => {
                                 return <div key={index}>

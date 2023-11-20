@@ -67,6 +67,16 @@ export default function SearchAppBarBackCustomer() {
             })
             .catch(err => console.log(err));
     }, [userId])
+    const menuStyles = {
+        flexDirection: 'column',
+        position: 'absolute',
+        with: '250px',
+        left: 0,
+        backgroundColor: '#fff',
+        padding: '10px',
+        borderRadius: '10px',
+    };
+
     return (
         <Box sx={{ top: 0, position: "sticky", zIndex: '3' }}>
             <ThemeProvider theme={darkTheme}>
@@ -92,6 +102,9 @@ export default function SearchAppBarBackCustomer() {
                             open={Boolean(anchorEl)}
                             onClose={handleMenuClose}
                             color="#0d6efd"
+                            PaperProps={{
+                                style: menuStyles,
+                            }}
                         >
                             {data.map((profile, index) => {
                                 return <div key={index}>
@@ -103,7 +116,7 @@ export default function SearchAppBarBackCustomer() {
                                         <ListItemText><span className="fontDashboard">Song</span></ListItemText>
                                     </ListItemButton>
                                     <List sx={{
-                                        paddingTop: '20px'
+                                        paddingTop: '20px',
                                     }}>
                                         <ListItemButton href="/chord" className='buttonDashBoard'>
                                             <ListItemIcon>
