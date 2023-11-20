@@ -289,7 +289,7 @@ function RequestAccount() {
                 </Box>
                 <TabPanel value="1">
                     <div>
-                        <h3 className="d-flex justify-content-center">CHORD VALIDATOR ACCOUNT REQUEST</h3>
+                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>CHORD VALIDATOR ACCOUNT REQUEST</h3>
                     </div>
                     <div className="px-2 py-4">
 
@@ -429,7 +429,7 @@ function RequestAccount() {
 
                 <TabPanel value="2">
                     <div>
-                        <h3 className="d-flex justify-content-center">MUSICIAN ACCOUNT REQUEST</h3>
+                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>MUSICIAN ACCOUNT REQUEST</h3>
                     </div>
                     <div className="px-2 py-4">
 

@@ -130,7 +130,7 @@ function ProfileChordManager() {
                 <div className="profile-content">
                     <div className="profile-header">
 
-                        <h3 className="profile-header" style={{ color: '#0d6efd' }}><b>Account Settings</b></h3>
+                        <h3 className="profile-header" style={{ color: '#0d6efd', fontWeight: 'bold' }}><b>Account Settings</b></h3>
 
                     </div>
                     <hr style={{ width: '95%' }} />

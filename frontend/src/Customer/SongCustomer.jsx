@@ -45,9 +45,9 @@ function SongCustomer() {
         transform: 'translate(-50%, -50%)',
         bgcolor: 'background.paper',
         boxShadow: 24,
-        p: 4,
-        height: '800px',
-        width: '1400px',
+        overflowY: 'scroll',
+        height: '700px',
+        width: '1200px',
         borderRadius: '30px'
     };
     const handleFavorite = () => {
@@ -286,11 +286,11 @@ function SongCustomer() {
 
                     <div className="d-flex flex-wrap justify-content-start">
                         <div className="w-100 text-center">
-                            <h2 className="mb-1 pd-top" style={{ color: '#0d6efd' }}>ADD TO PLAYLIST</h2>
+                            <h2 className="mb-1 pd-top" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Add To Playlist</h2>
                         </div>
 
                         {dataPlaylist.map((playlist, index) => (
-                            <div key={index} className="m-5 playlist-container ">
+                            <div key={index} className="m-4 playlist-container ">
                                 <div className="container rounded " style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <div className="d-flex flex-column align-items-center text-center">
                                         <div className="rounded-image-container">

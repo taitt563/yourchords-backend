@@ -139,7 +139,7 @@ function VerifySong() {
                 </ThemeProvider>
             </Box>
             <div className="d-flex flex-column align-items-center pt-4">
-                <h3 className="d-flex justify-content-center">VERIFY SONG</h3>
+                <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Verify Song</h3>
             </div>
             <div className="mt-4 pd-left">
                 {filteredSongs.length === 0 ? (

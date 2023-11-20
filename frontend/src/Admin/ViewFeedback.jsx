@@ -208,7 +208,7 @@ function ViewFeedback() {
                                     <CardActions>
                                         <hr />
                                         <div className="pd-bottom">
-                                            <b className="pd-left" style={{ color: 'green' }}><CheckCircleIcon color='success' />Seen</b>
+                                            <b className="pd-left" style={{ color: 'green' }}><CheckCircleIcon color='success' /></b>
                                         </div>
                                     </CardActions>
                                 </div>
