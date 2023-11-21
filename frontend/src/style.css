@@ -6,7 +6,12 @@
     background-size: 100% 120%;
 }
 
-
+.card-header-container {
+    width: fit-content;
+    margin: 5px;
+    background-color: #f1f1f1;
+    border-radius: 30px;
+}
 
 .chord-popup {
     position: fixed;

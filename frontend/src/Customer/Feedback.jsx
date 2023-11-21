@@ -22,10 +22,10 @@ export default function Feedback() {
     const [imageURL, setImageURL] = useState(null);
     const [newFeedback, setNewFeedback] = useState({
         comment: '',
-        rating: 0, // Initialize as a number (0 or any default value)
+        rating: 0,
     });
     const [hover, setHover] = useState(5);
-    const [selectedLabel, setSelectedLabel] = useState(null); // Add this state
+    const [selectedLabel, setSelectedLabel] = useState(null);
 
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     axios.defaults.withCredentials = true;
@@ -278,19 +278,6 @@ export default function Feedback() {
                                             setHover(newHover);
                                         }}
                                     />
-                                    {/* <Rating
-                                        name="hover-feedback"
-                                        value={data.rating}
-                                        precision={0.5}
-                                        getLabelText={getLabelText}
-                                        onChange={(event, newValue) => setData({ ...data, rating: newValue }) && setValue(newValue)}
-
-                                        onChangeActive={(event, newHover) => {
-                                            setHover(newHover);
-                                        }}
-                                        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                                    /> */}
-
                                     <Box sx={{ ml: 2 }}>{labels[hover]}</Box>
 
                                     <br />

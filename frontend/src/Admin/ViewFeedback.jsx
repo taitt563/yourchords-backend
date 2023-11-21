@@ -15,6 +15,9 @@ import TurnLeftIcon from '@mui/icons-material/TurnLeft';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 import Modal from '@mui/material/Modal';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItem from '@mui/material/ListItem';
 
 function ViewFeedback() {
     const [data, setData] = useState({
@@ -23,6 +26,8 @@ function ViewFeedback() {
         comment: '',
         username: '',
         username_ad: '',
+        email_ad: '',
+        image_ad: '',
         image: '',
         date: '',
         date_reply: '',
@@ -31,6 +36,10 @@ function ViewFeedback() {
     });
     const [dataReply, setDataReply] = useState([]);
     const { id } = useParams();
+    const [newReply, setNewReply] = useState({
+        reply: '',
+        image_ad: null,
+    });
 
     const [open, setOpen] = useState(false);
     const [imageURL, setImageURL] = useState(null);
@@ -55,8 +64,6 @@ function ViewFeedback() {
                     date_feedback: res.data.Result[0].date_feedback,
                     reply: res.data.Result[0].reply,
                 });
-                console.log(data)
-
                 if (res.data.Result.length > 0) {
                     const profileImages = res.data.Result.map(data => data.image);
                     setImageURL(profileImages);
@@ -64,11 +71,25 @@ function ViewFeedback() {
                 setDataReply(res.data.Result);
             })
             .catch(err => console.log(err));
-    }, []);
+    }, [id]);
 
     const handleSubmit = () => {
-        axios.put(`${apiUrl}/replyFeedback/` + id, data)
-            .then(() => navigate(-1))
+        const userId = sessionStorage.getItem('id_admin');
+        const { reply, image_ad } = newReply;
+        const replyData = {
+            userId: userId,
+            reply: reply,
+            image_ad: image_ad,
+        };
+        axios.put(`${apiUrl}/reply/` + id, replyData)
+            .then(res => {
+                if (res.data.Status === 'Success') {
+                    setNewReply({ reply: '' });
+                    navigate(-1)
+                } else {
+                    alert('Error');
+                }
+            })
             .catch(err => console.log(err));
     }
     const handleGetReply = () => {
@@ -117,7 +138,7 @@ function ViewFeedback() {
             <SearchAppBar />
             <div className='d-flex flex-column align-items-center pt-2'>
                 <div className='d-flex flex-column align-items-center pt-4'>
-                    <h3 className="d-flex justify-content-center">FEEDBACK</h3>
+                    <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Feedback</h3>
                 </div>
                 <div className='d-flex flex-column align-items-center pt-4'>
                     <div className="container">
@@ -145,11 +166,11 @@ function ViewFeedback() {
                                                             cols="105"
                                                             rows="1"
                                                             style={{ resize: 'none', height: '300px' }}
-                                                            onChange={e => setData({ ...data, reply: e.target.value })}
-                                                            value={data.reply}
+                                                            onChange={e => setNewReply({ ...newReply, reply: e.target.value })}
+                                                            value={newReply.reply}
                                                             placeholder='Your reply...'
                                                         >
-                                                            {data.reply}
+                                                            {newReply.reply}
                                                         </textarea>
                                                         <div className="mt-5">
                                                             <Button variant={'contained'} onClick={handleSubmit} type="submit" className="btn btn-primary">SUBMIT</Button>
@@ -185,7 +206,7 @@ function ViewFeedback() {
                                                     return <div key={index}>
                                                         <Box
                                                             sx={{
-                                                                width: '1000px',
+                                                                width: '100px',
                                                                 height: '100px',
                                                                 display: 'flex',
                                                                 alignItems: 'center',
@@ -207,34 +228,47 @@ function ViewFeedback() {
                                             {data.reply.length > 0 ?
                                                 (
                                                     <>
-                                                        <CardHeader
-                                                            avatar={
-                                                                imageURL && data.image != "" ?
-                                                                    <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image}`} />
-                                                                    :
-                                                                    (
-                                                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                                                            U
-                                                                        </Avatar>
-                                                                    )
-                                                            }
-                                                            title={<b>{data.comment}</b>}
-                                                            subheader={"Date: " + moment(data.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}
-                                                        />
-                                                        <CardHeader
-                                                            avatar={
-                                                                imageURL && data.image_ad != "" ?
-                                                                    <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image_ad}`} />
-                                                                    :
-                                                                    (
-                                                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                                                            U
-                                                                        </Avatar>
-                                                                    )
-                                                            }
-                                                            title={<b>{data.reply}</b>}
-                                                            subheader={"Date: " + moment(data.date_reply).format('YYYY-MM-DD - HH:mm:ss')}
-                                                        />
+                                                        <ListItem className='card-header-container' style={{ width: 'fit-content' }} >
+                                                            <ListItemAvatar >
+                                                                <Avatar >
+                                                                    {
+                                                                        imageURL && data.image_ad != "" ?
+                                                                            <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image}`} />
+                                                                            :
+                                                                            (
+                                                                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                                                                    U
+                                                                                </Avatar>
+                                                                            )
+                                                                    }
+                                                                </Avatar>
+                                                            </ListItemAvatar>
+                                                            <ListItemText
+                                                                primary={data.comment}
+                                                                secondary={<label style={{ fontSize: '10px' }}>{moment(data.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</label>}
+                                                            />
+                                                        </ListItem>
+
+                                                        <ListItem className='card-header-container' style={{ width: 'fit-content' }} >
+                                                            <ListItemAvatar >
+                                                                <Avatar >
+                                                                    {
+                                                                        imageURL && data.image_ad != "" ?
+                                                                            <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image_ad}`} />
+                                                                            :
+                                                                            (
+                                                                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                                                                    U
+                                                                                </Avatar>
+                                                                            )
+                                                                    }
+                                                                </Avatar>
+                                                            </ListItemAvatar>
+                                                            <ListItemText
+                                                                primary={data.reply}
+                                                                secondary={<label style={{ fontSize: '10px' }}>{moment(data.date_reply).format('YYYY-MM-DD - HH:mm:ss')}</label>}
+                                                            />
+                                                        </ListItem>
 
                                                     </>
                                                 )

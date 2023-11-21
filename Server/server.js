@@ -597,25 +597,79 @@ app.put('/replyFeedbackCustomer/:id', (req, res) => {
 });
 
 
-app.put('/replyFeedback/:id', (req, res) => {
-    const id = req.params.id;
-    let sql = "UPDATE feedback f " +
-        "INNER JOIN profile p ON f.username_ad = p.userId " +
-        "SET f.email_ad = p.email, f.status = 1, f.reply = ?, f.date_reply = CURRENT_TIMESTAMP, f.image_ad = p.image " +
-        "WHERE f.id = ?";
-    const values = [req.body.reply, id];
+// app.put('/replyFeedback/:id', (req, res) => {
+//     const id = req.params.id;
+//     let sql = "UPDATE feedback f " +
+//         "INNER JOIN profile p ON f.username = p.userId " +
+//         "SET f.email_ad = p.email, " +
+//         "    f.status = 1, " +
+//         "    f.reply = ?, " +
+//         "    f.date_reply = CURRENT_TIMESTAMP, " +
+//         "    f.image_ad = p.image " +
+//         "WHERE f.id = ?";
+//     const values = [req.body.reply, id];
 
-    con.query(sql, values, (err, result) => {
+//     con.query(sql, values, (err, result) => {
+//         if (err) {
+//             console.error("Error in SQL query:", err);
+//             return res.json({ Status: "Error", Error: "Error in running query" });
+//         }
+
+//         if (result.affectedRows > 0) {
+//             return res.json({ Status: "Success", Result: result });
+//         } else {
+//             return res.json({ Status: "No feedback found for the id" });
+//         }
+//     });
+// });
+
+app.put('/reply/:id', (req, res) => {
+    const { userId } = req.body;
+    const feedbackId = req.params.id;
+
+    let updateQuery = "UPDATE feedback " +
+        "SET username_ad = (SELECT p.userId FROM profile p WHERE p.userId = ?), " +
+        "    email_ad = (SELECT p.email FROM profile p WHERE p.userId = ?), " +
+        "    image_ad = (SELECT p.image FROM profile p WHERE p.userId = ?), " +
+        "    reply = ?, " +
+        "    date_reply = CURRENT_TIMESTAMP " +
+        "WHERE id = ?";
+
+    let selectQuery = "SELECT * FROM feedback WHERE id = ?";
+    const values = [userId, userId, userId, req.body.reply, feedbackId];
+    con.beginTransaction((err) => {
         if (err) {
-            console.error("Error in SQL query:", err);
-            return res.json({ Status: "Error", Error: "Error in running query" });
+            console.error("Error in starting transaction:", err);
+            return res.json({ Status: "Error", Error: "Error in starting transaction" });
         }
 
-        if (result.affectedRows > 0) {
-            return res.json({ Status: "Success", Result: result });
-        } else {
-            return res.json({ Status: "No feedback found for the username" });
-        }
+        con.query(updateQuery, values, (err, result) => {
+            if (err) {
+                con.rollback(() => {
+                    console.error("Error in updating feedback:", err);
+                    return res.json({ Status: "Error", Error: "Failed to update feedback" });
+                });
+            }
+
+            con.query(selectQuery, [feedbackId], (err, feedbackData) => {
+                if (err) {
+                    con.rollback(() => {
+                        console.error("Error in selecting feedback:", err);
+                        return res.json({ Status: "Error", Error: "Failed to select feedback data" });
+                    });
+                }
+                con.commit((err) => {
+                    if (err) {
+                        con.rollback(() => {
+                            console.error("Error in committing transaction:", err);
+                            return res.json({ Status: "Error", Error: "Error in committing transaction" });
+                        });
+                    }
+
+                    return res.json({ Status: "Success", Result: feedbackData });
+                });
+            });
+        });
     });
 });
 
