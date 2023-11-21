@@ -15,6 +15,7 @@ import TurnLeftIcon from '@mui/icons-material/TurnLeft';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 import Modal from '@mui/material/Modal';
+import Tooltip from '@material-ui/core/Tooltip';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItem from '@mui/material/ListItem';
@@ -49,6 +50,8 @@ function ViewFeedbackCustomer() {
                     address: res.data.Result[0].address,
                     comment: res.data.Result[0].comment,
                     username: res.data.Result[0].username,
+                    username_ad: res.data.Result[0].username_ad,
+
                     image: res.data.Result[0].image,
                     image_ad: res.data.Result[0].image_ad,
                     email_ad: res.data.Result[0].email_ad,
@@ -192,7 +195,7 @@ function ViewFeedbackCustomer() {
                                     <CardHeader
                                         avatar={
                                             imageURL && data.image != "" ?
-                                                <img className="profile-avatar" src={`data:image/png;base64,${data.image}`} />
+                                                <img style={{ width: '70px', height: '70px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image}`} />
                                                 :
                                                 (
                                                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -205,7 +208,7 @@ function ViewFeedbackCustomer() {
                                         }
                                         title={<h4><b>{data.username}</b></h4>}
 
-                                        subheader={"Date: " + moment(data.date).format('YYYY-MM-DD - HH:mm:ss')}
+                                        subheader={"Today: " + moment(data.date).format('YYYY-MM-DD - HH:mm:ss')}
                                     />
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="div">
@@ -215,7 +218,7 @@ function ViewFeedbackCustomer() {
                                                     return <div key={index}>
                                                         <Box
                                                             sx={{
-                                                                width: '100px',
+                                                                width: '1000px',
                                                                 height: '100px',
                                                                 display: 'flex',
                                                                 alignItems: 'center',
@@ -239,67 +242,127 @@ function ViewFeedbackCustomer() {
 
                                                 (
                                                     <>
-                                                        <ListItem className='card-header-container' style={{ width: 'fit-content' }} >
-                                                            <ListItemAvatar >
-                                                                <Avatar >
-                                                                    {
-                                                                        imageURL && data.image_ad != "" ?
-                                                                            <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image}`} />
-                                                                            :
-                                                                            (
-                                                                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                                                                    U
-                                                                                </Avatar>
-                                                                            )
-                                                                    }
-                                                                </Avatar>
-                                                            </ListItemAvatar>
-                                                            <ListItemText
-                                                                primary={data.comment}
-                                                                secondary={<label style={{ fontSize: '10px' }}>{moment(data.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</label>}
-                                                            />
-                                                        </ListItem>
 
-                                                        <ListItem className='card-header-container' style={{ width: 'fit-content' }} >
-                                                            <ListItemAvatar >
-                                                                <Avatar >
-                                                                    {
-                                                                        imageURL && data.image_ad != "" ?
-                                                                            <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image_ad}`} />
-                                                                            :
-                                                                            (
-                                                                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                                                                    U
-                                                                                </Avatar>
-                                                                            )
-                                                                    }
+                                                        <div className='message-container' style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                                                            <div className='message'>
+                                                                <Avatar>
+                                                                    {imageURL && data.image_ad !== "" ? (
+                                                                        <img
+                                                                            style={{ width: '40px', height: '40px', borderRadius: '40px' }}
+                                                                            src={`data:image/png;base64,${data.image}`}
+                                                                        />
+                                                                    ) : (
+                                                                        <Avatar sx={{ bgcolor: 'red[500]' }} aria-label="recipe">
+                                                                            U
+                                                                        </Avatar>
+                                                                    )}
                                                                 </Avatar>
-                                                            </ListItemAvatar>
-                                                            <ListItemText
-                                                                primary={data.reply}
-                                                                secondary={<label style={{ fontSize: '10px' }}>{moment(data.date_reply).format('YYYY-MM-DD - HH:mm:ss')}</label>}
-                                                            />
-                                                        </ListItem>
+                                                                <Tooltip title={
+                                                                    <p>{moment(data.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</p>
+
+                                                                }
+                                                                    arrow
+                                                                    placement="right"
+                                                                >
+                                                                    <div className='message-content' style={{ marginLeft: '8px', maxWidth: '80%', background: '#1E90FF', borderRadius: '8px', padding: '8px' }}>
+                                                                        <Typography variant="body1" style={{ color: "#fff" }}>{data.comment}</Typography>
+
+                                                                    </div>
+                                                                </Tooltip>
+                                                            </div>
+                                                        </div>
+                                                        <div className='message-container' style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginTop: '20px' }}>
+                                                            <div className='message'>
+                                                                <div className='message-content' style={{ marginLeft: 'auto', maxWidth: '80%', background: '#1E90FF', borderRadius: '8px', padding: '8px' }}>
+                                                                    <Tooltip title={
+                                                                        <p>{moment(data.date_reply).format('YYYY-MM-DD - HH:mm:ss')}</p>
+
+                                                                    }
+                                                                        arrow
+                                                                        placement="left"
+                                                                    >
+                                                                        <Typography variant="body1" style={{ textAlign: 'right', color: "#fff" }}>{data.reply}</Typography>
+
+                                                                    </Tooltip>
+
+                                                                </div>
+                                                                <Tooltip title={
+                                                                    <ListItem >
+                                                                        <ListItemAvatar >
+                                                                            <Avatar >
+                                                                                {
+                                                                                    imageURL && data.image_ad != "" ?
+                                                                                        <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image_ad}`} />
+                                                                                        :
+                                                                                        (
+                                                                                            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                                                                                U
+                                                                                            </Avatar>
+                                                                                        )
+                                                                                }
+                                                                            </Avatar>
+                                                                        </ListItemAvatar>
+                                                                        <ListItemText
+                                                                            primary={<b>{data.username_ad}</b>}
+                                                                            secondary={<p className='font'>{data.email_ad}</p>}
+                                                                        />
+                                                                    </ListItem>
+                                                                }
+                                                                    arrow
+                                                                    placement="top"
+                                                                >
+                                                                    <Avatar style={{ marginLeft: '10px' }}>
+                                                                        {imageURL && data.image_ad !== "" ? (
+                                                                            <img
+                                                                                style={{ width: '40px', height: '40px', borderRadius: '40px' }}
+                                                                                src={`data:image/png;base64,${data.image_ad}`}
+                                                                            />
+                                                                        ) : (
+                                                                            <Avatar sx={{ bgcolor: 'red[500]' }} aria-label="recipe">
+                                                                                U
+                                                                            </Avatar>
+                                                                        )}
+                                                                    </Avatar>
+                                                                </Tooltip>
+
+                                                            </div>
+                                                        </div>
 
                                                     </>
+
                                                 )
                                                 :
                                                 (
                                                     <>
-                                                        <CardHeader
-                                                            avatar={
-                                                                imageURL && data.image != "" ?
-                                                                    <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image}`} />
-                                                                    :
-                                                                    (
-                                                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                                        <div className='message-container' style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                                                            <div className='message' >
+                                                                <Avatar>
+                                                                    {imageURL && data.image_ad !== "" ? (
+                                                                        <img
+                                                                            style={{ width: '40px', height: '40px', borderRadius: '40px' }}
+                                                                            src={`data:image/png;base64,${data.image}`}
+                                                                            alt="User Avatar"
+                                                                        />
+                                                                    ) : (
+                                                                        <Avatar sx={{ bgcolor: 'red[500]' }} aria-label="recipe">
                                                                             U
                                                                         </Avatar>
-                                                                    )
-                                                            }
-                                                            title={<b>{data.comment}</b>}
-                                                            subheader={"Date: " + moment(data.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}
-                                                        />
+                                                                    )}
+                                                                </Avatar>
+                                                                <div className='message-content' style={{ marginLeft: '8px', maxWidth: '80%', background: '#1E90FF', borderRadius: '8px', padding: '8px' }}>
+                                                                    <Tooltip title={
+                                                                        <p>{moment(data.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</p>
+
+                                                                    }
+                                                                        arrow
+                                                                        placement="right"
+                                                                    >
+                                                                        <Typography variant="body1" style={{ textAlign: 'right', color: "#fff" }}>{data.comment}</Typography>
+
+                                                                    </Tooltip>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </>
                                                 )
                                             }
@@ -316,7 +379,7 @@ function ViewFeedbackCustomer() {
                         <Button variant={'contained'} onClick={() => navigate(-1)} type="submit" className="btn btn-primary">Close</Button>
                     </div>
                 </div>
-            </div >
+            </div>
 
         </>
     )
