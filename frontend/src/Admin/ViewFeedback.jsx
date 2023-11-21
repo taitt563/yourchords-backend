@@ -3,8 +3,6 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import SearchAppBar from '../component/SearchAppBar';
 import { useParams, useNavigate } from 'react-router-dom';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -205,12 +203,6 @@ function ViewFeedback() {
 
                                         </Typography>
                                     </CardContent>
-                                    <CardActions>
-                                        <hr />
-                                        <div className="pd-bottom">
-                                            <b className="pd-left" style={{ color: 'green' }}><CheckCircleIcon color='success' /></b>
-                                        </div>
-                                    </CardActions>
                                 </div>
                             </div>
                         </div>

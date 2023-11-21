@@ -16,11 +16,16 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import AddIcon from '@mui/icons-material/Add';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import Collapse from '@mui/material/Collapse';
 function Dashboard() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [datachord, setDataChord] = useState([]);
     const [imageURL, setImageURL] = useState(null);
     const [collapsed, setCollapsed] = useState(false);
+    const [openSong, setOpenSong] = useState(false);
 
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
@@ -50,6 +55,9 @@ function Dashboard() {
         setTimeout(() => {
             window.location.href = path;
         }, 300);
+    };
+    const handleClickSong = () => {
+        setOpenSong(!openSong);
     };
 
     return (
@@ -117,14 +125,31 @@ function Dashboard() {
                                                     </ListItemButton>
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                    <ListItemButton
-                                                        onClick={() => handleListItemClick('/Song')} className='buttonDashBoard'
-                                                    >
+                                                    <ListItemButton onClick={handleClickSong} className='buttonDashBoard'>
                                                         <ListItemIcon>
                                                             <QueueMusicIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
                                                         <ListItemText><span className="fontDashboard">Song</span></ListItemText>
+                                                        {openSong ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
                                                     </ListItemButton>
+                                                    <Collapse in={openSong} timeout="auto" unmountOnExit>
+                                                        <List sx={{ width: '100%', pl: 1 }}>
+                                                            <ListItemButton
+                                                                onClick={() => handleListItemClick('/Song')} className='buttonDashBoard'
+                                                            >
+                                                                <ListItemIcon>
+                                                                    <QueueMusicIcon color="primary" fontSize='medium' />
+                                                                </ListItemIcon>
+                                                                <ListItemText><span className="fontDashboard">List Song</span></ListItemText>
+                                                            </ListItemButton>
+                                                            <ListItemButton href="/createSong" className='buttonDashBoard'>
+                                                                <ListItemIcon>
+                                                                    <AddIcon color="primary" fontSize='medium' />
+                                                                </ListItemIcon>
+                                                                <ListItemText><span className="fontDashboard">Add New Song</span></ListItemText>
+                                                            </ListItemButton>
+                                                        </List>
+                                                    </Collapse>
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
                                                     <ListItemButton
@@ -153,7 +178,7 @@ function Dashboard() {
                                                         <ListItemIcon>
                                                             <LogoutIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
-                                                        <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                                        <ListItemText><span className="fontDashboard">Sign Out</span></ListItemText>
                                                     </ListItemButton>
                                                 </List>
 
@@ -173,7 +198,8 @@ function Dashboard() {
                                                     </Avatar>
                                                 </ListItemAvatar>
                                                 <br />
-                                                <span type="text" className='fs-100 font pd-left '>{""}</span>                                                <List sx={{ width: '60%', paddingTop: '20px' }}>
+                                                <span type="text" className='fs-100 font pd-left '>{""}</span>
+                                                <List sx={{ width: '60%', paddingTop: '20px' }}>
                                                     <ListItemButton
                                                         onClick={() => handleListItemClick('/manageAccount')} className='buttonDashBoard'
                                                     >
