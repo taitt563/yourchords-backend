@@ -3,7 +3,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ModeIcon from '@mui/icons-material/Mode';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -20,6 +19,9 @@ import AddIcon from '@mui/icons-material/Add';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+
 function Dashboard() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [datachord, setDataChord] = useState([]);
@@ -127,7 +129,7 @@ function Dashboard() {
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
                                                     <ListItemButton onClick={handleClickSong} className='buttonDashBoard'>
                                                         <ListItemIcon>
-                                                            <QueueMusicIcon color="primary" fontSize='medium' />
+                                                            <MusicNoteIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
                                                         <ListItemText><span className="fontDashboard">Song</span></ListItemText>
                                                         {openSong ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
@@ -138,7 +140,7 @@ function Dashboard() {
                                                                 onClick={() => handleListItemClick('/Song')} className='buttonDashBoard'
                                                             >
                                                                 <ListItemIcon>
-                                                                    <QueueMusicIcon color="primary" fontSize='medium' />
+                                                                    <LibraryMusicIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
                                                                 <ListItemText><span className="fontDashboard">List Song</span></ListItemText>
                                                             </ListItemButton>
@@ -146,7 +148,7 @@ function Dashboard() {
                                                                 <ListItemIcon>
                                                                     <AddIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
-                                                                <ListItemText><span className="fontDashboard">Add New Song</span></ListItemText>
+                                                                <ListItemText><span className="fontDashboard">New Song</span></ListItemText>
                                                             </ListItemButton>
                                                         </List>
                                                     </Collapse>
@@ -201,7 +203,7 @@ function Dashboard() {
                                                 <span type="text" className='fs-100 font pd-left '>{""}</span>
                                                 <List sx={{ width: '60%', paddingTop: '20px' }}>
                                                     <ListItemButton
-                                                        onClick={() => handleListItemClick('/manageAccount')} className='buttonDashBoard'
+                                                        onClick={() => handleListItemClick('/manageAccount')} className='buttonDashBoard' style={{ borderRadius: '50px' }}
                                                     >
                                                         <ListItemIcon>
                                                             <ManageAccountsIcon color="primary" fontSize='medium' />
@@ -210,25 +212,41 @@ function Dashboard() {
                                                 </List>
                                                 <List sx={{ width: '60%', paddingTop: '20px' }}>
                                                     <ListItemButton
-                                                        onClick={() => handleListItemClick('/requestAccount')} className='buttonDashBoard'
+                                                        onClick={() => handleListItemClick('/requestAccount')} className='buttonDashBoard' style={{ borderRadius: '50px' }}
                                                     >
                                                         <ListItemIcon>
                                                             <ManageAccountsIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
                                                     </ListItemButton>
                                                 </List>
-                                                <List sx={{ width: '60%', paddingTop: '20px' }}>
-                                                    <ListItemButton
-                                                        onClick={() => handleListItemClick('/Song')} className='buttonDashBoard'
-                                                    >
+                                                <List sx={{ width: '70%', paddingTop: '20px' }}>
+                                                    <ListItemButton onClick={handleClickSong} className='buttonDashBoard' style={{ borderRadius: '50px' }}>
                                                         <ListItemIcon>
-                                                            <QueueMusicIcon color="primary" fontSize='medium' />
+                                                            <MusicNoteIcon color="primary" fontSize='medium' />
+                                                            {openSong ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
+
                                                         </ListItemIcon>
                                                     </ListItemButton>
+                                                    <Collapse in={openSong} timeout="auto" unmountOnExit>
+                                                        <List sx={{ width: '100%', pl: 1 }}>
+                                                            <ListItemButton
+                                                                onClick={() => handleListItemClick('/Song')} className='buttonDashBoard' style={{ borderRadius: '50px' }}
+                                                            >
+                                                                <ListItemIcon>
+                                                                    <LibraryMusicIcon color="primary" fontSize='medium' />
+                                                                </ListItemIcon>
+                                                            </ListItemButton>
+                                                            <ListItemButton href="/createSong" className='buttonDashBoard' style={{ borderRadius: '50px' }}>
+                                                                <ListItemIcon>
+                                                                    <AddIcon color="primary" fontSize='medium' />
+                                                                </ListItemIcon>
+                                                            </ListItemButton>
+                                                        </List>
+                                                    </Collapse>
                                                 </List>
                                                 <List sx={{ width: '60%', paddingTop: '20px' }}>
                                                     <ListItemButton
-                                                        onClick={() => handleListItemClick('/manageFeedback/' + profile.userId)} className='buttonDashBoard'
+                                                        onClick={() => handleListItemClick('/manageFeedback/' + profile.userId)} className='buttonDashBoard' style={{ borderRadius: '50px' }}
                                                     >
                                                         <ListItemIcon>
                                                             <ThumbUpAltIcon color="primary" fontSize='medium' />
@@ -237,7 +255,7 @@ function Dashboard() {
                                                 </List>
                                                 <List sx={{ width: '60%', paddingTop: '20px' }}>
                                                     <ListItemButton
-                                                        onClick={() => handleListItemClick(`/profile/${profile.userId}`)} className='buttonDashBoard'
+                                                        onClick={() => handleListItemClick(`/profile/${profile.userId}`)} className='buttonDashBoard' style={{ borderRadius: '50px' }}
                                                     >
                                                         <ListItemIcon>
                                                             <ModeIcon color="primary" fontSize='medium' />
@@ -246,7 +264,7 @@ function Dashboard() {
                                                 </List>
                                                 <List sx={{ width: '60%', paddingTop: '20px' }}>
                                                     <ListItemButton
-                                                        onClick={() => handleListItemClick('/login')} className='buttonDashBoard'
+                                                        onClick={() => handleListItemClick('/login')} className='buttonDashBoard' style={{ borderRadius: '50px' }}
                                                     >
                                                         <ListItemIcon>
                                                             <LogoutIcon color="primary" fontSize='medium' />
