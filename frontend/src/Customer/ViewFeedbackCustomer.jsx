@@ -15,7 +15,9 @@ import TurnLeftIcon from '@mui/icons-material/TurnLeft';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 import Modal from '@mui/material/Modal';
-
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItem from '@mui/material/ListItem';
 function ViewFeedbackCustomer() {
     const [data, setData] = useState({
         email: '',
@@ -48,6 +50,8 @@ function ViewFeedbackCustomer() {
                     comment: res.data.Result[0].comment,
                     username: res.data.Result[0].username,
                     image: res.data.Result[0].image,
+                    image_ad: res.data.Result[0].image_ad,
+                    email_ad: res.data.Result[0].email_ad,
                     date: res.data.Result[0].date,
                     date_reply: res.data.Result[0].date_reply,
                     date_feedback: res.data.Result[0].date_feedback,
@@ -211,7 +215,7 @@ function ViewFeedbackCustomer() {
                                                     return <div key={index}>
                                                         <Box
                                                             sx={{
-                                                                width: '1000px',
+                                                                width: '100px',
                                                                 height: '100px',
                                                                 display: 'flex',
                                                                 alignItems: 'center',
@@ -231,42 +235,51 @@ function ViewFeedbackCustomer() {
                                                 })}
                                             </div>
                                             {data.reply.length > 0 ?
+
+
                                                 (
                                                     <>
+                                                        <ListItem className='card-header-container' style={{ width: 'fit-content' }} >
+                                                            <ListItemAvatar >
+                                                                <Avatar >
+                                                                    {
+                                                                        imageURL && data.image_ad != "" ?
+                                                                            <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image}`} />
+                                                                            :
+                                                                            (
+                                                                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                                                                    U
+                                                                                </Avatar>
+                                                                            )
+                                                                    }
+                                                                </Avatar>
+                                                            </ListItemAvatar>
+                                                            <ListItemText
+                                                                primary={data.comment}
+                                                                secondary={<label style={{ fontSize: '10px' }}>{moment(data.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</label>}
+                                                            />
+                                                        </ListItem>
 
-
-                                                        <CardHeader
-                                                            avatar={
-                                                                imageURL && data.image != "" ?
-                                                                    <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image}`} />
-                                                                    :
-                                                                    (
-                                                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                                                            U
-                                                                        </Avatar>
-                                                                    )
-                                                            }
-
-                                                            title={<b>{data.comment}</b>}
-
-                                                            subheader={"Date: " + moment(data.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}
-                                                        />
-                                                        <CardHeader
-                                                            avatar={
-                                                                imageURL && data.image_ad != "" ?
-                                                                    <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image_ad}`} />
-                                                                    :
-                                                                    (
-                                                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                                                            U
-                                                                        </Avatar>
-                                                                    )
-                                                            }
-
-                                                            title={<b>{data.reply}</b>}
-
-                                                            subheader={"Date: " + moment(data.date_reply).format('YYYY-MM-DD - HH:mm:ss')}
-                                                        />
+                                                        <ListItem className='card-header-container' style={{ width: 'fit-content' }} >
+                                                            <ListItemAvatar >
+                                                                <Avatar >
+                                                                    {
+                                                                        imageURL && data.image_ad != "" ?
+                                                                            <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image_ad}`} />
+                                                                            :
+                                                                            (
+                                                                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                                                                    U
+                                                                                </Avatar>
+                                                                            )
+                                                                    }
+                                                                </Avatar>
+                                                            </ListItemAvatar>
+                                                            <ListItemText
+                                                                primary={data.reply}
+                                                                secondary={<label style={{ fontSize: '10px' }}>{moment(data.date_reply).format('YYYY-MM-DD - HH:mm:ss')}</label>}
+                                                            />
+                                                        </ListItem>
 
                                                     </>
                                                 )
@@ -284,15 +297,11 @@ function ViewFeedbackCustomer() {
                                                                         </Avatar>
                                                                     )
                                                             }
-
                                                             title={<b>{data.comment}</b>}
-
                                                             subheader={"Date: " + moment(data.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}
                                                         />
-
                                                     </>
                                                 )
-
                                             }
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
