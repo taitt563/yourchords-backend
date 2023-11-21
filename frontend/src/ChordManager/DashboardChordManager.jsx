@@ -19,6 +19,8 @@ import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import ModeIcon from '@mui/icons-material/Mode';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+
 function DashboardChordManager() {
     const [data, setData] = useState([]);
     axios.defaults.withCredentials = true;
@@ -100,7 +102,7 @@ function DashboardChordManager() {
                                             <List sx={{ width: '40%', paddingTop: '20px' }}>
                                                 <ListItemButton onClick={handleClick} className='buttonDashBoard'>
                                                     <ListItemIcon>
-                                                        <QueueMusicIcon color="primary" fontSize='medium' />
+                                                        <MusicNoteIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
                                                     <ListItemText><span className="fontDashboard">Song</span></ListItemText>
                                                     {open ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
@@ -155,7 +157,7 @@ function DashboardChordManager() {
                                             <br />
                                             <span type="text" className='fs-100 font pd-left '>{""}</span>
                                             <List sx={{ width: '70%', paddingTop: '20px' }}>
-                                                <ListItemButton onClick={handleClick} className='buttonDashBoard'>
+                                                <ListItemButton onClick={handleClick} className='buttonDashBoard' style={{ borderRadius: '50px' }}>
                                                     <ListItemIcon>
                                                         <QueueMusicIcon color="primary" fontSize='medium' />
                                                         {open ? <ExpandLess color="primary" fontSize='small' /> : <ExpandMore color="primary" fontSize='small' />}
@@ -164,12 +166,12 @@ function DashboardChordManager() {
                                                 </ListItemButton>
                                                 <Collapse in={open} timeout="auto" unmountOnExit>
                                                     <List sx={{ width: '100%', pl: 1 }}>
-                                                        <ListItemButton href="/songChordManager" className='buttonDashBoard'>
+                                                        <ListItemButton href="/songChordManager" className='buttonDashBoard' style={{ borderRadius: '50px' }}>
                                                             <ListItemIcon>
                                                                 <LibraryMusicIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
                                                         </ListItemButton>
-                                                        <ListItemButton href="/verifySong" className='buttonDashBoard'>
+                                                        <ListItemButton href="/verifySong" className='buttonDashBoard' style={{ borderRadius: '50px' }}>
                                                             <ListItemIcon>
                                                                 <VerifiedUserIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
@@ -178,14 +180,14 @@ function DashboardChordManager() {
                                                 </Collapse>
                                             </List>
                                             <List sx={{ width: '60%', paddingTop: '20px' }}>
-                                                <ListItemButton href={`/profileChordManager/` + profile.userId} className='buttonDashBoard'>
+                                                <ListItemButton href={`/profileChordManager/` + profile.userId} className='buttonDashBoard' style={{ borderRadius: '50px' }}>
                                                     <ListItemIcon>
                                                         <ModeIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
                                                 </ListItemButton>
                                             </List>
                                             <List sx={{ width: '60%', paddingTop: '20px' }}>
-                                                <ListItemButton href="/login" className='buttonDashBoard'>
+                                                <ListItemButton href="/login" className='buttonDashBoard' style={{ borderRadius: '50px' }}>
                                                     <ListItemIcon>
                                                         <LogoutIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
