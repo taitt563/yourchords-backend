@@ -17,9 +17,19 @@ import { red } from '@mui/material/colors';
 import Modal from '@mui/material/Modal';
 
 function ViewFeedback() {
-    const [data, setData] = useState([])
+    const [data, setData] = useState({
+        email: '',
+        address: '',
+        comment: '',
+        username: '',
+        username_ad: '',
+        image: '',
+        date: '',
+        date_reply: '',
+        date_feedback: '',
+        reply: '',
+    });
     const [dataReply, setDataReply] = useState([]);
-    const { username } = useParams();
     const { id } = useParams();
 
     const [open, setOpen] = useState(false);
@@ -29,42 +39,41 @@ function ViewFeedback() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     useEffect(() => {
         axios.get(`${apiUrl}/viewFeedback/` + id)
-
             .then(res => {
-                console.log(res.data.Result)
-
                 setData({
                     ...data,
                     email: res.data.Result[0].email,
                     address: res.data.Result[0].address,
                     comment: res.data.Result[0].comment,
                     username: res.data.Result[0].username,
+                    username_ad: res.data.Result[0].username_ad,
+                    image_ad: res.data.Result[0].image_ad,
+                    email_ad: res.data.Result[0].email_ad,
                     image: res.data.Result[0].image,
                     date: res.data.Result[0].date,
+                    date_reply: res.data.Result[0].date_reply,
+                    date_feedback: res.data.Result[0].date_feedback,
                     reply: res.data.Result[0].reply,
-                })
+                });
+                console.log(data)
+
                 if (res.data.Result.length > 0) {
-                    const profileImages = res.data.Result.map(data => `${data.image}`);
+                    const profileImages = res.data.Result.map(data => data.image);
                     setImageURL(profileImages);
                 }
                 setDataReply(res.data.Result);
-
-
             })
-
             .catch(err => console.log(err));
-    }, [])
+    }, []);
 
     const handleSubmit = () => {
         axios.put(`${apiUrl}/replyFeedback/` + id, data)
-            .then(
-                navigate(-1)
-            )
+            .then(() => navigate(-1))
             .catch(err => console.log(err));
     }
     const handleGetReply = () => {
         setOpen(true);
-        axios.get(`${apiUrl}/viewFeedback/` + username)
+        axios.get(`${apiUrl}/viewFeedback/` + id)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setDataReply(res.data.Result);
@@ -166,7 +175,7 @@ function ViewFeedback() {
                                         }
                                         title={<h4><b>{data.username}</b></h4>}
 
-                                        subheader={"Date: " + moment(data.date).format('YYYY-MM-DD - HH:mm:ss')}
+                                        subheader={"Today: " + moment(data.date).format('YYYY-MM-DD - HH:mm:ss')}
                                     />
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="div">
@@ -195,9 +204,60 @@ function ViewFeedback() {
                                                     </div>
                                                 })}
                                             </div>
+                                            {data.reply.length > 0 ?
+                                                (
+                                                    <>
+                                                        <CardHeader
+                                                            avatar={
+                                                                imageURL && data.image != "" ?
+                                                                    <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image}`} />
+                                                                    :
+                                                                    (
+                                                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                                                            U
+                                                                        </Avatar>
+                                                                    )
+                                                            }
+                                                            title={<b>{data.comment}</b>}
+                                                            subheader={"Date: " + moment(data.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}
+                                                        />
+                                                        <CardHeader
+                                                            avatar={
+                                                                imageURL && data.image_ad != "" ?
+                                                                    <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image_ad}`} />
+                                                                    :
+                                                                    (
+                                                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                                                            U
+                                                                        </Avatar>
+                                                                    )
+                                                            }
+                                                            title={<b>{data.reply}</b>}
+                                                            subheader={"Date: " + moment(data.date_reply).format('YYYY-MM-DD - HH:mm:ss')}
+                                                        />
 
-                                            Comment:
-                                            <h5>{data.comment}</h5>
+                                                    </>
+                                                )
+                                                :
+                                                (
+                                                    <>
+                                                        <CardHeader
+                                                            avatar={
+                                                                imageURL && data.image != "" ?
+                                                                    <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image}`} />
+                                                                    :
+                                                                    (
+                                                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                                                            U
+                                                                        </Avatar>
+                                                                    )
+                                                            }
+                                                            title={<b>{data.comment}</b>}
+                                                            subheader={"Date: " + moment(data.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}
+                                                        />
+                                                    </>
+                                                )
+                                            }
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
 

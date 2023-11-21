@@ -24,6 +24,8 @@ function ViewFeedbackCustomer() {
         username: '',
         image: '',
         date: '',
+        date_feedback: '',
+        date_reply: '',
         reply: '',
         rating: 5,
     });
@@ -36,12 +38,9 @@ function ViewFeedbackCustomer() {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
     useEffect(() => {
         axios.get(`${apiUrl}/viewFeedback/` + id)
             .then(res => {
-                console.log(res.data.Result)
-
                 setData({
                     ...data,
                     email: res.data.Result[0].email,
@@ -50,6 +49,8 @@ function ViewFeedbackCustomer() {
                     username: res.data.Result[0].username,
                     image: res.data.Result[0].image,
                     date: res.data.Result[0].date,
+                    date_reply: res.data.Result[0].date_reply,
+                    date_feedback: res.data.Result[0].date_feedback,
                     reply: res.data.Result[0].reply,
                 });
                 if (res.data.Result.length > 0) {
@@ -135,10 +136,10 @@ function ViewFeedbackCustomer() {
                                                 <h4 className="d-flex justify-content-center">COMMENT</h4>
                                                 <Typography id="modal-modal-title" >
                                                     <br />
-                                                    To: <b>{data.username}</b>
+                                                    To: <b>{data.username_ad}</b>
                                                 </Typography>
-                                                Email: <b>{data.email}</b>
-                                                <p>Reply date: <b>{moment(data.date_reply).format('YYYY-MM-DD')}</b></p>
+                                                Email: <b>{data.email_ad}</b>
+                                                <p>Date: <b>{moment(data.date).format('YYYY-MM-DD')}</b></p>
                                                 <div className="col-md-7 border-right pd-top">
                                                     <div className="py-6">
                                                         <textarea
@@ -234,17 +235,60 @@ function ViewFeedbackCustomer() {
                                                     <>
 
 
-                                                        Comment:
-                                                        <h5>{data.comment}</h5>
-                                                        Reply:
-                                                        <h5>{data.reply}</h5>
+                                                        <CardHeader
+                                                            avatar={
+                                                                imageURL && data.image != "" ?
+                                                                    <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image}`} />
+                                                                    :
+                                                                    (
+                                                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                                                            U
+                                                                        </Avatar>
+                                                                    )
+                                                            }
+
+                                                            title={<b>{data.comment}</b>}
+
+                                                            subheader={"Date: " + moment(data.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}
+                                                        />
+                                                        <CardHeader
+                                                            avatar={
+                                                                imageURL && data.image_ad != "" ?
+                                                                    <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image_ad}`} />
+                                                                    :
+                                                                    (
+                                                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                                                            U
+                                                                        </Avatar>
+                                                                    )
+                                                            }
+
+                                                            title={<b>{data.reply}</b>}
+
+                                                            subheader={"Date: " + moment(data.date_reply).format('YYYY-MM-DD - HH:mm:ss')}
+                                                        />
+
                                                     </>
                                                 )
                                                 :
                                                 (
                                                     <>
-                                                        Comment:
-                                                        <h5>{data.comment}</h5>
+                                                        <CardHeader
+                                                            avatar={
+                                                                imageURL && data.image != "" ?
+                                                                    <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image}`} />
+                                                                    :
+                                                                    (
+                                                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                                                            U
+                                                                        </Avatar>
+                                                                    )
+                                                            }
+
+                                                            title={<b>{data.comment}</b>}
+
+                                                            subheader={"Date: " + moment(data.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}
+                                                        />
 
                                                     </>
                                                 )
