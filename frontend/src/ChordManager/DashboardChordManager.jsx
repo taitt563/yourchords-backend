@@ -135,7 +135,7 @@ function DashboardChordManager() {
                                                     <ListItemIcon>
                                                         <LogoutIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
-                                                    <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                                    <ListItemText><span className="fontDashboard">Sign Out</span></ListItemText>
                                                 </ListItemButton>
                                             </List>
                                         </>

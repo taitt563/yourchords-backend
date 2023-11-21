@@ -10,6 +10,7 @@ import ManageFeedback from './Admin/ManageFeedback'
 import ViewFeedback from './Admin/ViewFeedback'
 import ViewSong from './Admin/ViewSong'
 import RequestAccount from './Admin/RequestAccount'
+import CreateSong from './Admin/CreateSong'
 /////CHORDMANAGER
 import DashboardChordManager from './ChordManager/DashboardChordManager'
 import VerifySong from './ChordManager/VerifySong'
@@ -20,7 +21,6 @@ import SongChordManager from './ChordManager/SongChordManager'
 import DashboardMusician from './Musician/DashboardMusician'
 import ChordMissMusician from './Musician/ChordMissMusician'
 import ViewSongMusician from './Musician/ViewSongMusician'
-import CreateSong from './Musician/CreateSong'
 import EditSongMusician from './Musician/EditSongMusician'
 import ProfileMusician from './Musician/ProfileMusician'
 import ChordMusician from './Musician/ChordMusician'
@@ -55,6 +55,7 @@ function App() {
           <Route path='/requestAccount' element={<RequestAccount />}></Route>
           <Route path='/manageFeedback/:userId' element={<ManageFeedback />}></Route>
           <Route path='/viewFeedback/:id' element={<ViewFeedback />}></Route>
+          <Route path='/createSong' element={<CreateSong />}></Route>
         </Route>
         <Route path='/viewSong/:id' element={<ViewSong />}></Route>
 
@@ -70,7 +71,6 @@ function App() {
         {/* MUSICIAN ROLE */}
         <Route path='/' element={<DashboardMusician />}>
           <Route path='/chordMissMusician' element={<ChordMissMusician />}></Route>
-          <Route path='/createSong' element={<CreateSong />}></Route>
           <Route path='/editSongMusician/:id' element={<EditSongMusician />}></Route>
           <Route path='/profileMusician/:userId' element={<ProfileMusician />}></Route>
           <Route path='/chordMusician' element={<ChordMusician />}></Route>
