@@ -24,7 +24,7 @@ import {
 } from "@mui/material";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-function ChordMusician() {
+function RejectSong() {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState("");
     const [orderBy, setOrderBy] = useState("song_title");
@@ -43,7 +43,7 @@ function ChordMusician() {
     });
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     useEffect(() => {
-        axios.get(`${apiUrl}/getSongChordManager`)
+        axios.get(`${apiUrl}/getSongReject`)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
@@ -188,6 +188,7 @@ function ChordMusician() {
                                         <TableCell>{song.id}</TableCell>
                                         <TableCell>
                                             {imageURL && <img className="song_image" src={`data:image/png;base64,${song.thumbnail}`} />}
+
                                         </TableCell>
                                         <TableCell>
                                             {song.song_title.length > 30 ?
@@ -231,4 +232,4 @@ function ChordMusician() {
         </>
     )
 }
-export default ChordMusician;
+export default RejectSong;
