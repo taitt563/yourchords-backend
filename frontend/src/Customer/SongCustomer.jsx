@@ -24,6 +24,7 @@ function SongCustomer() {
     const [modalOpen, setModalOpen] = useState(false);
     const [dataPlaylist, setDataPlaylist] = useState([]);
     const [isRequestAccount, setIsRequestAccount] = useState(false);
+
     const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const darkTheme = createTheme({
@@ -71,6 +72,10 @@ function SongCustomer() {
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     setData(res.data.Result);
+                    if (res.data.Result.length > 0) {
+                        const songImages = res.data.Result.map(data => `${data.image}`);
+                        setImageURL(songImages);
+                    }
                 } else {
                     alert('Error fetching songs.');
                 }
@@ -262,7 +267,8 @@ function SongCustomer() {
                                         </IconButton>
                                     </div>
                                     <Link href={`/viewSongCustomer/` + song.id} underline="none">
-                                        <img src={`${apiUrl}/images/` + song.thumbnail} className="song-thumbnail" />
+                                        {imageURL && <img className="song-thumbnail" src={`data:image/png;base64,${song.thumbnail}`} alt="Song Thumbnail" />}
+
                                     </Link>
                                 </div>
                                 <Link href={`/viewSongCustomer/` + song.id} underline="none">

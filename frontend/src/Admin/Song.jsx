@@ -32,6 +32,7 @@ function Song() {
     const [orderBy, setOrderBy] = useState("song_title");
     const [order, setOrder] = useState("asc");
     const [currentPage, setCurrentPage] = useState(1);
+    const [imageURL, setImageURL] = useState(null);
     const itemsPerPage = 5;
 
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -52,6 +53,10 @@ function Song() {
             .then((res) => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
+                    if (res.data.Result.length > 0) {
+                        const songImages = res.data.Result.map(data => `${data.image}`);
+                        setImageURL(songImages);
+                    }
                 } else {
                     alert("Error");
                 }
@@ -236,7 +241,7 @@ function Song() {
                                             <TableRow key={index}>
                                                 <TableCell>{song.id}</TableCell>
                                                 <TableCell>
-                                                    <img src={`${apiUrl}/images/` + song.thumbnail} alt="" className="song_image" />
+                                                    {imageURL && <img className="song_image" src={`data:image/png;base64,${song.thumbnail}`} />}
                                                 </TableCell>
                                                 {song.song_title.length > 30 ? (
                                                     <TableCell>

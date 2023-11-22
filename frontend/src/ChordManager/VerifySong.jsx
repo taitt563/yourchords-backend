@@ -12,6 +12,7 @@ import HeadsetIcon from '@mui/icons-material/Headset';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import GppBadIcon from '@mui/icons-material/GppBad';
 import "react-html5video/dist/styles.css";
 import {
     Table,
@@ -32,6 +33,8 @@ function VerifySong() {
     const [orderBy, setOrderBy] = useState("song_title");
     const [order, setOrder] = useState("asc");
     const [currentPage, setCurrentPage] = useState(1);
+    const [imageURL, setImageURL] = useState(null);
+
     const itemsPerPage = 5;
     const primaryColor = "#F1F1FB";
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -48,6 +51,10 @@ function VerifySong() {
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData(res.data.Result);
+                    if (res.data.Result.length > 0) {
+                        const songImages = res.data.Result.map(data => `${data.image}`);
+                        setImageURL(songImages);
+                    }
                 } else {
                     alert("Error")
                 }
@@ -56,6 +63,15 @@ function VerifySong() {
     }, [])
     const handleVerify = (id) => {
         axios.put(`${apiUrl}/verifySong/` + id)
+            .then(res => {
+                if (res.data.Status === "Success") {
+                    window.location.reload(true);
+                }
+            })
+            .catch(err => console.log(err));
+    }
+    const handleReject = (id) => {
+        axios.put(`${apiUrl}/rejectSong/` + id)
             .then(res => {
                 if (res.data.Status === "Success") {
                     window.location.reload(true);
@@ -235,9 +251,9 @@ function VerifySong() {
                                         <TableRow key={index}>
                                             <TableCell>{song.id}</TableCell>
                                             <TableCell>
-                                                {
-                                                    <img src={`${apiUrl}/images/` + song.thumbnail} alt="" className="song_image" />
-                                                }
+
+                                                {imageURL && <img className="song_image" src={`data:image/png;base64,${song.thumbnail}`} />}
+
                                             </TableCell>
                                             {song.song_title.length > 30 ? (
                                                 <TableCell>
@@ -268,7 +284,9 @@ function VerifySong() {
                                             )}
                                             <TableCell>
                                                 <Link to={`/viewSongChordManager/` + song.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                                <button onClick={() => handleVerify(song.id)} className='btn btn-sm btn-success'><VerifiedUserIcon /></button>
+                                                <button onClick={() => handleVerify(song.id)} className='btn btn-sm me-2 btn-success'><VerifiedUserIcon /></button>
+                                                <button onClick={() => handleReject(song.id)} className='btn btn-sm btn-danger'><GppBadIcon /></button>
+
                                             </TableCell>
                                         </TableRow>
                                     ))}

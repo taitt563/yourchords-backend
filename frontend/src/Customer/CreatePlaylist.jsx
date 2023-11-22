@@ -121,7 +121,6 @@ function CreatePlaylist() {
                         <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                             <input type="file" name="image" onChange={handleImageChange} />
                         </Button>
-                        {/* {data.imageSource && <img src={data.imageSource} alt="Selected" style={{ marginTop: '10px', maxWidth: '100%' }} />} */}
                     </div>
                 );
             case 2:

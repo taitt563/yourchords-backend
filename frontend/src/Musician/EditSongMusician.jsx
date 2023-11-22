@@ -10,6 +10,7 @@ function EditSongMusician() {
         lyrics: '',
         link: '',
     });
+    const [isDataChanged, setIsDataChanged] = useState(false);
     const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const { id } = useParams();
@@ -36,19 +37,24 @@ function EditSongMusician() {
             ...data,
             [name]: value,
         });
+        setIsDataChanged(true); // Cập nhật trạng thái sự thay đổi
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        axios
-            .put(`${apiUrl}/updateSong/` + id, data)
-            .then((res) => {
-                if (res.data.Status === 'Success') {
-                    navigate(-1);
-                }
-            })
-            .catch((err) => console.log(err));
+        if (isDataChanged) {
+            axios
+                .put(`${apiUrl}/updateSong/` + id, data)
+                .then((res) => {
+                    if (res.data.Status === 'Success') {
+                        navigate(-1);
+                    }
+                })
+                .catch((err) => console.log(err));
+        } else {
+            alert("Update without changes");
+        }
     };
 
     return (

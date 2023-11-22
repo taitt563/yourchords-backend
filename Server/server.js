@@ -390,15 +390,16 @@ app.get('/get/:id', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
-app.get('/getSong/', (req, res) => {
-    const sql = "SELECT * FROM song WHERE status = '0'";
+
+app.get('/getSongChordManager/', (req, res) => {
+    const sql = "SELECT * FROM song WHERE status = 0";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Get song error in sql" });
         return res.json({ Status: "Success", Result: result })
     })
 })
-app.get('/getSongChordManager/', (req, res) => {
-    const sql = "SELECT * FROM song WHERE status = 0";
+app.get('/getSongReject/', (req, res) => {
+    const sql = "SELECT * FROM song WHERE status = 2";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Get song error in sql" });
         return res.json({ Status: "Success", Result: result })
@@ -421,13 +422,33 @@ app.get('/getSongAdmin/', (req, res) => {
 })
 app.put('/updateSong/:id', upload.single("thumbnail"), (req, res) => {
     const id = req.params.id;
-    const sql = "UPDATE song SET song_title = ?, lyrics = ?, link = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
-    con.query(sql, [req.body.song_title, req.body.lyrics, req.body.link, id], (err, result) => {
-        if (err) return res.json({ Error: "update song error in sql" });
-        return res.json({ Status: "Success", Result: result })
-    })
 
-})
+    // Lấy thông tin hiện tại của bài hát từ database
+    const getCurrentSongInfoSQL = "SELECT lyrics FROM song WHERE id = ?";
+    con.query(getCurrentSongInfoSQL, [id], (err, currentSongInfo) => {
+        if (err) return res.json({ Error: "get current song info error in sql" });
+
+        const currentLyrics = currentSongInfo[0].lyrics;
+
+        // Kiểm tra nếu lyrics đã thay đổi
+        if (currentLyrics !== req.body.lyrics) {
+            // Nếu thay đổi, cập nhật lyrics và đặt status thành 0
+            const updateSongSQL = "UPDATE song SET song_title = ?, lyrics = ?, link = ?, status = 0, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
+            con.query(updateSongSQL, [req.body.song_title, req.body.lyrics, req.body.link, id], (err, result) => {
+                if (err) return res.json({ Error: "update song error in sql" });
+                return res.json({ Status: "Success", Result: result });
+            });
+        } else {
+            // Nếu không có thay đổi về lyrics, chỉ cập nhật thông tin khác
+            const updateSongSQLWithoutLyrics = "UPDATE song SET song_title = ?, link = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
+            con.query(updateSongSQLWithoutLyrics, [req.body.song_title, req.body.link, id], (err, result) => {
+                if (err) return res.json({ Error: "update song (without lyrics) error in sql" });
+                return res.json({ Status: "Success", Result: result });
+            });
+        }
+    });
+});
+
 app.delete('/delete/:id', (req, res) => {
     const id = req.params.id;
     const sql = "Delete FROM song WHERE id = ?";
@@ -444,13 +465,21 @@ app.put('/verifySong/:id', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
+app.put('/rejectSong/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "UPDATE song SET status = 2 WHERE id = ?";
+    con.query(sql, [id], (err, result) => {
+        if (err) return res.json({ Error: "delete song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
 app.post('/createSong', upload.single('thumbnail'), (req, res) => {
     const sql = "INSERT INTO song (`song_title`,`lyrics`,`thumbnail`,`link`) VALUES (?)";
     if (req.body.song_title.length > 0) {
         const values = [
             req.body.song_title,
             req.body.lyrics,
-            req.file.filename,
+            req.body.thumbnail,
             req.body.link,
 
         ]
@@ -463,6 +492,7 @@ app.post('/createSong', upload.single('thumbnail'), (req, res) => {
         return false;
     }
 })
+
 //CHORD
 app.post('/createChord', uploadChord.single('image'), (req, res) => {
     const sql = "INSERT INTO chord (`chord_name`,`description`,`image`) VALUES (?)";
@@ -596,32 +626,6 @@ app.put('/replyFeedbackCustomer/:id', (req, res) => {
     });
 });
 
-
-// app.put('/replyFeedback/:id', (req, res) => {
-//     const id = req.params.id;
-//     let sql = "UPDATE feedback f " +
-//         "INNER JOIN profile p ON f.username = p.userId " +
-//         "SET f.email_ad = p.email, " +
-//         "    f.status = 1, " +
-//         "    f.reply = ?, " +
-//         "    f.date_reply = CURRENT_TIMESTAMP, " +
-//         "    f.image_ad = p.image " +
-//         "WHERE f.id = ?";
-//     const values = [req.body.reply, id];
-
-//     con.query(sql, values, (err, result) => {
-//         if (err) {
-//             console.error("Error in SQL query:", err);
-//             return res.json({ Status: "Error", Error: "Error in running query" });
-//         }
-
-//         if (result.affectedRows > 0) {
-//             return res.json({ Status: "Success", Result: result });
-//         } else {
-//             return res.json({ Status: "No feedback found for the id" });
-//         }
-//     });
-// });
 
 app.put('/reply/:id', (req, res) => {
     const { userId } = req.body;

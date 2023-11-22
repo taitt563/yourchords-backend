@@ -48,7 +48,7 @@ function CreateSong() {
         formData.append("link", data.link);
 
         axios.post(`${apiUrl}/createSong`, formData)
-            .then(() => navigate('/SongMusician'))
+            .then(() => navigate('/Song'))
             .catch(err => console.log(err));
     };
 
@@ -63,9 +63,36 @@ function CreateSong() {
     };
 
     const handleClose = () => {
-        navigate('/chordMusician');
+        navigate('/Song');
     };
 
+    const convertImageToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                resolve(reader.result.split(',')[1]);
+            };
+
+            reader.onerror = (error) => {
+                reject(error);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    };
+
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+
+        try {
+            const base64Image = await convertImageToBase64(file);
+            const imageSource = `${base64Image}`;
+            setData({ ...data, thumbnail: imageSource, imageSource });
+        } catch (error) {
+            console.error('Error converting image to Base64:', error);
+        }
+    };
     const renderStepContent = () => {
         switch (activeStep) {
             case 0:
@@ -116,7 +143,7 @@ function CreateSong() {
                     <div className="d-flex flex-column w-100 align-items-center">
                         <label className="form-label">Select Image:</label>
                         <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                            <input type="file" onChange={(e) => setData({ ...data, thumbnail: e.target.files[0] })} />
+                            <input type="file" name="thumbnail" onChange={handleImageChange} />
                         </Button>
                     </div>
                 );
@@ -165,14 +192,25 @@ function CreateSong() {
                                 <div>
                                     {renderStepContent()}
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-                                        <Button
-                                            variant="contained"
-                                            disabled={activeStep === 0}
-                                            onClick={handleBack}
-                                            sx={{ mt: 1, mr: 2 }}
-                                        >
-                                            Back
-                                        </Button>
+                                        {activeStep !== 0 ?
+                                            <Button
+                                                variant="contained"
+                                                disabled={activeStep === 0}
+                                                onClick={handleBack}
+                                                sx={{ mt: 1, mr: 2 }}
+                                            >
+                                                Back
+                                            </Button>
+                                            :
+                                            <Button
+                                                variant="contained"
+                                                disabled={activeStep === 1}
+                                                onClick={handleClose}
+                                                sx={{ mt: 1, mr: 2 }}
+                                            >
+                                                Close
+                                            </Button>
+                                        }
                                         <Button
                                             variant="contained"
                                             onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
