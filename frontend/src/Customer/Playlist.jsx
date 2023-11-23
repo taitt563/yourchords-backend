@@ -12,6 +12,9 @@ import AppBar from "@mui/material/AppBar";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 function Playlist() {
     const [data, setData] = useState([]);
     const { userId } = useParams();
@@ -27,7 +30,14 @@ function Playlist() {
             },
         },
     });
+    const [anchorEl, setAnchorEl] = useState(null);
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
 
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    }
     const fetchPlaylistData = async () => {
         try {
             const playlistResponse = await axios.get(`${apiUrl}/getPlaylist/` + userId);
@@ -149,18 +159,30 @@ function Playlist() {
                                                 <div className="image-overlay">
                                                     <Link href={'/viewPlaylist/' + playlist.id} underline='none'><b>View Playlist</b></Link>
                                                 </div>
-                                                <IconButton
-                                                    size="small"
-                                                    aria-label="account of current user"
-                                                    aria-controls="menu-appbar"
-                                                    aria-haspopup="true"
-                                                    onClick={() => handleDelete(playlist.id)}
+                                                <div className="favorite-icon">
+                                                    <IconButton
+                                                        size="large"
+                                                        aria-label="menu"
+                                                        aria-controls="song-menu"
+                                                        aria-haspopup="true"
+                                                        onClick={handleMenuOpen}
+                                                        style={{ position: 'absolute', top: 0, right: 0 }}
+                                                        className="favorite-button"
+                                                    >
+                                                        <ExpandMoreIcon color='primary' />
+                                                    </IconButton>
+                                                    <Menu
+                                                        id="song-menu"
+                                                        anchorEl={anchorEl}
+                                                        open={Boolean(anchorEl)}
+                                                        onClose={handleMenuClose}
+                                                    >
+                                                        <MenuItem onClick={() => handleDelete(playlist.id)}>
+                                                            <b style={{ color: 'red' }}><DeleteIcon color='error' /> Delete</b>
+                                                        </MenuItem>
+                                                    </Menu>
+                                                </div>
 
-                                                    color="error"
-                                                    className="favorite-button"
-                                                >
-                                                    <DeleteIcon />
-                                                </IconButton>
                                             </div>
                                             <Link href={'/viewPlaylist/' + playlist.id} className="playlist-name" underline='none' >
                                                 <b >{playlist.collection_name}

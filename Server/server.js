@@ -9,7 +9,14 @@ const path = require('path');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 const fs = require('fs');
-
+// const nodemailer = require('nodemailer');
+// const transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: 'diepngochuy3@gmail.com', // Your Gmail email
+//         pass: 'Diepngochuy281100' // Your Gmail password
+//     }
+// });
 const app = express();
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
@@ -179,6 +186,63 @@ app.put('/rejectAccountChordValidator/:username', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
+// app.post('/signUp', (req, res) => {
+//     let sql = "INSERT INTO user_acc (username, password, role) VALUES (?, ?, ?);";
+//     sql += "INSERT INTO profile (name, email, address, userId) VALUES (?, ?, ?, ?)";
+
+//     const { username, password, role, name, email, address } = req.body;
+//     bcrypt.hash(password.toString(), salt, (err, hash) => {
+//         if (err) {
+//             console.log(err);
+//             return res.json({ Status: "Error", Error: "Error in hashing password" });
+//         }
+
+//         con.query(sql, [username, hash, role, name, email, address, username], (err, result) => {
+//             if (err) {
+//                 console.log(err);
+//                 return res.json({ Status: "Error", Error: "Error in running query" });
+//             }
+
+//             // Gửi email thông báo khi đăng ký thành công
+//             const mailOptions = {
+//                 from: email,
+//                 to: email,
+//                 subject: 'Verify Account',
+//                 text: 'Chúc mừng! Bạn đã đăng ký thành công.'
+//             };
+
+//             transporter.sendMail(mailOptions, function (error, info) {
+//                 if (error) {
+//                     console.log(error);
+//                 } else {
+//                     console.log('Email sent: ' + info.response);
+//                 }
+//             });
+
+//             return res.json({ Status: "Success" });
+//         });
+//     });
+// });
+// app.post('/sendEmail', (req, res) => {
+//     const { from, to, subject, text } = req.body;
+
+//     const mailOptions = {
+//         from: from,
+//         to: to,
+//         subject: subject,
+//         text: text
+//     };
+
+//     transporter.sendMail(mailOptions, (error, info) => {
+//         if (error) {
+//             console.error('Error sending email:', error);
+//             return res.status(500).json({ error: 'Error sending email' });
+//         } else {
+//             console.log('Email sent:', info.response);
+//             return res.json({ success: true });
+//         }
+//     });
+// });
 app.post('/signUp', (req, res) => {
     let sql = "INSERT INTO user_acc (username, password , role) VALUES (?, ?, ?);";
     sql += "INSERT INTO profile (name, email , address, userId) VALUES (?, ?, ?, ?)";
