@@ -169,7 +169,7 @@ function Playlist() {
                                                     style={{ position: 'absolute', top: 0, right: 0 }}
                                                     className="favorite-button"
                                                 >
-                                                    <i className="bi-three-dots-vertical text-white fs-15"></i>
+                                                    <i className="bi-three-dots-vertical text-white fs-20"></i>
                                                 </IconButton>
                                                 <Menu
                                                     anchorEl={anchorEl}

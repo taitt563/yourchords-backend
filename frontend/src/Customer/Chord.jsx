@@ -36,7 +36,18 @@ function Chord() {
     const [buttonClickedChord, setButtonClickedChord] = useState(true);
     const [buttonClickedDictionary, setButtonClickedDictionary] = useState(false);
     const [imageURL, setImageURL] = useState(null);
+    const [selectedRoots, setSelectedRoots] = useState(null);
+    const [selectedMode, setSelectedMode] = useState(null);
+    const handleModeClick = (mode) => {
+        // Set the selected mode
+        setSelectedMode(mode);
 
+        // Set the selected roots based on the clicked mode
+        const defaultRoots = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        const selectedRoots = defaultRoots.map(root => `${root} ${mode}`);
+        setSelectedRoots(selectedRoots);
+
+    };
 
     const handleMenuItemClickRoot = (event, index) => {
         setSelectedIndexRoot(index);
@@ -606,17 +617,48 @@ function Chord() {
                                                 <p>Include all the listed scales below represented on the guitar fretboard.</p>
                                             </div>
                                             <div className="col-md-8">
-                                                {scaleModes.map((category, index) => (
-                                                    <div key={index}>
-                                                        <h6><b>{category.category}</b></h6>
+                                                {/* Display selected mode and roots */}
+                                                {selectedMode ? (
+                                                    <div>
+                                                        <h5>
+                                                            <b>
+                                                                {selectedMode} Scales
+                                                            </b>
+
+                                                        </h5>
+                                                        <h6>Click on a link below to view details.</h6>
                                                         <ul style={{ paddingLeft: '100px' }}>
-                                                            {category.modes.map((mode, idx) => (
-                                                                <li key={idx}><Link underline='hover'>{mode}</Link></li>
+                                                            {selectedRoots.map((root, idx) => (
+                                                                <li key={idx}>
+                                                                    <Link underline='none' style={{ cursor: 'pointer' }} >{root}</Link>
+                                                                </li>
                                                             ))}
                                                         </ul>
                                                     </div>
-                                                ))}
-                                                <br />
+                                                )
+                                                    :
+                                                    (scaleModes.map((category, index) => (
+                                                        <div key={index}>
+                                                            <h6>
+                                                                <b>{category.category}</b>
+                                                            </h6>
+                                                            <ul style={{ paddingLeft: '100px' }}>
+                                                                {category.modes.map((mode, idx) => (
+                                                                    <li key={idx}>
+                                                                        {/* Handle click on mode link */}
+                                                                        <span
+                                                                            style={{ cursor: 'pointer', color: '#0d6efd' }}
+                                                                            onClick={() => handleModeClick(mode)}
+                                                                        >
+                                                                            {mode}
+                                                                        </span>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                    ))
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -624,8 +666,8 @@ function Chord() {
                             }
                         </div>
                     </div>
-                </form>
-            </div>
+                </form >
+            </div >
 
         </>
     );
