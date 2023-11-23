@@ -14,7 +14,7 @@ const fs = require('fs');
 //     service: 'gmail',
 //     auth: {
 //         user: 'diepngochuy3@gmail.com', // Your Gmail email
-//         pass: 'Diepngochuy281100' // Your Gmail password
+//         pass: 'your_password' // Your Gmail password
 //     }
 // });
 const app = express();
