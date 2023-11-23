@@ -487,7 +487,7 @@ function ViewSongMusician() {
 
                                             <h5 className="font" style={{ color: "#0d6efd", fontWeight: 'bold' }}>Danh sách các hợp âm:</h5>
                                             {[...uniqueChords] != "" ?
-                                                <div className="chord-list-container" >
+                                                <div className="chord-list-container" style={{ maxWidth: '1400px' }} >
                                                     {[...uniqueChords].map((chordName) => (
                                                         <div key={chordName} className="chord-box" style={{ position: 'relative', paddingLeft: '40px' }}>
                                                             <p style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>{chordData[chordName].name}</p>
