@@ -153,7 +153,7 @@ function DashboardMusician() {
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
                                                     <ListItemButton href="/manageBeat" >
                                                         <ListItemIcon>
-                                                            <EqualizerIcon color="primary" fontSize='medium' />
+                                                            <i className="bi bi-vinyl-fill text-primary fs-4"></i>
                                                         </ListItemIcon>
                                                         <ListItemText><span className="fontDashboard">Manage Beat</span></ListItemText>
                                                     </ListItemButton>

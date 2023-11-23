@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment'
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import "react-html5video/dist/styles.css";
 import {
     Table,
@@ -176,7 +175,7 @@ function ChordMissMusician() {
                                                 direction={orderBy === 'created_at' ? order : 'asc'}
                                                 onClick={() => handleSort("created_at")}
                                             >
-                                                <b><CalendarMonthIcon color="primary" /> Date created</b>
+                                                <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Date created</b>
                                             </TableSortLabel>
                                         </TableCell>
                                         <TableCell>
@@ -185,7 +184,7 @@ function ChordMissMusician() {
                                                 direction={orderBy === 'updated_at' ? order : 'asc'}
                                                 onClick={() => handleSort("updated_at")}
                                             >
-                                                <b><CalendarMonthIcon color="primary" /> Date updated</b>
+                                                <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Date updated</b>
                                             </TableSortLabel>
                                         </TableCell>
                                         <TableCell><b>Status</b></TableCell>
@@ -222,7 +221,7 @@ function ChordMissMusician() {
                                             direction={orderBy === 'created_at' ? order : 'asc'}
                                             onClick={() => handleSort("created_at")}
                                         >
-                                            <b><CalendarMonthIcon color="primary" /> Date created</b>
+                                            <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Date created</b>
                                         </TableSortLabel>
                                     </TableCell>
                                     <TableCell>
@@ -231,7 +230,7 @@ function ChordMissMusician() {
                                             direction={orderBy === 'updated_at' ? order : 'asc'}
                                             onClick={() => handleSort("updated_at")}
                                         >
-                                            <b><CalendarMonthIcon color="primary" /> Date updated</b>
+                                            <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Date updated</b>
                                         </TableSortLabel>
                                     </TableCell>
                                     <TableCell><b>Status</b></TableCell>
