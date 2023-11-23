@@ -187,7 +187,7 @@ function DashboardCustomer() {
                                         </List>
 
                                         <List sx={{
-                                            width: '40%', paddingTop: '20px'
+                                            width: '40%', paddingTop: '10px'
                                         }}>
                                             <ListItemButton href="/login" style={{ borderRadius: '20px' }} >
                                                 <ListItemIcon>
