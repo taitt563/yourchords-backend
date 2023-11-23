@@ -4,7 +4,6 @@ import axios from "axios";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import moment from "moment";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -167,7 +166,7 @@ function SongMusician() {
                                                     direction={orderBy === 'created_at' ? order : 'asc'}
                                                     onClick={() => handleSort("created_at")}
                                                 >
-                                                    <b><CalendarMonthIcon color="primary" /> Date created</b>
+                                                    <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Date created</b>
                                                 </TableSortLabel>
                                             </TableCell>
                                             <TableCell>
@@ -176,7 +175,7 @@ function SongMusician() {
                                                     direction={orderBy === 'updated_at' ? order : 'asc'}
                                                     onClick={() => handleSort("updated_at")}
                                                 >
-                                                    <b><CalendarMonthIcon color="primary" /> Date updated</b>
+                                                    <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Date updated</b>
                                                 </TableSortLabel>
                                             </TableCell>
                                             <TableCell><b>Status</b></TableCell>
@@ -213,7 +212,7 @@ function SongMusician() {
                                                 direction={orderBy === 'created_at' ? order : 'asc'}
                                                 onClick={() => handleSort("created_at")}
                                             >
-                                                <b><CalendarMonthIcon color="primary" /> Date created</b>
+                                                <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Date created</b>
                                             </TableSortLabel>
                                         </TableCell>
                                         <TableCell>
@@ -222,7 +221,7 @@ function SongMusician() {
                                                 direction={orderBy === 'updated_at' ? order : 'asc'}
                                                 onClick={() => handleSort("updated_at")}
                                             >
-                                                <b><CalendarMonthIcon color="primary" /> Date updated</b>
+                                                <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Date updated</b>
                                             </TableSortLabel>
                                         </TableCell>
                                         <TableCell><b>Status</b></TableCell>

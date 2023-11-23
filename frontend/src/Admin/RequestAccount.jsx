@@ -29,7 +29,6 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import Pagination from '@mui/material/Pagination';
@@ -328,7 +327,7 @@ function RequestAccount() {
                                                             direction={orderBy === 'registration_time' ? order : 'asc'}
                                                             onClick={() => handleSort('registration_time')}
                                                         >
-                                                            <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                            <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Register date</b>
                                                         </TableSortLabel>
                                                     </TableCell>
                                                     <TableCell><b>Active</b></TableCell>
@@ -366,7 +365,7 @@ function RequestAccount() {
                                                         direction={orderBy === 'registration_time' ? order : 'asc'}
                                                         onClick={() => handleSort('registration_time')}
                                                     >
-                                                        <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                        <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Register date</b>
                                                     </TableSortLabel>
                                                 </TableCell>
                                                 <TableCell><b>Active</b></TableCell>
@@ -468,7 +467,7 @@ function RequestAccount() {
                                                             direction={orderBy === 'registration_time' ? order : 'asc'}
                                                             onClick={() => handleSort('registration_time')}
                                                         >
-                                                            <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                            <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Register date</b>
                                                         </TableSortLabel>
                                                     </TableCell>
                                                     <TableCell><b>Active</b></TableCell>
@@ -506,7 +505,7 @@ function RequestAccount() {
                                                         direction={orderBy === 'registration_time' ? order : 'asc'}
                                                         onClick={() => handleSort('registration_time')}
                                                     >
-                                                        <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                        <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Register date</b>
                                                     </TableSortLabel>
                                                 </TableCell>
                                                 <TableCell><b>Active</b></TableCell>

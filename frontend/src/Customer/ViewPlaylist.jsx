@@ -15,7 +15,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 function ViewPlaylist() {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState('');
@@ -187,7 +186,7 @@ function ViewPlaylist() {
                                 <div key={index} >
                                     <div style={{ position: 'relative' }}>
                                         <div className="song-list-item">
-                                            <div className="favorite-icon">
+                                            <div >
                                                 <IconButton
                                                     size="large"
                                                     aria-label="menu"
@@ -197,7 +196,7 @@ function ViewPlaylist() {
                                                     style={{ position: 'absolute', top: 0, right: 0 }}
                                                     className="favorite-button"
                                                 >
-                                                    <ExpandMoreIcon color='primary' />
+                                                    <i className="bi-three-dots-vertical text-white fs-15"></i>
                                                 </IconButton>
                                                 <Menu
                                                     id="song-menu"

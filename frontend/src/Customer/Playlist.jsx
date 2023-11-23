@@ -14,7 +14,6 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 function Playlist() {
     const [data, setData] = useState([]);
     const { userId } = useParams();
@@ -144,53 +143,52 @@ function Playlist() {
 
                         {filteredPlaylist.map((playlist, index) => (
                             <div key={index} className="m-3 playlist-container p-2">
-                                <Tooltip title={<b>{playlistSongsCount[playlist.id]} Tracks</b>}
-                                    arrow
-                                    placement="top">
-                                    <div className="container rounded bg-white" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                        <div className="d-flex flex-column align-items-center text-center">
-                                            <div className="rounded-image-container">
-                                                {imageURL && (
-                                                    <img
-                                                        className="rounded-square-image"
-                                                        src={`data:image/png;base64,${playlist.image}`}
-                                                    />
-                                                )}
+                                <div className="container rounded bg-white" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                    <div className="d-flex flex-column align-items-center text-center">
+                                        <div className="rounded-image-container">
+                                            {imageURL && (
+                                                <img
+                                                    className="rounded-square-image"
+                                                    src={`data:image/png;base64,${playlist.image}`}
+                                                />
+                                            )}
+                                            <Tooltip title={<b>{playlistSongsCount[playlist.id]} Tracks</b>}
+                                                arrow
+                                                placement="top">
                                                 <div className="image-overlay">
                                                     <Link href={'/viewPlaylist/' + playlist.id} underline='none'><b>View Playlist</b></Link>
                                                 </div>
-                                                <div className="favorite-icon">
-                                                    <IconButton
-                                                        size="large"
-                                                        aria-label="menu"
-                                                        aria-controls="song-menu"
-                                                        aria-haspopup="true"
-                                                        onClick={handleMenuOpen}
-                                                        style={{ position: 'absolute', top: 0, right: 0 }}
-                                                        className="favorite-button"
-                                                    >
-                                                        <ExpandMoreIcon color='primary' />
-                                                    </IconButton>
-                                                    <Menu
-                                                        id="song-menu"
-                                                        anchorEl={anchorEl}
-                                                        open={Boolean(anchorEl)}
-                                                        onClose={handleMenuClose}
-                                                    >
-                                                        <MenuItem onClick={() => handleDelete(playlist.id)}>
-                                                            <b style={{ color: 'red' }}><DeleteIcon color='error' /> Delete</b>
-                                                        </MenuItem>
-                                                    </Menu>
-                                                </div>
-
+                                            </Tooltip>
+                                            <div>
+                                                <IconButton
+                                                    size="large"
+                                                    aria-label="menu"
+                                                    aria-controls="song-menu"
+                                                    aria-haspopup="true"
+                                                    onClick={handleMenuOpen}
+                                                    style={{ position: 'absolute', top: 0, right: 0 }}
+                                                    className="favorite-button"
+                                                >
+                                                    <i className="bi-three-dots-vertical text-white fs-15"></i>
+                                                </IconButton>
+                                                <Menu
+                                                    anchorEl={anchorEl}
+                                                    open={Boolean(anchorEl)}
+                                                    onClose={handleMenuClose}
+                                                >
+                                                    <MenuItem onClick={() => handleDelete(playlist.id)}>
+                                                        <b style={{ color: 'red' }}><DeleteIcon color='error' /> Delete</b>
+                                                    </MenuItem>
+                                                </Menu>
                                             </div>
-                                            <Link href={'/viewPlaylist/' + playlist.id} className="playlist-name" underline='none' >
-                                                <b >{playlist.collection_name}
-                                                </b>
-                                            </Link>
+
                                         </div>
+                                        <Link href={'/viewPlaylist/' + playlist.id} className="playlist-name" underline='none' >
+                                            <b >{playlist.collection_name}
+                                            </b>
+                                        </Link>
                                     </div>
-                                </Tooltip>
+                                </div>
                             </div>
                         ))}
                     </div>

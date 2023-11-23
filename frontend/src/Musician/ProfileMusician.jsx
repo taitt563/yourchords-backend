@@ -196,7 +196,9 @@ function ProfileMusician() {
                     </div>
                     <div className="mt-4" style={{ display: 'flex', flexDirection: 'row' }}>
                         <div className="col-md-6"><b>Address Line: </b><p>{data.address}</p></div>
-                        <div className="col-md-6"><b>Register date: </b><p>{moment(data.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
+                        <div className="col-md-6">
+                            <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b>
+                            <b>Register date: </b><p>{moment(data.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
                     </div>
 
                     <div className="mt-4" style={{ display: 'flex', flexDirection: 'row' }} >
@@ -257,7 +259,9 @@ function ProfileMusician() {
                                                             <p style={{ color: 'red' }}><b>{editAccount.ban}</b></p>
                                                         }
                                                     </div>
-                                                    <div className="col-md-6"><b>Register date: </b><p>{moment(editAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
+                                                    <div className="col-md-6">
+                                                        <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b>
+                                                        <b>Register date: </b><p>{moment(editAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
                                                     <div className="col-md-6"><b>Username: </b><p>{editAccount.username}</p></div>
                                                     <div className="col-md-6"><b>Role: </b><p>{editAccount.role}</p></div>
                                                     <div className="col-md-12">Phone number: <input className="form-control" type="number" onChange={e => setData({ ...data, phoneNumber: e.target.value })} value={data.phoneNumber} placeholder='Enter your phone number' /></div>

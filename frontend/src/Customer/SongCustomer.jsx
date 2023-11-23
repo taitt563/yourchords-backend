@@ -254,7 +254,7 @@ function SongCustomer() {
                         <div key={index}>
                             <div style={{ position: 'relative' }}>
                                 <div className="song-list-item">
-                                    <div className="favorite-icon">
+                                    <div >
                                         <IconButton
                                             onClick={() => { handleFavorite(data.userId), setSelectedSong(song) }}
                                             size="large"

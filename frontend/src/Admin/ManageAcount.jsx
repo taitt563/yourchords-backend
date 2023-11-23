@@ -32,7 +32,6 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Pagination from '@mui/material/Pagination';
 const darkTheme = createTheme({
     palette: {
@@ -350,7 +349,7 @@ function ManageAccount() {
                                                             direction={orderBy === 'registration_time' ? order : 'asc'}
                                                             onClick={() => handleSort('registration_time')}
                                                         >
-                                                            <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                            <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Register date</b>
                                                         </TableSortLabel>
                                                     </TableCell>
                                                     <TableCell><b>Active</b></TableCell>
@@ -386,7 +385,7 @@ function ManageAccount() {
                                                         direction={orderBy === 'registration_time' ? order : 'asc'}
                                                         onClick={() => handleSort('registration_time')}
                                                     >
-                                                        <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                        <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Register date</b>
                                                     </TableSortLabel>
                                                 </TableCell>
                                                 <TableCell><b>Active</b></TableCell>
@@ -494,7 +493,7 @@ function ManageAccount() {
                                                             direction={orderBy === 'registration_time' ? order : 'asc'}
                                                             onClick={() => handleSort('registration_time')}
                                                         >
-                                                            <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                            <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Register date</b>
                                                         </TableSortLabel>
                                                     </TableCell>
                                                     <TableCell><b>Active</b></TableCell>
@@ -530,7 +529,7 @@ function ManageAccount() {
                                                         direction={orderBy === 'registration_time' ? order : 'asc'}
                                                         onClick={() => handleSort('registration_time')}
                                                     >
-                                                        <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                        <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Register date</b>
                                                     </TableSortLabel>
                                                 </TableCell>
                                                 <TableCell><b>Active</b></TableCell>
@@ -636,7 +635,7 @@ function ManageAccount() {
                                                             direction={orderBy === 'registration_time' ? order : 'asc'}
                                                             onClick={() => handleSort('registration_time')}
                                                         >
-                                                            <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                            <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Register date</b>
                                                         </TableSortLabel>
                                                     </TableCell>
                                                     <TableCell><b>Active</b></TableCell>
@@ -671,7 +670,7 @@ function ManageAccount() {
                                                         direction={orderBy === 'registration_time' ? order : 'asc'}
                                                         onClick={() => handleSort('registration_time')}
                                                     >
-                                                        <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                        <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Register date</b>
                                                     </TableSortLabel>
                                                 </TableCell>
                                                 <TableCell><b>Active</b></TableCell>
@@ -777,7 +776,7 @@ function ManageAccount() {
                                                             direction={orderBy === 'registration_time' ? order : 'asc'}
                                                             onClick={() => handleSort('registration_time')}
                                                         >
-                                                            <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                            <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Register date</b>
                                                         </TableSortLabel>
                                                     </TableCell>
                                                     <TableCell><b>Active</b></TableCell>
@@ -813,7 +812,7 @@ function ManageAccount() {
                                                         direction={orderBy === 'registration_time' ? order : 'asc'}
                                                         onClick={() => handleSort('registration_time')}
                                                     >
-                                                        <CalendarMonthIcon color="primary" /> <b>Register date</b>
+                                                        <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Register date</b>
                                                     </TableSortLabel>
                                                 </TableCell>
                                                 <TableCell><b>Active</b></TableCell>
@@ -922,7 +921,9 @@ function ManageAccount() {
                                                         <p style={{ color: 'red' }}><b>{viewAccount.ban}</b></p>
                                                     )}
                                                 </div>
-                                                <div className="col-md-6"><label><b>Register date: </b></label><p>{moment(viewAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
+                                                <div className="col-md-6"><label>
+                                                    <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b>
+                                                    <b>Register date: </b></label><p>{moment(viewAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</p></div>
                                                 <div className="col-md-6"><label><b>Username: </b></label><p>{viewAccount.username}</p></div>
                                                 <div className="col-md-6"><label><b>Role: </b></label><p>{viewAccount.role}</p></div>
 

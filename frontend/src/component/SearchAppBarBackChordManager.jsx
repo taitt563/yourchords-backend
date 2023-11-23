@@ -76,7 +76,7 @@ export default function SearchAppBarBackChordManager() {
         left: 0,
         backgroundColor: '#fff',
         padding: '10px',
-        borderRadius: '30px',
+        borderRadius: '20px',
     };
     return (
         <Box sx={{ top: 0, position: "sticky", zIndex: '3' }}>
