@@ -13,12 +13,16 @@ import SortIcon from '@mui/icons-material/Sort';
 import { useParams } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
-function SongCustomer() {
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+function ViewPlaylist() {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState('');
     const [orderBy, setOrderBy] = useState('created_at');
     const [order, setOrder] = useState('asc');
     const { id } = useParams();
+    const [imageURL, setImageURL] = useState(null);
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     const darkTheme = createTheme({
@@ -30,12 +34,24 @@ function SongCustomer() {
         },
     });
     const userId = sessionStorage.getItem('id_customer');
+    const [anchorEl, setAnchorEl] = useState(null);
 
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    }
     useEffect(() => {
         axios.get(`${apiUrl}/viewPlaylist/` + id)
             .then(res => {
                 if (res.data.Status === "Success") {
                     setData([...res.data.Result]);
+                    if (res.data.Result.length > 0) {
+                        const playlistImages = res.data.Result.map(playlist => `${playlist.image}`);
+                        setImageURL(playlistImages);
+                    }
                 } else {
                     alert("Error")
                 }
@@ -174,19 +190,28 @@ function SongCustomer() {
                                             <div className="favorite-icon">
                                                 <IconButton
                                                     size="large"
-                                                    aria-label="account of current user"
-                                                    aria-controls="menu-appbar"
+                                                    aria-label="menu"
+                                                    aria-controls="song-menu"
                                                     aria-haspopup="true"
-                                                    onClick={() => handleDelete(song.song_id, song.collection_id)}
-                                                    color="error"
+                                                    onClick={handleMenuOpen}
                                                     style={{ position: 'absolute', top: 0, right: 0 }}
                                                     className="favorite-button"
                                                 >
-                                                    <DeleteIcon />
+                                                    <ExpandMoreIcon color='primary' />
                                                 </IconButton>
+                                                <Menu
+                                                    id="song-menu"
+                                                    anchorEl={anchorEl}
+                                                    open={Boolean(anchorEl)}
+                                                    onClose={handleMenuClose}
+                                                >
+                                                    <MenuItem onClick={() => handleDelete(song.song_id, song.collection_id)}>
+                                                        <b style={{ color: 'red' }}><DeleteIcon color='error' /> Delete</b>
+                                                    </MenuItem>
+                                                </Menu>
                                             </div>
                                             <Link href={`/viewSongCustomer/` + song.id} underline="none">
-                                                <img src={`${apiUrl}/images/` + song.thumbnail} className="song-thumbnail" />
+                                                {imageURL && <img className="song-thumbnail" src={`data:image/png;base64,${song.thumbnail}`} alt="Song Thumbnail" />}
                                             </Link>
                                         </div>
                                         <Link href={`/viewSongCustomer/` + song.id} underline="none">
@@ -262,4 +287,4 @@ function SongCustomer() {
     );
 }
 
-export default SongCustomer;
+export default ViewPlaylist;

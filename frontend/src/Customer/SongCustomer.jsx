@@ -57,8 +57,8 @@ function SongCustomer() {
                 if (res.data.Status === 'Success') {
                     setDataPlaylist(res.data.Result);
                     if (res.data.Result.length > 0) {
-                        const playlistImages = res.data.Result.map(playlist => `${playlist.image}`);
-                        setImageURL(playlistImages);
+                        const songImages = res.data.Result.map(playlist => `${playlist.image}`);
+                        setImageURL(songImages);
                     }
                     setModalOpen(true);
                 } else {

@@ -17,7 +17,6 @@ function SignUp() {
     });
     const [isAccountExisted, setIsAccountExisted] = useState(false);
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
     const handleSignin = (event) => {
         event.preventDefault();
         axios.post(`${apiUrl}/signUp`, values)
@@ -32,7 +31,38 @@ function SignUp() {
                 }
             });
     }
+    // const handleSignin = async (event) => {
+    //     event.preventDefault();
 
+    //     try {
+    //         // Send signup request
+    //         const signUpResponse = await axios.post(`${apiUrl}/signUp`, values);
+
+    //         if (signUpResponse.data.Status === 'Success') {
+    //             // Truyền địa chỉ email vào hàm navigate
+    //             navigate("/login", { state: { email: values.email } });
+
+    //             // Sử dụng địa chỉ email từ người dùng khi gửi email thông báo
+    //             const mailOptions = {
+    //                 from: values.email,
+    //                 to: values.email,
+    //                 subject: 'Đăng ký thành công',
+    //                 text: 'Chúc mừng! Bạn đã đăng ký thành công.'
+    //             };
+
+    //             // Gửi email thông báo
+    //             const sendEmailResponse = await axios.post(`${apiUrl}/sendEmail`, mailOptions);
+    //             console.log('Email sent successfully:', sendEmailResponse.data);
+    //         } else {
+    //             setIsAccountExisted(true);
+    //             setTimeout(() => {
+    //                 setIsAccountExisted(false);
+    //             }, 3500);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error during signup:', error);
+    //     }
+    // };
     return (
         <>
             <AppBarLogin />
