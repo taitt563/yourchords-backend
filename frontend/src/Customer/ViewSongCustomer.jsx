@@ -489,9 +489,9 @@ function ViewSongCustomer() {
                                             </div>
 
                                             <h5 className="font" style={{ color: "#0d6efd", fontWeight: 'bold' }}>Danh sách các hợp âm:</h5>
-                                            <div className="chord-list-container">
+                                            <div className="chord-list-container" style={{ maxWidth: '1400px' }}>
                                                 {[...uniqueChords].map((chordName) => (
-                                                    <div key={chordName} className="chord-box" style={{ position: 'relative', paddingLeft: '40px' }}>
+                                                    <div key={chordName} className="chord-box" style={{ position: 'relative', paddingLeft: '30px' }}>
                                                         <Tooltip
                                                             title={
                                                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

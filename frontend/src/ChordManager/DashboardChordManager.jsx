@@ -71,7 +71,7 @@ function DashboardChordManager() {
                                             style={{ position: 'absolute', right: '-20%', top: '16%', width: '35px', height: '35px', background: '#fff', borderRadius: '40px' }} />
                                         :
                                         <ArrowLeftIcon onClick={handleToggleCollapse} color='primary' fontSize='medium'
-                                            style={{ position: 'absolute', right: '-4%', top: '16%', width: '35px', height: '35px', background: '#fff', borderRadius: '40px' }} />}
+                                            style={{ position: 'absolute', right: '-6%', top: '16%', width: '35px', height: '35px', background: '#fff', borderRadius: '40px' }} />}
                                 </button>
                                 {!collapsed ?
                                     (
@@ -100,7 +100,7 @@ function DashboardChordManager() {
                                             </ListItem>
                                             <span type="text" className='fs-100  font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
                                             <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                <ListItemButton onClick={handleClick} className='buttonDashBoard'>
+                                                <ListItemButton onClick={handleClick} style={{ borderRadius: '20px' }} >
                                                     <ListItemIcon>
                                                         <MusicNoteIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
@@ -109,13 +109,13 @@ function DashboardChordManager() {
                                                 </ListItemButton>
                                                 <Collapse in={open} timeout="auto" unmountOnExit>
                                                     <List sx={{ width: '100%', pl: 3 }}>
-                                                        <ListItemButton href="/songChordManager" className='buttonDashBoard'>
+                                                        <ListItemButton href="/songChordManager" style={{ borderRadius: '20px' }}>
                                                             <ListItemIcon>
                                                                 <LibraryMusicIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
                                                             <ListItemText><span className="fontDashboard">List Song</span></ListItemText>
                                                         </ListItemButton>
-                                                        <ListItemButton href="/verifySong" className='buttonDashBoard'>
+                                                        <ListItemButton href="/verifySong" style={{ borderRadius: '20px' }} >
                                                             <ListItemIcon>
                                                                 <VerifiedUserIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
@@ -125,7 +125,7 @@ function DashboardChordManager() {
                                                 </Collapse>
                                             </List>
                                             <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                <ListItemButton href={`/profileChordManager/` + profile.userId} className='buttonDashBoard'>
+                                                <ListItemButton href={`/profileChordManager/` + profile.userId} style={{ borderRadius: '20px' }} >
                                                     <ListItemIcon>
                                                         <ModeIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
@@ -133,7 +133,7 @@ function DashboardChordManager() {
                                                 </ListItemButton>
                                             </List>
                                             <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                <ListItemButton href="/login" className='buttonDashBoard'>
+                                                <ListItemButton href="/login" style={{ borderRadius: '20px' }} >
                                                     <ListItemIcon>
                                                         <LogoutIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
@@ -157,7 +157,7 @@ function DashboardChordManager() {
                                             <br />
                                             <span type="text" className='fs-100 font pd-left '>{""}</span>
                                             <List sx={{ width: '70%', paddingTop: '20px' }}>
-                                                <ListItemButton onClick={handleClick} className='buttonDashBoard' style={{ borderRadius: '50px' }}>
+                                                <ListItemButton onClick={handleClick} style={{ borderRadius: '50px' }}>
                                                     <ListItemIcon>
                                                         <QueueMusicIcon color="primary" fontSize='medium' />
                                                         {open ? <ExpandLess color="primary" fontSize='small' /> : <ExpandMore color="primary" fontSize='small' />}
@@ -166,12 +166,12 @@ function DashboardChordManager() {
                                                 </ListItemButton>
                                                 <Collapse in={open} timeout="auto" unmountOnExit>
                                                     <List sx={{ width: '100%', pl: 1 }}>
-                                                        <ListItemButton href="/songChordManager" className='buttonDashBoard' style={{ borderRadius: '50px' }}>
+                                                        <ListItemButton href="/songChordManager" style={{ borderRadius: '50px' }}>
                                                             <ListItemIcon>
                                                                 <LibraryMusicIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
                                                         </ListItemButton>
-                                                        <ListItemButton href="/verifySong" className='buttonDashBoard' style={{ borderRadius: '50px' }}>
+                                                        <ListItemButton href="/verifySong" style={{ borderRadius: '50px' }}>
                                                             <ListItemIcon>
                                                                 <VerifiedUserIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
@@ -180,14 +180,14 @@ function DashboardChordManager() {
                                                 </Collapse>
                                             </List>
                                             <List sx={{ width: '60%', paddingTop: '20px' }}>
-                                                <ListItemButton href={`/profileChordManager/` + profile.userId} className='buttonDashBoard' style={{ borderRadius: '50px' }}>
+                                                <ListItemButton href={`/profileChordManager/` + profile.userId} style={{ borderRadius: '50px' }}>
                                                     <ListItemIcon>
                                                         <ModeIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
                                                 </ListItemButton>
                                             </List>
                                             <List sx={{ width: '60%', paddingTop: '20px' }}>
-                                                <ListItemButton href="/login" className='buttonDashBoard' style={{ borderRadius: '50px' }}>
+                                                <ListItemButton href="/login" style={{ borderRadius: '50px' }}>
                                                     <ListItemIcon>
                                                         <LogoutIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>

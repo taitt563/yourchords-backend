@@ -7,7 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ModeIcon from '@mui/icons-material/Mode';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -39,8 +39,9 @@ const darkTheme = createTheme({
 
 export default function SearchAppBarBackMusican() {
     const [data, setData] = useState([]);
-    const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorElAvt, setAnchorElAvt] = useState(null);
+
     const { userId } = useParams();
     const [imageURL, setImageURL] = useState(null);
     const [openSong, setOpenSong] = useState(false);
@@ -52,6 +53,12 @@ export default function SearchAppBarBackMusican() {
     };
     const handleMenuClose = () => {
         setAnchorEl(null);
+    };
+    const handleMenuClickAvt = (event) => {
+        setAnchorElAvt(event.currentTarget);
+    };
+    const handleMenuCloseAvt = () => {
+        setAnchorElAvt(null);
     };
 
     useEffect(() => {
@@ -81,13 +88,23 @@ export default function SearchAppBarBackMusican() {
         left: 0,
         backgroundColor: '#fff',
         padding: '10px',
-        borderRadius: '10px',
+        borderRadius: '30px',
     };
     return (
         <Box sx={{ top: 0, position: "sticky", zIndex: '3' }}>
             <ThemeProvider theme={darkTheme}>
                 <AppBar position="sticky" style={{ color: '#0d6efd' }} enableColorOnDark>
                     <Toolbar>
+                        <IconButton
+                            edge="start"
+                            aria-label="menu"
+                            onClick={handleMenuClick}
+                            sx={{
+                                mr: 2, color: '#0d6efd'
+                            }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
                         <Typography variant="h5"
                             noWrap
                             component="a"
@@ -103,6 +120,52 @@ export default function SearchAppBarBackMusican() {
                         >
                             <HeadsetIcon fontSize="large" />
                         </Typography>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+                            sx={{ color: '#0d6efd', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                        >
+                            <b>YOUR CHORD</b>
+                        </Typography>
+                        <ListItemAvatar
+                            open={Boolean(anchorElAvt)}
+                            onClose={handleMenuCloseAvt}
+                        >
+                            {data.map((profile, index) => {
+                                return <div key={index}>
+                                    <Avatar onClick={handleMenuClickAvt}
+                                        style={{
+                                            cursor: 'pointer'
+                                        }}>
+                                        {imageURL && (
+                                            <img src={`data:image/png;base64,${profile.image}`} className='profile_image' />
+                                        )
+                                        }
+                                    </Avatar>
+                                </div>
+                            })}
+                        </ListItemAvatar>
+                        <Menu
+                            anchorEl={anchorElAvt}
+                            open={Boolean(anchorElAvt)}
+                            onClose={handleMenuCloseAvt}
+                            color="#0d6efd"
+                            PaperProps={{
+                                style: menuStyles,
+                            }}
+                        >
+                            {data.map((profile, index) => {
+                                return <div key={index}>
+                                    <ListItemButton href={`/profileMusician/` + profile.userId} style={{ borderRadius: '20px' }} >
+                                        <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
+                                    </ListItemButton>
+                                    <ListItemButton href="/login" style={{ borderRadius: '20px' }}>
+                                        <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
+                                    </ListItemButton>
+                                </div>
+                            })}
+                        </Menu>
                         <Menu
                             anchorEl={anchorEl}
                             open={Boolean(anchorEl)}
@@ -115,37 +178,35 @@ export default function SearchAppBarBackMusican() {
                             {data.map((profile, index) => {
                                 return <div key={index}>
 
+                                    <ListItemButton onClick={handleClickManageSong} style={{ borderRadius: '20px' }} >
+                                        <ListItemIcon>
+                                            <GraphicEqIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                        </ListItemIcon>
+                                        <ListItemText><span className="fontDashboard">Chord</span></ListItemText>
+                                        {openSong ? <ExpandLess style={{ color: '#0d6efd' }} fontSize='medium' /> : <ExpandMore style={{ color: '#0d6efd' }} fontSize='medium' />}
+                                    </ListItemButton>
+                                    <Collapse in={openSong} timeout="auto" unmountOnExit>
+                                        <List sx={{ width: '100%' }}>
+                                            <ListItemButton href="/chordMusician" style={{ borderRadius: '20px' }}>
+                                                <ListItemIcon>
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Waiting Approve</span></ListItemText>
+                                            </ListItemButton>
+                                            <ListItemButton href="/chordMissMusician" style={{ borderRadius: '20px' }}>
+                                                <ListItemIcon>
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Missing Chord</span></ListItemText>
+                                            </ListItemButton>
+                                            <ListItemButton href="/createSong" style={{ borderRadius: '20px' }}>
+                                                <ListItemIcon>
+                                                    <AddIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">New Song</span></ListItemText>
+                                            </ListItemButton>
+                                        </List>
+                                    </Collapse>
                                     <List sx={{ paddingTop: '20px' }}>
-                                        <ListItemButton onClick={handleClickManageSong} className='buttonDashBoard'>
-                                            <ListItemIcon>
-                                                <GraphicEqIcon style={{ color: '#0d6efd' }} fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Chord</span></ListItemText>
-                                            {openSong ? <ExpandLess style={{ color: '#0d6efd' }} fontSize='medium' /> : <ExpandMore style={{ color: '#0d6efd' }} fontSize='medium' />}
-                                        </ListItemButton>
-                                        <Collapse in={openSong} timeout="auto" unmountOnExit>
-                                            <List sx={{ width: '100%' }}>
-                                                <ListItemButton href="/chordMusician" className='buttonDashBoard'>
-                                                    <ListItemIcon>
-                                                    </ListItemIcon>
-                                                    <ListItemText><span className="fontDashboard">Waiting Approve</span></ListItemText>
-                                                </ListItemButton>
-                                                <ListItemButton href="/chordMissMusician" className='buttonDashBoard'>
-                                                    <ListItemIcon>
-                                                    </ListItemIcon>
-                                                    <ListItemText><span className="fontDashboard">Missing Chord</span></ListItemText>
-                                                </ListItemButton>
-                                                <ListItemButton href="/createSong" className='buttonDashBoard'>
-                                                    <ListItemIcon>
-                                                        <AddIcon style={{ color: '#0d6efd' }} fontSize='medium' />
-                                                    </ListItemIcon>
-                                                    <ListItemText><span className="fontDashboard">Add New Song</span></ListItemText>
-                                                </ListItemButton>
-                                            </List>
-                                        </Collapse>
-                                    </List>
-                                    <List sx={{ paddingTop: '20px' }}>
-                                        <ListItemButton href="/songMusician" className='buttonDashBoard'>
+                                        <ListItemButton href="/songMusician" style={{ borderRadius: '20px' }}>
                                             <ListItemIcon>
                                                 <LibraryMusicIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                             </ListItemIcon>
@@ -153,7 +214,7 @@ export default function SearchAppBarBackMusican() {
                                         </ListItemButton>
                                     </List>
                                     <List sx={{ paddingTop: '20px' }}>
-                                        <ListItemButton href="/manageBeat" className='buttonDashBoard'>
+                                        <ListItemButton href="/manageBeat" style={{ borderRadius: '20px' }}>
                                             <ListItemIcon>
                                                 <EqualizerIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                             </ListItemIcon>
@@ -161,7 +222,7 @@ export default function SearchAppBarBackMusican() {
                                         </ListItemButton>
                                     </List>
                                     <List sx={{ paddingTop: '20px' }}>
-                                        <ListItemButton onClick={handleClickOrder} className='buttonDashBoard'>
+                                        <ListItemButton onClick={handleClickOrder} style={{ borderRadius: '20px' }}>
                                             <ListItemIcon>
                                                 <QueueMusicIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                             </ListItemIcon>
@@ -170,13 +231,13 @@ export default function SearchAppBarBackMusican() {
                                         </ListItemButton>
                                         <Collapse in={openOrder} timeout="auto" unmountOnExit>
                                             <List sx={{ width: '100%', pl: 1 }}>
-                                                <ListItemButton href="/orderMusician" className='buttonDashBoard'>
+                                                <ListItemButton href="/orderMusician" style={{ borderRadius: '20px' }}>
                                                     <ListItemIcon>
                                                         <PlaylistAddCheckCircleIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                                     </ListItemIcon>
                                                     <ListItemText><span className="fontDashboard">Order</span></ListItemText>
                                                 </ListItemButton>
-                                                <ListItemButton href="/transactionHistory" className='buttonDashBoard'>
+                                                <ListItemButton href="/transactionHistory" style={{ borderRadius: '20px' }}>
                                                     <ListItemIcon>
                                                         <ListAltIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                                     </ListItemIcon>
@@ -186,7 +247,7 @@ export default function SearchAppBarBackMusican() {
                                         </Collapse>
                                     </List>
                                     <List sx={{ paddingTop: '20px' }}>
-                                        <ListItemButton href={`/profileMusician/` + profile.userId} className='buttonDashBoard'>
+                                        <ListItemButton href={`/profileMusician/` + profile.userId} style={{ borderRadius: '20px' }}>
                                             <ListItemIcon>
                                                 <ModeIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                             </ListItemIcon>
@@ -194,7 +255,7 @@ export default function SearchAppBarBackMusican() {
                                         </ListItemButton>
                                     </List>
                                     <List sx={{ paddingTop: '20px' }}>
-                                        <ListItemButton href="/login" className='buttonDashBoard'>
+                                        <ListItemButton href="/login" style={{ borderRadius: '20px' }} >
                                             <ListItemIcon>
                                                 <LogoutIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                             </ListItemIcon>
@@ -204,40 +265,6 @@ export default function SearchAppBarBackMusican() {
                                 </div>
                             })}
                         </Menu>
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="div"
-                            sx={{ color: '#0d6efd', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                        >
-                            <b>YOUR CHORD</b>
-                        </Typography>
-                        <ListItemAvatar
-                            open={Boolean(anchorEl)}
-                            onClose={handleMenuClose}>
-                            {data.map((profile, index) => {
-                                return <div key={index}>
-                                    <Avatar onClick={() => navigate(`/profileMusician/` + profile.userId)} style={{
-                                        cursor: 'pointer'
-                                    }}>
-                                        {imageURL && (
-                                            <img src={`data:image/png;base64,${profile.image}`} className='profile_image' />
-                                        )
-                                        }
-                                    </Avatar>
-                                </div>
-                            })}
-                        </ListItemAvatar>
-                        <IconButton
-                            edge="start"
-                            aria-label="menu"
-                            onClick={handleMenuClick}
-                            sx={{
-                                mr: 2, color: '#0d6efd'
-                            }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
                     </Toolbar>
                 </AppBar>
             </ThemeProvider>
