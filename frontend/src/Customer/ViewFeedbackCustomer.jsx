@@ -51,7 +51,7 @@ function ViewFeedbackCustomer() {
                     comment: res.data.Result[0].comment,
                     username: res.data.Result[0].username,
                     username_ad: res.data.Result[0].username_ad,
-
+                    status: res.data.Result[0].status,
                     image: res.data.Result[0].image,
                     image_ad: res.data.Result[0].image_ad,
                     email_ad: res.data.Result[0].email_ad,
@@ -203,9 +203,14 @@ function ViewFeedbackCustomer() {
                                                     </Avatar>
                                                 )
                                         }
+
                                         action={
-                                            <Button onClick={() => { handleGetReply(data.username) }} size="small" >EDIT COMMENT<TurnLeftIcon color='primary' /></Button>
+                                            data.status === 1 ?
+                                                ""
+                                                :
+                                                <Button onClick={() => { handleGetReply(data.username) }} size="small" >EDIT COMMENT<TurnLeftIcon color='primary' /></Button>
                                         }
+
                                         title={<h4><b>{data.username}</b></h4>}
 
                                         subheader={"Today: " + moment(data.date).format('YYYY-MM-DD - HH:mm:ss')}
@@ -246,7 +251,7 @@ function ViewFeedbackCustomer() {
                                                         <div className='message-container' style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                                                             <div className='message'>
                                                                 <Avatar>
-                                                                    {imageURL && data.image_ad !== "" ? (
+                                                                    {imageURL && data.image !== "" ? (
                                                                         <img
                                                                             style={{ width: '40px', height: '40px', borderRadius: '40px' }}
                                                                             src={`data:image/png;base64,${data.image}`}
@@ -264,8 +269,8 @@ function ViewFeedbackCustomer() {
                                                                     arrow
                                                                     placement="right"
                                                                 >
-                                                                    <div className='message-content' style={{ marginLeft: '8px', maxWidth: '80%', background: '#1E90FF', borderRadius: '8px', padding: '8px' }}>
-                                                                        <Typography variant="body1" style={{ color: "#fff" }}>{data.comment}</Typography>
+                                                                    <div className='message-content' style={{ marginLeft: '8px', maxWidth: '80%', background: '#1E90FF', borderRadius: '8px', padding: '10px' }}>
+                                                                        <Typography variant="body1" style={{ textAlign: 'left', color: "#fff" }}>{data.comment}</Typography>
 
                                                                     </div>
                                                                 </Tooltip>
@@ -273,7 +278,7 @@ function ViewFeedbackCustomer() {
                                                         </div>
                                                         <div className='message-container' style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginTop: '20px' }}>
                                                             <div className='message'>
-                                                                <div className='message-content' style={{ marginLeft: 'auto', maxWidth: '60%', background: '#1E90FF', borderRadius: '8px', padding: '8px' }}>
+                                                                <div className='message-content' style={{ marginLeft: 'auto', maxWidth: '60%', background: '#1E90FF', borderRadius: '8px', padding: '10px' }}>
                                                                     <Tooltip title={
                                                                         <p>{moment(data.date_reply).format('YYYY-MM-DD - HH:mm:ss')}</p>
 
@@ -337,7 +342,7 @@ function ViewFeedbackCustomer() {
                                                         <div className='message-container' style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                                                             <div className='message' >
                                                                 <Avatar>
-                                                                    {imageURL && data.image_ad !== "" ? (
+                                                                    {imageURL && data.image !== "" ? (
                                                                         <img
                                                                             style={{ width: '40px', height: '40px', borderRadius: '40px' }}
                                                                             src={`data:image/png;base64,${data.image}`}

@@ -232,7 +232,7 @@ function ViewFeedback() {
                                                         <div className='message-container' style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                                                             <div className='message'>
                                                                 <Avatar>
-                                                                    {imageURL && data.image_ad !== "" ? (
+                                                                    {imageURL && data.image !== "" ? (
                                                                         <img
                                                                             style={{ width: '40px', height: '40px', borderRadius: '40px' }}
                                                                             src={`data:image/png;base64,${data.image}`}
@@ -250,7 +250,7 @@ function ViewFeedback() {
                                                                     arrow
                                                                     placement="right"
                                                                 >
-                                                                    <div className='message-content' style={{ marginLeft: '8px', maxWidth: '80%', background: '#1E90FF', borderRadius: '8px', padding: '8px' }}>
+                                                                    <div className='message-content' style={{ marginLeft: '8px', maxWidth: '80%', background: '#1E90FF', borderRadius: '8px', padding: '10px' }}>
                                                                         <Typography variant="body1" style={{ color: "#fff" }}>{data.comment}</Typography>
 
                                                                     </div>
@@ -259,7 +259,7 @@ function ViewFeedback() {
                                                         </div>
                                                         <div className='message-container' style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginTop: '20px' }}>
                                                             <div className='message'>
-                                                                <div className='message-content' style={{ marginLeft: 'auto', maxWidth: '60%', background: '#1E90FF', borderRadius: '8px', padding: '8px' }}>
+                                                                <div className='message-content' style={{ marginLeft: 'auto', maxWidth: '60%', background: '#1E90FF', borderRadius: '8px', padding: '10px' }}>
                                                                     <Tooltip title={
                                                                         <p>{moment(data.date_reply).format('YYYY-MM-DD - HH:mm:ss')}</p>
 
@@ -322,7 +322,7 @@ function ViewFeedback() {
                                                         <div className='message-container' style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                                                             <div className='message' >
                                                                 <Avatar>
-                                                                    {imageURL && data.image_ad !== "" ? (
+                                                                    {imageURL && data.image !== "" ? (
                                                                         <img
                                                                             style={{ width: '40px', height: '40px', borderRadius: '40px' }}
                                                                             src={`data:image/png;base64,${data.image}`}
@@ -334,7 +334,7 @@ function ViewFeedback() {
                                                                         </Avatar>
                                                                     )}
                                                                 </Avatar>
-                                                                <div className='message-content' style={{ marginLeft: '8px', maxWidth: '80%', background: '#1E90FF', borderRadius: '8px', padding: '8px' }}>
+                                                                <div className='message-content' style={{ marginLeft: '8px', maxWidth: '80%', background: '#1E90FF', borderRadius: '8px', padding: '10px' }}>
                                                                     <Tooltip title={
                                                                         <p>{moment(data.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</p>
 
