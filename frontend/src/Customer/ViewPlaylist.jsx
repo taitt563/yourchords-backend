@@ -11,7 +11,6 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import SortIcon from '@mui/icons-material/Sort';
 import { useParams } from 'react-router-dom';
-import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -205,7 +204,9 @@ function ViewPlaylist() {
                                                     onClose={handleMenuClose}
                                                 >
                                                     <MenuItem onClick={() => handleDelete(song.song_id, song.collection_id)}>
-                                                        <b style={{ color: 'red' }}><DeleteIcon color='error' /> Delete</b>
+                                                        <h6 className="text-danger">
+                                                            <i className="bi bi-trash" ></i> Delete
+                                                        </h6>
                                                     </MenuItem>
                                                 </Menu>
                                             </div>

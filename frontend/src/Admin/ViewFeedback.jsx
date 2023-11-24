@@ -274,11 +274,11 @@ function ViewFeedback() {
                                                                 </div>
                                                                 <Tooltip title={
                                                                     <ListItem >
-                                                                        <ListItemAvatar >
+                                                                        <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none" >
                                                                             <Avatar >
                                                                                 {
                                                                                     imageURL && data.image_ad != "" ?
-                                                                                        <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image_ad}`} />
+                                                                                        <img style={{ width: '35px', height: '35px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image_ad}`} />
                                                                                         :
                                                                                         (
                                                                                             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -290,7 +290,7 @@ function ViewFeedback() {
                                                                         </ListItemAvatar>
                                                                         <ListItemText
                                                                             primary={<b>{data.username_ad}</b>}
-                                                                            secondary={<p className='font'>{data.email_ad}</p>}
+                                                                            secondary={<p className='font' style={{ color: "#fff" }}>{data.email_ad}</p>}
                                                                         />
                                                                     </ListItem>
                                                                 }
