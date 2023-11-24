@@ -200,6 +200,7 @@ function Chord() {
         e.preventDefault();
         setButtonClickedChord(true);
         setButtonClickedDictionary(false);
+        window.location.reload(true);
     };
 
     const handleChordDictionary = (e) => {
@@ -231,13 +232,15 @@ function Chord() {
                     if (res.data.Status === 'Success') {
                         setDataScale(res.data.Result);
                         setImageURL(`data:image/png;base64, ${res.data.Result.image}`);
+                        setButtonClickedChord(true);
+                        setButtonClickedDictionary(false);
                     } else {
                         alert('Error');
                     }
                 })
                 .catch((err) => console.log(err));
         } else {
-            alert('Please select both root, scale, and show more.');
+            alert('Please select show more.');
         }
     };
 
@@ -626,11 +629,13 @@ function Chord() {
                                                             </b>
 
                                                         </h5>
-                                                        <h6>Click on a link below to view details.</h6>
+                                                        <h6>Click on a link below to search details.</h6>
                                                         <ul style={{ paddingLeft: '100px' }}>
                                                             {selectedRoots.map((root, idx) => (
                                                                 <li key={idx}>
-                                                                    <Link underline='none' style={{ cursor: 'pointer' }} >{root}</Link>
+                                                                    <Link underline='none' style={{ cursor: 'pointer' }} onClick={handleSearch}>
+                                                                        {root}
+                                                                    </Link>
                                                                 </li>
                                                             ))}
                                                         </ul>

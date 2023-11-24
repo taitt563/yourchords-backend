@@ -278,7 +278,7 @@ function ViewFeedback() {
                                                                             <Avatar >
                                                                                 {
                                                                                     imageURL && data.image_ad != "" ?
-                                                                                        <img style={{ width: '35px', height: '35px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image_ad}`} />
+                                                                                        <img style={{ width: '40px', height: '40px', borderRadius: '40px' }} src={`data:image/png;base64,${data.image_ad}`} />
                                                                                         :
                                                                                         (
                                                                                             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
