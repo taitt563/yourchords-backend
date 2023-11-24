@@ -700,6 +700,7 @@ app.put('/reply/:id', (req, res) => {
         "    email_ad = (SELECT p.email FROM profile p WHERE p.userId = ?), " +
         "    image_ad = (SELECT p.image FROM profile p WHERE p.userId = ?), " +
         "    reply = ?, " +
+        "    status = 1, " +
         "    date_reply = CURRENT_TIMESTAMP " +
         "WHERE id = ?";
 
