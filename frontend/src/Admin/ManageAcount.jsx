@@ -894,7 +894,7 @@ function ManageAccount() {
                                             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                                                 {imageURL && (
                                                     viewAccount.image !== '' ?
-                                                        <img className="profile-avatar" src={`data:image/png;base64,${viewAccount.image}`} width="150px" />
+                                                        <img className="profile-avatar-account" src={`data:image/png;base64,${viewAccount.image}`} width="150px" />
                                                         :
                                                         <AccountCircleIcon fontSize="large" />
                                                 )}

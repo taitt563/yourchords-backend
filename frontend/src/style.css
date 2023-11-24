@@ -189,6 +189,15 @@ section {
     justify-content: center;
 }
 
+.profile-avatar-account {
+    border-radius: 30%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    display: flex;
+    justify-content: center;
+}
+
 .email-text {
     margin-top: 10px;
     margin-left: 30px;

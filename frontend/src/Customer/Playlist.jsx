@@ -9,7 +9,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import HeadsetIcon from "@mui/icons-material/Headset";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
-import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import Menu from '@mui/material/Menu';
@@ -177,7 +176,9 @@ function Playlist() {
                                                     onClose={handleMenuClose}
                                                 >
                                                     <MenuItem onClick={() => handleDelete(playlist.id)}>
-                                                        <b style={{ color: 'red' }}><DeleteIcon color='error' /> Delete</b>
+                                                        <h6 className="text-danger">
+                                                            <i className="bi bi-trash"></i> Delete
+                                                        </h6>
                                                     </MenuItem>
                                                 </Menu>
                                             </div>
