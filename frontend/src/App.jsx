@@ -33,6 +33,7 @@ import ManageBeat from './Musician/ManageBeat'
 import TransactionHistory from './Musician/TransactionHistory'
 import OrderMusician from './Musician/OrderMusician'
 import ListSong from './Musician/ListSong'
+import OrderMusicianDetail from './Musician/OrderMusicianDetail'
 
 
 /////CUSTOMER
@@ -87,6 +88,7 @@ function App() {
           <Route path='/transactionHistory' element={<TransactionHistory />}></Route>
           <Route path='/orderMusician' element={<OrderMusician />}></Route>
           <Route path='/listSong' element={<ListSong />}></Route>
+          <Route path='/orderMusicianDetail' element={<OrderMusicianDetail />}></Route>
           
           
 

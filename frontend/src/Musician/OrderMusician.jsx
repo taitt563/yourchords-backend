@@ -8,37 +8,38 @@ import { Link } from 'react-router-dom';
 
 const columns = [
     {
-        title: 'ID',
         dataIndex: 'id',
         key: 'id',
         render: (text) => <a>{text}</a>,
     },
     {
-        title: 'OrderId',
-        dataIndex: 'orderId',
-        key: 'orderId',
+        title: 'Date',
+        dataIndex: 'date',
+        key: 'date',
     },
     {
-        title: 'BeatID',
-        dataIndex: 'beatId',
-        key: 'beatId',
+        title: 'UserID',
+        dataIndex: 'userId',
+        key: 'userId',
     },
     {
-        title: 'Description',
-        key: 'desc',
-        dataIndex: 'desc',
+        title: 'Price',
+        key: 'price',
+        dataIndex: 'price',
     },
     {
-        title: 'Quantity',
-        dataIndex: 'quantity',
-        key: 'quantity',
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
     },
     {
         key: 'action',
         render: (_, record) => (
             <Space size="middle">
-                <button className='btn-accept'>Accept</button>
-                <button className='btn-decline'>Decline</button>
+                {/* <button className='btn-detail'>Detail</button> */}
+                <Link to="/OrderMusicianDetail" className='btn-detail' >
+                    <h6>Detail</h6>
+                </Link>
             </Space>
         ),
     },
@@ -46,46 +47,53 @@ const columns = [
 const data = [
     {
         id: '1',
-        orderId: 'John Brown',
-        beatId: 32,
-        address: 'New York No. 1 Lake Park',
+        date: '2020-12-14',
+        userId: 'John Brown',
+        price: 32,
+        status: 'Approve'
 
     },
     {
         id: '2',
-        orderId: 'Jim Green',
-        beatId: 42,
-        address: 'London No. 1 Lake Park',
+        date: '2020-12-14',
+        userId: 'John Brown',
+        price: 32,
+        status: 'Approve'
 
     },
     {
         id: '3',
-        orderId: 'Joe Black',
-        beatId: 32,
-        address: 'Sydney No. 1 Lake Park',
+        date: '2020-12-14',
+        userId: 'John Brown',
+        price: 32,
+        status: 'Approve'
 
     },
     {
         id: '4',
-        orderId: 'Green',
-        beatId: 39,
-        address: 'Sydney No. 1 Lake Park',
+        date: '2020-12-14',
+        userId: 'John Brown',
+        price: 32,
+        status: 'Approve'
 
     },
     {
         id: '5',
-        orderId: 'Black',
-        beatId: 39,
-        address: 'Sydney No. 1 Lake Park',
+        date: '2020-12-14',
+        userId: 'John Brown',
+        price: 32,
+        status: 'Approve'
 
     },
     {
         id: '6',
-        orderId: 'Joe',
-        beatId: 39,
-        address: 'Sydney No. 1 Lake Park',
+        date: '2020-12-14',
+        userId: 'John Brown',
+        price: 32,
+        status: 'Approve'
 
     },
+
 ];
 function OrderMusician() {
     return (
