@@ -141,13 +141,10 @@ function ViewFeedbackCustomer() {
                                         >
                                             <Box sx={styles}>
                                                 <h4 className="d-flex justify-content-center">COMMENT</h4>
-                                                <Typography id="modal-modal-title" >
-                                                    <br />
-                                                    To: <b>{data.username_ad}</b>
-                                                </Typography>
-                                                Email: <b>{data.email_ad}</b>
+                                                <br />
+
                                                 <p>Date: <b>{moment(data.date).format('YYYY-MM-DD')}</b></p>
-                                                <div className="col-md-7 border-right pd-top">
+                                                <div className="col-md-7 border-right">
                                                     <div className="py-6">
                                                         <textarea
                                                             cols="105"

@@ -27,7 +27,7 @@ function Login() {
                     }
                     else if (res.data.Role === 'chord') {
                         sessionStorage.setItem('id_chordManager', values.username);
-                        navigate("/verifySong");
+                        navigate("/songChordManager");
                     }
                     else if (res.data.Role === 'user') {
                         sessionStorage.setItem('id_customer', values.username);

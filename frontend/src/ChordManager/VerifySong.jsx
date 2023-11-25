@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import moment from 'moment'
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -33,7 +32,7 @@ function VerifySong() {
     const [order, setOrder] = useState("asc");
     const [currentPage, setCurrentPage] = useState(1);
     const [imageURL, setImageURL] = useState(null);
-
+    const navigate = useNavigate();
     const itemsPerPage = 5;
     const primaryColor = "#F1F1FB";
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -247,12 +246,10 @@ function VerifySong() {
                             <TableBody>
                                 {
                                     currentItems.map((song, index) => (
-                                        <TableRow key={index}>
+                                        <TableRow key={index} onClick={() => navigate(`/viewSongChordManager/` + song.id)} style={{ cursor: 'pointer' }}>
                                             <TableCell>{song.id}</TableCell>
                                             <TableCell>
-
                                                 {imageURL && <img className="song_image" src={`data:image/png;base64,${song.thumbnail}`} />}
-
                                             </TableCell>
                                             {song.song_title.length > 30 ? (
                                                 <TableCell>
@@ -265,7 +262,7 @@ function VerifySong() {
                                             )}
                                             {song.link != null ? (
                                                 <TableCell>
-                                                    <Link to={song.link}>{song.link.substring(0, 30)}...</Link>
+                                                    <Link to={song.link}>{song.link.substring(0, 40)}...</Link>
                                                 </TableCell>
                                             ) : (
                                                 <TableCell>Updating...</TableCell>
@@ -282,10 +279,24 @@ function VerifySong() {
                                                 <TableCell>Approved</TableCell>
                                             )}
                                             <TableCell>
-                                                <Link to={`/viewSongChordManager/` + song.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                                                <button onClick={() => handleVerify(song.id)} className='btn btn-sm me-2 btn-success'><VerifiedUserIcon /></button>
-                                                <button onClick={() => handleReject(song.id)} className='btn btn-sm btn-danger'><GppBadIcon /></button>
-
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleVerify(song.id);
+                                                    }}
+                                                    className='btn btn-sm me-2 btn-success'
+                                                >
+                                                    <VerifiedUserIcon />
+                                                </button>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleReject(song.id);
+                                                    }}
+                                                    className='btn btn-sm btn-danger'
+                                                >
+                                                    <GppBadIcon />
+                                                </button>
                                             </TableCell>
                                         </TableRow>
                                     ))}

@@ -248,7 +248,7 @@ function Chord() {
         {
             category: "Major Scale Modes",
             modes: [
-                "Ionian (A.K.A. Major)",
+                "Lonian (A.K.A. Major)",
                 "Dorian",
                 "Phrygian",
                 "Lydian",
@@ -612,14 +612,14 @@ function Chord() {
                                     </div>
                                 </div>
                                 :
-                                <div className="col-md-7 border-right">
+                                <div className="col-md-8 border-right">
                                     <div className="py-5">
                                         <div className="row mt-2" style={{ paddingLeft: '50px' }}>
                                             <div style={{ marginBottom: '50px' }}>
                                                 <h3 style={{ color: '#0d6efd', fontWeight: 'bold' }}>List Scale</h3>
                                                 <p>Include all the listed scales below represented on the guitar fretboard.</p>
                                             </div>
-                                            <div className="col-md-8">
+                                            <div className="col-md-12">
                                                 {/* Display selected mode and roots */}
                                                 {selectedMode ? (
                                                     <div>
@@ -629,7 +629,7 @@ function Chord() {
                                                             </b>
 
                                                         </h5>
-                                                        <h6>Click on a link below to search details.</h6>
+                                                        <p>Click on a link below to select the root and scale according to your preferences for detailed search.</p>
                                                         <ul style={{ paddingLeft: '100px' }}>
                                                             {selectedRoots.map((root, idx) => (
                                                                 <li key={idx}>
@@ -671,8 +671,8 @@ function Chord() {
                             }
                         </div>
                     </div>
-                </form >
-            </div >
+                </form>
+            </div>
 
         </>
     );

@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment'
 import Box from '@mui/material/Box';
@@ -30,6 +29,7 @@ function RejectSong() {
     const [order, setOrder] = useState("asc");
     const [currentPage, setCurrentPage] = useState(1);
     const [imageURL, setImageURL] = useState(null);
+    const navigate = useNavigate();
     const itemsPerPage = 5;
     const primaryColor = "#F1F1FB";
     const darkTheme = createTheme({
@@ -146,7 +146,7 @@ function RejectSong() {
                 </ThemeProvider>
             </Box>
             <div className="d-flex flex-column align-items-center pt-4">
-                <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }} >Waiting Approve</h3>
+                <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }} >Not Approved</h3>
             </div>
             <div className='mt-4 pd-left'>
                 <TableContainer component={Paper}>
@@ -183,7 +183,7 @@ function RejectSong() {
                         <TableBody>
                             {
                                 currentItems.map((song, index) => (
-                                    <TableRow key={index}>
+                                    <TableRow key={index} onClick={() => navigate(`/viewSongMusician/` + song.id)} style={{ cursor: 'pointer' }}>
                                         <TableCell>{song.id}</TableCell>
                                         <TableCell>
                                             {imageURL && <img className="song_image" src={`data:image/png;base64,${song.thumbnail}`} />}
@@ -196,7 +196,7 @@ function RejectSong() {
                                             }
                                         </TableCell>
                                         {song.link != null ?
-                                            <TableCell><Link to={song.link}>{song.link.substring(0, 30)}...</Link></TableCell> :
+                                            <TableCell><Link to={song.link}>{song.link.substring(0, 40)}...</Link></TableCell> :
                                             <TableCell>Updating...</TableCell>
                                         }
                                         <TableCell>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
@@ -206,9 +206,12 @@ function RejectSong() {
                                         }
                                         <TableCell className="text-warning"><b>Waiting Approve</b></TableCell>
                                         <TableCell>
-                                            <Link to={`/viewSongMusician/` + song.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                             {song.status === 0 ?
-                                                <Link onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></Link>
+                                                <Link
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDelete(song.id);
+                                                    }} className='btn btn-sm btn-danger'><DeleteIcon /></Link>
                                                 :
                                                 ""
                                             }
