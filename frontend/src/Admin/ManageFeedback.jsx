@@ -6,15 +6,13 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import SearchAppBar from '../component/SearchAppBar';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 export default function BottomAppBar() {
-
     const [data, setData] = useState([]);
     const [imageURL, setImageURL] = useState(null);
-
+    const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     axios.defaults.withCredentials = true;
     let showDate = new Date();
@@ -43,7 +41,8 @@ export default function BottomAppBar() {
 
             if (date1 === date2 && filterDate === 'today') {
                 return (
-                    <tr key={index}>
+
+                    <tr key={index} onClick={() => navigate(`/viewFeedback/` + feedbackUser.id)} style={{ cursor: 'pointer' }}>
                         <td>
 
                             {imageURL && <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />}
@@ -56,16 +55,13 @@ export default function BottomAppBar() {
                             :
                             <td className="text-warning"><b>Not reply</b></td>
                         }
-                        <td>
-                            <Link to={`/viewFeedback/` + feedbackUser.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                        </td>
                     </tr>
                 );
             }
 
             if (date1 > date2 && filterDate === 'recently') {
                 return (
-                    <tr key={index}>
+                    <tr key={index} onClick={() => navigate(`/viewFeedback/` + feedbackUser.id)} style={{ cursor: 'pointer' }}>
                         <td>
                             {imageURL && <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />}
                         </td>
@@ -76,9 +72,6 @@ export default function BottomAppBar() {
                             :
                             <td className="text-warning"><b>Not reply</b></td>
                         }
-                        <td>
-                            <Link to={`/viewFeedback/` + feedbackUser.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                        </td>
                     </tr>
                 );
             }
@@ -113,7 +106,6 @@ export default function BottomAppBar() {
                                         <th>Username</th>
                                         <th>Date</th>
                                         <th>Status</th>
-                                        <th>View</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -142,7 +134,6 @@ export default function BottomAppBar() {
                                         <th>Username</th>
                                         <th>Date</th>
                                         <th>Status</th>
-                                        <th>View</th>
                                     </tr>
                                 </thead>
                                 <tbody>

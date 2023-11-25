@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment'
 import "react-html5video/dist/styles.css";
@@ -31,6 +30,8 @@ function ChordMissMusician() {
     const [order, setOrder] = useState("asc");
     const [currentPage, setCurrentPage] = useState(1);
     const [imageURL, setImageURL] = useState(null);
+    const navigate = useNavigate();
+
     const itemsPerPage = 5;
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const primaryColor = "#F1F1FB";
@@ -241,7 +242,7 @@ function ChordMissMusician() {
                             <TableBody>
                                 {
                                     currentItems.map((song, index) => (
-                                        <TableRow key={index}>
+                                        <TableRow key={index} onClick={() => navigate(`/viewSongMusician/` + song.id)} style={{ cursor: 'pointer' }}>
                                             <TableCell>{song.id}</TableCell>
                                             <TableCell>
                                                 {imageURL && <img className="song_image" src={`data:image/png;base64,${song.thumbnail}`} />}
@@ -254,7 +255,7 @@ function ChordMissMusician() {
                                                 }
                                             </TableCell>
                                             {song.link != null ?
-                                                <TableCell><Link to={song.link}>{song.link.substring(0, 30)}...</Link></TableCell> :
+                                                <TableCell><Link to={song.link}>{song.link.substring(0, 40)}...</Link></TableCell> :
                                                 <TableCell>Updating...</TableCell>
                                             }
                                             <TableCell>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
@@ -264,9 +265,13 @@ function ChordMissMusician() {
                                             }
                                             <TableCell className="text-warning"><b>Missing Chord</b></TableCell>
                                             <TableCell>
-                                                <Link to={`/viewSongMusician/` + song.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                                 {song.status === 0 ?
-                                                    <Link onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></Link> :
+                                                    <Link
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleDelete(song.id);
+                                                        }}
+                                                        className='btn btn-sm btn-danger'><DeleteIcon /></Link> :
                                                     ""
                                                 }
                                             </TableCell>

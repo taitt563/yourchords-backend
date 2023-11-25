@@ -22,11 +22,10 @@ export default function Feedback() {
     const [imageURL, setImageURL] = useState(null);
     const [newFeedback, setNewFeedback] = useState({
         comment: '',
-        rating: 0,
+        rating: 5,
     });
     const [hover, setHover] = useState(5);
     const [selectedLabel, setSelectedLabel] = useState(null);
-
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     axios.defaults.withCredentials = true;
     let showDate = new Date();
@@ -125,7 +124,6 @@ export default function Feedback() {
     };
 
     const getLabelText = (value) => {
-        // Use the selected label when available, otherwise use the default
         return selectedLabel !== null ? selectedLabel : `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
     };
     const renderTableRows = (filterDate) => {
@@ -240,7 +238,7 @@ export default function Feedback() {
                         }
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <Button variant={'contained'} onClick={openModal}>New Feedback</Button>
+                        <Button variant={'contained'} onClick={openModal}>Send Feedback</Button>
                         {/* Modal for creating new feedback */}
                         <Modal open={isModalOpen} onClose={closeModal}>
                             <Box
@@ -256,6 +254,7 @@ export default function Feedback() {
                                 }}
                             >
                                 <h2 style={{ color: '#0d6efd' }}>New Feedback</h2>
+
                                 <form>
                                     <TextField
                                         name="comment"
@@ -276,6 +275,7 @@ export default function Feedback() {
                                         emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                                         onChangeActive={(event, newHover) => {
                                             setHover(newHover);
+
                                         }}
                                     />
                                     <Box sx={{ ml: 2 }}>{labels[hover]}</Box>

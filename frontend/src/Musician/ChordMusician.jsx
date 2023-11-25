@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment'
 import Box from '@mui/material/Box';
@@ -28,6 +27,7 @@ function ChordMusician() {
     const [search, setSearch] = useState("");
     const [orderBy, setOrderBy] = useState("song_title");
     const [order, setOrder] = useState("asc");
+    const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [imageURL, setImageURL] = useState(null);
     const itemsPerPage = 5;
@@ -183,7 +183,7 @@ function ChordMusician() {
                         <TableBody>
                             {
                                 currentItems.map((song, index) => (
-                                    <TableRow key={index}>
+                                    <TableRow key={index} onClick={() => navigate(`/viewSongMusician/` + song.id)} style={{ cursor: 'pointer' }}>
                                         <TableCell>{song.id}</TableCell>
                                         <TableCell>
                                             {imageURL && <img className="song_image" src={`data:image/png;base64,${song.thumbnail}`} />}
@@ -195,7 +195,7 @@ function ChordMusician() {
                                             }
                                         </TableCell>
                                         {song.link != null ?
-                                            <TableCell><Link to={song.link}>{song.link.substring(0, 30)}...</Link></TableCell> :
+                                            <TableCell><Link to={song.link}>{song.link.substring(0, 40)}...</Link></TableCell> :
                                             <TableCell>Updating...</TableCell>
                                         }
                                         <TableCell>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
@@ -205,9 +205,13 @@ function ChordMusician() {
                                         }
                                         <TableCell className="text-warning"><b>Waiting Approve</b></TableCell>
                                         <TableCell>
-                                            <Link to={`/viewSongMusician/` + song.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
                                             {song.status === 0 ?
-                                                <Link onClick={() => handleDelete(song.id)} className='btn btn-sm btn-danger'><DeleteIcon /></Link>
+                                                <Link
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDelete(song.id);
+                                                    }}
+                                                    className='btn btn-sm btn-danger'><DeleteIcon /></Link>
                                                 :
                                                 ""
                                             }

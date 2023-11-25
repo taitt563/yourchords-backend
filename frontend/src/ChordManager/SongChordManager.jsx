@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import moment from "moment";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Box from "@mui/material/Box";
@@ -11,7 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import HeadsetIcon from "@mui/icons-material/Headset";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
-import "react-html5video/dist/styles.css";
+
 import {
     Table,
     TableBody,
@@ -31,6 +30,7 @@ function SongChordManager() {
     const [order, setOrder] = useState("asc");
     const [currentPage, setCurrentPage] = useState(1);
     const [imageURL, setImageURL] = useState(null);
+    const navigate = useNavigate();
     const itemsPerPage = 5;
     const primaryColor = "#F1F1FB";
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -178,7 +178,6 @@ function SongChordManager() {
                                                 </TableSortLabel>
                                             </TableCell>
                                             <TableCell><b>Status</b></TableCell>
-                                            <TableCell></TableCell>
                                         </TableRow>
                                     </TableHead>
                                 </Table>
@@ -224,14 +223,13 @@ function SongChordManager() {
                                             </TableSortLabel>
                                         </TableCell>
                                         <TableCell><b>Status</b></TableCell>
-                                        <TableCell></TableCell>
                                     </TableRow>
                                 </TableHead>
 
                                 <TableBody>
                                     {
                                         currentItems.map((song, index) => (
-                                            <TableRow key={index}>
+                                            <TableRow key={index} onClick={() => navigate(`/viewSongChordManager/` + song.id)} style={{ cursor: 'pointer' }}>
                                                 <TableCell>{song.id}</TableCell>
                                                 <TableCell>
                                                     {imageURL && <img className="song_image" src={`data:image/png;base64,${song.thumbnail}`} />}
@@ -247,7 +245,7 @@ function SongChordManager() {
                                                 )}
                                                 {song.link != null ? (
                                                     <TableCell>
-                                                        <Link to={song.link}>{song.link.substring(0, 30)}...</Link>
+                                                        <Link to={song.link}>{song.link.substring(0, 40)}...</Link>
                                                     </TableCell>
                                                 ) : (
                                                     <TableCell>Updating...</TableCell>
@@ -265,11 +263,7 @@ function SongChordManager() {
                                                 ) : (
                                                     <TableCell></TableCell>
                                                 )}
-                                                <TableCell>
-                                                    <Link to={`/viewSongChordManager/` + song.id} className="btn btn-success btn-sm me-2">
-                                                        <RemoveRedEyeIcon />
-                                                    </Link>
-                                                </TableCell>
+
                                             </TableRow>
                                         ))}
                                 </TableBody>

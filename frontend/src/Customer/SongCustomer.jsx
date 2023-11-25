@@ -46,11 +46,12 @@ function SongCustomer() {
         transform: 'translate(-50%, -50%)',
         bgcolor: 'background.paper',
         boxShadow: 24,
-        overflowY: 'scroll',
+        overflowY: 'auto',
         height: '700px',
         width: '1200px',
         borderRadius: '30px'
     };
+
     const handleFavorite = () => {
         axios.get(`${apiUrl}/getPlaylist/` + userId)
             .then((res) => {

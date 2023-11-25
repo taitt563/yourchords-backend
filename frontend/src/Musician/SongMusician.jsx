@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import moment from "moment";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Box from "@mui/material/Box";
@@ -30,6 +29,7 @@ function SongMusician() {
     const [order, setOrder] = useState("asc");
     const [currentPage, setCurrentPage] = useState(1);
     const [imageURL, setImageURL] = useState(null);
+    const navigate = useNavigate();
     const itemsPerPage = 5;
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -225,14 +225,13 @@ function SongMusician() {
                                             </TableSortLabel>
                                         </TableCell>
                                         <TableCell><b>Status</b></TableCell>
-                                        <TableCell></TableCell>
                                     </TableRow>
                                 </TableHead>
 
                                 <TableBody>
                                     {
                                         currentItems.map((song, index) => (
-                                            <TableRow key={index}>
+                                            <TableRow key={index} onClick={() => navigate(`/viewSongMusician/` + song.id)} style={{ cursor: 'pointer' }}>
                                                 <TableCell>{song.id}</TableCell>
                                                 <TableCell>
                                                     {imageURL && <img className="song_image" src={`data:image/png;base64,${song.thumbnail}`} />}
@@ -248,7 +247,7 @@ function SongMusician() {
                                                 )}
                                                 {song.link != null ? (
                                                     <TableCell>
-                                                        <Link to={song.link}>{song.link.substring(0, 30)}...</Link>
+                                                        <Link to={song.link}>{song.link.substring(0, 40)}...</Link>
                                                     </TableCell>
                                                 ) : (
                                                     <TableCell>Updating...</TableCell>
@@ -266,11 +265,7 @@ function SongMusician() {
                                                 ) : (
                                                     <TableCell></TableCell>
                                                 )}
-                                                <TableCell>
-                                                    <Link to={`/viewSongMusician/` + song.id} className="btn btn-success btn-sm me-2">
-                                                        <RemoveRedEyeIcon />
-                                                    </Link>
-                                                </TableCell>
+
                                             </TableRow>
                                         ))}
                                 </TableBody>
