@@ -11,7 +11,6 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import GppBadIcon from '@mui/icons-material/GppBad';
-import "react-html5video/dist/styles.css";
 import {
     Table,
     TableBody,

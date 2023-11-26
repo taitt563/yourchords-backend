@@ -116,7 +116,7 @@ function DashboardMusician() {
 
                                             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                    <ListItemButton onClick={handleClickManageSong} >
+                                                    <ListItemButton onClick={handleClickManageSong} style={{ borderRadius: '20px' }} >
                                                         <ListItemIcon>
                                                             <GraphicEqIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
@@ -125,19 +125,19 @@ function DashboardMusician() {
                                                     </ListItemButton>
                                                     <Collapse in={openSong} timeout="auto" unmountOnExit>
                                                         <List sx={{ width: '100%', pl: 1 }}>
-                                                            <ListItemButton href="/chordMusician" >
+                                                            <ListItemButton href="/chordMusician" style={{ borderRadius: '20px' }} >
                                                                 <ListItemIcon>
                                                                     <FlakyIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
                                                                 <ListItemText><span className="fontDashboard">Waiting Approve</span></ListItemText>
                                                             </ListItemButton>
-                                                            <ListItemButton href="/rejectSong" >
+                                                            <ListItemButton href="/rejectSong" style={{ borderRadius: '20px' }}>
                                                                 <ListItemIcon>
                                                                     <SentimentVeryDissatisfiedIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
                                                                 <ListItemText><span className="fontDashboard">Not Approved</span></ListItemText>
                                                             </ListItemButton>
-                                                            <ListItemButton href="/chordMissMusician" >
+                                                            <ListItemButton href="/chordMissMusician" style={{ borderRadius: '20px' }}>
                                                                 <ListItemIcon>
                                                                     <MusicOffIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
@@ -147,7 +147,7 @@ function DashboardMusician() {
                                                     </Collapse>
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                    <ListItemButton href="/songMusician" >
+                                                    <ListItemButton href="/songMusician" style={{ borderRadius: '20px' }} >
                                                         <ListItemIcon>
                                                             <MusicNoteIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
@@ -155,7 +155,7 @@ function DashboardMusician() {
                                                     </ListItemButton>
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                    <ListItemButton href="/manageBeat" >
+                                                    <ListItemButton href="/manageBeat" style={{ borderRadius: '20px' }} >
                                                         <ListItemIcon>
                                                             <i className="bi bi-vinyl-fill text-primary fs-4"></i>
                                                         </ListItemIcon>
@@ -163,7 +163,7 @@ function DashboardMusician() {
                                                     </ListItemButton>
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                    <ListItemButton onClick={handleClickOrder} >
+                                                    <ListItemButton onClick={handleClickOrder} style={{ borderRadius: '20px' }}>
                                                         <ListItemIcon>
                                                             <HandshakeIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
@@ -172,13 +172,13 @@ function DashboardMusician() {
                                                     </ListItemButton>
                                                     <Collapse in={openOrder} timeout="auto" unmountOnExit>
                                                         <List sx={{ width: '100%', pl: 1 }}>
-                                                            <ListItemButton href="/orderMusician" >
+                                                            <ListItemButton href="/orderMusician" style={{ borderRadius: '20px' }}>
                                                                 <ListItemIcon>
                                                                     <PlaylistAddCheckCircleIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
                                                                 <ListItemText><span className="fontDashboard">Order</span></ListItemText>
                                                             </ListItemButton>
-                                                            <ListItemButton href="/transactionHistory" >
+                                                            <ListItemButton href="/transactionHistory" style={{ borderRadius: '20px' }} >
                                                                 <ListItemIcon>
                                                                     <ListAltIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
@@ -188,7 +188,7 @@ function DashboardMusician() {
                                                     </Collapse>
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                    <ListItemButton href={`/profileMusician/` + profile.userId} >
+                                                    <ListItemButton href={`/profileMusician/` + profile.userId} style={{ borderRadius: '20px' }} >
                                                         <ListItemIcon>
                                                             <ModeIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
@@ -196,7 +196,7 @@ function DashboardMusician() {
                                                     </ListItemButton>
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                    <ListItemButton href="/login" >
+                                                    <ListItemButton href="/login" style={{ borderRadius: '20px' }} >
                                                         <ListItemIcon>
                                                             <LogoutIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
