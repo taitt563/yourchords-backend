@@ -228,7 +228,7 @@ export default function SearchAppBarBackCustomer() {
                                     <List sx={{
                                         paddingTop: '20px'
                                     }}>
-                                        <ListItemButton href="/feedback" style={{ borderRadius: '20px' }}>
+                                        <ListItemButton href={"/feedback/" + profile.userId} style={{ borderRadius: '20px' }}>
                                             <ListItemIcon>
                                                 <ThumbUpAltIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                             </ListItemIcon>

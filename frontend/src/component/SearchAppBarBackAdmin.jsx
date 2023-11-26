@@ -202,7 +202,7 @@ export default function SearchAppBarBackCustomer() {
                                     </List>
                                     <List sx={{ paddingTop: '20px' }}>
                                         <ListItemButton style={{ borderRadius: '20px' }}
-                                            onClick={() => handleListItemClick('/manageFeedback')}
+                                            onClick={() => handleListItemClick('/manageFeedback/' + profile.userId)}
                                         >
                                             <ListItemIcon>
                                                 <ThumbUpAltIcon style={{ color: '#0d6efd' }} fontSize='medium' />
