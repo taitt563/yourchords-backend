@@ -3,7 +3,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment'
-import "react-html5video/dist/styles.css";
 import {
     Table,
     TableBody,
