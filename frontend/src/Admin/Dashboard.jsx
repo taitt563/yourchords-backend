@@ -26,9 +26,10 @@ function Dashboard() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [datachord, setDataChord] = useState([]);
     const [imageURL, setImageURL] = useState(null);
-    const [collapsed, setCollapsed] = useState(false);
     const [openSong, setOpenSong] = useState(false);
-
+    const [collapsed, setCollapsed] = useState(
+        sessionStorage.getItem('dashboardCollapsed') === 'true' || false
+    );
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
     let showDate = new Date();
@@ -50,7 +51,9 @@ function Dashboard() {
             .catch(err => console.log(err));
     }, [userId]);
     const handleToggleCollapse = () => {
-        setCollapsed(!collapsed);
+        const newCollapsedState = !collapsed;
+        setCollapsed(newCollapsedState);
+        sessionStorage.setItem('dashboardCollapsed', String(newCollapsedState));
     };
     const handleListItemClick = (path) => {
         document.documentElement.classList.add('animate-dashboard');

@@ -31,13 +31,16 @@ function DashboardCustomer() {
     const { userId } = useParams();
     const [openPlaylist, setOpenPlaylist] = useState(false);
     const [imageURL, setImageURL] = useState(null);
-    const [collapsed, setCollapsed] = useState(false);
-
+    const [collapsed, setCollapsed] = useState(
+        sessionStorage.getItem('dashboardCollapsed') === 'true' || false
+    );
     const handleClickPlaylist = () => {
         setOpenPlaylist(!openPlaylist);
     };
     const handleToggleCollapse = () => {
-        setCollapsed(!collapsed);
+        const newCollapsedState = !collapsed;
+        setCollapsed(newCollapsedState);
+        sessionStorage.setItem('dashboardCollapsed', String(newCollapsedState));
     };
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();

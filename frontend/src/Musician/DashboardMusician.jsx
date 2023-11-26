@@ -31,7 +31,9 @@ function DashboardMusician() {
     const [openSong, setOpenSong] = useState(false);
     const [openOrder, setOpenOrder] = useState(false);
     const [imageURL, setImageURL] = useState(null);
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState(
+        sessionStorage.getItem('dashboardCollapsed') === 'true' || false
+    );
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
@@ -63,7 +65,9 @@ function DashboardMusician() {
         setOpenSong(false);
     };
     const handleToggleCollapse = () => {
-        setCollapsed(!collapsed);
+        const newCollapsedState = !collapsed;
+        setCollapsed(newCollapsedState);
+        sessionStorage.setItem('dashboardCollapsed', String(newCollapsedState));
     };
     return (
 
