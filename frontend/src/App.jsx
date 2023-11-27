@@ -43,6 +43,7 @@ import Chord from './Customer/Chord'
 import SearchChord from './Customer/SearchChord'
 import Feedback from './Customer/Feedback'
 import ViewFeedbackCustomer from './Customer/ViewFeedbackCustomer'
+import Beat from './Customer/Beat'
 function App() {
   return (
     <BrowserRouter>
@@ -95,8 +96,7 @@ function App() {
           <Route path='/viewPlaylist/:id' element={<ViewPlaylist />}></Route>
           <Route path='/feedback/:userId' element={<Feedback />}></Route>
           <Route path='/viewFeedbackCustomer/:id' element={<ViewFeedbackCustomer />}></Route>
-
-
+          <Route path='/beat' element={<Beat />}></Route>
         </Route>
         <Route path='/chord' element={<Chord />}></Route>
         <Route path='/searchChord' element={<SearchChord />}></Route>

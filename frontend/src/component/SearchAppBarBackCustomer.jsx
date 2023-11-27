@@ -25,6 +25,8 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
+import HandshakeIcon from '@mui/icons-material/Handshake';
+
 import axios from 'axios';
 const darkTheme = createTheme({
     palette: {
@@ -205,7 +207,7 @@ export default function SearchAppBarBackCustomer() {
                                             <ListItemIcon>
                                                 <PlaylistPlayIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                             </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Your Playlist</span></ListItemText>
+                                            <ListItemText><span className="fontDashboard">Collection Song</span></ListItemText>
                                             {openPlaylist ? <ExpandLess style={{ color: '#0d6efd' }} fontSize='medium' /> : <ExpandMore style={{ color: '#0d6efd' }} fontSize='medium' />}
                                         </ListItemButton>
                                         <Collapse in={openPlaylist} timeout="auto" unmountOnExit>
@@ -224,6 +226,22 @@ export default function SearchAppBarBackCustomer() {
                                                 </ListItemButton>
                                             </List>
                                         </Collapse>
+                                    </List>
+                                    <List sx={{ paddingTop: '20px' }}>
+                                        <ListItemButton href={`/order/` + profile.userId} style={{ borderRadius: '20px' }} >
+                                            <ListItemIcon>
+                                                <HandshakeIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Order Beat</span></ListItemText>
+                                        </ListItemButton>
+                                    </List>
+                                    <List sx={{ paddingTop: '20px' }}>
+                                        <ListItemButton href="/beat" style={{ borderRadius: '20px' }} >
+                                            <ListItemIcon>
+                                                <i className="bi bi-vinyl-fill text-primary fs-4"></i>
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Beat</span></ListItemText>
+                                        </ListItemButton>
                                     </List>
                                     <List sx={{
                                         paddingTop: '20px'

@@ -116,7 +116,7 @@ function DashboardCustomer() {
                                             </ListItemButton>
                                         </List>
                                         <List sx={{
-                                            width: '40%', paddingTop: '10px'
+                                            width: '40%', paddingTop: '5px'
                                         }}>
                                             <ListItemButton href="/chord" style={{ borderRadius: '20px' }} >
                                                 <ListItemIcon>
@@ -126,7 +126,7 @@ function DashboardCustomer() {
                                             </ListItemButton>
                                         </List>
                                         <List sx={{
-                                            width: '40%', paddingTop: '10px'
+                                            width: '40%', paddingTop: '5px'
                                         }}>
                                             <ListItemButton href="/searchChord" style={{ borderRadius: '20px' }}>
                                                 <ListItemIcon>
@@ -135,7 +135,7 @@ function DashboardCustomer() {
                                                 <ListItemText><span className="fontDashboard">Search Chord</span></ListItemText>
                                             </ListItemButton>
                                         </List>
-                                        <List sx={{ width: '40%', paddingTop: '10px' }}>
+                                        <List sx={{ width: '40%', paddingTop: '5px' }}>
                                             <ListItemButton onClick={handleClickPlaylist} style={{ borderRadius: '20px' }} >
                                                 <ListItemIcon>
                                                     <PlaylistPlayIcon color="primary" fontSize='medium' />
@@ -160,7 +160,7 @@ function DashboardCustomer() {
                                                 </List>
                                             </Collapse>
                                         </List>
-                                        <List sx={{ width: '40%', paddingTop: '10px' }}>
+                                        <List sx={{ width: '40%', paddingTop: '5px' }}>
                                             <ListItemButton href={`/order/` + profile.userId} style={{ borderRadius: '20px' }} >
                                                 <ListItemIcon>
                                                     <HandshakeIcon color="primary" fontSize='medium' />
@@ -168,8 +168,16 @@ function DashboardCustomer() {
                                                 <ListItemText><span className="fontDashboard">Order Beat</span></ListItemText>
                                             </ListItemButton>
                                         </List>
+                                        <List sx={{ width: '40%', paddingTop: '5px' }}>
+                                            <ListItemButton href="/beat" style={{ borderRadius: '20px' }} >
+                                                <ListItemIcon>
+                                                    <i className="bi bi-vinyl-fill text-primary fs-4"></i>
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Beat</span></ListItemText>
+                                            </ListItemButton>
+                                        </List>
                                         <List sx={{
-                                            width: '40%', paddingTop: '10px'
+                                            width: '40%', paddingTop: '5px'
                                         }}>
                                             <ListItemButton href={"/feedback/" + profile.userId} style={{ borderRadius: '20px' }} >
                                                 <ListItemIcon>
@@ -179,7 +187,7 @@ function DashboardCustomer() {
                                             </ListItemButton>
                                         </List>
                                         <List sx={{
-                                            width: '40%', paddingTop: '10px',
+                                            width: '40%', paddingTop: '5px',
                                         }}>
                                             <ListItemButton href={`/profileCustomer/` + profile.userId} style={{ borderRadius: '20px' }} >
                                                 <ListItemIcon>
@@ -190,7 +198,7 @@ function DashboardCustomer() {
                                         </List>
 
                                         <List sx={{
-                                            width: '40%', paddingTop: '10px'
+                                            width: '40%', paddingTop: '5px'
                                         }}>
                                             <ListItemButton href="/login" style={{ borderRadius: '20px' }} >
                                                 <ListItemIcon>
@@ -271,6 +279,13 @@ function DashboardCustomer() {
                                                 <ListItemButton href={`/order/` + profile.userId} style={{ borderRadius: '50px' }}>
                                                     <ListItemIcon>
                                                         <HandshakeIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                </ListItemButton>
+                                            </List>
+                                            <List sx={{ width: '60%', paddingTop: '20px' }}>
+                                                <ListItemButton href="/beat" style={{ borderRadius: '50px' }} >
+                                                    <ListItemIcon>
+                                                        <i className="bi bi-vinyl-fill text-primary fs-4"></i>
                                                     </ListItemIcon>
                                                 </ListItemButton>
                                             </List>

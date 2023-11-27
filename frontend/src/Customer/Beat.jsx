@@ -1,13 +1,13 @@
 
 import SearchAppBar from '../component/SearchAppBar';
 
-function ManageBeat() {
+function Beat() {
     return (
         <>
             <SearchAppBar />
             <div className='d-flex flex-column align-items-center pt-2' >
                 <div className='d-flex flex-column align-items-center pt-4'>
-                    <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Manage beat</h3>
+                    <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Beat</h3>
                 </div>
                 <div className="d-grid" style={{ padding: '5px' }}>
                     <div className="list-grid">
@@ -82,4 +82,4 @@ function ManageBeat() {
         </>
     )
 }
-export default ManageBeat;
+export default Beat;
