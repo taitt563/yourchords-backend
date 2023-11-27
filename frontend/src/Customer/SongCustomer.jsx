@@ -297,7 +297,7 @@ function SongCustomer() {
                         </div>
 
                         {dataPlaylist.map((playlist, index) => (
-                            <div key={index} className="m-4 playlist-container ">
+                            <div key={index} className="m-4 p-2 playlist-container ">
                                 <div className="container rounded " style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <div className="d-flex flex-column align-items-center text-center">
                                         <div className="rounded-image-container">

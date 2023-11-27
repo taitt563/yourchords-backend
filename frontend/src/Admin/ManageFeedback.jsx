@@ -8,7 +8,8 @@ import moment from 'moment';
 import SearchAppBar from '../component/SearchAppBar';
 import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
 export default function BottomAppBar() {
     const [data, setData] = useState([]);
     const [imageURL, setImageURL] = useState(null);
@@ -44,11 +45,27 @@ export default function BottomAppBar() {
 
                     <tr key={index} onClick={() => navigate(`/viewFeedback/` + feedbackUser.id)} style={{ cursor: 'pointer' }}>
                         <td>
+                            <ListItem >
+                                <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none" >
+                                    <Avatar>
+                                        {imageURL && <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />}
 
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText className="font" primary={feedbackUser.name.length > 10 ?
+                                    <b>{feedbackUser.name.substring(0, 10)}...</b>
+                                    :
+                                    <b>{feedbackUser.name} </b>
+                                }
+                                    secondary={feedbackUser.email.length > 17 ?
+                                        <b>{feedbackUser.email.substring(0, 17)}...</b>
+                                        :
+                                        <b>{feedbackUser.email} </b>
+                                    } />
+                            </ListItem>
                             {imageURL && <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />}
 
                         </td>
-                        <td>{feedbackUser.username}</td>
                         <td>{moment(feedbackUser.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</td>
                         {feedbackUser.status === 1 ?
                             <td style={{ color: 'green' }}><CheckCircleIcon color='success' /></td>
@@ -63,9 +80,24 @@ export default function BottomAppBar() {
                 return (
                     <tr key={index} onClick={() => navigate(`/viewFeedback/` + feedbackUser.id)} style={{ cursor: 'pointer' }}>
                         <td>
-                            {imageURL && <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />}
+                            <ListItem >
+                                <ListItemAvatar >
+                                    <Avatar>
+                                        {imageURL && <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />}
+
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText className="font" primary={
+
+                                    <b>{feedbackUser.username} </b>
+                                }
+                                    secondary={feedbackUser.email.length > 17 ?
+                                        <b>{feedbackUser.email.substring(0, 17)}...</b>
+                                        :
+                                        <b>{feedbackUser.email} </b>
+                                    } />
+                            </ListItem>
                         </td>
-                        <td>{feedbackUser.username}</td>
                         <td>{moment(feedbackUser.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</td>
                         {feedbackUser.status === 1 ?
                             <td style={{ color: 'green' }}><CheckCircleIcon color='success' /></td>
@@ -88,61 +120,62 @@ export default function BottomAppBar() {
                 </div>
 
                 {/* LIST TODAY */}
-                <ListItem>
-                    <ListItemText primary="Today" />
-                </ListItem>
-                <List sx={{ mb: 2 }}>
-                    <div className='mt-4 pd-left'>
-                        {!renderTableRows('today').some(row => row !== null) ?
-                            (
+                <div style={{ borderRadius: '20px', border: '1px solid #ccc', margin: '10px' }}>
 
-                                <div className="text-center"><b>No comment available</b></div>
-                            )
-                            :
-                            <table className='table'>
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Username</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {renderTableRows('today')}
-                                </tbody>
-                            </table>
-                        }
-                    </div>
-                </List>
-                {/* LIST RECENTLY */}
-                <ListItem>
-                    <ListItemText primary="Recently" />
-                </ListItem>
-                <List sx={{ mb: 2 }}>
-                    <div className='mt-4 pd-left'>
-                        {!renderTableRows('recently').some(row => row !== null) ?
-                            (
+                    <ListItem>
+                        <ListItemText primary="Today" style={{ color: '#0d6efd' }} />
+                    </ListItem>
+                    <List sx={{ mb: 2 }}>
+                        <div className='mt-4 pd-left'>
+                            {!renderTableRows('today').some(row => row !== null) ?
+                                (
 
-                                <div className="text-center"><b>No comment available</b></div>
-                            )
-                            :
-                            <table className='table'>
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Username</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {renderTableRows('recently')}
-                                </tbody>
-                            </table>
-                        }
-                    </div>
-                </List>
+                                    <div className="text-center"><b>No comment available</b></div>
+                                )
+                                :
+                                <table className='custom-table table'>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {renderTableRows('today')}
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </List>
+                    {/* LIST RECENTLY */}
+                    <ListItem>
+                        <ListItemText primary="Recently" style={{ color: '#0d6efd' }} />
+                    </ListItem>
+                    <List sx={{ mb: 2 }}>
+                        <div className='mt-4 pd-left'>
+                            {!renderTableRows('recently').some(row => row !== null) ?
+                                (
+
+                                    <div className="text-center"><b>No comment available</b></div>
+                                )
+                                :
+                                <table className='custom-table table'>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {renderTableRows('recently')}
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </List>
+                </div>
             </React.Fragment>
         </>
     );

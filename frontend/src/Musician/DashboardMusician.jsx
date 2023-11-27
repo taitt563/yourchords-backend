@@ -307,8 +307,10 @@ function DashboardMusician() {
                         })}
                     </div>
                 </div>
-                <div className="col p-0 m-0">
-                    <Outlet style={{ height: '500px', overflowY: 'scroll' }} />
+                <div className="col p-0 m-0" style={{ zIndex: 1 }}>
+                    <Outlet style={{
+                        height: '500px', overflowY: 'scroll'
+                    }} />
                 </div>
             </div>
         </div>
