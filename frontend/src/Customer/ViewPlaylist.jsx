@@ -33,14 +33,15 @@ function ViewPlaylist() {
     });
     const userId = sessionStorage.getItem('id_customer');
     const [anchorEl, setAnchorEl] = useState(null);
-
-    const handleMenuOpen = (event) => {
+    const [selectedPlaylistId, setSelectedPlaylistId] = useState(null);
+    const handleMenuOpen = (event, playlistId) => {
         setAnchorEl(event.currentTarget);
+        setSelectedPlaylistId(playlistId);
     };
-
     const handleMenuClose = () => {
         setAnchorEl(null);
-    }
+        setSelectedPlaylistId(null);
+    };
     useEffect(() => {
         axios.get(`${apiUrl}/viewPlaylist/` + id)
             .then(res => {
@@ -186,7 +187,7 @@ function ViewPlaylist() {
                                     <div style={{ position: 'relative' }}>
                                         <div className="song-list-item">
                                             <div >
-                                                <IconButton
+                                                {/* <IconButton
                                                     size="large"
                                                     aria-label="menu"
                                                     aria-controls="song-menu"
@@ -206,6 +207,27 @@ function ViewPlaylist() {
                                                     <MenuItem onClick={() => handleDelete(song.song_id, song.collection_id)}>
                                                         <h6 className="text-danger">
                                                             <i className="bi bi-trash" ></i> Delete
+                                                        </h6>
+                                                    </MenuItem>
+                                                </Menu> */}
+                                                <IconButton
+                                                    size="large"
+                                                    aria-label="menu"
+                                                    aria-haspopup="true"
+                                                    onClick={(event) => handleMenuOpen(event, song.id)}
+                                                    style={{ position: 'absolute', top: 0, right: 0 }}
+                                                    className="favorite-button"
+                                                >
+                                                    <i className="bi-three-dots-vertical text-white fs-20"></i>
+                                                </IconButton>
+                                                <Menu
+                                                    anchorEl={anchorEl}
+                                                    open={selectedPlaylistId === song.id && Boolean(anchorEl)}
+                                                    onClose={handleMenuClose}
+                                                >
+                                                    <MenuItem onClick={() => handleDelete(song.song_id, song.collection_id)}>
+                                                        <h6 className="text-danger">
+                                                            <i className="bi bi-trash"></i> Delete
                                                         </h6>
                                                     </MenuItem>
                                                 </Menu>
