@@ -203,7 +203,7 @@ function DashboardChordManager() {
                         })}
                     </div>
                 </div>
-                <div className="col p-0 m-0">
+                <div className="col p-0 m-0" style={{ zIndex: 1 }}>
                     <Outlet />
                 </div>
             </div>
