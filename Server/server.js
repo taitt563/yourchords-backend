@@ -557,6 +557,69 @@ app.post('/createSong', upload.single('thumbnail'), (req, res) => {
     }
 })
 
+//BEAT
+
+
+// app.get('/getSongBeat/:beat_type', (req, res) => {
+//     const beatId = req.params.beat_type;
+//     const sql = "SELECT * FROM song WHERE beat_type = (SELECT beat_type FROM beat_genres WHERE beat_id = ?) AND status = 1";
+//     con.query(sql, [beatId], (err, result) => {
+//         if (err) {
+//             return res.json({ Error: "Get song error in sql" });
+//         }
+//         return res.json({ Status: "Success", Result: result });
+//     });
+// });
+app.get('/getBeat/:beat_id', (req, res) => {
+    const beatId = req.params.beat_id;
+    const sql = "SELECT * FROM song WHERE beat_id = ?";
+    con.query(sql, [beatId], (err, result) => {
+        if (err) {
+            return res.json({ Error: "Get song error in SQL" });
+        }
+        return res.json({ Status: "Success", Result: result });
+    });
+});
+app.get('/getSongBeat/:beat_type', (req, res) => {
+    const beatType = req.params.beat_type;
+    const sql = "SELECT * FROM song WHERE beat_type = ? AND status = 1";
+    con.query(sql, [beatType], (err, result) => {
+        if (err) {
+            return res.json({ Error: "Get song error in SQL" });
+        }
+        return res.json({ Status: "Success", Result: result });
+    });
+});
+
+app.get('/countSongBeat/:beat_type', (req, res) => {
+    const beatType = req.params.beat_type;
+
+    const query = `
+        SELECT beat_genres.beat_id, COUNT(song.id) AS songCount FROM song
+        INNER JOIN beat_genres ON song.beat_type = beat_genres.beat_id
+        WHERE beat_genres.beat_id = ? AND song.status = 1
+        GROUP BY beat_genres.beat_id;
+    `;
+
+    con.query(query, [beatType], (err, result) => {
+        if (err) {
+            console.error("Error fetching song count:", err);
+            return res.status(500).json({ Error: "Error fetching song count" });
+        }
+
+        const songCount = result.length > 0 ? result[0].songCount : 0;
+        const response = { beat_type: beatType, songCount };
+
+        return res.json(response);
+    });
+});
+
+
+
+
+
+
+
 //CHORD
 app.post('/createChord', uploadChord.single('image'), (req, res) => {
     const sql = "INSERT INTO chord (`chord_name`,`description`,`image`) VALUES (?)";

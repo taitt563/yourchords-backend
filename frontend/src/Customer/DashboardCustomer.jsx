@@ -169,7 +169,7 @@ function DashboardCustomer() {
                                             </ListItemButton>
                                         </List>
                                         <List sx={{ width: '40%', paddingTop: '5px' }}>
-                                            <ListItemButton href="/beat" style={{ borderRadius: '20px' }} >
+                                            <ListItemButton href={"/beat/" + profile.userId} style={{ borderRadius: '20px' }} >
                                                 <ListItemIcon>
                                                     <i className="bi bi-vinyl-fill text-primary fs-4"></i>
                                                 </ListItemIcon>
