@@ -97,7 +97,7 @@ function App() {
           <Route path='/viewPlaylist/:id' element={<ViewPlaylist />}></Route>
           <Route path='/feedback/:userId' element={<Feedback />}></Route>
           <Route path='/viewFeedbackCustomer/:id' element={<ViewFeedbackCustomer />}></Route>
-          <Route path='/beat/:user_id' element={<Beat />}></Route>
+          <Route path='/beat/:user_id/' element={<Beat />}></Route>
           <Route path='/songBeat/:user_id/:beat_type' element={<SongBeat />}></Route>
 
         </Route>

@@ -560,26 +560,6 @@ app.post('/createSong', upload.single('thumbnail'), (req, res) => {
 //BEAT
 
 
-// app.get('/getSongBeat/:beat_type', (req, res) => {
-//     const beatId = req.params.beat_type;
-//     const sql = "SELECT * FROM song WHERE beat_type = (SELECT beat_type FROM beat_genres WHERE beat_id = ?) AND status = 1";
-//     con.query(sql, [beatId], (err, result) => {
-//         if (err) {
-//             return res.json({ Error: "Get song error in sql" });
-//         }
-//         return res.json({ Status: "Success", Result: result });
-//     });
-// });
-app.get('/getBeat/:beat_id', (req, res) => {
-    const beatId = req.params.beat_id;
-    const sql = "SELECT * FROM song WHERE beat_id = ?";
-    con.query(sql, [beatId], (err, result) => {
-        if (err) {
-            return res.json({ Error: "Get song error in SQL" });
-        }
-        return res.json({ Status: "Success", Result: result });
-    });
-});
 app.get('/getSongBeat/:beat_type', (req, res) => {
     const beatType = req.params.beat_type;
     const sql = "SELECT * FROM song WHERE beat_type = ? AND status = 1";
@@ -593,9 +573,9 @@ app.get('/getSongBeat/:beat_type', (req, res) => {
 
 app.get('/countSongBeat/:beat_type', (req, res) => {
     const beatType = req.params.beat_type;
-
     const query = `
-        SELECT beat_genres.beat_id, COUNT(song.id) AS songCount FROM song
+        SELECT beat_genres.beat_id, COUNT(song.id) AS songCount
+        FROM song
         INNER JOIN beat_genres ON song.beat_type = beat_genres.beat_id
         WHERE beat_genres.beat_id = ? AND song.status = 1
         GROUP BY beat_genres.beat_id;

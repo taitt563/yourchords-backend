@@ -236,7 +236,7 @@ export default function SearchAppBarBackCustomer() {
                                         </ListItemButton>
                                     </List>
                                     <List sx={{ paddingTop: '20px' }}>
-                                        <ListItemButton href="/beat" style={{ borderRadius: '20px' }} >
+                                        <ListItemButton href={"/beat/" + profile.userId} style={{ borderRadius: '20px' }} >
                                             <ListItemIcon>
                                                 <i className="bi bi-vinyl-fill text-primary fs-4"></i>
                                             </ListItemIcon>
