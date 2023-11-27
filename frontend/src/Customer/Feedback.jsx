@@ -10,8 +10,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import SearchAppBar from '../component/SearchAppBar';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { Link, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -24,6 +23,7 @@ export default function Feedback() {
         comment: '',
         rating: 5,
     });
+    const navigate = useNavigate();
     const [hover, setHover] = useState(5);
     const [selectedLabel, setSelectedLabel] = useState(null);
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -84,8 +84,6 @@ export default function Feedback() {
             .catch(err => console.log(err));
     };
 
-
-
     const openModal = () => {
         setIsModalOpen(true);
     };
@@ -133,7 +131,7 @@ export default function Feedback() {
 
             if (date1 === date2 && filterDate === 'today') {
                 return (
-                    <tr key={index}>
+                    <tr key={index} onClick={() => navigate(`/viewFeedbackCustomer/` + feedbackUser.id)} style={{ cursor: 'pointer' }}>
                         <td>
 
                             {imageURL && <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />}
@@ -145,16 +143,13 @@ export default function Feedback() {
                             :
                             <td className="text-warning"><b>Not reply</b></td>
                         }
-                        <td>
-                            <Link to={`/viewFeedbackCustomer/` + feedbackUser.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                        </td>
                     </tr>
                 );
             }
 
             if (date1 > date2 && filterDate === 'recently') {
                 return (
-                    <tr key={index}>
+                    <tr key={index} onClick={() => navigate(`/viewFeedbackCustomer/` + feedbackUser.id)} style={{ cursor: 'pointer' }} >
                         <td>
                             {imageURL && <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />}
                         </td>
@@ -164,9 +159,6 @@ export default function Feedback() {
                             :
                             <td className="text-warning"><b>Not reply</b></td>
                         }
-                        <td>
-                            <Link to={`/viewFeedbackCustomer/` + feedbackUser.id} className='btn btn-success btn-sm me-2'><RemoveRedEyeIcon /></Link>
-                        </td>
                     </tr>
                 );
             }
@@ -183,62 +175,59 @@ export default function Feedback() {
 
                 </div>
                 {/* LIST TODAY */}
-                <ListItem>
-                    <ListItemText primary="Today" />
-                </ListItem>
-                <List sx={{ mb: 2 }}>
-                    <div className="mt-4 pd-left">
-                        {!renderTableRows('today').some(row => row !== null) ?
-                            (
+                <div style={{ borderRadius: '20px', border: '1px solid #ccc', margin: '10px' }}>
+                    <ListItem>
+                        <ListItemText primary="Today" style={{ color: '#0d6efd' }} />
+                    </ListItem>
+                    <List sx={{ mb: 2 }} >
+                        <div className="mt-4 pd-left">
+                            {!renderTableRows('today').some(row => row !== null) ?
+                                (
 
-                                <div className="text-center"><b>No comment available</b></div>
-                            )
-                            :
-                            <table className='table'>
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                        <th>View</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {renderTableRows('today')}
-                                </tbody>
-                            </table>
-                        }
-                    </div>
-                </List>
-                {/* LIST RECENTLY */}
-                <ListItem>
-                    <ListItemText primary="Recently" />
-                </ListItem>
-                <List sx={{ mb: 2 }}>
-                    <div className="mt-4 pd-left">
-                        {!renderTableRows('recently').some(row => row !== null) ?
-                            (
+                                    <div className="text-center"><b>No comment available</b></div>
+                                )
+                                :
+                                <table className='custom-table table'>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {renderTableRows('today')}
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </List>
+                    {/* LIST RECENTLY */}
+                    <ListItem>
+                        <ListItemText primary="Recently" style={{ color: '#0d6efd' }} />
+                    </ListItem>
+                    <List sx={{ mb: 2 }}>
+                        <div className="mt-4 pd-left">
+                            {!renderTableRows('recently').some(row => row !== null) ?
+                                (
 
-                                <div className="text-center"><em>No comment available</em></div>
-                            )
-                            :
-                            <table className='table'>
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                        <th>View</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {renderTableRows('recently')}
-                                </tbody>
-                            </table>
-                        }
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <Button variant={'contained'} onClick={openModal}>Send Feedback</Button>
+                                    <div className="text-center"><em>No comment available</em></div>
+                                )
+                                :
+                                <table className='custom-table table'>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {renderTableRows('recently')}
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
                         {/* Modal for creating new feedback */}
                         <Modal open={isModalOpen} onClose={closeModal}>
                             <Box
@@ -295,10 +284,13 @@ export default function Feedback() {
                                 </form>
                             </Box>
                         </Modal>
-                    </div>
 
-                </List>
-            </React.Fragment>
+                    </List>
+                </div >
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <Button variant={'contained'} onClick={openModal}>Send Feedback</Button>
+                </div>
+            </React.Fragment >
         </>
     );
 }

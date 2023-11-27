@@ -6,6 +6,34 @@
     background-size: 100% 120%;
 }
 
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.custom-table th,
+.custom-table td {
+    text-align: left;
+    padding: 15px;
+}
+
+.custom-table th:first-child,
+.custom-table td:first-child {
+    width: 20%;
+}
+
+.custom-table th:nth-child(2),
+.custom-table td:nth-child(2) {
+    width: 40%;
+}
+
+.custom-table th:nth-child(3),
+.custom-table td:nth-child(3) {
+    width: 40%;
+}
+
+
 .message-container {
     display: flex;
     flex-direction: column;
