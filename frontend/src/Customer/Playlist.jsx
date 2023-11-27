@@ -29,13 +29,15 @@ function Playlist() {
         },
     });
     const [anchorEl, setAnchorEl] = useState(null);
-    const handleMenuOpen = (event) => {
+    const [selectedPlaylistId, setSelectedPlaylistId] = useState(null);
+    const handleMenuOpen = (event, playlistId) => {
         setAnchorEl(event.currentTarget);
+        setSelectedPlaylistId(playlistId);
     };
-
     const handleMenuClose = () => {
         setAnchorEl(null);
-    }
+        setSelectedPlaylistId(null);
+    };
     const fetchPlaylistData = async () => {
         try {
             const playlistResponse = await axios.get(`${apiUrl}/getPlaylist/` + userId);
@@ -69,8 +71,6 @@ function Playlist() {
     }, []);
 
     const handleDelete = (id) => {
-        console.log(id);
-
         axios.delete(`${apiUrl}/deleteCollection/ ` + id)
             .then(res => {
                 if (res.data.Status === "Success") {
@@ -162,9 +162,8 @@ function Playlist() {
                                                 <IconButton
                                                     size="large"
                                                     aria-label="menu"
-                                                    aria-controls="song-menu"
                                                     aria-haspopup="true"
-                                                    onClick={handleMenuOpen}
+                                                    onClick={(event) => handleMenuOpen(event, playlist.id)}
                                                     style={{ position: 'absolute', top: 0, right: 0 }}
                                                     className="favorite-button"
                                                 >
@@ -172,7 +171,7 @@ function Playlist() {
                                                 </IconButton>
                                                 <Menu
                                                     anchorEl={anchorEl}
-                                                    open={Boolean(anchorEl)}
+                                                    open={selectedPlaylistId === playlist.id && Boolean(anchorEl)}
                                                     onClose={handleMenuClose}
                                                 >
                                                     <MenuItem onClick={() => handleDelete(playlist.id)}>

@@ -265,12 +265,12 @@ function ChordMissMusician() {
                                             <TableCell className="text-warning"><b>Missing Chord</b></TableCell>
                                             <TableCell>
                                                 {song.status === 0 ?
-                                                    <Link
+                                                    <p
                                                         onClick={(e) => {
                                                             e.stopPropagation();
                                                             handleDelete(song.id);
                                                         }}
-                                                        className='btn btn-sm btn-danger'><DeleteIcon /></Link> :
+                                                        className='btn btn-sm btn-danger'><DeleteIcon /></p> :
                                                     ""
                                                 }
                                             </TableCell>
