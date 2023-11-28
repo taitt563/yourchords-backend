@@ -316,7 +316,7 @@ function SongBeatManager() {
                                         key={index}
                                         className={`item-grid item-${index + 1}`}
                                         onClick={() => {
-                                            navigate(`/songBeat/${userId}/${beatGenre.beat_id.toLowerCase()}`);
+                                            navigate(`/songBeatManager/${userId}/${beatGenre.beat_id.toLowerCase()}`);
                                             window.location.reload();
                                         }}
                                         style={{
