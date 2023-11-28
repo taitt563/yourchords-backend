@@ -30,6 +30,7 @@ import OrderMusician from './Musician/OrderMusician'
 import CreateChord from './Musician/CreateChord'
 import SongMusician from './Musician/SongMusician'
 import RejectSong from './Musician/RejectSong'
+import SongBeatManager from './Musician/SongBeatManager'
 /////CUSTOMER
 import DashboardCustomer from './Customer/DashboardCustomer'
 import SongCustomer from './Customer/SongCustomer'
@@ -86,6 +87,7 @@ function App() {
 
         </Route>
         <Route path='/viewSongMusician/:id' element={<ViewSongMusician />}></Route>
+        <Route path='/songBeatManager/:user_id/:beat_type' element={<SongBeatManager />}></Route>
 
         {/* CUSTOMER ROLE */}
         <Route path='/' element={<DashboardCustomer />}>
@@ -101,7 +103,6 @@ function App() {
 
         </Route>
         <Route path='/songBeat/:user_id/:beat_type' element={<SongBeat />}></Route>
-
         <Route path='/chord' element={<Chord />}></Route>
         <Route path='/searchChord' element={<SearchChord />}></Route>
         <Route path='/viewSongCustomer/:id' element={<ViewSongCustomer />}></Route>
