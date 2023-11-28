@@ -18,6 +18,15 @@ function ListSong() {
                         <p className='headP' style={{ marginLeft: '50px' }}>hợp âm</p>
                         <p className='headP' style={{ marginLeft: '50px' }}>Lượt xem</p>
                     </div>
+                    <div className="card-body" >
+                        <p className='headP'>Lạ lùng</p> <p className='headP'>- Vũ</p>
+                        <p>Description</p>
+                        <p className='headP'>Pic</p>
+                        <p className='headP'>-Vũ</p>
+                        <p className='headP'>-Ngày tháng năm</p>
+                        <p className='headP' style={{ marginLeft: '50px' }}>hợp âm</p>
+                        <p className='headP' style={{ marginLeft: '50px' }}>Lượt xem</p>
+                    </div>
                 </div>
                 <div className="card mx-3 my-5" style={{ width: '40%', marginRight: '20px', padding: '10px' }}>
                     <b style={{ textAlign: 'center' }}>Thể loại</b>
