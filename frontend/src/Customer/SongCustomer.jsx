@@ -24,6 +24,7 @@ function SongCustomer() {
     const [modalOpen, setModalOpen] = useState(false);
     const [dataPlaylist, setDataPlaylist] = useState([]);
     const [isRequestAccount, setIsRequestAccount] = useState(false);
+    const [selectedBeatType, setSelectedBeatType] = useState(null);
 
     const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -88,6 +89,27 @@ function SongCustomer() {
         setOrderBy(field);
         setOrder(order === 'asc');
     };
+    const handleFilterByBeatType = (beatType) => {
+        if (beatType) {
+            axios.get(`${apiUrl}/getSongsByGenre/${beatType}`)
+                .then((res) => {
+                    if (res.data.Status === 'Success') {
+                        setData(res.data.Result);
+                        if (res.data.Result.length > 0) {
+                            const songImages = res.data.Result.map(data => `${data.image}`);
+                            setImageURL(songImages);
+                        }
+                    } else {
+                        alert(`Error fetching songs with genre ${beatType}.`);
+                    }
+                })
+                .catch((err) => console.log(err));
+            setSelectedBeatType(beatType);
+
+        } else {
+            setSelectedBeatType((prevBeatType) => (prevBeatType === beatType ? null : beatType));
+        }
+    };
 
     const handleAddToPlayList = () => {
         if (selectedSong && selectedPlaylist) {
@@ -123,8 +145,10 @@ function SongCustomer() {
         });
     }
     const filteredSongs = sortData(data).filter((song) => {
-        return search.trim() === '' ||
-            song.song_title.toLowerCase().includes(search.toLowerCase());
+        return (
+            (search.trim() === '' || song.song_title.toLowerCase().includes(search.toLowerCase())) &&
+            (selectedBeatType === null || song.genre_name === selectedBeatType)
+        );
     });
     const handleRequestAccountMusician = () => {
         const username = userId
@@ -219,25 +243,39 @@ function SongCustomer() {
                 >
                     Updated
                 </button>
-                <button className={`sort-button ${orderBy === 'popular' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> Popular
-                </button>
-                <button className={`sort-button ${orderBy === 'pop' ? 'active' : ''}`}>
+                <button
+                    className={`sort-button ${selectedBeatType === 'pop' ? 'active' : ''}`}
+                    onClick={() => handleFilterByBeatType('pop')}
+                >
                     <SortIcon className="sort-icon" /> Pop
                 </button>
-                <button className={`sort-button ${orderBy === 'rock' ? 'active' : ''}`}>
+                <button
+                    className={`sort-button ${selectedBeatType === 'rock' ? 'active' : ''}`}
+                    onClick={() => handleFilterByBeatType('rock')}
+                >
                     <SortIcon className="sort-icon" /> Rock
                 </button>
-                <button className={`sort-button ${orderBy === 'jazz' ? 'active' : ''}`}>
+                <button
+                    className={`sort-button ${selectedBeatType === 'jazz' ? 'active' : ''}`}
+                    onClick={() => handleFilterByBeatType('jazz')}
+                >
                     <SortIcon className="sort-icon" /> Jazz
                 </button>
-                <button className={`sort-button ${orderBy === 'acoustic' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> Acoustic
+                <button
+                    className={`sort-button ${selectedBeatType === 'acoustic' ? 'active' : ''}`}
+                    onClick={() => handleFilterByBeatType('acoustic')}
+                >                    <SortIcon className="sort-icon" /> Acoustic
                 </button>
-                <button className={`sort-button ${orderBy === 'ballad' ? 'active' : ''}`}>
+                <button
+                    className={`sort-button ${selectedBeatType === 'ballad' ? 'active' : ''}`}
+                    onClick={() => handleFilterByBeatType('ballad')}
+                >
                     <SortIcon className="sort-icon" /> Ballad
                 </button>
-                <button className={`sort-button ${orderBy === 'r&b' ? 'active' : ''}`}>
+                <button
+                    className={`sort-button ${selectedBeatType === 'rb' ? 'active' : ''}`}
+                    onClick={() => handleFilterByBeatType('rb')}
+                >
                     <SortIcon className="sort-icon" /> R&b
                 </button>
             </div>

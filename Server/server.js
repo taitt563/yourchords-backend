@@ -477,6 +477,25 @@ app.get('/getSong/:id', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
+
+app.get('/getSongsByGenre/:genreName', (req, res) => {
+    const genreName = req.params.genreName;
+    const sql = `
+    SELECT *
+    FROM song
+    JOIN song_genres ON song.id = song_genres.song_id
+    JOIN genre ON song_genres.genre_id = genre.id
+    WHERE genre.genre_name = ?;
+    `;
+    con.query(sql, [genreName], (err, result) => {
+        if (err) {
+            return res.json({ Error: "Error in SQL query" });
+        }
+
+        return res.json({ Status: "Success", Result: result });
+    });
+});
+
 app.get('/getSongAdmin/', (req, res) => {
     const sql = "SELECT * FROM song WHERE status = '1'";
     con.query(sql, (err, result) => {
@@ -486,24 +505,18 @@ app.get('/getSongAdmin/', (req, res) => {
 })
 app.put('/updateSong/:id', upload.single("thumbnail"), (req, res) => {
     const id = req.params.id;
-
-    // Lấy thông tin hiện tại của bài hát từ database
     const getCurrentSongInfoSQL = "SELECT lyrics FROM song WHERE id = ?";
     con.query(getCurrentSongInfoSQL, [id], (err, currentSongInfo) => {
         if (err) return res.json({ Error: "get current song info error in sql" });
 
         const currentLyrics = currentSongInfo[0].lyrics;
-
-        // Kiểm tra nếu lyrics đã thay đổi
         if (currentLyrics !== req.body.lyrics) {
-            // Nếu thay đổi, cập nhật lyrics và đặt status thành 0
             const updateSongSQL = "UPDATE song SET song_title = ?, lyrics = ?, link = ?, status = 0, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
             con.query(updateSongSQL, [req.body.song_title, req.body.lyrics, req.body.link, id], (err, result) => {
                 if (err) return res.json({ Error: "update song error in sql" });
                 return res.json({ Status: "Success", Result: result });
             });
         } else {
-            // Nếu không có thay đổi về lyrics, chỉ cập nhật thông tin khác
             const updateSongSQLWithoutLyrics = "UPDATE song SET song_title = ?, link = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
             con.query(updateSongSQLWithoutLyrics, [req.body.song_title, req.body.link, id], (err, result) => {
                 if (err) return res.json({ Error: "update song (without lyrics) error in sql" });

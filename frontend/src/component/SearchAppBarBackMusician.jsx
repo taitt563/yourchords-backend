@@ -19,7 +19,7 @@ import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import Avatar from '@mui/material/Avatar';
-import AddIcon from '@mui/icons-material/Add';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
@@ -27,6 +27,8 @@ import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCircle';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import FlakyIcon from '@mui/icons-material/Flaky';
+import MusicOffIcon from '@mui/icons-material/MusicOff';
 import axios from 'axios';
 
 const darkTheme = createTheme({
@@ -189,19 +191,21 @@ export default function SearchAppBarBackMusican() {
                                         <List sx={{ width: '100%' }}>
                                             <ListItemButton href="/chordMusician" style={{ borderRadius: '20px' }}>
                                                 <ListItemIcon>
+                                                    <FlakyIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                                 </ListItemIcon>
                                                 <ListItemText><span className="fontDashboard">Waiting Approve</span></ListItemText>
                                             </ListItemButton>
+                                            <ListItemButton href="/rejectSong" style={{ borderRadius: '20px' }}>
+                                                <ListItemIcon>
+                                                    <SentimentVeryDissatisfiedIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Not Approved</span></ListItemText>
+                                            </ListItemButton>
                                             <ListItemButton href="/chordMissMusician" style={{ borderRadius: '20px' }}>
                                                 <ListItemIcon>
+                                                    <MusicOffIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                                 </ListItemIcon>
                                                 <ListItemText><span className="fontDashboard">Missing Chord</span></ListItemText>
-                                            </ListItemButton>
-                                            <ListItemButton href="/createSong" style={{ borderRadius: '20px' }}>
-                                                <ListItemIcon>
-                                                    <AddIcon style={{ color: '#0d6efd' }} fontSize='medium' />
-                                                </ListItemIcon>
-                                                <ListItemText><span className="fontDashboard">New Song</span></ListItemText>
                                             </ListItemButton>
                                         </List>
                                     </Collapse>
