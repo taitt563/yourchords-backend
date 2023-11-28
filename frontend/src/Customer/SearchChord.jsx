@@ -243,6 +243,7 @@ function SearchChord() {
                                             />
                                         </Stack>
                                     </div>
+
                                     <div className="col-md-4">
                                         <div style={{
                                             backgroundColor: '#f0f0f0',

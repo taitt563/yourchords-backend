@@ -73,10 +73,10 @@ function Beat() {
                                 key={index}
                                 className={`item-grid item-${index + 1}`}
                                 onClick={() => navigate(`/songBeat/${userId}/${beatGenre.beat_id.toLowerCase()}`)}
-                                style={{ cursor: 'pointer' }}
+                                style={{ cursor: 'pointer', border: '1px solid #ccc' }}
                             >
                                 <h3>{beatGenre.beat_name}</h3>
-                                <h6>
+                                <h6 style={{ fontWeight: 'bold' }}>
                                     {beatSongCounts[beatGenre.beat_id] !== undefined
                                         ? `${beatSongCounts[beatGenre.beat_id]} bài`
                                         : '0 bài'}

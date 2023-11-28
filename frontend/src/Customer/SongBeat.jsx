@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import SortIcon from '@mui/icons-material/Sort';
 import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
 import { useParams } from 'react-router-dom';
@@ -123,7 +122,7 @@ function SongBeat() {
                 >
                     Updated
                 </button>
-                <button className={`sort-button ${orderBy === 'popular' ? 'active' : ''}`}>
+                {/* <button className={`sort-button ${orderBy === 'popular' ? 'active' : ''}`}>
                     <SortIcon className="sort-icon" /> Popular
                 </button>
                 <button className={`sort-button ${orderBy === 'pop' ? 'active' : ''}`}>
@@ -143,7 +142,7 @@ function SongBeat() {
                 </button>
                 <button className={`sort-button ${orderBy === 'r&b' ? 'active' : ''}`}>
                     <SortIcon className="sort-icon" /> R&b
-                </button>
+                </button> */}
             </div>
             <div className="d-flex">
                 <div className="col-md-8" >
@@ -153,7 +152,7 @@ function SongBeat() {
 
                         {
                             sortData(data).map((song, index) => (
-                                <div key={index} style={{ borderBottom: '1px solid #ccc', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', padding: '50px' }}>
+                                <div key={index} style={{ borderBottom: '1px solid #ccc', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', padding: '30px' }}>
                                     <div style={{ position: 'relative' }} >
                                         <IconButton
                                             onClick={() => { handleFavorite(data.userId), setSelectedSong(song) }}
