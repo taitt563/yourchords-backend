@@ -5,22 +5,37 @@ import Box from '@mui/material/Box';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import SearchAppBarBackCustomer from '../component/SearchAppBarBackCustomer';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+
 function SongBeat() {
     const [data, setData] = useState([]);
     const [orderBy, setOrderBy] = useState('created_at');
     const [order, setOrder] = useState('asc');
     const [modalOpen, setModalOpen] = useState(false);
     const [dataPlaylist, setDataPlaylist] = useState([]);
-
+    const [imageURL, setImageURL] = useState(null);
+    const [beatGenres, setBeatGenres] = useState([]);
+    const [beatSongCounts, setBeatSongCounts] = useState({});
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const userId = sessionStorage.getItem('id_customer');
     const { beat_type } = useParams();
     const [selectedSong, setSelectedSong] = useState(null);
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
-    const [imageURL, setImageURL] = useState(null);
+    const [majorChordsData, setDataMajorChords] = useState([]);
+    const [minorChordsData, setDataMinorChords] = useState([]);
+    const [c7ChordsData, setDataC7Chords] = useState([]);
+    const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+    // Pagination logic
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(data.length / itemsPerPage);
     const styles = {
         position: 'absolute',
         top: '50%',
@@ -33,12 +48,27 @@ function SongBeat() {
         width: '1200px',
         borderRadius: '30px'
     };
-
+    const beatGenresData = [
+        { beat_id: 'Ballad', beat_name: 'Ballad' },
+        { beat_id: 'BluesTune', beat_name: 'Blues Tune' },
+        { beat_id: 'DiscoTune', beat_name: 'Disco Tune' },
+        { beat_id: 'SlowTune', beat_name: 'Slow Tune' },
+        { beat_id: 'BolleroTune', beat_name: 'Bollero Tune' },
+        { beat_id: 'FoxTune', beat_name: 'Fox Tune' },
+        { beat_id: 'ValseTune', beat_name: 'Valse Tune' },
+        { beat_id: 'TangoTune', beat_name: 'Tango Tune' },
+        { beat_id: 'PopTune', beat_name: 'Pop Tune' },
+        { beat_id: 'BostonTune', beat_name: 'Boston Tune' },
+        { beat_id: 'WaltzTune', beat_name: 'Waltz' },
+        { beat_id: 'Chachachadance', beat_name: 'Chachacha Dance' },
+        { beat_id: 'RockTune', beat_name: 'Rock Tune' },
+        { beat_id: 'Dhumbadance', beat_name: 'Dhumba Dance' },
+        { beat_id: 'BossaNova', beat_name: 'Bossa Nova' },
+    ];
     const handleFavorite = () => {
         axios.get(`${apiUrl}/getPlaylist/` + userId)
             .then((res) => {
                 if (res.data.Status === 'Success') {
-                    console.log(res.data.Result)
                     setDataPlaylist(res.data.Result);
                     if (res.data.Result.length > 0) {
                         const songImages = res.data.Result.map(playlist => `${playlist.image}`);
@@ -66,6 +96,34 @@ function SongBeat() {
                 }
             })
             .catch((err) => console.log(err));
+    }, []);
+    const fetchData = async () => {
+        try {
+            const countRequests = beatGenresData.map((beat) =>
+                axios.get(`${apiUrl}/countSongBeat/${beat.beat_id}`)
+            );
+
+            const countResponses = await Promise.all(countRequests);
+
+            const updatedGenres = beatGenresData.map((beat, index) => ({
+                ...beat,
+                song_count: countResponses[index].data.songCount,
+            }));
+
+            const songCountsMap = {};
+            updatedGenres.forEach((beat) => {
+                songCountsMap[beat.beat_id] = beat.song_count;
+            });
+
+            setBeatGenres(updatedGenres);
+            setBeatSongCounts(songCountsMap);
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    useEffect(() => {
+        fetchData();
     }, []);
 
     const handleSort = (field) => {
@@ -106,6 +164,49 @@ function SongBeat() {
             }
         });
     }
+    const extractChords = (lyrics) => {
+        const chordRegex = /\[(?<chord>[\w#]+)\]/g;
+        const uniqueChords = new Set();
+        let match;
+        while ((match = chordRegex.exec(lyrics)) !== null) {
+            uniqueChords.add(match[1]);
+        }
+        return Array.from(uniqueChords);
+    };
+    useEffect(() => {
+        axios.get(`${apiUrl}/getChord`)
+            .then(res => {
+                if (res.data.Status === "Success") {
+                    const chordData = res.data.Result.map(chord => ({
+                        name: chord.chord_name,
+                        image: chord.image,
+                        type: chord.type_id,
+                    }));
+                    const majorChordsData = {};
+                    const minorChordsData = {};
+                    const c7ChordsData = {};
+
+                    chordData.forEach(chord => {
+                        if (chord.type === 0) {
+                            majorChordsData[chord.name] = chord;
+                        }
+                        if (chord.type === 1) {
+                            minorChordsData[chord.name] = chord;
+                        }
+                        if (chord.type === 2) {
+                            c7ChordsData[chord.name] = chord;
+                        }
+                    });
+                    setDataMajorChords(majorChordsData);
+                    setDataMinorChords(minorChordsData);
+                    setDataC7Chords(c7ChordsData)
+                } else {
+                    alert("Error")
+                }
+            })
+            .catch(err => console.log(err));
+    }, [])
+    const chordData = { ...majorChordsData, ...minorChordsData, ...c7ChordsData };
     return (
         <>
             <SearchAppBarBackCustomer />
@@ -122,107 +223,145 @@ function SongBeat() {
                 >
                     Updated
                 </button>
-                {/* <button className={`sort-button ${orderBy === 'popular' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> Popular
-                </button>
-                <button className={`sort-button ${orderBy === 'pop' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> Pop
-                </button>
-                <button className={`sort-button ${orderBy === 'rock' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> Rock
-                </button>
-                <button className={`sort-button ${orderBy === 'jazz' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> Jazz
-                </button>
-                <button className={`sort-button ${orderBy === 'acoustic' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> Acoustic
-                </button>
-                <button className={`sort-button ${orderBy === 'ballad' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> Ballad
-                </button>
-                <button className={`sort-button ${orderBy === 'r&b' ? 'active' : ''}`}>
-                    <SortIcon className="sort-icon" /> R&b
-                </button> */}
             </div>
             <div className="d-flex">
                 <div className="col-md-8" >
-                    <div style={{
-                        borderRadius: '10px', border: '1px solid #ccc', margin: '10px', marginTop: '85px', marginLeft: '200px'
-                    }}>
+                    {data.length === 0 ? (
+                        <div style={{
+                            margin: '10px', marginTop: '80px', textAlign: 'center'
+                        }}>
+                            <p style={{ color: '#0d6efd', fontWeight: 'bold' }}>No results found</p>
+                        </div>
+                    )
+                        :
+                        (
+                            <div style={{
+                                borderRadius: '10px', border: '1px solid #ccc', margin: '10px', marginTop: '80px', marginLeft: '50px'
+                            }}>
 
-                        {
-                            sortData(data).map((song, index) => (
-                                <div key={index} style={{ borderBottom: '1px solid #ccc', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', padding: '30px' }}>
-                                    <div style={{ position: 'relative' }} >
-                                        <IconButton
-                                            onClick={() => { handleFavorite(data.userId), setSelectedSong(song) }}
-                                            size="large"
-                                            aria-label="like"
-                                            color="error"
-                                            style={{ position: 'absolute', top: 0, right: 0 }}
-                                            className="favorite-button"
-                                        >
-                                            <FavoriteIcon />
-                                        </IconButton>
-                                    </div>
-                                    <Link href={`/viewSongCustomer/` + song.id} underline="none">
-                                        <div>
-                                            <b>{song.song_title}</b>
-                                            <p><b>Artist: {song.artist}</b></p>
-                                        </div>
-                                    </Link>
-                                </div>
-                            ))
-                        }
-                    </div>
-                </div>
+                                {
+                                    sortData(currentItems).map((song, index) => {
+                                        const songChords = extractChords(song.lyrics);
+                                        const uniqueChordsSet = new Set(songChords);
+                                        return (
+                                            <div key={index} style={{ borderBottom: '1px solid #ccc', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px' }}>
+                                                <div style={{ padding: '10px', paddingLeft: '10px', color: 'black' }}>
+                                                    <div style={{ position: 'relative' }} >
+                                                        <IconButton
+                                                            onClick={() => { handleFavorite(data.userId), setSelectedSong(song) }}
+                                                            size="large"
+                                                            aria-label="like"
+                                                            color="error"
+                                                            style={{ position: 'absolute', top: 0, right: 0 }}
+                                                            className="favorite-button"
+                                                        >
+                                                            <FavoriteIcon />
+                                                        </IconButton>
+                                                    </div>
+                                                    <Link href={`/viewSongCustomer/` + song.id} key={index} className="song-card-list" style={{ color: 'black', textDecoration: 'none' }}>
+                                                        <div className='column'>
+                                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                                <span style={{ fontSize: '20px', marginRight: '10px' }}>{song.song_title}</span>
+                                                                <div style={{ display: 'flex', textAlign: 'center' }}>
+
+                                                                    {songChords.map((chord, chordIndex) => (
+                                                                        <div
+                                                                            key={chordIndex}
+                                                                            style={{
+                                                                                padding: '5px',
+                                                                                marginRight: '15px',
+                                                                                marginBottom: '5px',
+                                                                                background: '#eee',
+                                                                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                                                                borderRadius: '5px'
+                                                                            }}
+                                                                        >
+                                                                            {chord}
+                                                                        </div>
+                                                                    ))}
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <span style={{ color: 'gray', fontStyle: 'italic' }}>{song.lyrics.substring(0, 100)}...</span>
+                                                        <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+                                                            {Array.from(uniqueChordsSet).slice(0, 5).map((chordName, index) => (
+                                                                <div key={index} className="chord-box" style={{ position: 'relative', textAlign: 'center', margin: '10px' }}>
+                                                                    <p style={{ marginTop: '5px' }}>{chordData[chordName]?.name}</p>
+                                                                    {chordData[chordName]?.image && (
+                                                                        <img src={chordData[chordName].image} alt={chordData[chordName].name} style={{ width: '120px', height: '100px' }} />
+                                                                    )}
+                                                                </div>
+                                                            ))}
+                                                            {Array.from(uniqueChordsSet).length > 5 && (
+                                                                <div className="chord-box" style={{ position: 'relative', textAlign: 'center', margin: '10px' }}>
+                                                                    <p style={{ marginTop: '5px', fontSize: '15px' }}>View more</p>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+
+                            </div>
+                        )
+                    }
+                    <Stack spacing={2} direction="row" justifyContent="center" mt={4}>
+                        <Pagination
+                            count={totalPages}
+                            page={currentPage}
+                            onChange={(event, value) => setCurrentPage(value)}
+                            color="primary"
+                            size="large"
+                        />
+                    </Stack>
+                </div >
+
 
                 <div className="col-md-4">
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'fixed' }}>
                         <b style={{ color: '#0d6efd', fontWeight: 'bold', textAlign: 'center', marginTop: '50px' }}>Rhythm</b>
-                        <div className="card mx-3 my-2" style={{ width: '80%', padding: '10px' }}>
-                            <div className="flex-row" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
-                                    <p>Nhac tre</p>
-                                    <p>(so bai)</p>
-                                </div>
-                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
-                                    <p>Nhac tre</p>
-                                    <p>(so bai)</p>
-                                </div>
-                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
-                                    <p>Nhac tre</p>
-                                    <p>(so bai)</p>
-                                </div>
-                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
-                                    <p>Nhac tre</p>
-                                    <p>(so bai)</p>
-                                </div>
-                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
-                                    <p>Nhac tre</p>
-                                    <p>(so bai)</p>
-                                </div>
-                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
-                                    <p>Nhac tre</p>
-                                    <p>(so bai)</p>
-                                </div>
-                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
-                                    <p>Nhac tre</p>
-                                    <p>(so bai)</p>
-                                </div>
-                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
-                                    <p>Nhac tre</p>
-                                    <p>(so bai)</p>
-                                </div>
-                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
-                                    <p>Nhac tre</p>
-                                    <p>(so bai)</p>
-                                </div>
+                        <div className="card mx-3 my-1" style={{ width: '80%', padding: '5px' }}>
+                            <div className="flex-row" style={{
+                                display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', cursor: 'pointer'
+                            }}>
+                                {beatGenres.map((beatGenre, index) => (
+                                    <div
+                                        key={index}
+                                        className={`item-grid item-${index + 1}`}
+                                        onClick={() => {
+                                            navigate(`/songBeat/${userId}/${beatGenre.beat_id.toLowerCase()}`);
+                                            window.location.reload();
+                                        }}
+                                        style={{
+                                            width: 'fit-content',
+                                            padding: '0 11px',
+                                            borderRadius: '5px',
+                                            margin: '5px',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            textAlign: 'center',
+                                        }}
+                                    >
+                                        <p style={{
+                                            fontSize: '9px', margin: '6px'
+                                        }}>
+                                            {beatGenre.beat_name} {'('}
+                                            {beatSongCounts[beatGenre.beat_id] !== undefined
+                                                ? `${beatSongCounts[beatGenre.beat_id]} bài`
+                                                : '0 bài'}
+                                            {')'}
+                                        </p>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div >
 
             <Modal

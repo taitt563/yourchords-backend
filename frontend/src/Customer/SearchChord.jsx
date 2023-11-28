@@ -11,6 +11,11 @@ import finger_3 from '../../../Server/public/finger/finger_3.png'
 import finger_4 from '../../../Server/public/finger/finger_4.png'
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import AddIcon from '@mui/icons-material/Add';
+import Box from '@mui/material/Box';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import IconButton from '@mui/material/IconButton';
+import Modal from '@mui/material/Modal';
 function SearchChord() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [data, setData] = useState([]);
@@ -19,16 +24,33 @@ function SearchChord() {
     const predefinedChords = ["C,G,Am,Em,F", "Am,F,C,G", "G,Em,C,D", "D,Bm,G,A", "C,Am,Dm,G", "Am,Dm,E"];
     const [majorChordsData, setDataMajorChords] = useState([]);
     const [minorChordsData, setDataMinorChords] = useState([]);
+    const [dataPlaylist, setDataPlaylist] = useState([]);
+    const [imageURL, setImageURL] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+    const [c7ChordsData, setDataC7Chords] = useState([]);
+    const [selectedSong, setSelectedSong] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
-
+    const userId = sessionStorage.getItem('id_customer');
 
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
     const totalPages = Math.ceil(data.length / itemsPerPage);
-
+    const styles = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        bgcolor: 'background.paper',
+        boxShadow: 24,
+        overflowY: 'auto',
+        height: '700px',
+        width: '1200px',
+        borderRadius: '30px'
+    };
     const handlePredefinedChordSearch = (chord, index, e) => {
         e.preventDefault();
         document.getElementById('chordInput').value = chord;
@@ -46,6 +68,41 @@ function SearchChord() {
             uniqueChords.add(match[1]);
         }
         return Array.from(uniqueChords);
+    };
+    const handleFavorite = () => {
+        axios.get(`${apiUrl}/getPlaylist/` + userId)
+            .then((res) => {
+                if (res.data.Status === 'Success') {
+                    setDataPlaylist(res.data.Result);
+                    if (res.data.Result.length > 0) {
+                        const songImages = res.data.Result.map(playlist => `${playlist.image}`);
+                        setImageURL(songImages);
+                    }
+                    setModalOpen(true);
+                } else {
+                    alert('Error');
+                }
+            })
+            .catch((err) => console.log(err));
+    };
+    const handleAddToPlayList = () => {
+        if (selectedSong && selectedPlaylist) {
+            const songId = selectedSong.id;
+            const collectionId = selectedPlaylist.id;
+            axios.post(`${apiUrl}/addToPlaylist`, {
+                collection_id: collectionId,
+                song_id: songId,
+            })
+                .then((res) => {
+                    if (res.data.Status === 'Success') {
+                        alert('Song added to the playlist');
+                        window.location.reload(true);
+                    } else {
+                        alert('Song is existed. Please try again');
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
     };
     const handleSearch = () => {
         const chordInput = document.getElementById('chordInput').value.toLowerCase();
@@ -95,22 +152,29 @@ function SearchChord() {
                     }));
                     const majorChordsData = {};
                     const minorChordsData = {};
+                    const c7ChordsData = {};
+
                     chordData.forEach(chord => {
+                        if (chord.type === 0) {
+                            majorChordsData[chord.name] = chord;
+                        }
                         if (chord.type === 1) {
                             minorChordsData[chord.name] = chord;
-                        } else {
-                            majorChordsData[chord.name] = chord;
+                        }
+                        if (chord.type === 2) {
+                            c7ChordsData[chord.name] = chord;
                         }
                     });
                     setDataMajorChords(majorChordsData);
                     setDataMinorChords(minorChordsData);
+                    setDataC7Chords(c7ChordsData)
                 } else {
                     alert("Error")
                 }
             })
             .catch(err => console.log(err));
     }, [])
-    const chordData = { ...majorChordsData, ...minorChordsData };
+    const chordData = { ...majorChordsData, ...minorChordsData, ...c7ChordsData };
     return (
         <>
             <SearchAppBarBackCustomer />
@@ -186,18 +250,31 @@ function SearchChord() {
                                                 const uniqueChordsSet = new Set(songChords);
 
                                                 return (
-                                                    <div key={index} className="d-flex flex-wrap" style={{ borderBottom: '1px solid #ccc', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px' }}>
-                                                        <Link href={`/viewSongCustomer/` + song.id} key={index} className="song-card-list" style={{ color: 'black', textDecoration: 'none' }}>
-                                                            <div style={{ padding: '10px', paddingLeft: '10px', color: 'black' }}>
+                                                    <div key={index} style={{ borderBottom: '1px solid #ccc', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px' }}>
+                                                        <div style={{ padding: '10px', paddingLeft: '10px', color: 'black' }}>
+                                                            <div style={{ position: 'relative' }} >
+                                                                <IconButton
+                                                                    onClick={() => { handleFavorite(data.userId), setSelectedSong(song) }}
+                                                                    size="large"
+                                                                    aria-label="like"
+                                                                    color="error"
+                                                                    style={{ position: 'absolute', top: 0, right: 0 }}
+                                                                    className="favorite-button"
+                                                                >
+                                                                    <FavoriteIcon />
+                                                                </IconButton>
+                                                            </div>
+                                                            <Link href={`/viewSongCustomer/` + song.id} key={index} className="song-card-list" style={{ color: 'black', textDecoration: 'none' }}>
                                                                 <div className='column'>
                                                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                                                         <span style={{ fontSize: '20px', marginRight: '10px' }}>{song.song_title}</span>
-                                                                        <div style={{ marginLeft: 'auto', display: 'flex' }}>
+                                                                        <div style={{ display: 'flex', textAlign: 'center' }}>
+
                                                                             {songChords.map((chord, chordIndex) => (
                                                                                 <div
                                                                                     key={chordIndex}
                                                                                     style={{
-                                                                                        padding: '6px',
+                                                                                        padding: '5px',
                                                                                         marginRight: '15px',
                                                                                         marginBottom: '5px',
                                                                                         background: '#eee',
@@ -208,6 +285,7 @@ function SearchChord() {
                                                                                     {chord}
                                                                                 </div>
                                                                             ))}
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -227,8 +305,8 @@ function SearchChord() {
                                                                         </div>
                                                                     )}
                                                                 </div>
-                                                            </div>
-                                                        </Link>
+                                                            </Link>
+                                                        </div>
                                                     </div>
                                                 );
                                             })}
@@ -296,6 +374,56 @@ function SearchChord() {
                         </div>
                     </div>
                 </div>
+                <Modal
+                    open={modalOpen}
+                    onClose={() => { setModalOpen(false) }}
+                >
+                    <Box sx={styles} >
+
+                        <div className="d-flex flex-wrap justify-content-start">
+                            <div className="w-100 text-center">
+                                <h2 className="mb-1 pd-top" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Playlist</h2>
+                            </div>
+
+                            {dataPlaylist.map((playlist, index) => (
+                                <div key={index} className="m-4 p-2 playlist-container ">
+                                    <div className="container rounded " style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                        <div className="d-flex flex-column align-items-center text-center">
+                                            <div className="rounded-image-container">
+                                                {imageURL && (
+                                                    <img
+                                                        className="rounded-square-image"
+                                                        src={`data:image/png;base64,${playlist.image}`}
+                                                    />
+                                                )}
+                                                <div className="image-overlay">
+                                                    <p className="playlist-name-modal">
+                                                        <AddIcon
+                                                            onClick={() => {
+                                                                setSelectedPlaylist(playlist);
+                                                                handleAddToPlayList();
+                                                            }}
+                                                            fontSize='large'
+                                                            style={{ cursor: 'pointer' }}
+                                                        />
+                                                        <br />
+                                                        <Link style={{ cursor: 'pointer' }}
+                                                            onClick={() => {
+                                                                setSelectedPlaylist(playlist);
+                                                                handleAddToPlayList();
+                                                            }} className="playlist-name-modal" underline='none'>Add to playlist</Link>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <b className="playlist-name-modal">{playlist.collection_name}</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </Box>
+
+                </Modal>
             </div>
         </>
     );
