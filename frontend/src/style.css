@@ -1106,7 +1106,11 @@ textarea {
 
 .item-grid {
     padding: 20px 60px;
-    border-radius: 5px;
+    border-radius: 10px;
+}
+
+.item-grid:hover {
+    transform: scale(1.1);
 }
 
 .item-grid h6 {

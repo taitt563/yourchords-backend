@@ -2,39 +2,21 @@ import { Link } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import SearchIcon from '@mui/icons-material/Search';
-import HeadsetIcon from '@mui/icons-material/Headset';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
 import SortIcon from '@mui/icons-material/Sort';
 import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+import SearchAppBarBackCustomer from '../component/SearchAppBarBackCustomer';
 function SongBeat() {
     const [data, setData] = useState([]);
-    const [search, setSearch] = useState('');
     const [orderBy, setOrderBy] = useState('created_at');
     const [order, setOrder] = useState('asc');
     const [modalOpen, setModalOpen] = useState(false);
     const [dataPlaylist, setDataPlaylist] = useState([]);
-    const [isRequestAccount, setIsRequestAccount] = useState(false);
 
-    const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-    const darkTheme = createTheme({
-        palette: {
-            mode: 'dark',
-            primary: {
-                main: '#F1F1FB',
-            },
-        },
-    });
     const userId = sessionStorage.getItem('id_customer');
     const { beat_type } = useParams();
     const [selectedSong, setSelectedSong] = useState(null);
@@ -125,90 +107,9 @@ function SongBeat() {
             }
         });
     }
-    const filteredSongs = sortData(data).filter((song) => {
-        return search.trim() === '' ||
-            song.song_title.toLowerCase().includes(search.toLowerCase());
-    });
-    const handleRequestAccountMusician = () => {
-        const username = userId
-        axios
-            .put(`${apiUrl}/requestAccountMusician/` + username)
-            .then((res) => {
-                if (res.data.Status === 'Success') {
-                    setIsRequestAccount(true);
-                    setTimeout(() => {
-                        setIsRequestAccount(false);
-                        navigate("/login");
-                    }, 3500);
-                }
-            })
-            .catch((err) => console.log(err));
-    };
-    const handleRequestAccountChordValidator = () => {
-        const username = userId
-        axios
-            .put(`${apiUrl}/requestAccountChordValidator/` + username)
-            .then((res) => {
-                if (res.data.Status === 'Success') {
-                    setIsRequestAccount(true);
-                    setTimeout(() => {
-                        setIsRequestAccount(false);
-                        navigate("/login");
-                    }, 3500);
-                }
-            })
-            .catch((err) => console.log(err));
-    };
     return (
         <>
-            <Box sx={{ flexGrow: 1, top: 0, position: 'sticky', zIndex: '3' }}>
-                <ThemeProvider theme={darkTheme}>
-                    <AppBar position="static" color="primary" enableColorOnDark>
-                        <Toolbar>
-                            <Typography
-                                variant="h5"
-                                noWrap
-                                component="a"
-                                sx={{
-                                    mr: 2,
-                                    display: { xs: 'none', md: 'flex' },
-                                    fontFamily: 'monospace',
-                                    fontWeight: 700,
-                                    letterSpacing: '.3rem',
-                                    color: '#0d6efd',
-                                    textDecoration: 'none',
-                                }}
-                            >
-                                <HeadsetIcon fontSize="large" />
-                            </Typography>
-                            <Typography
-                                variant="h6"
-                                noWrap
-                                component="div"
-                                sx={{ color: '#0d6efd', letterSpacing: '.3rem', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                            >
-                                <b>YOUR CHORD</b>
-                            </Typography>
-                            <Typography
-                                variant="h9"
-                                noWrap
-                                component="div"
-                                sx={{ color: '#0d6efd', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                            >
-                                <b>Register as a <Link onClick={() => handleRequestAccountMusician()} sx={{ color: '#0d6efd' }} underline='hover'>Musician</Link> / <Link onClick={() => handleRequestAccountChordValidator()} sx={{ color: '#0d6efd' }} underline='hover'>Chord validator</Link> partner</b>
-                            </Typography>
-
-                            <input
-                                type="text"
-                                className="input-box"
-                                placeholder="Search.."
-                                onChange={(e) => setSearch(e.target.value)}
-                            />
-                            <SearchIcon className="inputIcon" />
-                        </Toolbar>
-                    </AppBar>
-                </ThemeProvider>
-            </Box>
+            <SearchAppBarBackCustomer />
             <div className="sort-button-container">
                 <button
                     className={`sort-button ${orderBy === 'created_at' ? 'active' : ''}`}
@@ -244,21 +145,16 @@ function SongBeat() {
                     <SortIcon className="sort-icon" /> R&b
                 </button>
             </div>
-            {isRequestAccount && (
-                <Stack sx={{ width: '100%' }} spacing={2} >
-                    <Alert severity="info">Request account successfully, your account status is currently pending. The admin will review your account after 3 days!</Alert>
-                </Stack>
-            )}
+            <div className="d-flex">
+                <div className="col-md-8" >
+                    <div style={{
+                        borderRadius: '10px', border: '1px solid #ccc', margin: '10px', marginTop: '85px', marginLeft: '200px'
+                    }}>
 
-            {filteredSongs.length === 0 ? (
-                <p className="d-flex justify-content-center" style={{ color: '#0d6efd', paddingTop: '200px' }}>No result found. Try again !</p>
-            ) : (
-                <div className="song-list-container">
-                    {filteredSongs.map((song, index) => (
-                        <div key={index}>
-                            <div style={{ position: 'relative' }}>
-                                <div className="song-list-item">
-                                    <div >
+                        {
+                            sortData(data).map((song, index) => (
+                                <div key={index} style={{ borderBottom: '1px solid #ccc', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', padding: '50px' }}>
+                                    <div style={{ position: 'relative' }} >
                                         <IconButton
                                             onClick={() => { handleFavorite(data.userId), setSelectedSong(song) }}
                                             size="large"
@@ -271,22 +167,64 @@ function SongBeat() {
                                         </IconButton>
                                     </div>
                                     <Link href={`/viewSongCustomer/` + song.id} underline="none">
-                                        {imageURL && <img className="song-thumbnail" src={`data:image/png;base64,${song.thumbnail}`} alt="Song Thumbnail" />}
-
+                                        <div>
+                                            <b>{song.song_title}</b>
+                                            <p><b>Artist: {song.artist}</b></p>
+                                        </div>
                                     </Link>
                                 </div>
-                                <Link href={`/viewSongCustomer/` + song.id} underline="none">
-                                    <div className="song-details" style={{ textAlign: 'center' }}>
-                                        <b>{song.song_title}</b>
-                                        <p><b>Artist: {song.artist}</b></p>
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
-                    ))}
+                            ))
+                        }
+                    </div>
                 </div>
 
-            )}
+                <div className="col-md-4">
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <b style={{ color: '#0d6efd', fontWeight: 'bold', textAlign: 'center', marginTop: '50px' }}>Rhythm</b>
+                        <div className="card mx-3 my-2" style={{ width: '80%', padding: '10px' }}>
+                            <div className="flex-row" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
+                                    <p>Nhac tre</p>
+                                    <p>(so bai)</p>
+                                </div>
+                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
+                                    <p>Nhac tre</p>
+                                    <p>(so bai)</p>
+                                </div>
+                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
+                                    <p>Nhac tre</p>
+                                    <p>(so bai)</p>
+                                </div>
+                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
+                                    <p>Nhac tre</p>
+                                    <p>(so bai)</p>
+                                </div>
+                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
+                                    <p>Nhac tre</p>
+                                    <p>(so bai)</p>
+                                </div>
+                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
+                                    <p>Nhac tre</p>
+                                    <p>(so bai)</p>
+                                </div>
+                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
+                                    <p>Nhac tre</p>
+                                    <p>(so bai)</p>
+                                </div>
+                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
+                                    <p>Nhac tre</p>
+                                    <p>(so bai)</p>
+                                </div>
+                                <div style={{ backgroundColor: '#ddd', width: '30%', padding: '0 7px', borderRadius: '10px', margin: '5px' }}>
+                                    <p>Nhac tre</p>
+                                    <p>(so bai)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div >
 
             <Modal
                 open={modalOpen}

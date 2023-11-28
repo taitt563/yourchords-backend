@@ -98,9 +98,10 @@ function App() {
           <Route path='/feedback/:userId' element={<Feedback />}></Route>
           <Route path='/viewFeedbackCustomer/:id' element={<ViewFeedbackCustomer />}></Route>
           <Route path='/beat/:user_id/' element={<Beat />}></Route>
-          <Route path='/songBeat/:user_id/:beat_type' element={<SongBeat />}></Route>
 
         </Route>
+        <Route path='/songBeat/:user_id/:beat_type' element={<SongBeat />}></Route>
+
         <Route path='/chord' element={<Chord />}></Route>
         <Route path='/searchChord' element={<SearchChord />}></Route>
         <Route path='/viewSongCustomer/:id' element={<ViewSongCustomer />}></Route>
