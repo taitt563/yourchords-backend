@@ -63,7 +63,7 @@ function ManageBeat() {
             <div className="d-flex flex-column align-items-center pt-2">
                 <div className="d-flex flex-column align-items-center pt-4">
                     <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>
-                        Beat
+                        Manage Beat
                     </h3>
                 </div>
                 <div className="d-grid" style={{ padding: '5px' }}>

@@ -323,7 +323,7 @@ function SongBeat() {
                 <div className="col-md-4">
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'fixed' }}>
                         <b style={{ color: '#0d6efd', fontWeight: 'bold', textAlign: 'center', marginTop: '50px' }}>Rhythm</b>
-                        <div className="card mx-3 my-1" style={{ width: '80%', padding: '5px' }}>
+                        <div className="card mx-3 my-1" style={{ width: '90%', padding: '5px' }}>
                             <div className="flex-row" style={{
                                 display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', cursor: 'pointer'
                             }}>
@@ -345,10 +345,11 @@ function SongBeat() {
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                             textAlign: 'center',
+                                            border: '1px solid #f1f1f1'
                                         }}
                                     >
                                         <p style={{
-                                            fontSize: '9px', margin: '6px'
+                                            fontSize: '11px', margin: '5px'
                                         }}>
                                             {beatGenre.beat_name} {'('}
                                             {beatSongCounts[beatGenre.beat_id] !== undefined
