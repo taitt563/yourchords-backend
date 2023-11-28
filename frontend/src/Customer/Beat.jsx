@@ -5,47 +5,41 @@ import axios from 'axios';
 
 function Beat() {
     const navigate = useNavigate();
-    const [songCounts, setSongCounts] = useState({});
+    const [beatGenres, setBeatGenres] = useState([]);
+    const [beatSongCounts, setBeatSongCounts] = useState({});
     const userId = sessionStorage.getItem('id_customer');
-
-    const beat_typeValues = {
-        'Ballad': 'Ballad',
-        'BluesTune': 'Blues Tune',
-        'discoTune': 'Disco Tune',
-        'slowTune': 'Slow Tune',
-        'bolleroTune': 'Bollero Tune',
-        'foxTune': 'Fox Tune',
-        'valseTune': 'Valse Tune',
-        'tangoTune': 'Tango Tune',
-        'popTune': 'Pop Tune',
-        'bostonTune': 'Boston Tune',
-        'waltzTune': 'Waltz',
-        'chachachadance': 'Chachacha Dance',
-        'rockTune': 'Rock Tune',
-        'dhumbadance': 'Dhumba Dance',
-        'bossaNova': 'Bossa Nova',
-    };
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     const fetchData = async () => {
         try {
-            const beatTypes = Object.keys(beat_typeValues);
-            const requests = beatTypes.map((beat_type) => axios.get(`/countSongBeat/${beat_type}`));
+            const beatResponse = await axios.get(`${apiUrl}/getBeatGenres`);
 
-            const responses = await Promise.all(requests);
-            const countsMap = {};
-            responses.forEach((response, index) => {
-                const beatType = beatTypes[index];
-                // Check if the response structure is as expected
-                if (response.data && response.data.songCount !== undefined) {
-                    countsMap[beatType] = response.data.songCount;
-                } else {
-                    console.error(`Invalid response structure for ${beatType}`);
-                }
-            });
+            if (beatResponse.data.Status === "Success") {
+                const fetchedGenres = beatResponse.data.Result;
 
-            setSongCounts(countsMap);
+                const countRequests = fetchedGenres.map((beat) =>
+                    axios.get(`${apiUrl}/countSongBeat/${beat.beat_id}`)
+                );
+
+                const countResponses = await Promise.all(countRequests);
+
+                const updatedGenres = fetchedGenres.map((beat, index) => ({
+                    ...beat,
+                    song_count: countResponses[index].data.songCount,
+                }));
+
+                const songCountsMap = {};
+                updatedGenres.forEach((beat) => {
+                    songCountsMap[beat.beat_id] = beat.song_count;
+                });
+
+                setBeatGenres(updatedGenres);
+                setBeatSongCounts(songCountsMap);
+            } else {
+                alert("Error");
+            }
         } catch (error) {
-            console.error('Error fetching song counts:', error);
+            console.error(error);
         }
     };
 
@@ -64,16 +58,18 @@ function Beat() {
                 </div>
                 <div className="d-grid" style={{ padding: '5px' }}>
                     <div className="list-grid">
-                        {Object.keys(beat_typeValues).map((beat_type, index) => (
+                        {beatGenres.map((beatGenre, index) => (
                             <div
                                 key={index}
                                 className={`item-grid item-${index + 1}`}
-                                onClick={() => navigate(`/songBeat/${userId}/${beat_type}`)}
+                                onClick={() => navigate(`/songBeat/${userId}/${beatGenre.beat_id}`)}
                                 style={{ cursor: 'pointer' }}
                             >
-                                <h3>{beat_typeValues[beat_type]}</h3>
+                                <h3>{beatGenre.beat_id}</h3>
                                 <h6>
-                                    {songCounts[beat_type] !== undefined ? `${songCounts[beat_type]} bài` : '0 bài'}
+                                    {beatSongCounts[beatGenre.beat_id] !== undefined
+                                        ? `${beatSongCounts[beatGenre.beat_id]} bài`
+                                        : '0 bài'}
                                 </h6>
                             </div>
                         ))}

@@ -571,6 +571,16 @@ app.get('/getSongBeat/:beat_type', (req, res) => {
     });
 });
 
+app.get('/getBeatGenres/', (req, res) => {
+    const sql = "SELECT * FROM beat_genres";
+    con.query(sql, (err, result) => {
+        if (err) {
+            return res.json({ Error: "Get song error in SQL" });
+        }
+        return res.json({ Status: "Success", Result: result });
+    });
+});
+
 app.get('/countSongBeat/:beat_type', (req, res) => {
     const beatType = req.params.beat_type;
     const query = `
