@@ -80,8 +80,8 @@ const verifyUser = (req, res, next) => {
     } else {
         jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
             if (err) return res.json({ Error: 'Token is invalid' });
+            req.username = decoded.username;
             req.role = decoded.role;
-            req.id = decoded.id;
             next();
         });
     }
@@ -119,7 +119,8 @@ app.post('/login', (req, res) => {
                     return res.json({ Status: "ErrorDisable", Error: "User is disabled", ban: 'Disable' });
                 }
 
-                return res.json({ Status: "Success", Role: user.role, Result: user });
+                const token = jwt.sign({ username: user.username }, 'jwt-secret-key', { expiresIn: '1h' });
+                return res.json({ Status: "Success", Role: user.role, Result: user, token: token });
             } else {
                 return res.json({ Status: "Error", Error: "Wrong username or password" });
             }
@@ -152,8 +153,6 @@ app.put('/requestAccountChordValidator/:username', (req, res) => {
 })
 app.put('/acceptAccountMusician/:username', (req, res) => {
     const username = req.params.username;
-    console.log(res)
-
     const sql = "UPDATE user_acc SET ban = 'Enable', role = 'musician' Where username = ? ";
     con.query(sql, [username], (err, result) => {
         if (err) return res.json({ Error: "update song error in sql" });
