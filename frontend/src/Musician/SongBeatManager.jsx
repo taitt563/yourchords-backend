@@ -23,7 +23,8 @@ function SongBeatManager() {
     const [minorChordsData, setDataMinorChords] = useState([]);
     const [c7ChordsData, setDataC7Chords] = useState([]);
     const navigate = useNavigate();
-    const userId = sessionStorage.getItem('id_musician');
+    const token = sessionStorage.getItem('token');
+    const userId = token.split(':')[0];
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 

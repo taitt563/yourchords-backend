@@ -35,7 +35,8 @@ function Dashboard() {
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
     useEffect(() => {
-        const userId = sessionStorage.getItem('id_admin');
+        const token = sessionStorage.getItem('token');
+        const userId = token.split(':')[0];
         axios.get(`${apiUrl}/getProfile/` + userId)
             .then(res => {
                 if (res.data.Status === "Success") {
@@ -45,7 +46,7 @@ function Dashboard() {
                         setImageURL(profileImages);
                     }
                 } else {
-                    alert("Error")
+                    alert("Error");
                 }
             })
             .catch(err => console.log(err));

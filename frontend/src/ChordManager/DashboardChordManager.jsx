@@ -34,7 +34,8 @@ function DashboardChordManager() {
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
     useEffect(() => {
-        const userId = sessionStorage.getItem('id_chordManager');
+        const token = sessionStorage.getItem('token');
+        const userId = token.split(':')[0];
         axios.get(`${apiUrl}/getProfile/` + userId)
             .then(res => {
                 if (res.data.Status === "Success") {

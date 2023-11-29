@@ -21,20 +21,16 @@ function Login() {
         axios.post(`${apiUrl}/login`, values)
             .then(res => {
                 if (res.data.Status === 'Success') {
+                    const token = res.data.token;
+                    const userId = `${values.username}:${token}`;
+                    sessionStorage.setItem('token', userId);
                     if (res.data.Role === 'admin') {
-                        sessionStorage.setItem('id_admin', values.username);
                         navigate("/manageAccount");
-                    }
-                    else if (res.data.Role === 'chord') {
-                        sessionStorage.setItem('id_chordManager', values.username);
+                    } else if (res.data.Role === 'chord') {
                         navigate("/songChordManager");
-                    }
-                    else if (res.data.Role === 'user') {
-                        sessionStorage.setItem('id_customer', values.username);
+                    } else if (res.data.Role === 'user') {
                         navigate("/songCustomer/" + values.username);
-                    }
-                    else if (res.data.Role === 'musician') {
-                        sessionStorage.setItem('id_musician', values.username);
+                    } else if (res.data.Role === 'musician') {
                         navigate("/chordMusician");
                     }
                 }

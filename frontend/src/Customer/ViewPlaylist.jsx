@@ -31,7 +31,8 @@ function ViewPlaylist() {
             },
         },
     });
-    const userId = sessionStorage.getItem('id_customer');
+    const token = sessionStorage.getItem('token');
+    const userId = token.split(':')[0];
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedPlaylistId, setSelectedPlaylistId] = useState(null);
     const handleMenuOpen = (event, playlistId) => {

@@ -63,7 +63,8 @@ export default function SearchAppBarBackCustomer() {
         setOpenPlaylist(!openPlaylist);
     };
     useEffect(() => {
-        const userId = sessionStorage.getItem('id_customer');
+        const token = sessionStorage.getItem('token');
+        const userId = token.split(':')[0];
         axios.get(`${apiUrl}/getProfile/` + userId)
             .then(res => {
                 setData(res.data.Result)

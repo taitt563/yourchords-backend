@@ -7,7 +7,8 @@ function Beat() {
     const navigate = useNavigate();
     const [beatGenres, setBeatGenres] = useState([]);
     const [beatSongCounts, setBeatSongCounts] = useState({});
-    const userId = sessionStorage.getItem('id_customer');
+    const token = sessionStorage.getItem('token');
+    const userId = token.split(':')[0];
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     const beatGenresData = [

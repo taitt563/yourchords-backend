@@ -21,7 +21,8 @@ function SongBeat() {
     const [beatGenres, setBeatGenres] = useState([]);
     const [beatSongCounts, setBeatSongCounts] = useState({});
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-    const userId = sessionStorage.getItem('id_customer');
+    const token = sessionStorage.getItem('token');
+    const userId = token.split(':')[0];
     const { beat_type } = useParams();
     const [selectedSong, setSelectedSong] = useState(null);
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);

@@ -74,7 +74,8 @@ function ViewFeedback() {
     }, [id]);
 
     const handleSubmit = () => {
-        const userId = sessionStorage.getItem('id_admin');
+        const token = sessionStorage.getItem('token');
+        const userId = token.split(':')[0];
         const { reply, image_ad } = newReply;
         const replyData = {
             userId: userId,

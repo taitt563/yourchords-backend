@@ -32,8 +32,8 @@ function SearchChord() {
     const [selectedSong, setSelectedSong] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
-    const userId = sessionStorage.getItem('id_customer');
-
+    const token = sessionStorage.getItem('token');
+    const userId = token.split(':')[0];
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
