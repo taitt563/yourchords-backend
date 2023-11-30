@@ -154,9 +154,9 @@ function Dashboard() {
                                                     <Collapse in={openSong} timeout="auto" unmountOnExit>
                                                         <List sx={{ width: '100%', pl: 1 }}>
                                                             <ListItemButton style={{ borderRadius: '20px' }}
-                                                                className={`dashboard-button ${activeButton === 'song' ? 'clicked' : ''}`}
+                                                                className={`dashboard-button ${activeButton === 'Song' ? 'clicked' : ''}`}
                                                                 onClick={(e) => {
-                                                                    handleButtonClick(e, 'song');
+                                                                    handleButtonClick(e, 'Song');
                                                                     navigate('/Song')
                                                                 }}
                                                             >

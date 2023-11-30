@@ -7,7 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ModeIcon from '@mui/icons-material/Mode';
@@ -34,7 +34,10 @@ export default function SearchAppBarBackCustomer() {
     const [data, setData] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorElAvt, setAnchorElAvt] = useState(null);
-
+    const [activeButton, setActiveButton] = useState(
+        localStorage.getItem('activeButtonAdmin')
+    );
+    const navigate = useNavigate();
     const { userId } = useParams();
     const [imageURL, setImageURL] = useState(null);
 
@@ -66,12 +69,7 @@ export default function SearchAppBarBackCustomer() {
             })
             .catch(err => console.log(err));
     }, [userId])
-    const handleListItemClick = (path) => {
-        document.documentElement.classList.add('animate-dashboard');
-        setTimeout(() => {
-            window.location.href = path;
-        }, 300);
-    };
+
     const menuStyles = {
         flexDirection: 'column',
         position: 'absolute',
@@ -80,6 +78,11 @@ export default function SearchAppBarBackCustomer() {
         backgroundColor: '#fff',
         padding: '10px',
         borderRadius: '20px',
+    };
+    const handleButtonClick = (e, buttonName) => {
+        e.preventDefault();
+        setActiveButton(buttonName);
+        localStorage.setItem('activeButtonAdmin', buttonName);
     };
     return (
         <Box sx={{ top: 0, position: "sticky", zIndex: '3' }}>
@@ -150,13 +153,15 @@ export default function SearchAppBarBackCustomer() {
                             {data.map((profile, index) => {
                                 return <div key={index}>
                                     <ListItemButton style={{ borderRadius: '20px' }}
-                                        onClick={() => handleListItemClick(`/profile/${profile.userId}`)}
-                                    >
+                                        className={`dashboard-button ${activeButton === 'profile' ? 'clicked' : ''}`}
+                                        onClick={(e) => {
+                                            handleButtonClick(e, 'profile');
+                                            navigate(`/profile/` + profile.userId)
+                                        }}>
+
                                         <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
                                     </ListItemButton>
-                                    <ListItemButton style={{ borderRadius: '20px' }}
-                                        onClick={() => handleListItemClick('/login')}
-                                    >
+                                    <ListItemButton href="/login" style={{ borderRadius: '20px' }}>
                                         <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
                                     </ListItemButton>
                                 </div>
@@ -174,8 +179,12 @@ export default function SearchAppBarBackCustomer() {
                                 return <div key={index}>
 
                                     <ListItemButton style={{ borderRadius: '20px' }}
-                                        onClick={() => handleListItemClick('/manageAccount')}
-                                    >
+                                        className={`dashboard-button ${activeButton === 'manageAccount' ? 'clicked' : ''}`}
+                                        onClick={(e) => {
+                                            handleButtonClick(e, 'manageAccount');
+                                            navigate(`/manageAccount`)
+                                        }}>
+
                                         <ListItemIcon>
                                             <ManageAccountsIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                         </ListItemIcon>
@@ -183,8 +192,12 @@ export default function SearchAppBarBackCustomer() {
                                     </ListItemButton>
                                     <List sx={{ paddingTop: '20px' }}>
                                         <ListItemButton style={{ borderRadius: '20px' }}
-                                            onClick={() => handleListItemClick('/requestAccount')}
-                                        >
+                                            className={`dashboard-button ${activeButton === 'requestAccount' ? 'clicked' : ''}`}
+                                            onClick={(e) => {
+                                                handleButtonClick(e, 'requestAccount');
+                                                navigate(`/requestAccount`)
+                                            }}>
+
                                             <ListItemIcon>
                                                 <ManageAccountsIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                             </ListItemIcon>
@@ -193,8 +206,12 @@ export default function SearchAppBarBackCustomer() {
                                     </List>
                                     <List sx={{ paddingTop: '20px' }}>
                                         <ListItemButton style={{ borderRadius: '20px' }}
-                                            onClick={() => handleListItemClick('/Song')}
-                                        >
+                                            className={`dashboard-button ${activeButton === 'Song' ? 'clicked' : ''}`}
+                                            onClick={(e) => {
+                                                handleButtonClick(e, 'Song');
+                                                navigate(`/Song`)
+                                            }}>
+
                                             <ListItemIcon>
                                                 <QueueMusicIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                             </ListItemIcon>
@@ -203,8 +220,12 @@ export default function SearchAppBarBackCustomer() {
                                     </List>
                                     <List sx={{ paddingTop: '20px' }}>
                                         <ListItemButton style={{ borderRadius: '20px' }}
-                                            onClick={() => handleListItemClick('/manageFeedback/' + profile.userId)}
-                                        >
+                                            className={`dashboard-button ${activeButton === 'manageFeedback' ? 'clicked' : ''}`}
+                                            onClick={(e) => {
+                                                handleButtonClick(e, 'manageFeedback');
+                                                navigate('/manageFeedback/' + profile.userId)
+                                            }}>
+
                                             <ListItemIcon>
                                                 <ThumbUpAltIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                             </ListItemIcon>
@@ -213,8 +234,12 @@ export default function SearchAppBarBackCustomer() {
                                     </List>
                                     <List sx={{ paddingTop: '20px' }}>
                                         <ListItemButton style={{ borderRadius: '20px' }}
-                                            onClick={() => handleListItemClick(`/profile/${profile.userId}`)}
-                                        >
+                                            className={`dashboard-button ${activeButton === 'profile' ? 'clicked' : ''}`}
+                                            onClick={(e) => {
+                                                handleButtonClick(e, 'profile');
+                                                navigate(`/profile/${profile.userId}`)
+                                            }}>
+
                                             <ListItemIcon>
                                                 <ModeIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                             </ListItemIcon>
@@ -222,9 +247,7 @@ export default function SearchAppBarBackCustomer() {
                                         </ListItemButton>
                                     </List>
                                     <List sx={{ paddingTop: '20px' }}>
-                                        <ListItemButton style={{ borderRadius: '20px' }}
-                                            onClick={() => handleListItemClick('/login')}
-                                        >
+                                        <ListItemButton href="/login" style={{ borderRadius: '20px' }}>
                                             <ListItemIcon>
                                                 <LogoutIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                             </ListItemIcon>

@@ -7,7 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
@@ -38,8 +38,10 @@ export default function SearchAppBarBackChordManager() {
     const { userId } = useParams();
     const [imageURL, setImageURL] = useState(null);
     const [open, setOpen] = useState(false);
-
-
+    const [activeButton, setActiveButton] = useState(
+        localStorage.getItem('activeButtonChordManager')
+    );
+    const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const handleMenuClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -78,6 +80,11 @@ export default function SearchAppBarBackChordManager() {
         backgroundColor: '#fff',
         padding: '10px',
         borderRadius: '20px',
+    };
+    const handleButtonClick = (e, buttonName) => {
+        e.preventDefault();
+        setActiveButton(buttonName);
+        localStorage.setItem('activeButtonChordManager', buttonName);
     };
     return (
         <Box sx={{ top: 0, position: "sticky", zIndex: '3' }}>
@@ -147,7 +154,12 @@ export default function SearchAppBarBackChordManager() {
                         >
                             {data.map((profile, index) => {
                                 return <div key={index}>
-                                    <ListItemButton href={`/profileChordManager/` + profile.userId} style={{ borderRadius: '20px' }} >
+                                    <ListItemButton style={{ borderRadius: '20px' }}
+                                        className={`dashboard-button ${activeButton === 'profileChordManager' ? 'clicked' : ''}`}
+                                        onClick={(e) => {
+                                            handleButtonClick(e, 'profileChordManager');
+                                            navigate(`/profileChordManager/` + profile.userId)
+                                        }}>
                                         <ListItemText><span className="fontDashboard">Profile</span></ListItemText>
                                     </ListItemButton>
                                     <List sx={{ paddingTop: '20px' }}>
@@ -179,13 +191,23 @@ export default function SearchAppBarBackChordManager() {
                                     </ListItemButton>
                                     <Collapse in={open} timeout="auto" unmountOnExit>
                                         <List sx={{ width: '100%', pl: 3 }}>
-                                            <ListItemButton href="/songChordManager" style={{ borderRadius: '20px' }} >
+                                            <ListItemButton style={{ borderRadius: '20px' }}
+                                                className={`dashboard-button ${activeButton === 'songChordManager' ? 'clicked' : ''}`}
+                                                onClick={(e) => {
+                                                    handleButtonClick(e, 'songChordManager');
+                                                    navigate(`/songChordManager`)
+                                                }}>
                                                 <ListItemIcon>
                                                     <LibraryMusicIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                                 </ListItemIcon>
                                                 <ListItemText><span className="fontDashboard">List Song</span></ListItemText>
                                             </ListItemButton>
-                                            <ListItemButton href="/verifySong" style={{ borderRadius: '20px' }} >
+                                            <ListItemButton style={{ borderRadius: '20px' }}
+                                                className={`dashboard-button ${activeButton === 'verifySong' ? 'clicked' : ''}`}
+                                                onClick={(e) => {
+                                                    handleButtonClick(e, 'verifySong');
+                                                    navigate(`/verifySong`)
+                                                }}>
                                                 <ListItemIcon>
                                                     <VerifiedUserIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                                 </ListItemIcon>
