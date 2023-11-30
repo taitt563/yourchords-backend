@@ -19,6 +19,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import SearchAppBarBackCustomer from '../component/SearchAppBarBackCustomer';
+import InfoContainer from '../component/InfoContainer';
 function Chord() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [openRoot, setOpenRoot] = useState(false);
@@ -673,7 +674,7 @@ function Chord() {
                     </div>
                 </form>
             </div>
-
+            <InfoContainer />
         </>
     );
 

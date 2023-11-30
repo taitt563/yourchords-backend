@@ -6,6 +6,13 @@
     background-size: 100% 120%;
 }
 
+.project-info-container {
+    border: 1px solid #fff;
+    background-color: #fbfbfb;
+    max-width: 100%;
+    margin-top: 300px;
+}
+
 .custom-table {
     width: 100%;
     border-collapse: collapse;

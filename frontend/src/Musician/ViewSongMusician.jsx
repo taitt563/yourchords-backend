@@ -24,6 +24,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ModeIcon from '@mui/icons-material/Mode';
 import Tooltip from '@material-ui/core/Tooltip';
+import InfoContainer from "../component/InfoContainer";
 function ViewSongMusician() {
     const [data, setData] = useState([]);
     const [majorChordsData, setDataMajorChords] = useState([]);
@@ -542,9 +543,9 @@ function ViewSongMusician() {
                             </div>
                         </div>
                     </div>
-
                 })}
             </div>
+            <InfoContainer />
         </>
     )
 

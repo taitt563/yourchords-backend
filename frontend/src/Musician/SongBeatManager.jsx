@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import SearchAppBarBackMusican from '../component/SearchAppBarBackMusician';
+import InfoContainer from '../component/InfoContainer';
 function SongBeatManager() {
     const [data, setData] = useState([]);
     const [orderBy, setOrderBy] = useState('created_at');
@@ -348,7 +349,7 @@ function SongBeatManager() {
                     </div>
                 </div>
             </div >
-
+            <InfoContainer />
             <Modal
                 open={modalOpen}
                 onClose={() => { setModalOpen(false) }}

@@ -27,6 +27,7 @@ import finger_2 from '../../../Server/public/finger/finger_2.png'
 import finger_3 from '../../../Server/public/finger/finger_3.png'
 import finger_4 from '../../../Server/public/finger/finger_4.png'
 import Tooltip from '@material-ui/core/Tooltip';
+import InfoContainer from "../component/InfoContainer";
 function ViewSongCustomer() {
     const [data, setData] = useState([]);
     const [majorChordsData, setDataMajorChords] = useState([]);
@@ -582,6 +583,7 @@ function ViewSongCustomer() {
                     </div>
                 })}
             </div>
+            <InfoContainer />
         </>
     )
 

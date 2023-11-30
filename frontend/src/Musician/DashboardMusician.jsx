@@ -25,6 +25,7 @@ import MusicOffIcon from '@mui/icons-material/MusicOff';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import InfoContainer from '../component/InfoContainer';
 function DashboardMusician() {
     const [data, setData] = useState([]);
     const [openSong, setOpenSong] = useState(false);
@@ -310,7 +311,9 @@ function DashboardMusician() {
                     <Outlet style={{
                         height: '500px', overflowY: 'scroll'
                     }} />
+                    <InfoContainer />
                 </div>
+
             </div>
         </div>
     )

@@ -21,6 +21,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import InfoContainer from '../component/InfoContainer';
 
 function Dashboard() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -286,6 +287,7 @@ function Dashboard() {
                 </div>
                 <div className="col p-0 m-0" style={{ zIndex: 1 }}>
                     <Outlet />
+                    <InfoContainer />
                 </div>
             </div>
         </div>

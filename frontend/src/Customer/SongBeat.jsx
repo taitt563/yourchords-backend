@@ -10,6 +10,7 @@ import AddIcon from '@mui/icons-material/Add';
 import SearchAppBarBackCustomer from '../component/SearchAppBarBackCustomer';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import InfoContainer from '../component/InfoContainer';
 
 function SongBeat() {
     const [data, setData] = useState([]);
@@ -365,7 +366,7 @@ function SongBeat() {
                     </div>
                 </div>
             </div >
-
+            <InfoContainer />
             <Modal
                 open={modalOpen}
                 onClose={() => { setModalOpen(false) }}

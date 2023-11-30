@@ -24,6 +24,7 @@ import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import HandshakeIcon from '@mui/icons-material/Handshake';
+import InfoContainer from '../component/InfoContainer';
 
 function DashboardCustomer() {
     const [data, setData] = useState([]);
@@ -330,6 +331,7 @@ function DashboardCustomer() {
                     zIndex: 2,
                 }}>
                     <Outlet />
+                    <InfoContainer />
                 </div>
             </div>
         </div>

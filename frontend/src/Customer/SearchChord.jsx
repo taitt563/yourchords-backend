@@ -16,6 +16,7 @@ import Box from '@mui/material/Box';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
+import InfoContainer from '../component/InfoContainer';
 function SearchChord() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [data, setData] = useState([]);
@@ -135,11 +136,11 @@ function SearchChord() {
                     });
                     setData(filteredResults);
 
-
-
                 }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(err);
+            });
     };
     useEffect(() => {
         axios.get(`${apiUrl}/getChord`)
@@ -178,11 +179,11 @@ function SearchChord() {
     return (
         <>
             <SearchAppBarBackCustomer />
-            <div className='d-flex flex-column align-items-center' style={{ paddingLeft: '100px' }}>
+            <div className='d-flex flex-column align-items-center'>
                 <div className="row g-3 w-100" >
                     <div className="container rounded bg-white mt-5 mb-5">
                         <div className="row">
-                            <div className="col-md-4 border-right">
+                            <div className="col-md-4" style={{ paddingLeft: '100px' }}>
                                 <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                                     <div className="large-container">
                                         <h3 style={{ color: '#0d6efd', fontWeight: 'bold', textAlign: 'left' }}>Find by chord</h3>
@@ -212,7 +213,7 @@ function SearchChord() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-md-7 border-right ">
+                            <div className="col-md-7 border-right" style={{ paddingLeft: '100px' }}>
                                 <div className="py-5">
                                     <div className="row mt-2" style={{ paddingLeft: '50px' }}>
 
@@ -238,7 +239,7 @@ function SearchChord() {
                                 </div>
                             </div>
                             {data.length > 0 ? (
-                                <div className="row">
+                                <div className="row" style={{ paddingLeft: '100px' }}>
                                     <div className="col-md-8" >
                                         <h5 style={{ color: '#0d6efd', paddingLeft: '10px' }}>
                                             Search Results: <b>{searchedChords}</b> - {data.length} song found
@@ -365,11 +366,13 @@ function SearchChord() {
                                     </div>
                                 </div>
                             ) : (
-                                <div className="d-flex justify-content-center align-items-center">
+                                searchedChords && data.length === 0 &&
+                                <div className="d-flex justify-content-center">
                                     <h5 style={{ color: '#0d6efd', fontWeight: 'bold' }}>
                                         Not Found
                                     </h5>
                                 </div>
+
                             )}
                         </div>
                     </div>
@@ -425,6 +428,7 @@ function SearchChord() {
 
                 </Modal>
             </div>
+            <InfoContainer />
         </>
     );
 
