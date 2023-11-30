@@ -92,7 +92,7 @@ function OrderMusician() {
             <SearchAppBar />
             <div className='d-flex flex-column pt-2'>
                 <div className='d-flex flex-column pt-4'>
-                    <h3 className="d-flex justify-content-center">Receive Order</h3>
+                    <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }} >Receive Order</h3>
                 </div>
                 <div>
                     <Table

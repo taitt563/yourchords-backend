@@ -254,7 +254,7 @@ function ChordMissMusician() {
                                                 }
                                             </TableCell>
                                             {song.link != null ?
-                                                <TableCell><Link to={song.link}>{song.link.substring(0, 40)}...</Link></TableCell> :
+                                                <TableCell><Link to={song.link}>{song.link.substring(0, 30)}...</Link></TableCell> :
                                                 <TableCell>Updating...</TableCell>
                                             }
                                             <TableCell>{moment(song.created_at).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>

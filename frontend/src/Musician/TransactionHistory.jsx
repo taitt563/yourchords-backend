@@ -9,7 +9,7 @@ function TransactionHistory() {
             <SearchAppBar />
             <div className='d-flex flex-column align-items-center pt-2'>
                 <div className='d-flex flex-column align-items-center pt-4'>
-                    <h3 className="d-flex justify-content-center">Transaction History</h3>
+                    <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Transaction History</h3>
                 </div>
                 <table className="table" style={{ marginLeft: "100px", marginRight: "200px", width: "1000px" }}>
                     <thead>
