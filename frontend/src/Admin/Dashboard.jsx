@@ -1,4 +1,4 @@
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams, useNavigate } from 'react-router-dom';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -28,6 +28,10 @@ function Dashboard() {
     const [datachord, setDataChord] = useState([]);
     const [imageURL, setImageURL] = useState(null);
     const [openSong, setOpenSong] = useState(false);
+    const [activeButton, setActiveButton] = useState(
+        localStorage.getItem('activeButtonAdmin')
+    );
+    const navigate = useNavigate();
     const [collapsed, setCollapsed] = useState(
         sessionStorage.getItem('dashboardCollapsed') === 'true' || false
     );
@@ -57,16 +61,14 @@ function Dashboard() {
         setCollapsed(newCollapsedState);
         sessionStorage.setItem('dashboardCollapsed', String(newCollapsedState));
     };
-    const handleListItemClick = (path) => {
-        document.documentElement.classList.add('animate-dashboard');
-        setTimeout(() => {
-            window.location.href = path;
-        }, 300);
-    };
     const handleClickSong = () => {
         setOpenSong(!openSong);
     };
-
+    const handleButtonClick = (e, buttonName) => {
+        e.preventDefault();
+        setActiveButton(buttonName);
+        localStorage.setItem('activeButtonAdmin', buttonName);
+    };
     return (
         <div className={`container-fluid${collapsed ? ' collapsed' : ''}`}>
             <div className="row flex-nowrap" >
@@ -112,8 +114,13 @@ function Dashboard() {
                                                 </ListItem>
                                                 <span type="text" className='fs-100 font pd-left'>Date current: <b>{displaytodaysdate}</b></span>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                    <ListItemButton style={{ borderRadius: '20px' }}
-                                                        onClick={() => handleListItemClick('/manageAccount')}
+                                                    <ListItemButton
+                                                        style={{ borderRadius: '20px' }}
+                                                        className={`dashboard-button ${activeButton === 'manageAccount' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'manageAccount');
+                                                            navigate('/manageAccount')
+                                                        }}
                                                     >
                                                         <ListItemIcon>
                                                             <ManageAccountsIcon color="primary" fontSize='medium' />
@@ -123,7 +130,11 @@ function Dashboard() {
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
                                                     <ListItemButton style={{ borderRadius: '20px' }}
-                                                        onClick={() => handleListItemClick('/requestAccount')}
+                                                        className={`dashboard-button ${activeButton === 'requestAccount' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'requestAccount');
+                                                            navigate('/requestAccount')
+                                                        }}
                                                     >
                                                         <ListItemIcon>
                                                             <ManageAccountsIcon color="primary" fontSize='medium' />
@@ -143,14 +154,24 @@ function Dashboard() {
                                                     <Collapse in={openSong} timeout="auto" unmountOnExit>
                                                         <List sx={{ width: '100%', pl: 1 }}>
                                                             <ListItemButton style={{ borderRadius: '20px' }}
-                                                                onClick={() => handleListItemClick('/Song')}
+                                                                className={`dashboard-button ${activeButton === 'song' ? 'clicked' : ''}`}
+                                                                onClick={(e) => {
+                                                                    handleButtonClick(e, 'song');
+                                                                    navigate('/Song')
+                                                                }}
                                                             >
                                                                 <ListItemIcon>
                                                                     <LibraryMusicIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
                                                                 <ListItemText><span className="fontDashboard">List Song</span></ListItemText>
                                                             </ListItemButton>
-                                                            <ListItemButton href="/createSong" style={{ borderRadius: '20px' }} >
+                                                            <ListItemButton
+                                                                style={{ borderRadius: '20px' }}
+                                                                className={`dashboard-button ${activeButton === 'createSong' ? 'clicked' : ''}`}
+                                                                onClick={(e) => {
+                                                                    handleButtonClick(e, 'createSong');
+                                                                    navigate('/createSong')
+                                                                }} >
                                                                 <ListItemIcon>
                                                                     <AddIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
@@ -161,8 +182,11 @@ function Dashboard() {
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
                                                     <ListItemButton style={{ borderRadius: '20px' }}
-                                                        onClick={() => handleListItemClick('/manageFeedback/' + profile.userId)}
-                                                    >
+                                                        className={`dashboard-button ${activeButton === 'manageFeedback' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'manageFeedback');
+                                                            navigate('/manageFeedback/' + profile.userId)
+                                                        }} >
                                                         <ListItemIcon>
                                                             <ThumbUpAltIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
@@ -171,8 +195,11 @@ function Dashboard() {
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
                                                     <ListItemButton style={{ borderRadius: '20px' }}
-                                                        onClick={() => handleListItemClick(`/profile/${profile.userId}`)}
-                                                    >
+                                                        className={`dashboard-button ${activeButton === 'profile' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'profile');
+                                                            navigate(`/profile/${profile.userId}`)
+                                                        }} >
                                                         <ListItemIcon>
                                                             <ModeIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
@@ -181,7 +208,7 @@ function Dashboard() {
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
                                                     <ListItemButton style={{ borderRadius: '20px' }}
-                                                        onClick={() => handleListItemClick('/login')}
+                                                        href={('/login')}
                                                     >
                                                         <ListItemIcon>
                                                             <LogoutIcon color="primary" fontSize='medium' />
@@ -195,7 +222,6 @@ function Dashboard() {
                                         :
                                         (
                                             <>
-
                                                 <ListItemAvatar className="d-flex align-items-center pb-3 mb-md-1 pt-4 text-white text-decoration-none pd-left">
                                                     <Avatar>
                                                         {imageURL &&
@@ -209,7 +235,12 @@ function Dashboard() {
                                                 <span type="text" className='fs-100 font pd-left '>{""}</span>
                                                 <List sx={{ width: '60%', paddingTop: '20px' }}>
                                                     <ListItemButton
-                                                        onClick={() => handleListItemClick('/manageAccount')} style={{ borderRadius: '50px' }}
+                                                        style={{ borderRadius: '50px' }}
+                                                        className={`dashboard-button ${activeButton === 'manageAccount' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'manageAccount');
+                                                            navigate('/manageAccount')
+                                                        }}
                                                     >
                                                         <ListItemIcon>
                                                             <ManageAccountsIcon color="primary" fontSize='medium' />
@@ -218,7 +249,12 @@ function Dashboard() {
                                                 </List>
                                                 <List sx={{ width: '60%', paddingTop: '20px' }}>
                                                     <ListItemButton
-                                                        onClick={() => handleListItemClick('/requestAccount')} style={{ borderRadius: '50px' }}
+                                                        style={{ borderRadius: '50px' }}
+                                                        className={`dashboard-button ${activeButton === 'requestAccount' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'requestAccount');
+                                                            navigate('/requestAccount')
+                                                        }}
                                                     >
                                                         <ListItemIcon>
                                                             <ManageAccountsIcon color="primary" fontSize='medium' />
@@ -236,13 +272,23 @@ function Dashboard() {
                                                     <Collapse in={openSong} timeout="auto" unmountOnExit>
                                                         <List sx={{ width: '100%', pl: 1 }}>
                                                             <ListItemButton
-                                                                onClick={() => handleListItemClick('/Song')} style={{ borderRadius: '50px' }}
+                                                                style={{ borderRadius: '50px' }}
+                                                                className={`dashboard-button ${activeButton === 'song' ? 'clicked' : ''}`}
+                                                                onClick={(e) => {
+                                                                    handleButtonClick(e, 'song');
+                                                                    navigate('/Song')
+                                                                }}
                                                             >
                                                                 <ListItemIcon>
                                                                     <LibraryMusicIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
                                                             </ListItemButton>
-                                                            <ListItemButton href="/createSong" style={{ borderRadius: '50px' }}>
+                                                            <ListItemButton style={{ borderRadius: '50px' }}
+                                                                className={`dashboard-button ${activeButton === 'createSong' ? 'clicked' : ''}`}
+                                                                onClick={(e) => {
+                                                                    handleButtonClick(e, 'createSong');
+                                                                    navigate('/createSong')
+                                                                }} >
                                                                 <ListItemIcon>
                                                                     <AddIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
@@ -252,7 +298,7 @@ function Dashboard() {
                                                 </List>
                                                 <List sx={{ width: '60%', paddingTop: '20px' }}>
                                                     <ListItemButton
-                                                        onClick={() => handleListItemClick('/manageFeedback/' + profile.userId)} style={{ borderRadius: '50px' }}
+                                                        href={('/manageFeedback/' + profile.userId)} style={{ borderRadius: '50px' }}
                                                     >
                                                         <ListItemIcon>
                                                             <ThumbUpAltIcon color="primary" fontSize='medium' />
@@ -261,7 +307,12 @@ function Dashboard() {
                                                 </List>
                                                 <List sx={{ width: '60%', paddingTop: '20px' }}>
                                                     <ListItemButton
-                                                        onClick={() => handleListItemClick(`/profile/${profile.userId}`)} style={{ borderRadius: '50px' }}
+                                                        style={{ borderRadius: '50px' }}
+                                                        className={`dashboard-button ${activeButton === 'profile' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'profile');
+                                                            navigate(`/profile/${profile.userId}`)
+                                                        }}
                                                     >
                                                         <ListItemIcon>
                                                             <ModeIcon color="primary" fontSize='medium' />
@@ -270,7 +321,7 @@ function Dashboard() {
                                                 </List>
                                                 <List sx={{ width: '60%', paddingTop: '20px' }}>
                                                     <ListItemButton
-                                                        onClick={() => handleListItemClick('/login')} style={{ borderRadius: '50px' }}
+                                                        href={('/login')} style={{ borderRadius: '50px' }}
                                                     >
                                                         <ListItemIcon>
                                                             <LogoutIcon color="primary" fontSize='medium' />

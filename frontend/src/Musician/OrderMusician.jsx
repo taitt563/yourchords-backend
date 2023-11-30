@@ -1,16 +1,18 @@
 
 import SearchAppBar from '../component/SearchAppBar';
-// import Button from '@mui/material/Button';
-// import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { useState } from 'react';
-import { Radio, Space, Table, Tag } from 'antd';
+import { Space, Table } from 'antd';
 
 const columns = [
     {
         title: 'ID',
         dataIndex: 'id',
         key: 'id',
-        render: (text) => <a>{text}</a>,
+        width: 100,
+    },
+    {
+        title: 'Username',
+        dataIndex: 'username',
+        key: 'username',
     },
     {
         title: 'OrderId',
@@ -23,9 +25,14 @@ const columns = [
         key: 'beatId',
     },
     {
+        title: 'Link',
+        dataIndex: 'linkId',
+        key: 'linkId',
+    },
+    {
         title: 'Description',
-        key: 'desc',
         dataIndex: 'desc',
+        key: 'desc',
     },
     {
         title: 'Quantity',
@@ -33,8 +40,13 @@ const columns = [
         key: 'quantity',
     },
     {
+        title: 'Price',
+        dataIndex: 'price',
+        key: 'price',
+    },
+    {
         key: 'action',
-        render: (_, record) => (
+        render: () => (
             <Space size="middle">
                 <button className='btn-accept'>Accept</button>
                 <button className='btn-decline'>Decline</button>
@@ -92,9 +104,9 @@ function OrderMusician() {
             <SearchAppBar />
             <div className='d-flex flex-column pt-2'>
                 <div className='d-flex flex-column pt-4'>
-                    <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }} >Receive Order</h3>
+                    <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Receive Order</h3>
                 </div>
-                <div>
+                <div style={{ width: '90%', margin: '0 auto' }}>
                     <Table
                         columns={columns}
                         dataSource={data}
@@ -102,6 +114,6 @@ function OrderMusician() {
                 </div>
             </div>
         </>
-    )
+    );
 }
 export default OrderMusician;

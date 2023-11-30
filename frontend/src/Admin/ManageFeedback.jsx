@@ -52,10 +52,8 @@ export default function BottomAppBar() {
 
                                     </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText className="font" primary={feedbackUser.name.length > 10 ?
-                                    <b>{feedbackUser.name.substring(0, 10)}...</b>
-                                    :
-                                    <b>{feedbackUser.name} </b>
+                                <ListItemText className="font" primary={
+                                    <b>{feedbackUser.username} </b>
                                 }
                                     secondary={feedbackUser.email.length > 17 ?
                                         <b>{feedbackUser.email.substring(0, 17)}...</b>
@@ -63,7 +61,6 @@ export default function BottomAppBar() {
                                         <b>{feedbackUser.email} </b>
                                     } />
                             </ListItem>
-                            {imageURL && <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />}
 
                         </td>
                         <td>{moment(feedbackUser.date_feedback).format('YYYY-MM-DD - HH:mm:ss')}</td>
@@ -88,7 +85,6 @@ export default function BottomAppBar() {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText className="font" primary={
-
                                     <b>{feedbackUser.username} </b>
                                 }
                                     secondary={feedbackUser.email.length > 17 ?

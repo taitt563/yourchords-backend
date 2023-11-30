@@ -310,7 +310,6 @@ app.post('/addToPlaylist', (req, res) => {
         return res.json({ Status: "Error", Error: "Missing song_id or collection_id" });
     }
 
-    // Query to check if the song is already in the playlist
     const checkDuplicateSql = `
         SELECT COUNT(*) AS count FROM collection_songs
         WHERE song_id = ? AND collection_id = ?;
@@ -320,7 +319,6 @@ app.post('/addToPlaylist', (req, res) => {
         if (checkResult[0].count > 0) {
             return res.json({ Status: "Error" });
         }
-        // If not a duplicate, insert the song into the playlist
         const insertSql = `
             INSERT INTO collection_songs (song_id, collection_id, date_added)
             VALUES (?, ?, CURRENT_TIMESTAMP);

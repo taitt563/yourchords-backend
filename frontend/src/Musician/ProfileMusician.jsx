@@ -279,7 +279,7 @@ function ProfileMusician() {
                                                         <input type="file" name="image" onChange={handleImageChange} />
                                                     </Button>
                                                 </div>
-                                                <div className="mt-4">
+                                                <div className="mt-3">
                                                     <Button variant="contained" onClick={handleSubmit} className='btn btn-success'>UPDATE
                                                     </Button>
                                                 </div>

@@ -1,4 +1,4 @@
-import { Outlet, useParams } from 'react-router-dom'
+import { Outlet, useParams, useNavigate } from 'react-router-dom'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -30,6 +30,11 @@ function DashboardChordManager() {
     const [collapsed, setCollapsed] = useState(
         sessionStorage.getItem('dashboardCollapsed') === 'true' || false
     );
+    const [activeButton, setActiveButton] = useState(
+        localStorage.getItem('activeButtonChordManager')
+    );
+    const navigate = useNavigate();
+
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
@@ -57,6 +62,11 @@ function DashboardChordManager() {
         const newCollapsedState = !collapsed;
         setCollapsed(newCollapsedState);
         sessionStorage.setItem('dashboardCollapsed', String(newCollapsedState));
+    };
+    const handleButtonClick = (e, buttonName) => {
+        e.preventDefault();
+        setActiveButton(buttonName);
+        localStorage.setItem('activeButtonChordManager', buttonName);
     };
     return (
 
@@ -113,13 +123,23 @@ function DashboardChordManager() {
                                                 </ListItemButton>
                                                 <Collapse in={open} timeout="auto" unmountOnExit>
                                                     <List sx={{ width: '100%', pl: 3 }}>
-                                                        <ListItemButton href="/songChordManager" style={{ borderRadius: '20px' }}>
+                                                        <ListItemButton style={{ borderRadius: '20px' }}
+                                                            className={`dashboard-button ${activeButton === 'songChordManager' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'songChordManager');
+                                                                navigate('/songChordManager')
+                                                            }}>
                                                             <ListItemIcon>
                                                                 <LibraryMusicIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
                                                             <ListItemText><span className="fontDashboard">List Song</span></ListItemText>
                                                         </ListItemButton>
-                                                        <ListItemButton href="/verifySong" style={{ borderRadius: '20px' }} >
+                                                        <ListItemButton style={{ borderRadius: '20px' }}
+                                                            className={`dashboard-button ${activeButton === 'verifySong' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'verifySong');
+                                                                navigate('/verifySong')
+                                                            }}>
                                                             <ListItemIcon>
                                                                 <VerifiedUserIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
@@ -129,7 +149,12 @@ function DashboardChordManager() {
                                                 </Collapse>
                                             </List>
                                             <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                <ListItemButton href={`/profileChordManager/` + profile.userId} style={{ borderRadius: '20px' }} >
+                                                <ListItemButton style={{ borderRadius: '20px' }}
+                                                    className={`dashboard-button ${activeButton === 'profileChordManager' ? 'clicked' : ''}`}
+                                                    onClick={(e) => {
+                                                        handleButtonClick(e, 'profileChordManager');
+                                                        navigate(`/profileChordManager/` + profile.userId)
+                                                    }}>
                                                     <ListItemIcon>
                                                         <ModeIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
@@ -170,12 +195,23 @@ function DashboardChordManager() {
                                                 </ListItemButton>
                                                 <Collapse in={open} timeout="auto" unmountOnExit>
                                                     <List sx={{ width: '100%', pl: 1 }}>
-                                                        <ListItemButton href="/songChordManager" style={{ borderRadius: '50px' }}>
+                                                        <ListItemButton style={{ borderRadius: '50px' }}
+                                                            className={`dashboard-button ${activeButton === 'songChordManager' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'songChordManager');
+                                                                navigate(`/songChordManager/`)
+                                                            }}>
+
                                                             <ListItemIcon>
                                                                 <LibraryMusicIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
                                                         </ListItemButton>
-                                                        <ListItemButton href="/verifySong" style={{ borderRadius: '50px' }}>
+                                                        <ListItemButton style={{ borderRadius: '50px' }}
+                                                            className={`dashboard-button ${activeButton === 'verifySong' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'verifySong');
+                                                                navigate(`/verifySong/`)
+                                                            }}>
                                                             <ListItemIcon>
                                                                 <VerifiedUserIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
@@ -184,7 +220,12 @@ function DashboardChordManager() {
                                                 </Collapse>
                                             </List>
                                             <List sx={{ width: '60%', paddingTop: '20px' }}>
-                                                <ListItemButton href={`/profileChordManager/` + profile.userId} style={{ borderRadius: '50px' }}>
+                                                <ListItemButton style={{ borderRadius: '50px' }}
+                                                    className={`dashboard-button ${activeButton === 'profileChordManager' ? 'clicked' : ''}`}
+                                                    onClick={(e) => {
+                                                        handleButtonClick(e, 'profileChordManager');
+                                                        navigate(`/profileChordManager/` + profile.userId)
+                                                    }}>
                                                     <ListItemIcon>
                                                         <ModeIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>

@@ -6,6 +6,16 @@
     background-size: 100% 120%;
 }
 
+.dashboard-button {
+    background-color: #f0f0f0;
+    transition-duration: 0.4s;
+}
+
+.dashboard-button.clicked {
+    background-color: #c9d6ff;
+    color: #fff;
+}
+
 .project-info-container {
     border: 1px solid #fff;
     background-color: #fbfbfb;

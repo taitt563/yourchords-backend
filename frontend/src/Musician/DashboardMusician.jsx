@@ -1,4 +1,4 @@
-import { Outlet, useParams } from 'react-router-dom'
+import { Outlet, useParams, useNavigate } from 'react-router-dom'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -34,6 +34,10 @@ function DashboardMusician() {
     const [collapsed, setCollapsed] = useState(
         sessionStorage.getItem('dashboardCollapsed') === 'true' || false
     );
+    const [activeButton, setActiveButton] = useState(
+        localStorage.getItem('activeButtonMusician')
+    );
+    const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     axios.defaults.withCredentials = true;
     const { userId } = useParams();
@@ -68,6 +72,11 @@ function DashboardMusician() {
         const newCollapsedState = !collapsed;
         setCollapsed(newCollapsedState);
         sessionStorage.setItem('dashboardCollapsed', String(newCollapsedState));
+    };
+    const handleButtonClick = (e, buttonName) => {
+        e.preventDefault();
+        setActiveButton(buttonName);
+        localStorage.setItem('activeButtonMusician', buttonName);
     };
     return (
 
@@ -125,19 +134,34 @@ function DashboardMusician() {
                                                     </ListItemButton>
                                                     <Collapse in={openSong} timeout="auto" unmountOnExit>
                                                         <List sx={{ width: '100%', pl: 1 }}>
-                                                            <ListItemButton href="/chordMusician" style={{ borderRadius: '20px' }} >
+                                                            <ListItemButton style={{ borderRadius: '20px' }}
+                                                                className={`dashboard-button ${activeButton === 'chordMusician' ? 'clicked' : ''}`}
+                                                                onClick={(e) => {
+                                                                    handleButtonClick(e, 'chordMusician');
+                                                                    navigate('/chordMusician')
+                                                                }} >
                                                                 <ListItemIcon>
                                                                     <FlakyIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
                                                                 <ListItemText><span className="fontDashboard">Waiting Approve</span></ListItemText>
                                                             </ListItemButton>
-                                                            <ListItemButton href="/rejectSong" style={{ borderRadius: '20px' }}>
+                                                            <ListItemButton style={{ borderRadius: '20px' }}
+                                                                className={`dashboard-button ${activeButton === 'rejectSong' ? 'clicked' : ''}`}
+                                                                onClick={(e) => {
+                                                                    handleButtonClick(e, 'rejectSong');
+                                                                    navigate('/rejectSong')
+                                                                }}  >
                                                                 <ListItemIcon>
                                                                     <SentimentVeryDissatisfiedIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
                                                                 <ListItemText><span className="fontDashboard">Not Approved</span></ListItemText>
                                                             </ListItemButton>
-                                                            <ListItemButton href="/chordMissMusician" style={{ borderRadius: '20px' }}>
+                                                            <ListItemButton style={{ borderRadius: '20px' }}
+                                                                className={`dashboard-button ${activeButton === 'chordMissMusician' ? 'clicked' : ''}`}
+                                                                onClick={(e) => {
+                                                                    handleButtonClick(e, 'chordMissMusician');
+                                                                    navigate('/chordMissMusician')
+                                                                }}  >
                                                                 <ListItemIcon>
                                                                     <MusicOffIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
@@ -147,7 +171,12 @@ function DashboardMusician() {
                                                     </Collapse>
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                    <ListItemButton href="/songMusician" style={{ borderRadius: '20px' }} >
+                                                    <ListItemButton style={{ borderRadius: '20px' }}
+                                                        className={`dashboard-button ${activeButton === 'songMusician' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'songMusician');
+                                                            navigate('/songMusician')
+                                                        }}  >
                                                         <ListItemIcon>
                                                             <MusicNoteIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
@@ -155,7 +184,12 @@ function DashboardMusician() {
                                                     </ListItemButton>
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                    <ListItemButton href="/manageBeat" style={{ borderRadius: '20px' }} >
+                                                    <ListItemButton style={{ borderRadius: '20px' }}
+                                                        className={`dashboard-button ${activeButton === 'manageBeat' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'manageBeat');
+                                                            navigate('/manageBeat')
+                                                        }}  >
                                                         <ListItemIcon>
                                                             <i className="bi bi-vinyl-fill text-primary fs-4"></i>
                                                         </ListItemIcon>
@@ -172,13 +206,23 @@ function DashboardMusician() {
                                                     </ListItemButton>
                                                     <Collapse in={openOrder} timeout="auto" unmountOnExit>
                                                         <List sx={{ width: '100%', pl: 1 }}>
-                                                            <ListItemButton href="/orderMusician" style={{ borderRadius: '20px' }}>
+                                                            <ListItemButton style={{ borderRadius: '20px' }}
+                                                                className={`dashboard-button ${activeButton === 'orderMusician' ? 'clicked' : ''}`}
+                                                                onClick={(e) => {
+                                                                    handleButtonClick(e, 'orderMusician');
+                                                                    navigate('/orderMusician')
+                                                                }}  >
                                                                 <ListItemIcon>
                                                                     <PlaylistAddCheckCircleIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
                                                                 <ListItemText><span className="fontDashboard">Order</span></ListItemText>
                                                             </ListItemButton>
-                                                            <ListItemButton href="/transactionHistory" style={{ borderRadius: '20px' }} >
+                                                            <ListItemButton style={{ borderRadius: '20px' }}
+                                                                className={`dashboard-button ${activeButton === 'transactionHistory' ? 'clicked' : ''}`}
+                                                                onClick={(e) => {
+                                                                    handleButtonClick(e, 'transactionHistory');
+                                                                    navigate('/transactionHistory')
+                                                                }}  >
                                                                 <ListItemIcon>
                                                                     <ListAltIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
@@ -188,7 +232,12 @@ function DashboardMusician() {
                                                     </Collapse>
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
-                                                    <ListItemButton href={`/profileMusician/` + profile.userId} style={{ borderRadius: '20px' }} >
+                                                    <ListItemButton style={{ borderRadius: '20px' }}
+                                                        className={`dashboard-button ${activeButton === 'profileMusician' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'profileMusician');
+                                                            navigate(`/profileMusician/` + profile.userId)
+                                                        }}  >
                                                         <ListItemIcon>
                                                             <ModeIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
@@ -231,17 +280,32 @@ function DashboardMusician() {
                                                 </ListItemButton>
                                                 <Collapse in={openSong} timeout="auto" unmountOnExit>
                                                     <List sx={{ width: '100%', pl: 1 }}>
-                                                        <ListItemButton href="/chordMusician" style={{ borderRadius: '50px' }}>
+                                                        <ListItemButton style={{ borderRadius: '50px' }}
+                                                            className={`dashboard-button ${activeButton === 'chordMusician' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'chordMusician');
+                                                                navigate(`/chordMusician/`)
+                                                            }}  >
                                                             <ListItemIcon>
                                                                 <FlakyIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
                                                         </ListItemButton>
-                                                        <ListItemButton href="/rejectSong" style={{ borderRadius: '50px' }}>
+                                                        <ListItemButton style={{ borderRadius: '50px' }}
+                                                            className={`dashboard-button ${activeButton === 'rejectSong' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'rejectSong');
+                                                                navigate(`/rejectSong/`)
+                                                            }}  >
                                                             <ListItemIcon>
                                                                 <SentimentVeryDissatisfiedIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
                                                         </ListItemButton>
-                                                        <ListItemButton href="/chordMissMusician" style={{ borderRadius: '20px' }}>
+                                                        <ListItemButton style={{ borderRadius: '20px' }}
+                                                            className={`dashboard-button ${activeButton === 'chordMissMusician' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'chordMissMusician');
+                                                                navigate(`/chordMissMusician/`)
+                                                            }}  >
                                                             <ListItemIcon>
                                                                 <MusicOffIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
@@ -250,14 +314,24 @@ function DashboardMusician() {
                                                 </Collapse>
                                             </List>
                                             <List sx={{ width: '60%', paddingTop: '20px' }}>
-                                                <ListItemButton href="/songMusician" style={{ borderRadius: '50px' }}>
+                                                <ListItemButton style={{ borderRadius: '50px' }}
+                                                    className={`dashboard-button ${activeButton === 'songMusician' ? 'clicked' : ''}`}
+                                                    onClick={(e) => {
+                                                        handleButtonClick(e, 'songMusician');
+                                                        navigate(`/songMusician/`)
+                                                    }}  >
                                                     <ListItemIcon>
                                                         <MusicNoteIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
                                                 </ListItemButton>
                                             </List>
                                             <List sx={{ width: '60%', paddingTop: '20px' }}>
-                                                <ListItemButton href="/manageBeat" style={{ borderRadius: '50px' }}>
+                                                <ListItemButton style={{ borderRadius: '50px' }}
+                                                    className={`dashboard-button ${activeButton === 'manageBeat' ? 'clicked' : ''}`}
+                                                    onClick={(e) => {
+                                                        handleButtonClick(e, 'manageBeat');
+                                                        navigate(`/manageBeat/`)
+                                                    }}  >
                                                     <ListItemIcon>
                                                         <EqualizerIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
@@ -273,12 +347,22 @@ function DashboardMusician() {
                                                 </ListItemButton>
                                                 <Collapse in={openOrder} timeout="auto" unmountOnExit>
                                                     <List sx={{ width: '100%', pl: 1 }}>
-                                                        <ListItemButton href="/orderMusician" style={{ borderRadius: '50px' }}>
+                                                        <ListItemButton style={{ borderRadius: '50px' }}
+                                                            className={`dashboard-button ${activeButton === 'orderMusician' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'orderMusician');
+                                                                navigate(`/orderMusician/`)
+                                                            }}  >
                                                             <ListItemIcon>
                                                                 <PlaylistAddCheckCircleIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
                                                         </ListItemButton>
-                                                        <ListItemButton href="/transactionHistory" style={{ borderRadius: '50px' }}>
+                                                        <ListItemButton style={{ borderRadius: '50px' }}
+                                                            className={`dashboard-button ${activeButton === 'transactionHistory' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'transactionHistory');
+                                                                navigate(`/transactionHistory/`)
+                                                            }}  >
                                                             <ListItemIcon>
                                                                 <ListAltIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
@@ -287,7 +371,12 @@ function DashboardMusician() {
                                                 </Collapse>
                                             </List>
                                             <List sx={{ width: '60%', paddingTop: '20px' }}>
-                                                <ListItemButton href={`/profileMusician/` + profile.userId} style={{ borderRadius: '50px' }}>
+                                                <ListItemButton style={{ borderRadius: '50px' }}
+                                                    className={`dashboard-button ${activeButton === 'profileMusician' ? 'clicked' : ''}`}
+                                                    onClick={(e) => {
+                                                        handleButtonClick(e, 'profileMusician');
+                                                        navigate(`/profileMusician/` + profile.userId)
+                                                    }}  >
                                                     <ListItemIcon>
                                                         <ModeIcon color="primary" fontSize='medium' />
                                                     </ListItemIcon>
