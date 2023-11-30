@@ -60,7 +60,7 @@ function RequestAccount() {
     const [search, setSearch] = useState('');
     const [data, setData] = useState([]);
     const [dataProfile, setDataProfile] = useState([]);
-    const [value, setValue] = useState(1);
+    const [value, setValue] = useState('1');
     const [open, setOpen] = useState(false);
     const [orderBy, setOrderBy] = useState("username");
     const [order, setOrder] = useState("asc");
@@ -68,7 +68,6 @@ function RequestAccount() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const primaryColor = '#F1F1FB';
     const itemsPerPage = 5;
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
         setStoredTabValue(newValue);

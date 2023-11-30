@@ -47,6 +47,7 @@ import ViewFeedbackCustomer from './Customer/ViewFeedbackCustomer'
 import Beat from './Customer/Beat'
 import SongBeat from './Customer/SongBeat'
 import OrderCustomer from './Customer/OrderCustomer'
+import ViewFeedbackCustomerAll from './Customer/ViewFeedBackCustomerAll'
 function App() {
   return (
     <BrowserRouter>
@@ -100,6 +101,8 @@ function App() {
           <Route path='/viewPlaylist/:id' element={<ViewPlaylist />}></Route>
           <Route path='/feedback/:userId' element={<Feedback />}></Route>
           <Route path='/viewFeedbackCustomer/:id' element={<ViewFeedbackCustomer />}></Route>
+          <Route path='/viewFeedbackCustomerAll/:id' element={<ViewFeedbackCustomerAll />}></Route>
+
           <Route path='/beat/:user_id/' element={<Beat />}></Route>
           <Route path='/order/:user_id/' element={<OrderCustomer />}></Route>
 

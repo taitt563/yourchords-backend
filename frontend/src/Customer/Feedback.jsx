@@ -14,7 +14,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 export default function Feedback() {
     const [data, setData] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,6 +26,20 @@ export default function Feedback() {
         comment: '',
         rating: 5,
     });
+    const [value, setValue] = useState('1');
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+        setStoredTabValue(newValue);
+    };
+
+    const getStoredTabValue = () => {
+        return localStorage.getItem('selectedTabFeedback') || '1';
+    };
+    const setStoredTabValue = (newValue) => {
+        localStorage.setItem('selectedTabFeedback', newValue);
+    };
+
+
     const navigate = useNavigate();
     const [hover, setHover] = useState(5);
     const [selectedLabel, setSelectedLabel] = useState(null);
@@ -32,20 +49,42 @@ export default function Feedback() {
     const { userId } = useParams();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
     useEffect(() => {
-        axios.get(`${apiUrl}/getFeedback/` + userId)
-            .then(res => {
-                if (res.data.Status === "Success") {
-                    setData(res.data.Result);
-                    if (res.data.Result.length > 0) {
-                        const profileImages = res.data.Result.map(data => `${data.image}`);
-                        setImageURL(profileImages);
+        const storedTabValue = getStoredTabValue();
+        setValue(storedTabValue);
+
+        const fetchData = async () => {
+            try {
+                if (value === '1') {
+                    // Fetch all feedback
+                    const response = await axios.get(`${apiUrl}/getFeedback`);
+                    if (response.data.Status === 'Success') {
+                        setData(response.data.Result);
+                        if (response.data.Result.length > 0) {
+                            const profileImages = response.data.Result.map(data => `${data.image}`);
+                            setImageURL(profileImages);
+                        }
+                    } else {
+                        alert('Error fetching all feedback');
                     }
-                } else {
-                    alert('Error');
+                } else if (value === '2') {
+                    // Fetch user-specific feedback
+                    const response = await axios.get(`${apiUrl}/getFeedback/` + userId);
+                    if (response.data.Status === 'Success') {
+                        setData(response.data.Result);
+                        if (response.data.Result.length > 0) {
+                            const profileImages = response.data.Result.map(data => `${data.image}`);
+                            setImageURL(profileImages);
+                        }
+                    } else {
+                        alert('Error fetching user-specific feedback');
+                    }
                 }
-            })
-            .catch(err => console.log(err));
-    }, []);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, [value]);
 
     const handleFeedbackSubmission = () => {
         const { comment, rating } = newFeedback;
@@ -131,7 +170,7 @@ export default function Feedback() {
 
             if (date1 === date2 && filterDate === 'today') {
                 return (
-                    <tr key={index} onClick={() => navigate(`/viewFeedbackCustomer/` + feedbackUser.id)} style={{ cursor: 'pointer' }}>
+                    <tr key={index} onClick={() => value === '2' ? navigate(`/viewFeedbackCustomer/` + feedbackUser.id) : navigate(`/viewFeedbackCustomerAll/` + feedbackUser.id)} style={{ cursor: 'pointer' }}>
                         <td>
 
                             {imageURL && <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />}
@@ -149,7 +188,8 @@ export default function Feedback() {
 
             if (date1 > date2 && filterDate === 'recently') {
                 return (
-                    <tr key={index} onClick={() => navigate(`/viewFeedbackCustomer/` + feedbackUser.id)} style={{ cursor: 'pointer' }} >
+                    <tr key={index} onClick={() => value === '2' ? navigate(`/viewFeedbackCustomer/` + feedbackUser.id) : navigate(`/viewFeedbackCustomerAll/` + feedbackUser.id)} style={{ cursor: 'pointer' }} >
+
                         <td>
                             {imageURL && <img className="song_image" src={`data:image/png;base64,${feedbackUser.image}`} />}
                         </td>
@@ -174,122 +214,197 @@ export default function Feedback() {
                     <h3 className="profile-header" style={{ color: '#0d6efd' }}><b>Feedback to us</b></h3>
 
                 </div>
-                {/* LIST TODAY */}
-                <div style={{ borderRadius: '20px', border: '1px solid #ccc', margin: '10px' }}>
-                    <ListItem>
-                        <ListItemText primary="Today" style={{ color: '#0d6efd' }} />
-                    </ListItem>
-                    <List sx={{ mb: 2 }} >
-                        <div className="mt-4 pd-left">
-                            {!renderTableRows('today').some(row => row !== null) ?
-                                (
+                <TabContext value={value}>
+                    <Box sx={{
+                        borderBottom: 1,
+                        borderColor: 'divider'
+                    }}>
+                        <TabList onChange={handleChange} centered>
+                            <Tab label="All" value="1" />
+                            <Tab label="My feedback" value="2" />
+                        </TabList>
+                    </Box>
+                    <TabPanel value="1">
+                        {/* LIST TODAY */}
+                        <div style={{ borderRadius: '20px', border: '1px solid #ccc', margin: '10px' }}>
+                            <ListItem>
+                                <ListItemText primary="Today" style={{ color: '#0d6efd' }} />
+                            </ListItem>
+                            <List sx={{ mb: 2 }} >
+                                <div className="mt-4 pd-left">
+                                    {!renderTableRows('today').some(row => row !== null) ?
+                                        (
 
-                                    <div className="text-center"><b>No comment available</b></div>
-                                )
-                                :
-                                <table className='custom-table table'>
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {renderTableRows('today')}
-                                    </tbody>
-                                </table>
-                            }
+                                            <div className="text-center"><b>No comment available</b></div>
+                                        )
+                                        :
+                                        <table className='custom-table table'>
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {renderTableRows('today')}
+                                            </tbody>
+                                        </table>
+                                    }
+                                </div>
+                            </List>
+                            {/* LIST RECENTLY */}
+                            <ListItem>
+                                <ListItemText primary="Recently" style={{ color: '#0d6efd' }} />
+                            </ListItem>
+                            <List sx={{ mb: 2 }}>
+                                <div className="mt-4 pd-left">
+                                    {!renderTableRows('recently').some(row => row !== null) ?
+                                        (
+
+                                            <div className="text-center"><em>No comment available</em></div>
+                                        )
+                                        :
+                                        <table className='custom-table table'>
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {renderTableRows('recently')}
+                                            </tbody>
+                                        </table>
+                                    }
+                                </div>
+                            </List>
                         </div>
-                    </List>
-                    {/* LIST RECENTLY */}
-                    <ListItem>
-                        <ListItemText primary="Recently" style={{ color: '#0d6efd' }} />
-                    </ListItem>
-                    <List sx={{ mb: 2 }}>
-                        <div className="mt-4 pd-left">
-                            {!renderTableRows('recently').some(row => row !== null) ?
-                                (
 
-                                    <div className="text-center"><em>No comment available</em></div>
-                                )
-                                :
-                                <table className='custom-table table'>
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {renderTableRows('recently')}
-                                    </tbody>
-                                </table>
-                            }
-                        </div>
-                        {/* Modal for creating new feedback */}
-                        <Modal open={isModalOpen} onClose={closeModal}>
-                            <Box
-                                sx={{
-                                    position: 'absolute',
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: 'translate(-50%, -50%)',
-                                    width: 400,
-                                    bgcolor: 'background.paper',
-                                    boxShadow: 24,
-                                    p: 4,
-                                }}
-                            >
-                                <h2 style={{ color: '#0d6efd' }}>New Feedback</h2>
+                    </TabPanel>
 
-                                <form>
-                                    <TextField
-                                        name="comment"
-                                        label="Comment"
-                                        variant="outlined"
-                                        margin="normal"
-                                        fullWidth
-                                        value={newFeedback.comment}
-                                        onChange={handleFormChange}
-                                        required
-                                    />
-                                    <Rating
-                                        name="rating"
-                                        value={newFeedback.rating}
-                                        onChange={handleRatingChange}
-                                        getLabelText={getLabelText}
-                                        precision={0.5}
-                                        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                                        onChangeActive={(event, newHover) => {
-                                            setHover(newHover);
 
-                                        }}
-                                    />
-                                    <Box sx={{ ml: 2 }}>{labels[hover]}</Box>
+                    <TabPanel value="2">
+                        {/* LIST TODAY */}
+                        <div style={{ borderRadius: '20px', border: '1px solid #ccc', margin: '10px' }}>
+                            <ListItem>
+                                <ListItemText primary="Today" style={{ color: '#0d6efd' }} />
+                            </ListItem>
+                            <List sx={{ mb: 2 }} >
+                                <div className="mt-4 pd-left">
+                                    {!renderTableRows('today').some(row => row !== null) ?
+                                        (
 
-                                    <br />
-                                    <Button
-                                        variant="contained"
-                                        onClick={handleFeedbackSubmission}
+                                            <div className="text-center"><b>No comment available</b></div>
+                                        )
+                                        :
+                                        <table className='custom-table table'>
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {renderTableRows('today')}
+                                            </tbody>
+                                        </table>
+                                    }
+                                </div>
+
+                            </List>
+                            {/* LIST RECENTLY */}
+                            <ListItem>
+                                <ListItemText primary="Recently" style={{ color: '#0d6efd' }} />
+                            </ListItem>
+                            <List sx={{ mb: 2 }}>
+                                <div className="mt-4 pd-left">
+                                    {!renderTableRows('recently').some(row => row !== null) ?
+                                        (
+
+                                            <div className="text-center"><em>No comment available</em></div>
+                                        )
+                                        :
+                                        <table className='custom-table table'>
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {renderTableRows('recently')}
+                                            </tbody>
+                                        </table>
+                                    }
+                                </div>
+                                {/* Modal for creating new feedback */}
+                                <Modal open={isModalOpen} onClose={closeModal}>
+                                    <Box
                                         sx={{
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            marginTop: 2,
+                                            position: 'absolute',
+                                            top: '50%',
+                                            left: '50%',
+                                            transform: 'translate(-50%, -50%)',
+                                            width: 400,
+                                            bgcolor: 'background.paper',
+                                            boxShadow: 24,
+                                            p: 4,
                                         }}
                                     >
-                                        Submit Feedback
-                                    </Button>
-                                </form>
-                            </Box>
-                        </Modal>
+                                        <h2 style={{ color: '#0d6efd' }}>New Feedback</h2>
 
-                    </List>
-                </div >
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Button variant={'contained'} onClick={openModal}>Send Feedback</Button>
-                </div>
+                                        <form>
+                                            <TextField
+                                                name="comment"
+                                                label="Comment"
+                                                variant="outlined"
+                                                margin="normal"
+                                                fullWidth
+                                                value={newFeedback.comment}
+                                                onChange={handleFormChange}
+                                                required
+                                            />
+                                            <Rating
+                                                name="rating"
+                                                value={newFeedback.rating}
+                                                onChange={handleRatingChange}
+                                                getLabelText={getLabelText}
+                                                precision={0.5}
+                                                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                                onChangeActive={(event, newHover) => {
+                                                    setHover(newHover);
+
+                                                }}
+                                            />
+                                            <Box sx={{ ml: 2 }}>{labels[hover]}</Box>
+
+                                            <br />
+                                            <Button
+                                                variant="contained"
+                                                onClick={handleFeedbackSubmission}
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    marginTop: 2,
+                                                }}
+                                            >
+                                                Submit Feedback
+                                            </Button>
+                                        </form>
+                                    </Box>
+                                </Modal>
+
+                            </List>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <Button variant={'contained'} onClick={openModal}>Send Feedback</Button>
+                        </div>
+                    </TabPanel>
+                </TabContext>
             </React.Fragment >
         </>
     );
