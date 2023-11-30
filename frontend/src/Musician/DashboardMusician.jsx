@@ -18,7 +18,6 @@ import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCircle';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import AddIcon from '@mui/icons-material/Add';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import FlakyIcon from '@mui/icons-material/Flaky';
@@ -236,14 +235,14 @@ function DashboardMusician() {
                                                                 <FlakyIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
                                                         </ListItemButton>
-                                                        <ListItemButton href="/chordMissMusician" style={{ borderRadius: '50px' }}>
+                                                        <ListItemButton href="/rejectSong" style={{ borderRadius: '50px' }}>
                                                             <ListItemIcon>
-                                                                <MusicOffIcon color="primary" fontSize='medium' />
+                                                                <SentimentVeryDissatisfiedIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
                                                         </ListItemButton>
-                                                        <ListItemButton href="/createSong" style={{ borderRadius: '50px' }}>
+                                                        <ListItemButton href="/chordMissMusician" style={{ borderRadius: '20px' }}>
                                                             <ListItemIcon>
-                                                                <AddIcon color="primary" fontSize='medium' />
+                                                                <MusicOffIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
                                                         </ListItemButton>
                                                     </List>
