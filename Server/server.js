@@ -854,6 +854,25 @@ app.put('/reply/:id', (req, res) => {
         });
     });
 });
+//ORDER CUSTOMER
+app.post('/order/:userId', (req, res) => {
+    const sql = "INSERT INTO beat (user_id, beat_name, audio_link, duration, created_at) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP);";
+    const { beat_name, audio_link, duration } = req.body;
+    const user_id = req.params.userId;
+    con.query(sql, [user_id, beat_name, audio_link, duration], (err, result) => {
+        console.log([user_id, beat_name, audio_link, duration])
+        if (err) {
+            console.error(err);
+            return res.json({ Status: "Error", Error: "Error in running query" });
+        }
+
+        if (result.affectedRows > 0) {
+            return res.json({ Status: "Success" });
+        } else {
+            return res.json({ Status: "Error", Error: "Failed to insert user information" });
+        }
+    });
+});
 
 
 
