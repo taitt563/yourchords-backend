@@ -468,12 +468,19 @@ app.get('/getSongReject/', (req, res) => {
 })
 app.get('/getSong/:id', (req, res) => {
     const id = req.params.id;
-    const sql = "SELECT * FROM song where id = ?";
+    const sql = `
+    SELECT s.*, sa.artist_id, sa.song_id, a.*
+    FROM song s
+    LEFT JOIN song_artist sa ON s.id = sa.song_id
+    LEFT JOIN artist a ON sa.artist_id = a.id
+    WHERE s.id = ?;
+    `;
+
     con.query(sql, [id], (err, result) => {
-        if (err) return res.json({ Error: "Get song error in sql" });
-        return res.json({ Status: "Success", Result: result })
-    })
-})
+        if (err) return res.json({ Error: "Get song error in SQL" });
+        return res.json({ Status: "Success", Result: result });
+    });
+});
 
 app.get('/getSongsByGenre/:genreName', (req, res) => {
     const genreName = req.params.genreName;
@@ -566,6 +573,49 @@ app.post('/createSong', upload.single('thumbnail'), (req, res) => {
         return false;
     }
 })
+
+//ARTIST
+app.get('/getSongArtist/:artist_id', (req, res) => {
+    const artistId = req.params.artist_id;
+
+    if (artistId) {
+        const sql = `
+            SELECT s.*, sa.artist_id, sa.song_id, a.*
+            FROM song s
+            LEFT JOIN song_artist sa ON s.id = sa.song_id
+            LEFT JOIN artist a ON sa.artist_id = a.id
+            WHERE sa.artist_id = ?;
+        `;
+
+        con.query(sql, [artistId], (err, result) => {
+            if (err) return res.json({ Error: "Get song error in SQL" });
+            return res.json({ Status: "Success", Result: result });
+        });
+    } else {
+        // If no artist_id is provided, return an error or handle it as needed
+        return res.json({ Error: "Artist ID is required as a parameter" });
+    }
+});
+app.delete('/deleteSongArtist/:artist_id/:song_id', (req, res) => {
+    const artistId = req.params.artist_id;
+    const songId = req.params.song_id;
+
+    if (artistId && songId) {
+        const deleteSql = `
+            DELETE FROM song_artist
+            WHERE artist_id = ? AND song_id = ?;
+        `;
+
+        con.query(deleteSql, [artistId, songId], (err, result) => {
+            if (err) return res.json({ Error: "Delete song error in SQL" });
+
+            return res.json({ Status: "Success", Result: result.affectedRows });
+        });
+    } else {
+        // If either artist_id or song_id is missing, return an error or handle it as needed
+        return res.json({ Error: "Both artist ID and song ID are required as parameters" });
+    }
+});
 
 //BEAT
 

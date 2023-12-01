@@ -30,7 +30,7 @@ const darkTheme = createTheme({
     },
 });
 
-export default function SearchAppBarBackCustomer() {
+export default function SearchAppBarBackAdmin() {
     const [data, setData] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorElAvt, setAnchorElAvt] = useState(null);

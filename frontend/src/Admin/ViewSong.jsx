@@ -350,9 +350,15 @@ function ViewSong() {
                             <div className="col-md-7">
                                 <div className="row">
                                     <div className="col-md-6">
-                                        <p><b>Artist:</b> {viewSong.author}</p>
+                                        <p><b>Artist:</b>
+                                            {viewSong.artist_name != null ?
+                                                <Link href={`/artistAdmin/${viewSong.id}/${viewSong.artist_id}`} underline="hover">{viewSong.artist_name}</Link>
+                                                :
+                                                " Updating"
+                                            }
+                                        </p>
                                         {viewSong.link != null ? (
-                                            <p><b>Link:</b> <Link href={viewSong.link} underline="hover">{viewSong.link}</Link></p>
+                                            <p><b>Link:</b> <Link href={viewSong.link} underline="hover">{viewSong.link.substring(0, 30)}</Link></p>
                                         ) : (
                                             <p><b>Link:</b> Updating...</p>
                                         )}

@@ -349,14 +349,20 @@ function ViewSongCustomer() {
                         });
                     }
                     return <div key={index}>
-                        <h3 className="d-flex justify-content-center"><b style={{ color: '#0d6efd' }}>{viewSong.song_title}</b></h3>
+                        <h3 className="d-flex justify-content-center"><b>{viewSong.song_title}</b></h3>
                         <div className="row mt-5 d-flex justify-content-center">
                             <div className="col-md-7">
                                 <div className="row">
                                     <div className="col-md-6">
-                                        <p><b>Artist:</b> {viewSong.author}</p>
+                                        <p><b>Artist:</b>
+                                            {viewSong.artist_name != null ?
+                                                <Link href={`/artist/${viewSong.id}/${viewSong.artist_id}`} underline="hover">{viewSong.artist_name}</Link>
+                                                :
+                                                " Updating"
+                                            }
+                                        </p>
                                         {viewSong.link != null ? (
-                                            <p><b>Link:</b> <Link href={viewSong.link} underline="hover">{viewSong.link}</Link></p>
+                                            <p><b>Link:</b> <Link href={viewSong.link} underline="hover">{viewSong.link.substring(0, 30)}</Link></p>
                                         ) : (
                                             <p><b>Link:</b> Updating...</p>
                                         )}

@@ -214,9 +214,9 @@ function SongCustomer() {
                                 variant="h9"
                                 noWrap
                                 component="div"
-                                sx={{ color: '#0d6efd', fontWeight: 700, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                                sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                             >
-                                <b>Register as a <Link onClick={() => handleRequestAccountMusician()} sx={{ color: '#0d6efd' }} underline='hover'>Musician</Link> / <Link onClick={() => handleRequestAccountChordValidator()} sx={{ color: '#0d6efd' }} underline='hover'>Chord validator</Link> partner</b>
+                                Register as a <Link onClick={() => handleRequestAccountMusician()} sx={{ color: '#0d6efd', fontWeight: 'bold', cursor: 'pointer' }} underline='none' >Musician</Link> / <Link onClick={() => handleRequestAccountChordValidator()} sx={{ color: '#0d6efd', fontWeight: 'bold', cursor: 'pointer' }} underline='none' >Chord validator</Link> partner
                             </Typography>
 
                             <input

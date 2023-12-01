@@ -11,12 +11,15 @@ import ViewFeedback from './Admin/ViewFeedback'
 import ViewSong from './Admin/ViewSong'
 import RequestAccount from './Admin/RequestAccount'
 import CreateSong from './Admin/CreateSong'
+import Artist from './Customer/Artist'
+import ArtistAdmin from './Admin/ArtistAdmin'
 /////CHORDMANAGER
 import DashboardChordManager from './ChordManager/DashboardChordManager'
 import VerifySong from './ChordManager/VerifySong'
 import ViewSongChordManager from './ChordManager/ViewSongChordManager'
 import ProfileChordManager from './ChordManager/ProfileChordManager'
 import SongChordManager from './ChordManager/SongChordManager'
+import ArtistChordManager from './ChordManager/ArtistChordManager'
 /////MUSICIAN
 import DashboardMusician from './Musician/DashboardMusician'
 import ChordMissMusician from './Musician/ChordMissMusician'
@@ -68,6 +71,7 @@ function App() {
           <Route path='/createSong' element={<CreateSong />}></Route>
         </Route>
         <Route path='/viewSong/:id' element={<ViewSong />}></Route>
+        <Route path='/artistAdmin/:id/:artist_id' element={<ArtistAdmin />}></Route>
 
         {/* CHORD MANAGER ROLE */}
         <Route path='/' element={<DashboardChordManager />}>
@@ -76,6 +80,7 @@ function App() {
           <Route path='/songChordManager' element={<SongChordManager />}></Route>
         </Route>
         <Route path='/viewSongChordManager/:id' element={<ViewSongChordManager />}></Route>
+        <Route path='/artistChordManager/:id/:artist_id' element={<ArtistChordManager />}></Route>
 
 
         {/* MUSICIAN ROLE */}
@@ -115,6 +120,8 @@ function App() {
         <Route path='/chord' element={<Chord />}></Route>
         <Route path='/searchChord' element={<SearchChord />}></Route>
         <Route path='/viewSongCustomer/:id' element={<ViewSongCustomer />}></Route>
+        <Route path='/artist/:id/:artist_id' element={<Artist />}></Route>
+
 
       </Routes>
     </BrowserRouter>
