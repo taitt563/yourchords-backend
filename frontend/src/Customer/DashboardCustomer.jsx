@@ -52,6 +52,7 @@ function DashboardCustomer() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     useEffect(() => {
+
         const token = sessionStorage.getItem('token');
         const userId = token.split(':')[0];
         axios.get(`${apiUrl}/getProfile/` + userId)
@@ -67,6 +68,10 @@ function DashboardCustomer() {
                 }
             })
             .catch(err => console.log(err));
+        const currentRoute = window.location.pathname;
+        if (currentRoute === `/songCustomer/${userId}`) {
+            setActiveButton('songCustomer');
+        }
     }, [userId])
     const handleButtonClick = (e, buttonName) => {
         e.preventDefault();
@@ -298,7 +303,7 @@ function DashboardCustomer() {
                                             <List sx={{
                                                 width: '60%', paddingTop: '20px'
                                             }}>
-                                                <ListItemButton href="/chord" style={{ borderRadius: '50px' }}
+                                                <ListItemButton style={{ borderRadius: '50px' }}
                                                     className={`dashboard-button ${activeButton === 'chord' ? 'clicked' : ''}`}
                                                     onClick={(e) => {
                                                         handleButtonClick(e, 'chord');

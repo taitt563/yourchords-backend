@@ -39,6 +39,10 @@ function DashboardChordManager() {
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
     useEffect(() => {
+        const currentRoute = window.location.pathname;
+        if (currentRoute === '/songChordManager') {
+            setActiveButton('songChordManager');
+        }
         const token = sessionStorage.getItem('token');
         const userId = token.split(':')[0];
         axios.get(`${apiUrl}/getProfile/` + userId)

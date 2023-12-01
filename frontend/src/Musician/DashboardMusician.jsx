@@ -46,6 +46,10 @@ function DashboardMusician() {
     useEffect(() => {
         const token = sessionStorage.getItem('token');
         const userId = token.split(':')[0];
+        const currentRoute = window.location.pathname;
+        if (currentRoute === `/chordMusician`) {
+            setActiveButton('chordMusician');
+        }
         axios.get(`${apiUrl}/getProfile/` + userId)
             .then(res => {
                 if (res.data.Status === "Success") {

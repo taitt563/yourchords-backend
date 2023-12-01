@@ -40,6 +40,10 @@ function Dashboard() {
     let showDate = new Date();
     let displaytodaysdate = showDate.getFullYear() + '-' + (showDate.getMonth() + 1) + '-' + showDate.getDate();
     useEffect(() => {
+        const currentRoute = window.location.pathname;
+        if (currentRoute === '/manageAccount') {
+            setActiveButton('manageAccount');
+        }
         const token = sessionStorage.getItem('token');
         const userId = token.split(':')[0];
         axios.get(`${apiUrl}/getProfile/` + userId)
@@ -55,6 +59,8 @@ function Dashboard() {
                 }
             })
             .catch(err => console.log(err));
+
+
     }, [userId]);
     const handleToggleCollapse = () => {
         const newCollapsedState = !collapsed;
@@ -288,7 +294,8 @@ function Dashboard() {
                                                                 onClick={(e) => {
                                                                     handleButtonClick(e, 'createSong');
                                                                     navigate('/createSong')
-                                                                }} >
+                                                                }}
+                                                            >
                                                                 <ListItemIcon>
                                                                     <AddIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
@@ -298,7 +305,12 @@ function Dashboard() {
                                                 </List>
                                                 <List sx={{ width: '60%', paddingTop: '20px' }}>
                                                     <ListItemButton
-                                                        href={('/manageFeedback/' + profile.userId)} style={{ borderRadius: '50px' }}
+                                                        style={{ borderRadius: '50px' }}
+                                                        className={`dashboard-button ${activeButton === 'manageFeedback' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'manageFeedback');
+                                                            navigate('/manageFeedback/' + profile.userId)
+                                                        }}
                                                     >
                                                         <ListItemIcon>
                                                             <ThumbUpAltIcon color="primary" fontSize='medium' />
@@ -320,9 +332,7 @@ function Dashboard() {
                                                     </ListItemButton>
                                                 </List>
                                                 <List sx={{ width: '60%', paddingTop: '20px' }}>
-                                                    <ListItemButton
-                                                        href={('/login')} style={{ borderRadius: '50px' }}
-                                                    >
+                                                    <ListItemButton href={('/login')} style={{ borderRadius: '50px' }}>
                                                         <ListItemIcon>
                                                             <LogoutIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
