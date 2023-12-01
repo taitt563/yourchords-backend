@@ -855,13 +855,37 @@ app.put('/reply/:id', (req, res) => {
     });
 });
 
+app.post('/feedbackCustomer', (req, res) => {
+    const { userId, comment, rating } = req.body;
+
+    let sql = "INSERT INTO feedback (username, email, image, comment, date_feedback, rating) " +
+        "SELECT p.userId, p.email, p.image, ?, CURRENT_TIMESTAMP, ? " +
+        "FROM profile p " +
+        "WHERE p.userId = ?";
+
+    const values = [comment, rating, userId];
+
+    con.query(sql, values, (err, result) => {
+        if (err) {
+            console.error("Error in SQL query:", err);
+            return res.json({ Status: "Error", Error: "Error in running query" });
+        }
+
+        if (result.affectedRows > 0) {
+            return res.json({ Status: "Success", Result: result });
+        } else {
+            return res.json({ Status: "Error", Error: "Failed to insert feedback" });
+        }
+    });
+});
+
+
 //ORDER CUSTOMER
 app.post('/order/:userId', (req, res) => {
-    const sql = "INSERT INTO beat (user_id, song_name, genre, audio_link, duration, created_at) VALUES (?, ? , ?, ?, ?, CURRENT_TIMESTAMP);";
-    const { song_name, genre, audio_link, duration } = req.body;
+    const sql = "INSERT INTO beat (user_id, song_name, artist_name , lyric , genre , audio_link, duration, created_at) VALUES (?, ? , ? , ? , ?, ?, ?, CURRENT_TIMESTAMP);";
+    const { song_name, artist_name, lyric, genre, audio_link, duration } = req.body;
     const user_id = req.params.userId;
-    con.query(sql, [user_id, song_name, genre, audio_link, duration], (err, result) => {
-        console.log([user_id, song_name, genre, audio_link, duration])
+    con.query(sql, [user_id, song_name, artist_name, lyric, genre, audio_link, duration], (err, result) => {
         if (err) {
             console.error(err);
             return res.json({ Status: "Error", Error: "Error in running query" });
@@ -893,31 +917,46 @@ app.get('/getOrder', (req, res) => {
     });
 });
 
+app.get('/getOrder/:id', (req, res) => {
+    const sql = "SELECT * FROM beat WHERE id = ?;";
+    const id = req.params.id;
 
-
-app.post('/feedbackCustomer', (req, res) => {
-    const { userId, comment, rating } = req.body;
-
-    let sql = "INSERT INTO feedback (username, email, image, comment, date_feedback, rating) " +
-        "SELECT p.userId, p.email, p.image, ?, CURRENT_TIMESTAMP, ? " +
-        "FROM profile p " +
-        "WHERE p.userId = ?";
-
-    const values = [comment, rating, userId];
-
-    con.query(sql, values, (err, result) => {
+    con.query(sql, [id], (err, result) => {
         if (err) {
-            console.error("Error in SQL query:", err);
+            console.error(err);
+            return res.json({ Status: "Error", Error: "Error in running query" });
+        }
+
+        if (result.length > 0) {
+            return res.json({ Status: "Success", data: result });
+        } else {
+            return res.json({ Status: "Error", Error: "No records found in the beat table" });
+        }
+    });
+});
+
+
+app.put('/updatePrice/:id', (req, res) => {
+    const { id } = req.params;
+    const { newPrice } = req.body;
+
+    const sql = "UPDATE beat SET price = ? WHERE id = ?;";
+
+    con.query(sql, [newPrice, id], (err, result) => {
+        if (err) {
+            console.error(err);
             return res.json({ Status: "Error", Error: "Error in running query" });
         }
 
         if (result.affectedRows > 0) {
-            return res.json({ Status: "Success", Result: result });
+            return res.json({ Status: "Success", Message: "Price updated successfully" });
         } else {
-            return res.json({ Status: "Error", Error: "Failed to insert feedback" });
+            return res.json({ Status: "Error", Error: "No records found or failed to update price" });
         }
     });
 });
+
+
 
 
 

@@ -26,7 +26,7 @@ function OrderCustomer() {
     const formData = {
       song_name: title,
       lyric: lyric,
-      artist: artist,
+      artist_name: artist,
       duration: duration,
       genre: genre,
       audio_link: link,
@@ -85,7 +85,7 @@ function OrderCustomer() {
                 <div className="mb-3">
                   <label htmlFor="lyric">Lyric</label>
                   <div className="input-group">
-                    <textarea id='lyric' rows={15} cols={100} value={lyric} onChange={(e) => setLyric(e.target.value)} required></textarea>
+                    <textarea id='lyric' rows={15} cols={100} value={lyric} onChange={(e) => setLyric(e.target.value)} style={{ borderRadius: '10px' }} required></textarea>
                     <div className="invalid-feedback">
                       Lyric is required.
                     </div>

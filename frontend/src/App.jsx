@@ -35,6 +35,7 @@ import SongMusician from './Musician/SongMusician'
 import RejectSong from './Musician/RejectSong'
 import SongBeatManager from './Musician/SongBeatManager'
 import ArtistMusician from './Musician/ArtistMusician'
+import ViewOrderMusician from './Musician/ViewOrderMusician'
 /////CUSTOMER
 import DashboardCustomer from './Customer/DashboardCustomer'
 import SongCustomer from './Customer/SongCustomer'
@@ -52,6 +53,7 @@ import Beat from './Customer/Beat'
 import SongBeat from './Customer/SongBeat'
 import OrderCustomer from './Customer/OrderCustomer'
 import ViewFeedbackCustomerAll from './Customer/ViewFeedBackCustomerAll'
+import OrderStatus from './Customer/OrderStatus'
 function App() {
   return (
     <BrowserRouter>
@@ -96,6 +98,8 @@ function App() {
           <Route path='/createChord' element={<CreateChord />}></Route>
           <Route path='/songMusician' element={<SongMusician />}></Route>
           <Route path='/rejectSong' element={<RejectSong />}></Route>
+          <Route path='/viewOrderMusician/:id/' element={<ViewOrderMusician />}></Route>
+
         </Route>
         <Route path='/viewSongMusician/:id' element={<ViewSongMusician />}></Route>
         <Route path='/songBeatManager/:user_id/:beat_type' element={<SongBeatManager />}></Route>
@@ -116,6 +120,8 @@ function App() {
 
           <Route path='/beat/:user_id/' element={<Beat />}></Route>
           <Route path='/order/:user_id/' element={<OrderCustomer />}></Route>
+          <Route path='/orderStatus/:user_id/' element={<OrderStatus />}></Route>
+
 
         </Route>
         <Route path='/songBeat/:user_id/:beat_type' element={<SongBeat />}></Route>

@@ -3,6 +3,7 @@ import SearchAppBar from '../component/SearchAppBar';
 import { Space, Table, Input, Button } from 'antd';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from '@mui/material';
 
 
 
@@ -12,7 +13,7 @@ function OrderMusician() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const columns = [
         {
-            title: 'ID',
+            title: 'Order ID',
             dataIndex: 'id',
             width: 100,
         },
@@ -70,6 +71,16 @@ function OrderMusician() {
                 </Space>
             ),
         },
+        {
+            title: 'Actions',
+            render: (text, record) => (
+                <Space size="middle">
+                    <Button type="primary" style={{ borderRadius: '40px' }}>
+                        <Link href={`/viewOrderMusician/${record.id}`}>View</Link>
+                    </Button>
+                </Space >
+            ),
+        },
     ];
 
     useEffect(() => {
@@ -102,12 +113,15 @@ function OrderMusician() {
 
     const handleSavePrice = async (itemId, newPrice) => {
         try {
-            const response = await axios.post(`${apiUrl}/updatePrice`, {
-                itemId: itemId,
+            const response = await axios.put(`${apiUrl}/updatePrice/${itemId}`, {
                 newPrice: newPrice,
             });
             if (response.data.Status === 'Success') {
-                window.location.reload(true);
+                setOrderData((prevData) => {
+                    return prevData.map((item) =>
+                        item.id === itemId ? { ...item, price: newPrice } : item
+                    );
+                });
             } else {
                 console.error('Failed to save price:', response.data.Error);
             }
@@ -117,6 +131,7 @@ function OrderMusician() {
             setEditedItemId(null);
         }
     };
+
     return (
         <>
             <SearchAppBar />
@@ -128,12 +143,11 @@ function OrderMusician() {
                     <Table
                         columns={columns}
                         dataSource={orderData.map(item => ({
-                            key: item.id,
                             id: item.id,
                             user_id: item.user_id,
                             genre: item.genre,
                             audio_link: item.audio_link,
-                            desc: item.desc,
+                            description: item.description,
                             price: item.price,
                         }))}
                     />
