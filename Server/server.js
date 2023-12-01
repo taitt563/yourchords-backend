@@ -854,13 +854,14 @@ app.put('/reply/:id', (req, res) => {
         });
     });
 });
+
 //ORDER CUSTOMER
 app.post('/order/:userId', (req, res) => {
-    const sql = "INSERT INTO beat (user_id, beat_name, audio_link, duration, created_at) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP);";
-    const { beat_name, audio_link, duration } = req.body;
+    const sql = "INSERT INTO beat (user_id, song_name, genre, audio_link, duration, created_at) VALUES (?, ? , ?, ?, ?, CURRENT_TIMESTAMP);";
+    const { song_name, genre, audio_link, duration } = req.body;
     const user_id = req.params.userId;
-    con.query(sql, [user_id, beat_name, audio_link, duration], (err, result) => {
-        console.log([user_id, beat_name, audio_link, duration])
+    con.query(sql, [user_id, song_name, genre, audio_link, duration], (err, result) => {
+        console.log([user_id, song_name, genre, audio_link, duration])
         if (err) {
             console.error(err);
             return res.json({ Status: "Error", Error: "Error in running query" });
@@ -870,6 +871,24 @@ app.post('/order/:userId', (req, res) => {
             return res.json({ Status: "Success" });
         } else {
             return res.json({ Status: "Error", Error: "Failed to insert user information" });
+        }
+    });
+});
+
+//ORDER MUSICIAN
+app.get('/getOrder', (req, res) => {
+    const sql = "SELECT * FROM beat;";
+
+    con.query(sql, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.json({ Status: "Error", Error: "Error in running query" });
+        }
+
+        if (result.length > 0) {
+            return res.json({ Status: "Success", data: result });
+        } else {
+            return res.json({ Status: "Error", Error: "No records found in the beat table" });
         }
     });
 });

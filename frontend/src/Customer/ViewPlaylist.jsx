@@ -240,7 +240,6 @@ function ViewPlaylist() {
                                         <Link href={`/viewSongCustomer/` + song.id} underline="none">
                                             <div className="song-details" style={{ textAlign: 'center' }}>
                                                 <b>{song.song_title}</b>
-                                                <p><b>Artist: {song.artist}</b></p>
                                                 <p>Date added: {moment(song.date_added).format('YYYY/MM/DD - HH:mm:ss')}</p>
 
                                             </div>

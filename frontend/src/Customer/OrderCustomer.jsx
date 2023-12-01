@@ -16,16 +16,15 @@ function OrderCustomer() {
   const token = sessionStorage.getItem('token');
   const userId = token.split(':')[0];
 
-  const handleConfirmOrder = async () => {
-    // Validation checks
-    if (!title || !lyric || !artist || !duration || !genre || !link) {
-      console.error('Please fill in all the required fields');
+  const handleConfirmOrder = async (event) => {
+    event.preventDefault();
+    const form = event.target;
+    if (!form.checkValidity()) {
+      form.reportValidity();
       return;
     }
-
-    // Store form data in 'value'
     const formData = {
-      beat_name: title,
+      song_name: title,
       lyric: lyric,
       artist: artist,
       duration: duration,
@@ -33,20 +32,12 @@ function OrderCustomer() {
       audio_link: link,
     };
 
-    // Save form data to 'value' state
 
     try {
       const response = await axios.post(`${apiUrl}/order/${userId}`, formData);
 
       if (response.data.Status === 'Success') {
-        console.log('success');
-        // Optionally, you can reset the form fields after a successful order
-        setTitle('');
-        setLyric('');
-        setArtist('');
-        setDuration(null);
-        setGenre('');
-        setLink('');
+        window.location.reload(true)
       }
     } catch (error) {
       console.error('Error confirming order:', error.message);
@@ -80,11 +71,11 @@ function OrderCustomer() {
             </div>
 
             <div className="col-md-8 order-md-1">
-              <form className="needs-validation" noValidate>
+              <form className="needs-validation" noValidate onSubmit={handleConfirmOrder}>
                 <div className="row">
                   <div className="mb-3">
                     <label htmlFor="title">Song title</label>
-                    <input type="text" className="form-control" id="title" placeholder="I see fire" value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <input type="text" className="form-control" id="title" placeholder="I see fire" value={title} onChange={(e) => setTitle(e.target.value)} required />
                     <div className="invalid-feedback">
                       Song title is required.
                     </div>
@@ -94,7 +85,7 @@ function OrderCustomer() {
                 <div className="mb-3">
                   <label htmlFor="lyric">Lyric</label>
                   <div className="input-group">
-                    <textarea id='lyric' rows={15} cols={100} value={lyric} onChange={(e) => setLyric(e.target.value)}></textarea>
+                    <textarea id='lyric' rows={15} cols={100} value={lyric} onChange={(e) => setLyric(e.target.value)} required></textarea>
                     <div className="invalid-feedback">
                       Lyric is required.
                     </div>
@@ -110,18 +101,28 @@ function OrderCustomer() {
                 </div>
 
                 <div className="mb-3">
-                  <label>Duration</label>
-                  <DatePicker
-                    selected={duration}
-                    onChange={(date) => setDuration(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="yyyy-MM-dd HH:mm"
-                  />
-                  <div className="invalid-feedback">
-                    Please enter duration!
+                  <label htmlFor="duration" className="form-label">Duration</label>
+                  <div className="input-group">
+                    <DatePicker
+                      id="duration"
+                      selected={duration}
+                      onChange={(date) => setDuration(date)}
+                      showTimeSelect
+                      timeFormat="HH:mm"
+                      timeIntervals={15}
+                      timeCaption="time"
+                      dateFormat="yyyy-MM-dd HH:mm"
+                      className="form-control"
+                      required
+                    />
+                    <div >
+                      <span className="input-group-text bg-primary  text-white">
+                        <i className="bi-calendar-day"></i>
+                      </span>
+                    </div>
+                    <div className="invalid-feedback">
+                      Please enter duration!
+                    </div>
                   </div>
                 </div>
 
@@ -130,10 +131,12 @@ function OrderCustomer() {
                     <label htmlFor="cc-genre">Genre</label>
                     <select className="form-control" id="cc-genre" value={genre} onChange={(e) => setGenre(e.target.value)} required>
                       <option value="">Select Genre</option>
-                      {/* Add options based on your genres */}
-                      <option value="pop">Pop</option>
+                      <option value="acoustic">Acoustic</option>
                       <option value="rock">Rock</option>
-                      {/* Add more genres as needed */}
+                      <option value="jazz">Jazz</option>
+                      <option value="ballad">Ballad</option>
+                      <option value="pop">Pop</option>
+                      <option value="rb">R&b</option>
                     </select>
                     <div className="invalid-feedback">
                       Please enter genre!
@@ -148,7 +151,7 @@ function OrderCustomer() {
                   </div>
                 </div>
                 <hr className="mb-4" />
-                <button className="btn btn-primary btn-lg btn-block" type="button" onClick={handleConfirmOrder}>Confirm order</button>
+                <button className="btn btn-primary btn-lg btn-block" type="submit">Confirm order</button>
               </form>
             </div>
           </div>

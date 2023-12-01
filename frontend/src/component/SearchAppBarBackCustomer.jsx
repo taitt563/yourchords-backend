@@ -26,6 +26,8 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import HandshakeIcon from '@mui/icons-material/Handshake';
+import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCircle';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 
 import axios from 'axios';
 const darkTheme = createTheme({
@@ -43,6 +45,7 @@ export default function SearchAppBarBackCustomer() {
     const { userId } = useParams();
     const [imageURL, setImageURL] = useState(null);
     const [openPlaylist, setOpenPlaylist] = useState(false);
+    const [openOrder, setOpenOrder] = useState(false);
     const [activeButton, setActiveButton] = useState(
         localStorage.getItem('activeButtonCustomer')
     );
@@ -64,6 +67,11 @@ export default function SearchAppBarBackCustomer() {
     };
     const handleClickPlaylist = () => {
         setOpenPlaylist(!openPlaylist);
+        setOpenOrder(false)
+    };
+    const handleClickOrder = () => {
+        setOpenOrder(!openOrder);
+        setOpenPlaylist(false)
     };
     useEffect(() => {
         const token = sessionStorage.getItem('token');
@@ -267,17 +275,41 @@ export default function SearchAppBarBackCustomer() {
                                         </Collapse>
                                     </List>
                                     <List sx={{ paddingTop: '20px' }}>
-                                        <ListItemButton style={{ borderRadius: '20px' }}
-                                            className={`dashboard-button ${activeButton === 'order' ? 'clicked' : ''}`}
-                                            onClick={(e) => {
-                                                handleButtonClick(e, 'order');
-                                                navigate("/order/" + profile.userId)
-                                            }}>
+                                        <ListItemButton onClick={handleClickOrder} style={{ borderRadius: '50px' }}>
                                             <ListItemIcon>
                                                 <HandshakeIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                             </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Order Beat</span></ListItemText>
+                                            <ListItemText><span className="fontDashboard">Order</span></ListItemText>
+                                            {openOrder ? <ExpandLess style={{ color: '#0d6efd' }} fontSize='medium' /> : <ExpandMore style={{ color: '#0d6efd' }} fontSize='medium' />}
+
                                         </ListItemButton>
+                                        <Collapse in={openOrder} timeout="auto" unmountOnExit>
+                                            <List sx={{ width: '100%', pl: 1 }}>
+                                                <ListItemButton style={{ borderRadius: '20px' }}
+                                                    className={`dashboard-button ${activeButton === 'order' ? 'clicked' : ''}`}
+                                                    onClick={(e) => {
+                                                        handleButtonClick(e, 'order');
+                                                        navigate("/order/" + profile.userId)
+                                                    }}>
+                                                    <ListItemIcon>
+                                                        <PlaylistAddCheckCircleIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                                    </ListItemIcon>
+                                                    <ListItemText><span className="fontDashboard">Order Beat</span></ListItemText>
+                                                </ListItemButton>
+                                                <ListItemButton style={{ borderRadius: '20px' }}
+                                                    className={`dashboard-button ${activeButton === 'orderStatus' ? 'clicked' : ''}`}
+                                                    onClick={(e) => {
+                                                        handleButtonClick(e, 'orderStatus');
+                                                        navigate(`/orderStatus/` + profile.userId)
+                                                    }}  >
+                                                    <ListItemIcon>
+                                                        <ListAltIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                                    </ListItemIcon>
+                                                    <ListItemText><span className="fontDashboard">Order Status</span></ListItemText>
+
+                                                </ListItemButton>
+                                            </List>
+                                        </Collapse>
                                     </List>
                                     <List sx={{ paddingTop: '20px' }}>
                                         <ListItemButton style={{ borderRadius: '20px' }}
