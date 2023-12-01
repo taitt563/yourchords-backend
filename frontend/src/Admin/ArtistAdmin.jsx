@@ -1,27 +1,22 @@
 import { Link } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import InfoContainer from '../component/InfoContainer';
 import SearchAppBarBackAdmin from '../component/SearchAppBarBackAdmin';
-
+import moment from 'moment';
 function ArtistAdmin() {
     const [data, setData] = useState([]);
     const [orderBy, setOrderBy] = useState('created_at');
     const [order, setOrder] = useState('asc');
-    const [beatGenres, setBeatGenres] = useState([]);
-    const [beatSongCounts, setBeatSongCounts] = useState({});
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-    const token = sessionStorage.getItem('token');
-    const userId = token.split(':')[0];
     const { artist_id } = useParams();
 
     const [majorChordsData, setDataMajorChords] = useState([]);
     const [minorChordsData, setDataMinorChords] = useState([]);
     const [c7ChordsData, setDataC7Chords] = useState([]);
-    const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
     // Pagination logic
@@ -29,23 +24,7 @@ function ArtistAdmin() {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
     const totalPages = Math.ceil(data.length / itemsPerPage);
-    const beatGenresData = [
-        { beat_id: 'Ballad', beat_name: 'Ballad' },
-        { beat_id: 'BluesTune', beat_name: 'Blues Tune' },
-        { beat_id: 'DiscoTune', beat_name: 'Disco Tune' },
-        { beat_id: 'SlowTune', beat_name: 'Slow Tune' },
-        { beat_id: 'BolleroTune', beat_name: 'Bollero Tune' },
-        { beat_id: 'FoxTune', beat_name: 'Fox Tune' },
-        { beat_id: 'ValseTune', beat_name: 'Valse Tune' },
-        { beat_id: 'TangoTune', beat_name: 'Tango Tune' },
-        { beat_id: 'PopTune', beat_name: 'Pop Tune' },
-        { beat_id: 'BostonTune', beat_name: 'Boston Tune' },
-        { beat_id: 'WaltzTune', beat_name: 'Waltz' },
-        { beat_id: 'Chachachadance', beat_name: 'Chachacha Dance' },
-        { beat_id: 'RockTune', beat_name: 'Rock Tune' },
-        { beat_id: 'Dhumbadance', beat_name: 'Dhumba Dance' },
-        { beat_id: 'BossaNova', beat_name: 'Bossa Nova' },
-    ];
+
 
     useEffect(() => {
 
@@ -60,34 +39,6 @@ function ArtistAdmin() {
                 }
             })
             .catch(err => console.log(err));
-    }, []);
-    const fetchData = async () => {
-        try {
-            const countRequests = beatGenresData.map((beat) =>
-                axios.get(`${apiUrl}/countSongBeat/${beat.beat_id}`)
-            );
-
-            const countResponses = await Promise.all(countRequests);
-
-            const updatedGenres = beatGenresData.map((beat, index) => ({
-                ...beat,
-                song_count: countResponses[index].data.songCount,
-            }));
-
-            const songCountsMap = {};
-            updatedGenres.forEach((beat) => {
-                songCountsMap[beat.beat_id] = beat.song_count;
-            });
-
-            setBeatGenres(updatedGenres);
-            setBeatSongCounts(songCountsMap);
-
-        } catch (error) {
-            console.error(error);
-        }
-    };
-    useEffect(() => {
-        fetchData();
     }, []);
 
     const handleSort = (field) => {
@@ -213,11 +164,11 @@ function ArtistAdmin() {
                                                         >
                                                         </button>
                                                     </div>
-                                                    <Link href={`/viewSongCustomer/` + song.id} key={index} className="song-card-list" style={{ color: 'black', textDecoration: 'none' }}>
+                                                    <Link href={`/viewSong/` + song.id} key={index} className="song-card-list" style={{ color: 'black', textDecoration: 'none' }}>
                                                         <div className='column'>
                                                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                                                 <span style={{ fontSize: '20px', marginRight: '10px' }}>{song.song_title}</span> -
-                                                                <span style={{ fontSize: '20px', marginRight: '10px' }}>{song.artist_name}</span>
+                                                                <span style={{ fontSize: '20px', marginRight: '10px', paddingLeft: '10px' }}>{song.artist_name}</span>
                                                                 <div style={{ display: 'flex', textAlign: 'center' }}>
 
                                                                     {songChords.map((chord, chordIndex) => (
@@ -281,16 +232,10 @@ function ArtistAdmin() {
                         <b style={{ color: '#0d6efd', fontWeight: 'bold', textAlign: 'center', marginTop: '50px' }}>Information</b>
                         <div className="card mx-3 my-1" style={{ width: '90%', padding: '5px' }}>
                             <div className="flex-row" style={{
-                                display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', cursor: 'pointer'
+                                display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'
                             }}>
-                                {beatGenres.map((beatGenre, index) => (
+                                {currentItems.length > 0 && (
                                     <div
-                                        key={index}
-                                        className={`item-grid item-${index + 1}`}
-                                        onClick={() => {
-                                            navigate(`/songBeat/${userId}/${beatGenre.beat_id.toLowerCase()}`);
-                                            window.location.reload();
-                                        }}
                                         style={{
                                             width: 'fit-content',
                                             padding: '0 11px',
@@ -304,17 +249,24 @@ function ArtistAdmin() {
                                             border: '1px solid #f1f1f1'
                                         }}
                                     >
+                                        <img src={currentItems[0].image_artist} alt={currentItems[0].artist_name} style={{ width: '200px', height: '200px', borderRadius: '50%' }} />
                                         <p style={{
                                             fontSize: '11px', margin: '5px'
                                         }}>
-                                            {beatGenre.beat_name} {'('}
-                                            {beatSongCounts[beatGenre.beat_id] !== undefined
-                                                ? `${beatSongCounts[beatGenre.beat_id]} bài`
-                                                : '0 bài'}
-                                            {')'}
+                                            {currentItems[0].artist_name}
+                                        </p>
+                                        <p style={{
+                                            fontSize: '11px', margin: '5px'
+                                        }}>
+                                            Date of birth: {moment(currentItems[0].date_of_birth).format("YYYY - MM - DD")}
+                                        </p>
+                                        <p style={{
+                                            fontSize: '11px', margin: '5px'
+                                        }}>
+                                            Link: <Link href={currentItems[0].social_media_link}>{currentItems[0].social_media_link}</Link>
                                         </p>
                                     </div>
-                                ))}
+                                )}
                             </div>
                         </div>
                     </div>

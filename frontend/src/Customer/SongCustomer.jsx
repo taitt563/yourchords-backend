@@ -313,7 +313,6 @@ function SongCustomer() {
                                 <Link href={`/viewSongCustomer/` + song.id} underline="none">
                                     <div className="song-details" style={{ textAlign: 'center' }}>
                                         <b>{song.song_title}</b>
-                                        <p><b>Artist: {song.artist}</b></p>
                                     </div>
                                 </Link>
                             </div>

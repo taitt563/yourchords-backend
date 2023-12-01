@@ -356,7 +356,7 @@ function ViewSongCustomer() {
                                     <div className="col-md-6">
                                         <p><b>Artist:</b>
                                             {viewSong.artist_name != null ?
-                                                <Link href={`/artist/${viewSong.id}/${viewSong.artist_id}`} underline="hover">{viewSong.artist_name}</Link>
+                                                <Link href={`/artist/${viewSong.id}/${viewSong.artist_id}`} underline="hover"> {viewSong.artist_name}</Link>
                                                 :
                                                 " Updating"
                                             }

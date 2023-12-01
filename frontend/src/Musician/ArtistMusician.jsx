@@ -5,10 +5,10 @@ import { useParams } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import InfoContainer from '../component/InfoContainer';
-import SearchAppBarBackChordManager from '../component/SearchAppBarBackChordManager';
+import SearchAppBarBackMusican from '../component/SearchAppBarBackMusician';
 import moment from 'moment';
 
-function ArtistChordManager() {
+function ArtistMusician() {
     const [data, setData] = useState([]);
     const [orderBy, setOrderBy] = useState('created_at');
     const [order, setOrder] = useState('asc');
@@ -24,6 +24,7 @@ function ArtistChordManager() {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
     const totalPages = Math.ceil(data.length / itemsPerPage);
+
     useEffect(() => {
 
         axios.get(`${apiUrl}/getSongArtist/` + artist_id, data)
@@ -38,6 +39,7 @@ function ArtistChordManager() {
             })
             .catch(err => console.log(err));
     }, []);
+
 
     const handleSort = (field) => {
         setOrderBy(field);
@@ -103,7 +105,7 @@ function ArtistChordManager() {
     const chordData = { ...majorChordsData, ...minorChordsData, ...c7ChordsData };
     return (
         <>
-            <SearchAppBarBackChordManager />
+            <SearchAppBarBackMusican />
             <div className="sort-button-container">
                 <button
                     className={`sort-button ${orderBy === 'created_at' ? 'active' : ''}`}
@@ -140,7 +142,8 @@ function ArtistChordManager() {
                                         return (
                                             <div key={index} style={{ borderBottom: '1px solid #ccc', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px' }}>
                                                 <div style={{ padding: '10px', paddingLeft: '10px', color: 'black' }}>
-                                                    <Link href={`/viewSongChordManager/` + song.id} key={index} className="song-card-list" style={{ color: 'black', textDecoration: 'none' }}>
+
+                                                    <Link href={`/viewSongMusician/${song.id}`} key={index} className="song-card-list" style={{ color: 'black', textDecoration: 'none' }}>
                                                         <div className='column'>
                                                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                                                 <span style={{ fontSize: '20px', marginRight: '10px' }}>{song.song_title}</span> -
@@ -253,4 +256,4 @@ function ArtistChordManager() {
     );
 }
 
-export default ArtistChordManager;
+export default ArtistMusician;

@@ -286,7 +286,7 @@ strong {
 }
 
 .song-list-item {
-    border-radius: 50px;
+    border-radius: 30px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.5s;

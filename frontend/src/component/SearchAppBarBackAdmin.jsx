@@ -10,8 +10,6 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ModeIcon from '@mui/icons-material/Mode';
-import LogoutIcon from '@mui/icons-material/Logout';
 import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -232,7 +230,7 @@ export default function SearchAppBarBackAdmin() {
                                             <ListItemText><span className="fontDashboard">Manage Feedback</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-                                    <List sx={{ paddingTop: '20px' }}>
+                                    {/* <List sx={{ paddingTop: '20px' }}>
                                         <ListItemButton style={{ borderRadius: '20px' }}
                                             className={`dashboard-button ${activeButton === 'profile' ? 'clicked' : ''}`}
                                             onClick={(e) => {
@@ -253,7 +251,7 @@ export default function SearchAppBarBackAdmin() {
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Logout</span></ListItemText>
                                         </ListItemButton>
-                                    </List>
+                                    </List> */}
                                 </div>
                             })}
                         </Menu>
