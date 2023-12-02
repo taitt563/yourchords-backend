@@ -4,7 +4,7 @@ import { Space, Table, Input, Button } from 'antd';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from '@mui/material';
-
+import moment from 'moment';
 
 
 function OrderMusician() {
@@ -22,7 +22,14 @@ function OrderMusician() {
             dataIndex: 'user_id',
         },
         {
-            title: 'OrderId',
+            title: 'Duration',
+            dataIndex: 'duration',
+            width: 200,
+            render: (text) => (
+                <Space size="middle">
+                    {text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : 'N/A'}
+                </Space>
+            ),
         },
         {
             title: 'Genre',
@@ -41,7 +48,6 @@ function OrderMusician() {
             title: 'Price',
             dataIndex: 'price',
             width: 200,
-
             render: (text, record) => (
                 <div>
                     <Input
@@ -169,6 +175,7 @@ function OrderMusician() {
                         dataSource={orderData.map(item => ({
                             id: item.id,
                             user_id: item.user_id,
+                            duration: item.duration,
                             genre: item.genre,
                             audio_link: item.audio_link,
                             description: item.description,

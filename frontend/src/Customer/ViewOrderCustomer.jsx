@@ -7,7 +7,7 @@ import axios from 'axios';
 import moment from 'moment';
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
-function ViewOrderMusician() {
+function ViewOrderCustomer() {
     const [orderData, setOrderData] = useState([]);
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const token = sessionStorage.getItem('token');
@@ -62,7 +62,9 @@ function ViewOrderMusician() {
             }
         }
     };
-
+    const handleClose = () => {
+        navigate(`/orderStatus/${userId}`)
+    };
 
     const handleSubmitorder = async () => {
         try {
@@ -197,6 +199,7 @@ function ViewOrderMusician() {
                                                 style={{ borderRadius: '10px' }}
                                                 required
                                                 readOnly={isFormReadOnly}
+
                                             />
                                             <div className="invalid-feedback">
                                                 Lyric is required.
@@ -235,6 +238,7 @@ function ViewOrderMusician() {
                                                     accept=".docx"
                                                     onChange={handleDocxFileChange}
                                                     disabled={isFormReadOnly}
+
                                                 />
                                                 <span className="upload-icon">&#x1F4C3;</span>
                                                 <span className="upload-text">{docxFile ? docxFileName : 'Choose a file...'}</span>
@@ -252,6 +256,7 @@ function ViewOrderMusician() {
                                                     accept="image/*"
                                                     onChange={handleImageChange}
                                                     disabled={isFormReadOnly}
+
                                                 />
                                                 <span className="upload-icon">&#x1F4F7;</span>
                                                 <span className="upload-text">{imageFile ? imageFileName : 'Choose a file...'}</span>
@@ -282,7 +287,7 @@ function ViewOrderMusician() {
                                     <div className="d-flex justify-content-between">
                                         {isExpired(order) ? (
                                             <>
-                                                <button className="btn btn-danger" style={{ width: '1000px' }} onClick={() => navigate("/orderMusician")}>
+                                                <button className="btn btn-danger" style={{ width: '1000px' }} onClick={handleClose}>
                                                     Expired
                                                 </button>
 
@@ -292,7 +297,7 @@ function ViewOrderMusician() {
                                                 <button className="btn btn-primary" onClick={handleSubmitorder} disabled={isSubmitting}>
                                                     {isSubmitting ? 'Submitting...' : 'Submit'}
                                                 </button>
-                                                <button className="btn btn-primary" onClick={() => navigate("/orderMusician")}>
+                                                <button className="btn btn-primary" onClick={handleClose}>
                                                     Close
                                                 </button>
                                             </>
@@ -310,4 +315,4 @@ function ViewOrderMusician() {
     );
 }
 
-export default ViewOrderMusician;
+export default ViewOrderCustomer;

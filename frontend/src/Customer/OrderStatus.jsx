@@ -1,9 +1,10 @@
 
 import SearchAppBar from '../component/SearchAppBar';
-import { Space, Table } from 'antd';
+import { Space, Table, Button } from 'antd';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import { Link } from '@mui/material';
 
 
 
@@ -31,6 +32,7 @@ function OrderStatus() {
         {
             title: 'Link',
             dataIndex: 'audio_link',
+            width: 500,
         },
         {
             title: 'Description',
@@ -51,7 +53,6 @@ function OrderStatus() {
                 </Space>
             ),
         },
-
         {
             title: 'Status',
             dataIndex: 'status',
@@ -71,6 +72,16 @@ function OrderStatus() {
                         </p>
                     )}
                 </Space>
+            ),
+        },
+        {
+            title: 'Actions',
+            render: (text, record) => (
+                <Space size="middle">
+                    <Button type="primary" style={{ borderRadius: '40px' }}>
+                        <Link href={`/viewOrderCustomer/${record.id}`}>View</Link>
+                    </Button>
+                </Space >
             ),
         },
     ];

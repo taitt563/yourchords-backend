@@ -54,6 +54,7 @@ import SongBeat from './Customer/SongBeat'
 import OrderCustomer from './Customer/OrderCustomer'
 import ViewFeedbackCustomerAll from './Customer/ViewFeedBackCustomerAll'
 import OrderStatus from './Customer/OrderStatus'
+import ViewOrderCustomer from './Customer/ViewOrderCustomer'
 function App() {
   return (
     <BrowserRouter>
@@ -121,7 +122,7 @@ function App() {
           <Route path='/beat/:user_id/' element={<Beat />}></Route>
           <Route path='/order/:user_id/' element={<OrderCustomer />}></Route>
           <Route path='/orderStatus/:user_id/' element={<OrderStatus />}></Route>
-
+          <Route path='/viewOrderCustomer/:id/' element={<ViewOrderCustomer />}></Route>
 
         </Route>
         <Route path='/songBeat/:user_id/:beat_type' element={<SongBeat />}></Route>
