@@ -49,9 +49,9 @@ con.connect(function (err) {
 });
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'public/images');
-    },
+    // destination: (req, file, cb) => {
+    //     cb(null, 'public/images');
+    // },
     filename: (req, file, cb) => {
         cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname));
     },
@@ -955,14 +955,49 @@ app.put('/updatePrice/:id', (req, res) => {
         }
     });
 });
-
-app.put('/submitOrder/:id', upload.single('image'), (req, res) => {
+app.put('/acceptOrder/:id', (req, res) => {
     const { id } = req.params;
-    const docxFileName = 'generate_unique_name_for_docx';
-    const imageFileName = 'generate_unique_name_for_image';
-    const sql = "UPDATE beat SET file_name = ?, image = ? , status = 1 WHERE id = ?;";
 
-    con.query(sql, [docxFileName, req.body.image, id], (err, result) => {
+    const sql = "UPDATE beat SET status = 1 WHERE id = ?;";
+
+    con.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.json({ Status: "Error", Error: "Error in running query" });
+        }
+
+        if (result.affectedRows > 0) {
+            return res.json({ Status: "Success", Message: "Price updated successfully" });
+        } else {
+            return res.json({ Status: "Error", Error: "No records found or failed to update price" });
+        }
+    });
+});
+app.put('/declineOrder/:id', (req, res) => {
+    const { id } = req.params;
+
+    const sql = "UPDATE beat SET status = 0 WHERE id = ?;";
+
+    con.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.json({ Status: "Error", Error: "Error in running query" });
+        }
+
+        if (result.affectedRows > 0) {
+            return res.json({ Status: "Success", Message: "Price updated successfully" });
+        } else {
+            return res.json({ Status: "Error", Error: "No records found or failed to update price" });
+        }
+    });
+});
+
+app.put('/submitOrder/:id', upload.fields([{ name: 'docxFile' }, { name: 'imageFile' }]), async (req, res) => {
+    const { id } = req.params;
+    const sql = "UPDATE beat SET file_name = ?, image = ?, status = 1 WHERE id = ?;";
+    const docxContentBuffer = fs.readFileSync(req.files['docxFile'][0].path); // Read DOCX file
+
+    con.query(sql, [docxContentBuffer, req.body.image, id], (err, result) => {
         if (err) {
             console.error(err);
             return res.json({ Status: "Error", Error: "Error in running query" });
@@ -975,6 +1010,7 @@ app.put('/submitOrder/:id', upload.single('image'), (req, res) => {
         }
     });
 });
+
 
 
 

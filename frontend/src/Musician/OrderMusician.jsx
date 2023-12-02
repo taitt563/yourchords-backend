@@ -64,10 +64,14 @@ function OrderMusician() {
         },
         {
             key: 'action',
-            render: () => (
+            render: (text, record) => (
                 <Space size="middle">
-                    <button className='btn-accept'>Accept</button>
-                    <button className='btn-decline'>Decline</button>
+                    <button className='btn-accept' onClick={() => handleAccept(record.id)}>
+                        Accept
+                    </button>
+                    <button className='btn-decline' onClick={() => handleDecline(record.id)}>
+                        Decline
+                    </button>
                 </Space>
             ),
         },
@@ -131,7 +135,27 @@ function OrderMusician() {
             setEditedItemId(null);
         }
     };
+    const handleAccept = (itemId) => {
+        axios
+            .put(`${apiUrl}/acceptOrder/` + itemId)
+            .then((res) => {
+                if (res.data.Status === 'Success') {
+                    window.location.reload(true);
+                }
+            })
+            .catch((err) => console.log(err));
+    };
 
+    const handleDecline = (itemId) => {
+        axios
+            .put(`${apiUrl}/declineOrder/` + itemId)
+            .then((res) => {
+                if (res.data.Status === 'Success') {
+                    window.location.reload(true);
+                }
+            })
+            .catch((err) => console.log(err));
+    };
     return (
         <>
             <SearchAppBar />

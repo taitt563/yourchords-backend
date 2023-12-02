@@ -108,8 +108,6 @@ function ViewOrderMusician() {
                 setImageFile(file);
                 setImageFileName(file.name);
             } else {
-                // Display error message or perform any other error handling
-                console.error('Invalid file type. Please upload an image.');
                 setOpenErrorImage(true);
                 setTimeout(() => {
                     setOpenErrorImage(false);
@@ -119,20 +117,6 @@ function ViewOrderMusician() {
             console.error('Error converting image to Base64:', error);
         }
     }
-
-    // const handleImageFileChange = (event) => {
-    //     const file = event.target.files[0];
-    //     if (file && file.type.startsWith('image/')) {
-    //         setImageFile(file);
-    //         setImageFileName(file.name);
-    //     } else {
-    //         setOpenErrorImage(true);
-    //         setTimeout(() => {
-    //             setOpenErrorImage(false);
-    //         }, 3000);
-    //     }
-    // };
-
 
     const handleLyricChange = (event, index) => {
         const updatedOrderData = [...orderData];
@@ -279,10 +263,14 @@ function ViewOrderMusician() {
                                     )}
 
                                     <hr className="mb-4" />
-                                    <button className="btn btn-primary btn-lg btn-block" onClick={() => navigate("/orderMusician")}>Close</button>
-                                    <button className="btn btn-primary btn-lg btn-block" onClick={handleSubmitorder} disabled={isSubmitting}>
-                                        {isSubmitting ? 'Submitting...' : 'Submit'}
-                                    </button>
+                                    <div className="d-flex justify-content-between">
+                                        <button className="btn btn-primary " onClick={handleSubmitorder} disabled={isSubmitting}>
+                                            {isSubmitting ? 'Submitting...' : 'Submit'}
+                                        </button>
+                                        <button className="btn btn-primary" onClick={() => navigate("/orderMusician")}>
+                                            Close
+                                        </button>
+                                    </div>
                                 </form>
                             </div>
                         ))}

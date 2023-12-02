@@ -70,7 +70,7 @@ function OrderStatus() {
                             Completed
                         </p>
                     )}
-                </Space >
+                </Space>
             ),
         },
     ];
