@@ -5,40 +5,29 @@ import SearchAppBar from '../component/SearchAppBar';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import moment from 'moment';
-import Stack from '@mui/material/Stack';
-import Alert from '@mui/material/Alert';
 function ViewOrderCustomer() {
     const [orderData, setOrderData] = useState([]);
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const token = sessionStorage.getItem('token');
     const userId = token.split(':')[0];
-    const { id } = useParams();
     const [docxFile, setDocxFile] = useState(null);
     const [imageFile, setImageFile] = useState(null);
-    const [openErrorDocx, setOpenErrorDocx] = useState(false);
-    const [openErrorImage, setOpenErrorImage] = useState(false);
-    const [docxFileName, setDocxFileName] = useState(null);
-    const [imageFileName, setImageFileName] = useState(null);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { id } = useParams();
+
     const [isFormReadOnly, setIsFormReadOnly] = useState(false);
 
-    const [data, setData] = useState({
-        collection_name: '',
-        image: null,
-        imageSource: null,
-    });
     const navigate = useNavigate();
-
     useEffect(() => {
         const fetchOrderData = async () => {
             try {
                 const response = await axios.get(`${apiUrl}/getOrder/${id}`);
-                const orders = response.data.data;
+                const order = response.data.data;
 
-                if (orders && Array.isArray(orders)) {
-                    setOrderData(orders);
-                    setIsFormReadOnly(isExpired(orders[0]));
-
+                if (order) {
+                    setOrderData([order]);
+                    setIsFormReadOnly(isExpired(order));
+                    setDocxFile(order.docxFile);
+                    setImageFile(order.imageFile);
                 }
             } catch (error) {
                 console.error('Error fetching order data:', error.message);
@@ -48,85 +37,13 @@ function ViewOrderCustomer() {
         fetchOrderData();
     }, [apiUrl, userId]);
 
-    const handleDocxFileChange = (event) => {
-        const file = event.target.files[0];
-        if (!isFormReadOnly) {
-            if (file && file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-                setDocxFile(file);
-                setDocxFileName(file.name);
-            } else {
-                setOpenErrorDocx(true);
-                setTimeout(() => {
-                    setOpenErrorDocx(false);
-                }, 3000);
-            }
-        }
-    };
+
     const handleClose = () => {
         navigate(`/orderStatus/${userId}`)
     };
 
-    const handleSubmitorder = async () => {
-        try {
-            setIsSubmitting(true);
 
-            const formData = new FormData();
-            formData.append('docxFile', docxFile);
-            formData.append('image', data.image);
 
-            const updateResponse = await axios.put(`${apiUrl}/submitOrder/${id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-            if (updateResponse.data.Status === 'Success') {
-                console.log('Order submitted successfully');
-            } else {
-                console.error('Failed to submit order');
-            }
-        } catch (error) {
-            console.error('Error submitting order:', error.message);
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-    const convertImageToBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-
-            reader.onloadend = () => {
-                resolve(reader.result.split(',')[1]);
-            };
-
-            reader.onerror = (error) => {
-                reject(error);
-            };
-
-            reader.readAsDataURL(file);
-        });
-    };
-    const handleImageChange = async (e) => {
-        const file = e.target.files[0];
-        if (!isFormReadOnly) {
-            try {
-                if (file && file.type.startsWith('image/')) {
-                    const base64Image = await convertImageToBase64(file);
-                    const imageSource = `${base64Image}`;
-                    setData({ ...data, image: imageSource, imageSource });
-                    setImageFile(file);
-                    setImageFileName(file.name);
-                } else {
-                    setOpenErrorImage(true);
-                    setTimeout(() => {
-                        setOpenErrorImage(false);
-                    }, 3000);
-                }
-            } catch (error) {
-                console.error('Error converting image to Base64:', error);
-            }
-        }
-    }
     const isExpired = (record) => {
         const currentDate = moment();
         const durationDate = moment(record.duration);
@@ -138,26 +55,19 @@ function ViewOrderCustomer() {
         updatedOrderData[index].lyric = event.target.value;
         setOrderData(updatedOrderData);
     };
+
+    const generateBlobUrl = (data, mimeType) => {
+        const blob = new Blob([data], { type: mimeType });
+        return URL.createObjectURL(blob, { type: mimeType });
+    };
+
     return (
         <>
             <SearchAppBar />
 
 
             <div className="container">
-                {openErrorDocx && (
-                    <Stack sx={{ width: '100%' }} spacing={2}>
-                        <Alert severity="error">
-                            Invalid file type. Please upload a DOCX file or an image.
-                        </Alert>
-                    </Stack>
-                )}
-                {openErrorImage && (
-                    <Stack sx={{ width: '100%' }} spacing={2}>
-                        <Alert severity="error">
-                            Invalid file type. Please upload an Image.
-                        </Alert>
-                    </Stack>
-                )}
+
                 <div className="py-4 text-center">
                     <h2 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Order</h2>
                 </div>
@@ -228,60 +138,28 @@ function ViewOrderCustomer() {
                                         </div>
                                     </div>
 
-                                    <div className="mb-3 file-upload">
-                                        <label htmlFor="docxFile" className="file-upload-label">
-                                            Upload DOCX File
-                                            <div className="upload-container">
-                                                <input
-                                                    type="file"
-                                                    id="docxFile"
-                                                    accept=".docx"
-                                                    onChange={handleDocxFileChange}
-                                                    disabled={isFormReadOnly}
-
-                                                />
-                                                <span className="upload-icon">&#x1F4C3;</span>
-                                                <span className="upload-text">{docxFile ? docxFileName : 'Choose a file...'}</span>
-                                            </div>
-                                        </label>
-                                    </div>
-
-                                    <div className="mb-3 file-upload">
-                                        <label htmlFor="imageFile" className="file-upload-label">
-                                            Upload Image
-                                            <div className="upload-container">
-                                                <input
-                                                    type="file"
-                                                    id="imageFile"
-                                                    accept="image/*"
-                                                    onChange={handleImageChange}
-                                                    disabled={isFormReadOnly}
-
-                                                />
-                                                <span className="upload-icon">&#x1F4F7;</span>
-                                                <span className="upload-text">{imageFile ? imageFileName : 'Choose a file...'}</span>
-                                            </div>
-                                        </label>
-                                    </div>
 
 
                                     {docxFile && (
                                         <div className="mb-3 file-download">
                                             <b>Download DOCX File:</b>
-                                            <a href={URL.createObjectURL(docxFile)} download={docxFileName}>
-                                                {docxFileName}
+                                            <a
+                                                href={generateBlobUrl(docxFile, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')}
+                                                download="document.docx"
+                                            >
+                                                Download DOCX
+                                            </a>
+                                        </div>
+                                    )}
+                                    {imageFile && (
+                                        <div className="mb-3 file-download">
+                                            <b>Download Image:</b>
+                                            <a href={`data:image/png;base64,${imageFile}`} download="image.png">
+                                                Download Image
                                             </a>
                                         </div>
                                     )}
 
-                                    {imageFile && (
-                                        <div className="mb-3 file-download">
-                                            <b>Download Image:</b>
-                                            <a href={URL.createObjectURL(imageFile)} download={imageFileName}>
-                                                {imageFileName}
-                                            </a>
-                                        </div>
-                                    )}
 
                                     <hr className="mb-4" />
                                     <div className="d-flex justify-content-between">
@@ -290,13 +168,9 @@ function ViewOrderCustomer() {
                                                 <button className="btn btn-danger" style={{ width: '1000px' }} onClick={handleClose}>
                                                     Expired
                                                 </button>
-
                                             </>
                                         ) : (
                                             <>
-                                                <button className="btn btn-primary" onClick={handleSubmitorder} disabled={isSubmitting}>
-                                                    {isSubmitting ? 'Submitting...' : 'Submit'}
-                                                </button>
                                                 <button className="btn btn-primary" onClick={handleClose}>
                                                     Close
                                                 </button>

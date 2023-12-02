@@ -32,7 +32,7 @@ function ViewOrderMusician() {
     useEffect(() => {
         const fetchOrderData = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/getOrder/${id}`);
+                const response = await axios.get(`${apiUrl}/getOrderMusician/${id}`);
                 const orders = response.data.data;
 
                 if (orders && Array.isArray(orders)) {
@@ -211,7 +211,7 @@ function ViewOrderMusician() {
 
                                     <div className="mb-3">
                                         <b htmlFor="duration" className="form-label">Duration</b>
-                                        <p style={{ color: 'red' }}>{moment(order.duration).format('YYYY - MM - DD  HH:mm:ss')}</p>
+                                        <p style={{ color: 'red' }}>{moment(order.duration).format('YYYY-MM-DD  HH:mm:ss')}</p>
                                     </div>
 
                                     <div className="row">

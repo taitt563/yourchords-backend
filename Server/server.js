@@ -917,23 +917,6 @@ app.get('/getOrder', (req, res) => {
     });
 });
 
-app.get('/getOrder/:id', (req, res) => {
-    const sql = "SELECT * FROM beat WHERE id = ?;";
-    const id = req.params.id;
-
-    con.query(sql, [id], (err, result) => {
-        if (err) {
-            console.error(err);
-            return res.json({ Status: "Error", Error: "Error in running query" });
-        }
-
-        if (result.length > 0) {
-            return res.json({ Status: "Success", data: result });
-        } else {
-            return res.json({ Status: "Error", Error: "No records found in the beat table" });
-        }
-    });
-});
 
 
 app.put('/updatePrice/:id', (req, res) => {
@@ -995,9 +978,24 @@ app.put('/declineOrder/:id', (req, res) => {
 app.put('/submitOrder/:id', upload.fields([{ name: 'docxFile' }, { name: 'imageFile' }]), async (req, res) => {
     const { id } = req.params;
     const sql = "UPDATE beat SET file_name = ?, image = ?, status = 1 WHERE id = ?;";
-    const docxContentBuffer = fs.readFileSync(req.files['docxFile'][0].path); // Read DOCX file
 
-    con.query(sql, [docxContentBuffer, req.body.image, id], (err, result) => {
+    let fileContentBuffer;
+    let fileType;
+
+    // Check if docx file is included
+    if (req.files['docxFile'] && req.files['docxFile'][0]) {
+        fileContentBuffer = fs.readFileSync(req.files['docxFile'][0].path);
+        fileType = 'docx';
+    }
+    // Check if image file is included
+    else if (req.files['imageFile'] && req.files['imageFile'][0]) {
+        fileContentBuffer = fs.readFileSync(req.files['imageFile'][0].path);
+        fileType = 'image';
+    } else {
+        return res.json({ Status: "Error", Error: "No files found" });
+    }
+
+    con.query(sql, [fileType === 'docx' ? fileContentBuffer : null, fileType === 'image' ? fileContentBuffer : null, req.body.image, id], (err, result) => {
         if (err) {
             console.error(err);
             return res.json({ Status: "Error", Error: "Error in running query" });
@@ -1012,6 +1010,46 @@ app.put('/submitOrder/:id', upload.fields([{ name: 'docxFile' }, { name: 'imageF
 });
 
 
+app.get('/getOrderMusician/:id', (req, res) => {
+    const sql = "SELECT * FROM beat WHERE id = ?;";
+    const id = req.params.id;
+
+    con.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.json({ Status: "Error", Error: "Error in running query" });
+        }
+
+        if (result.length > 0) {
+            return res.json({ Status: "Success", data: result });
+        } else {
+            return res.json({ Status: "Error", Error: "No records found in the beat table" });
+        }
+    });
+});
+app.get('/getOrder/:id', (req, res) => {
+    const sql = "SELECT * FROM beat WHERE id = ?;";
+    const id = req.params.id;
+
+    con.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.json({ Status: "Error", Error: "Error in running query" });
+        }
+
+        if (result.length > 0) {
+            const orderWithFiles = {
+                ...result[0],
+                docxFile: result[0].file_name,
+                imageFile: result[0].image
+            };
+
+            return res.json({ Status: "Success", data: orderWithFiles });
+        } else {
+            return res.json({ Status: "Error", Error: "No records found in the beat table" });
+        }
+    });
+});
 
 
 

@@ -43,7 +43,6 @@ function OrderMusician() {
             title: 'Description',
             dataIndex: 'description',
         },
-
         {
             title: 'Price',
             dataIndex: 'price',
@@ -72,12 +71,20 @@ function OrderMusician() {
             key: 'action',
             render: (text, record) => (
                 <Space size="middle">
-                    <button className='btn-accept' onClick={() => handleAccept(record.id)}>
-                        Accept
-                    </button>
-                    <button className='btn-decline' onClick={() => handleDecline(record.id)}>
-                        Decline
-                    </button>
+                    {isExpired(record) ? (
+                        <button className='btn-decline' style={{ width: '150px' }}>
+                            Expired
+                        </button>
+                    ) : (
+                        <>
+                            <button className='btn-accept' onClick={() => handleAccept(record.id)}>
+                                Accept
+                            </button>
+                            <button className='btn-decline' onClick={() => handleDecline(record.id)}>
+                                Decline
+                            </button>
+                        </>
+                    )}
                 </Space>
             ),
         },
@@ -161,6 +168,12 @@ function OrderMusician() {
                 }
             })
             .catch((err) => console.log(err));
+    };
+    const isExpired = (record) => {
+        const currentDate = moment();
+        const durationDate = moment(record.duration);
+
+        return currentDate.isAfter(durationDate);
     };
     return (
         <>
