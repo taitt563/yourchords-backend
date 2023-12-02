@@ -19,6 +19,12 @@ function ViewOrderMusician() {
     const [openErrorImage, setOpenErrorImage] = useState(false);
     const [docxFileName, setDocxFileName] = useState(null);
     const [imageFileName, setImageFileName] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [data, setData] = useState({
+        collection_name: '',
+        image: null,
+        imageSource: null,
+    });
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -51,18 +57,82 @@ function ViewOrderMusician() {
         }
     };
 
-    const handleImageFileChange = (event) => {
-        const file = event.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            setImageFile(file);
-            setImageFileName(file.name);
-        } else {
-            setOpenErrorImage(true);
-            setTimeout(() => {
-                setOpenErrorImage(false);
-            }, 3000);
+
+    const handleSubmitorder = async () => {
+        try {
+            setIsSubmitting(true);
+
+            const formData = new FormData();
+            formData.append('docxFile', docxFile);
+            formData.append('image', data.image);
+
+            const updateResponse = await axios.put(`${apiUrl}/submitOrder/${id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            if (updateResponse.data.Status === 'Success') {
+                console.log('Order submitted successfully');
+            } else {
+                console.error('Failed to submit order');
+            }
+        } catch (error) {
+            console.error('Error submitting order:', error.message);
+        } finally {
+            setIsSubmitting(false);
         }
     };
+    const convertImageToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                resolve(reader.result.split(',')[1]);
+            };
+
+            reader.onerror = (error) => {
+                reject(error);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    };
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        try {
+            if (file && file.type.startsWith('image/')) {
+                const base64Image = await convertImageToBase64(file);
+                const imageSource = `${base64Image}`;
+                setData({ ...data, image: imageSource, imageSource });
+                setImageFile(file);
+                setImageFileName(file.name);
+            } else {
+                // Display error message or perform any other error handling
+                console.error('Invalid file type. Please upload an image.');
+                setOpenErrorImage(true);
+                setTimeout(() => {
+                    setOpenErrorImage(false);
+                }, 3000);
+            }
+        } catch (error) {
+            console.error('Error converting image to Base64:', error);
+        }
+    }
+
+    // const handleImageFileChange = (event) => {
+    //     const file = event.target.files[0];
+    //     if (file && file.type.startsWith('image/')) {
+    //         setImageFile(file);
+    //         setImageFileName(file.name);
+    //     } else {
+    //         setOpenErrorImage(true);
+    //         setTimeout(() => {
+    //             setOpenErrorImage(false);
+    //         }, 3000);
+    //     }
+    // };
+
 
     const handleLyricChange = (event, index) => {
         const updatedOrderData = [...orderData];
@@ -72,27 +142,28 @@ function ViewOrderMusician() {
     return (
         <>
             <SearchAppBar />
-            {openErrorDocx && (
-                <Stack sx={{ width: '100%' }} spacing={2}>
-                    <Alert severity="error">
-                        Invalid file type. Please upload a DOCX file or an image.
-                    </Alert>
-                </Stack>
-            )}
-            {openErrorImage && (
-                <Stack sx={{ width: '100%' }} spacing={2}>
-                    <Alert severity="error">
-                        Invalid file type. Please upload an Image.
-                    </Alert>
-                </Stack>
-            )}
+
 
             <div className="container">
+                {openErrorDocx && (
+                    <Stack sx={{ width: '100%' }} spacing={2}>
+                        <Alert severity="error">
+                            Invalid file type. Please upload a DOCX file or an image.
+                        </Alert>
+                    </Stack>
+                )}
+                {openErrorImage && (
+                    <Stack sx={{ width: '100%' }} spacing={2}>
+                        <Alert severity="error">
+                            Invalid file type. Please upload an Image.
+                        </Alert>
+                    </Stack>
+                )}
                 <div className="py-4 text-center">
                     <h2 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Order</h2>
                 </div>
                 <div className="row">
-                    <div className="col-md-4 order-md-2 " style={{ backgroundColor: "#EFFBEF", height: '270px' }}>
+                    <div className="col-md-4 order-md-2 " style={{ backgroundColor: "#EFFBEF", height: '270px', width: '420px' }}>
                         <h4 className="text-center mb-3">
                             <span>Notes</span>
                         </h4>
@@ -101,7 +172,7 @@ function ViewOrderMusician() {
                                 <li>Posts are not duplicated</li>
                                 <li>Write the full name of the song</li>
                                 <li>Type in English or Vietnamese with accents</li>
-                                <li>Enter full lyrics and chords. Avoid using "similar", "as above"...</li>
+                                <li>Enter full lyrics and chords. </li>
                                 <li>Do not post songs with reactionary or sensitive content that violate Vietnamese customs and traditions.</li>
                             </div>
                         </ul>
@@ -180,7 +251,7 @@ function ViewOrderMusician() {
                                                     type="file"
                                                     id="imageFile"
                                                     accept="image/*"
-                                                    onChange={handleImageFileChange}
+                                                    onChange={handleImageChange}
                                                 />
                                                 <span className="upload-icon">&#x1F4F7;</span>
                                                 <span className="upload-text">{imageFile ? imageFileName : 'Choose a file...'}</span>
@@ -209,6 +280,9 @@ function ViewOrderMusician() {
 
                                     <hr className="mb-4" />
                                     <button className="btn btn-primary btn-lg btn-block" onClick={() => navigate("/orderMusician")}>Close</button>
+                                    <button className="btn btn-primary btn-lg btn-block" onClick={handleSubmitorder} disabled={isSubmitting}>
+                                        {isSubmitting ? 'Submitting...' : 'Submit'}
+                                    </button>
                                 </form>
                             </div>
                         ))}

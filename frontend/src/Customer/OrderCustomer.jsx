@@ -43,7 +43,17 @@ function OrderCustomer() {
       console.error('Error confirming order:', error.message);
     }
   };
+  const handleDurationChange = (date) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(date);
+    const timeDifference = selectedDate - currentDate;
 
+    if (timeDifference >= 24 * 60 * 60 * 1000) {
+      setDuration(date);
+    } else {
+      console.error('Selected duration must be at least 24 hours from the current date and time.');
+    }
+  };
 
 
   return (
@@ -54,7 +64,7 @@ function OrderCustomer() {
           <h2 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Order</h2>
         </div>
         <div className="row">
-          <div className="col-md-4 order-md-2 mb-4" style={{ backgroundColor: "#EFFBEF", height: '270px' }}>
+          <div className="col-md-4 order-md-2 mb-4" style={{ backgroundColor: "#EFFBEF", height: '270px', width: '420px' }}>
             <h4 className="text-center mb-3">
               <span>Notes</span>
             </h4>
@@ -63,7 +73,7 @@ function OrderCustomer() {
                 <li>Posts are not duplicated</li>
                 <li>Write the full name of the song</li>
                 <li>Type in English or Vietnamese with accents</li>
-                <li>Enter full lyrics and chords. Avoid using "similar", "as above"...</li>
+                <li>Enter full lyrics and chords. </li>
                 <li>Do not post songs with reactionary or sensitive content that violate Vietnamese customs and traditions.</li>
               </div>
             </ul>
@@ -100,18 +110,19 @@ function OrderCustomer() {
               </div>
 
               <div className="mb-3">
-                <label htmlFor="duration" className="form-label">Duration</label>
+                <label htmlFor="duration" className="form-label">Duration ( at least 24 hours from the current date)</label>
                 <div className="input-group">
                   <DatePicker
                     id="duration"
                     selected={duration}
-                    onChange={(date) => setDuration(date)}
+                    onChange={handleDurationChange}
                     showTimeSelect
                     timeFormat="HH:mm"
                     timeIntervals={15}
                     timeCaption="time"
-                    dateFormat="yyyy-MM-dd HH:mm"
+                    dateFormat="yyyy-MM-dd HH:mm:ss"
                     className="form-control"
+                    minDate={new Date()}
                     required
                   />
                   <div >

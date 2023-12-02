@@ -956,7 +956,25 @@ app.put('/updatePrice/:id', (req, res) => {
     });
 });
 
+app.put('/submitOrder/:id', upload.single('image'), (req, res) => {
+    const { id } = req.params;
+    const docxFileName = 'generate_unique_name_for_docx';
+    const imageFileName = 'generate_unique_name_for_image';
+    const sql = "UPDATE beat SET file_name = ?, image = ? , status = 1 WHERE id = ?;";
 
+    con.query(sql, [docxFileName, req.body.image, id], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.json({ Status: "Error", Error: "Error in running query" });
+        }
+
+        if (result.affectedRows > 0) {
+            return res.json({ Status: "Success", Message: "File name and status updated successfully" });
+        } else {
+            return res.json({ Status: "Error", Error: "No records found or failed to update file name and status" });
+        }
+    });
+});
 
 
 
