@@ -68,21 +68,41 @@ function OrderMusician() {
             ),
         },
         {
-            key: 'action',
+            title: 'Status',
+            dataIndex: 'status',
             render: (text, record) => (
                 <Space size="middle">
                     {isExpired(record) ? (
-                        <button className='btn-decline' style={{ width: '150px' }}>
+                        <button className='btn-decline'  >
                             Expired
+                        </button>
+                    ) : record.status === 0 ? (
+                        <button className='btn-decline'  >
+                            Declined
                         </button>
                     ) : (
                         <>
-                            <button className='btn-accept' onClick={() => handleAccept(record.id)}>
-                                Accept
-                            </button>
-                            <button className='btn-decline' onClick={() => handleDecline(record.id)}>
-                                Decline
-                            </button>
+                            {record.price === null ? (
+                                <button className='btn-decline' onClick={() => handleDecline(record.id)}>
+                                    Decline
+                                </button>
+                            ) : (
+                                <>
+                                    {record.status === 1 ? (
+                                        <button className='btn-payment' onClick={""}>
+                                            Waiting for payment
+                                        </button>
+                                    ) : record.status === 2 ? (
+                                        <button className='btn-accept' onClick={""}>
+                                            Do it
+                                        </button>
+                                    ) : (
+                                        <Button className='btn-accept' onClick={() => handleAccept(record.id)}>
+                                            Accept
+                                        </Button>
+                                    )}
+                                </>
+                            )}
                         </>
                     )}
                 </Space>
@@ -193,6 +213,8 @@ function OrderMusician() {
                             audio_link: item.audio_link,
                             description: item.description,
                             price: item.price,
+                            status: item.status,
+
                         }))}
                     />
                 </div>

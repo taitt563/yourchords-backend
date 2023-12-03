@@ -227,43 +227,45 @@ function ViewOrderMusician() {
                                             <p>{order.link}</p>
                                         </div>
                                     </div>
-
-                                    <div className="mb-3 file-upload">
-                                        <label htmlFor="docxFile" className="file-upload-label">
-                                            Upload DOCX File
-                                            <div className="upload-container">
-                                                <input
-                                                    type="file"
-                                                    id="docxFile"
-                                                    accept=".docx"
-                                                    onChange={handleDocxFileChange}
-                                                    disabled={isFormReadOnly}
-                                                />
-                                                <span className="upload-icon">&#x1F4C3;</span>
-                                                <span className="upload-text">{docxFile ? docxFileName : 'Choose a file...'}</span>
+                                    {order.status === 2 && (
+                                        <>
+                                            <div className="mb-3 file-upload">
+                                                <label htmlFor="docxFile" className="file-upload-label">
+                                                    Upload DOCX File
+                                                    <div className="upload-container">
+                                                        <input
+                                                            type="file"
+                                                            id="docxFile"
+                                                            accept=".docx"
+                                                            onChange={handleDocxFileChange}
+                                                            disabled={isFormReadOnly}
+                                                        />
+                                                        <span className="upload-icon">&#x1F4C3;</span>
+                                                        <span className="upload-text">{docxFile ? docxFileName : 'Choose a file...'}</span>
+                                                    </div>
+                                                </label>
                                             </div>
-                                        </label>
-                                    </div>
 
-                                    <div className="mb-3 file-upload">
-                                        <label htmlFor="imageFile" className="file-upload-label">
-                                            Upload Image
-                                            <div className="upload-container">
-                                                <input
-                                                    type="file"
-                                                    id="imageFile"
-                                                    accept="image/*"
-                                                    onChange={handleImageChange}
-                                                    disabled={isFormReadOnly}
-                                                />
-                                                <span className="upload-icon">&#x1F4F7;</span>
-                                                <span className="upload-text">{imageFile ? imageFileName : 'Choose a file...'}</span>
+                                            <div className="mb-3 file-upload">
+                                                <label htmlFor="imageFile" className="file-upload-label">
+                                                    Upload Image
+                                                    <div className="upload-container">
+                                                        <input
+                                                            type="file"
+                                                            id="imageFile"
+                                                            accept="image/*"
+                                                            onChange={handleImageChange}
+                                                            disabled={isFormReadOnly}
+                                                        />
+                                                        <span className="upload-icon">&#x1F4F7;</span>
+                                                        <span className="upload-text">{imageFile ? imageFileName : 'Choose a file...'}</span>
+                                                    </div>
+                                                </label>
                                             </div>
-                                        </label>
-                                    </div>
-
-
-                                    {docxFile && (
+                                        </>
+                                    )
+                                    }
+                                    {/* {docxFile && (
                                         <div className="mb-3 file-download">
                                             <b>Download DOCX File:</b>
                                             <a href={URL.createObjectURL(docxFile)} download={docxFileName}>
@@ -279,28 +281,28 @@ function ViewOrderMusician() {
                                                 {imageFileName}
                                             </a>
                                         </div>
-                                    )}
+                                    )} */}
 
                                     <hr className="mb-4" />
                                     <div className="d-flex justify-content-between">
                                         {isExpired(order) ? (
-                                            <>
-                                                <button className="btn btn-danger" style={{ width: '1000px' }} onClick={() => navigate("/orderMusician")}>
-                                                    Expired
-                                                </button>
-
-                                            </>
+                                            <button className="btn btn-danger" style={{ width: '1000px' }} onClick={() => navigate("/orderMusician")}>
+                                                Expired
+                                            </button>
                                         ) : (
                                             <>
-                                                <button className="btn btn-primary" onClick={handleSubmitorder} disabled={isSubmitting}>
-                                                    {isSubmitting ? 'Submitting...' : 'Submit'}
-                                                </button>
+                                                {order.status === 2 && (
+                                                    <button className="btn btn-primary" onClick={handleSubmitorder} disabled={isSubmitting}>
+                                                        {isSubmitting ? 'Submitting...' : 'Submit'}
+                                                    </button>
+                                                )}
                                                 <button className="btn btn-primary" onClick={() => navigate("/orderMusician")}>
                                                     Close
                                                 </button>
                                             </>
                                         )}
                                     </div>
+
                                 </form>
                             </div>
                         ))}

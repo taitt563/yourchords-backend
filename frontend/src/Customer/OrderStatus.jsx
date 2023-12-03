@@ -12,7 +12,6 @@ function OrderStatus() {
     const [orderData, setOrderData] = useState([]);
     const token = sessionStorage.getItem('token');
     const userId = token.split(':')[0];
-    console.log(userId)
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const columns = [
         {
@@ -59,21 +58,30 @@ function OrderStatus() {
             render: (text, record) => (
                 <Space size="middle">
                     {isExpired(record) ? (
-                        <p className='btn-decline' style={{ width: '100px', textAlign: 'center' }}>
+                        <button className='btn-decline' style={{ width: '100px', textAlign: 'center' }}>
                             Expired
-                        </p>
+                        </button>
                     ) : text === null ? (
                         <p style={{ width: '100px', textAlign: 'center' }}>
-                            Inprocess...
+                            In process...
                         </p>
-                    ) : (
-                        <p className='btn-accept' style={{ width: '100px', textAlign: 'center' }}>
-                            Completed
-                        </p>
-                    )}
+                    ) : text === 0 ? (
+                        <button className='btn-decline' style={{ width: '100px', textAlign: 'center' }}>
+                            Declined
+                        </button>
+                    ) : text === 1 && record.price !== null ? (
+                        <Button className='btn-accept' style={{ width: '100px', textAlign: 'center' }} onClick={() => handlePayment(record.id)}>
+                            Payment
+                        </Button>
+                    ) : text === 2 && record.price !== null ? (
+                        <button className='btn-payment'  >
+                            Payment Successful
+                        </button>
+                    ) : null}
                 </Space>
             ),
         },
+
         {
             title: 'Actions',
             render: (text, record) => (
@@ -108,6 +116,16 @@ function OrderStatus() {
         const durationDate = moment(record.duration);
 
         return currentDate.isAfter(durationDate);
+    };
+    const handlePayment = (itemId) => {
+        axios
+            .put(`${apiUrl}/payment/` + itemId)
+            .then((res) => {
+                if (res.data.Status === 'Success') {
+                    window.location.reload(true);
+                }
+            })
+            .catch((err) => console.log(err));
     };
     return (
         <>

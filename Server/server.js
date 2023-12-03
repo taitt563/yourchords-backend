@@ -941,10 +941,10 @@ app.put('/updatePrice/:id', (req, res) => {
         }
     });
 });
-app.put('/acceptOrder/:id', (req, res) => {
+app.put('/payment/:id', (req, res) => {
     const { id } = req.params;
 
-    const sql = "UPDATE beat SET status = 1 WHERE id = ?;";
+    const sql = "UPDATE beat SET status= 2 WHERE id = ?;";
 
     con.query(sql, [id], (err, result) => {
         if (err) {
@@ -952,10 +952,22 @@ app.put('/acceptOrder/:id', (req, res) => {
             return res.json({ Status: "Error", Error: "Error in running query" });
         }
 
-        if (result.affectedRows > 0) {
-            return res.json({ Status: "Success", Message: "Price updated successfully" });
-        } else {
-            return res.json({ Status: "Error", Error: "No records found or failed to update price" });
+        else {
+            return res.json({ Status: "Error", Error: "Error" });
+        }
+    });
+});
+app.put('/acceptOrder/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = "UPDATE beat SET status = 1 WHERE id = ?;";
+
+    con.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.json({ Status: "Error", Error: "Error in running query" });
+        }
+        else {
+            return res.json({ Status: "Error", Error: "Error" });
         }
     });
 });
@@ -968,12 +980,8 @@ app.put('/declineOrder/:id', (req, res) => {
         if (err) {
             console.error(err);
             return res.json({ Status: "Error", Error: "Error in running query" });
-        }
-
-        if (result.affectedRows > 0) {
-            return res.json({ Status: "Success", Message: "Price updated successfully" });
         } else {
-            return res.json({ Status: "Error", Error: "No records found or failed to update price" });
+            return res.json({ Status: "Error", Error: "Error" });
         }
     });
 });
