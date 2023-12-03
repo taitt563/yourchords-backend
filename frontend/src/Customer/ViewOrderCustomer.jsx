@@ -66,7 +66,7 @@ function ViewOrderCustomer() {
             <SearchAppBar />
 
 
-            <div className="container">
+            <div className="container payment-container">
 
                 <div className="py-4 text-center">
                     <h2 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Order</h2>

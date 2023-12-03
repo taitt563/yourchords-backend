@@ -59,7 +59,7 @@ function OrderCustomer() {
   return (
     <>
       <SearchAppBar />
-      <div className="container">
+      <div className="container payment-container">
         <div className="py-4 text-center">
           <h2 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Order</h2>
         </div>
@@ -161,7 +161,7 @@ function OrderCustomer() {
                 </div>
               </div>
               <hr className="mb-4" />
-              <button className="btn btn-primary btn-lg btn-block" type="submit">Confirm order</button>
+              <button className="btn btn-primary btn-block" type="submit">Confirm order</button>
             </form>
           </div>
         </div>

@@ -154,7 +154,7 @@ function ViewOrderMusician() {
             <SearchAppBar />
 
 
-            <div className="container">
+            <div className="container payment-container">
                 {openErrorDocx && (
                     <Stack sx={{ width: '100%' }} spacing={2}>
                         <Alert severity="error">
