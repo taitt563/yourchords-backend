@@ -70,7 +70,9 @@ function ViewOrderMusician() {
 
             const formData = new FormData();
             formData.append('docxFile', docxFile);
-            formData.append('image', data.image);
+            if (imageFile) {
+                formData.append('image', data.image);
+            }
 
             const updateResponse = await axios.put(`${apiUrl}/submitOrder/${id}`, formData, {
                 headers: {
@@ -89,6 +91,7 @@ function ViewOrderMusician() {
             setIsSubmitting(false);
         }
     };
+
     const convertImageToBase64 = (file) => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();

@@ -58,7 +58,7 @@ function ViewOrderCustomer() {
 
     const generateBlobUrl = (data, mimeType) => {
         const blob = new Blob([data], { type: mimeType });
-        return URL.createObjectURL(blob, { type: mimeType });
+        return URL.createObjectURL(blob);
     };
 
     return (
@@ -144,7 +144,7 @@ function ViewOrderCustomer() {
                                         <div className="mb-3 file-download">
                                             <b>Download DOCX File:</b>
                                             <a
-                                                href={generateBlobUrl(docxFile, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')}
+                                                href={generateBlobUrl(new Uint8Array(docxFile.data).buffer, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')}
                                                 download="document.docx"
                                             >
                                                 Download DOCX

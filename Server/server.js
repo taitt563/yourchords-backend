@@ -18,8 +18,8 @@ const fs = require('fs');
 //     }
 // });
 const app = express();
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ limit: '10mb', extended: true }));
+app.use(express.json({ limit: 'Infinity' }));
+app.use(express.urlencoded({ limit: 'Infinity', extended: true }));
 const spacs = JSON.parse(fs.readFileSync('./swagger.json'));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(spacs))
 const salt = 10;
@@ -59,6 +59,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage: storage,
+    limits: {
+        fileSize: Infinity,
+    },
 });
 const storageChord = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -976,10 +979,17 @@ app.put('/declineOrder/:id', (req, res) => {
 });
 app.put('/submitOrder/:id', upload.fields([{ name: 'docxFile' }, { name: 'imageFile' }]), async (req, res) => {
     const { id } = req.params;
-    const sql = "UPDATE beat SET file_name = ?, image = ?, status = 1 WHERE id = ?;";
-    const docxContentBuffer = fs.readFileSync(req.files['docxFile'][0].path); // Read DOCX file
+    const sql = "UPDATE beat SET file_name = IFNULL(?, file_name), image = IF(? IS NOT NULL, ?, image), status = 1 WHERE id = ?;";
 
-    con.query(sql, [docxContentBuffer, req.body.image, id], (err, result) => {
+    let docxContentBuffer = null;
+    if (req.files['docxFile'] && req.files['docxFile'][0]) {
+        docxContentBuffer = fs.readFileSync(req.files['docxFile'][0].path); // Read DOCX file
+    }
+
+    const imageValue = req.body.image ? req.body.image : null;
+    const values = [docxContentBuffer, imageValue, imageValue, id];
+
+    con.query(sql, values, (err, result) => {
         if (err) {
             console.error(err);
             return res.json({ Status: "Error", Error: "Error in running query" });
@@ -1022,10 +1032,11 @@ app.get('/getOrder/:id', (req, res) => {
         }
 
         if (result.length > 0) {
+            const order = result[0];
             const orderWithFiles = {
-                ...result[0],
-                docxFile: result[0].file_name,
-                imageFile: result[0].image
+                ...order,
+                docxFile: order.file_name,
+                imageFile: order.image
             };
 
             return res.json({ Status: "Success", data: orderWithFiles });
