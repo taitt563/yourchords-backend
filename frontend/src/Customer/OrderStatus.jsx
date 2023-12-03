@@ -38,7 +38,7 @@ function OrderStatus() {
             dataIndex: 'description',
         },
         {
-            title: 'Price',
+            title: 'Price ($)',
             dataIndex: 'price',
             width: 200,
         },
@@ -70,9 +70,14 @@ function OrderStatus() {
                             Declined
                         </button>
                     ) : text === 1 && record.price !== null ? (
-                        <Button className='btn-accept' style={{ width: '100px', textAlign: 'center' }} onClick={() => handlePayment(record.id)}>
-                            Payment
-                        </Button>
+                        <>
+                            <Button className='btn-accept' style={{ width: '100px', textAlign: 'center' }} onClick={() => handlePayment(record.id)}>
+                                Payment
+                            </Button>
+                            <Button className='btn-decline' style={{ width: '100px', textAlign: 'center' }} onClick={() => handleDecline(record.id)}>
+                                Decline
+                            </Button>
+                        </>
                     ) : text === 2 && record.price !== null ? (
                         <button className='btn-payment'  >
                             Payment Successful
@@ -124,6 +129,16 @@ function OrderStatus() {
     const handlePayment = (itemId) => {
         axios
             .put(`${apiUrl}/payment/` + itemId)
+            .then((res) => {
+                if (res.data.Status === 'Success') {
+                    window.location.reload(true);
+                }
+            })
+            .catch((err) => console.log(err));
+    };
+    const handleDecline = (itemId) => {
+        axios
+            .put(`${apiUrl}/declineOrder/` + itemId)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     window.location.reload(true);
