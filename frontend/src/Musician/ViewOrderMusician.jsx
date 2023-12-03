@@ -40,6 +40,12 @@ function ViewOrderMusician() {
                     setIsFormReadOnly(isExpired(orders[0]));
 
                 }
+                if (orders) {
+                    setOrderData([orders]);
+                    setIsFormReadOnly(isExpired(orders));
+                    setDocxFile(orders.docxFile);
+                    setImageFile(orders.imageFile);
+                }
             } catch (error) {
                 console.error('Error fetching order data:', error.message);
             }
@@ -139,6 +145,10 @@ function ViewOrderMusician() {
         updatedOrderData[index].lyric = event.target.value;
         setOrderData(updatedOrderData);
     };
+    const generateBlobUrl = (data, mimeType) => {
+        const blob = new Blob([data], { type: mimeType });
+        return URL.createObjectURL(blob);
+    };
     return (
         <>
             <SearchAppBar />
@@ -163,20 +173,22 @@ function ViewOrderMusician() {
                     <h2 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Order</h2>
                 </div>
                 <div className="row">
-                    <div className="col-md-4 order-md-2 " style={{ backgroundColor: "#EFFBEF", height: '270px', width: '420px' }}>
-                        <h4 className="text-center mb-3">
-                            <span>Notes</span>
-                        </h4>
+                    <div className="col-md-4 order-md-2" style={{ backgroundColor: "#EFFBEF", height: 'fit-content', width: '420px' }}>
+                        <h5 className="text-center mb-3">
+                            <span>Guidelines for Musicians</span>
+                        </h5>
                         <ul className="list-group mb-3">
                             <div className='notes' style={{ marginLeft: '50px' }}>
-                                <li>Posts are not duplicated</li>
-                                <li>Write the full name of the song</li>
-                                <li>Type in English or Vietnamese with accents</li>
-                                <li>Enter full lyrics and chords. </li>
-                                <li>Do not post songs with reactionary or sensitive content that violate Vietnamese customs and traditions.</li>
+                                <li>Songs should not be duplicated.</li>
+                                <li>Ensure that the beat requester has provided complete information such as the song title or lyrics.</li>
+                                <li>Write in English or Vietnamese with accents.</li>
+                                <li>Do not post songs with reactionary or sensitive content that violates Vietnamese cultural traditions.</li>
+                                <li>For Musicians: Ensure that the uploaded DOCX file contains the complete sheet music along with relevant details.</li>
                             </div>
                         </ul>
                     </div>
+
+
                     <div className="col-md-8 order-md-1">
                         {orderData.map((order, index) => (
                             <div key={index}>
@@ -227,6 +239,25 @@ function ViewOrderMusician() {
                                             <p>{order.link}</p>
                                         </div>
                                     </div>
+                                    {docxFile && (
+                                        <div className="mb-3 file-download">
+                                            <b>Download DOCX File:</b>
+                                            <a
+                                                href={generateBlobUrl(new Uint8Array(docxFile.data).buffer, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')}
+                                                download="document.docx"
+                                            >
+                                                Download DOCX
+                                            </a>
+                                        </div>
+                                    )}
+                                    {imageFile && (
+                                        <div className="mb-3 file-download">
+                                            <b>Download Image:</b>
+                                            <a href={`data:image/png;base64,${imageFile}`} download="image.png">
+                                                Download Image
+                                            </a>
+                                        </div>
+                                    )}
                                     {order.status === 2 && (
                                         <>
                                             <div className="mb-3 file-upload">
@@ -265,23 +296,7 @@ function ViewOrderMusician() {
                                         </>
                                     )
                                     }
-                                    {/* {docxFile && (
-                                        <div className="mb-3 file-download">
-                                            <b>Download DOCX File:</b>
-                                            <a href={URL.createObjectURL(docxFile)} download={docxFileName}>
-                                                {docxFileName}
-                                            </a>
-                                        </div>
-                                    )}
 
-                                    {imageFile && (
-                                        <div className="mb-3 file-download">
-                                            <b>Download Image:</b>
-                                            <a href={URL.createObjectURL(imageFile)} download={imageFileName}>
-                                                {imageFileName}
-                                            </a>
-                                        </div>
-                                    )} */}
 
                                     <hr className="mb-4" />
                                     <div className="d-flex justify-content-between">

@@ -987,7 +987,7 @@ app.put('/declineOrder/:id', (req, res) => {
 });
 app.put('/submitOrder/:id', upload.fields([{ name: 'docxFile' }, { name: 'imageFile' }]), async (req, res) => {
     const { id } = req.params;
-    const sql = "UPDATE beat SET file_name = IFNULL(?, file_name), image = IF(? IS NOT NULL, ?, image), status = 1 WHERE id = ?;";
+    const sql = "UPDATE beat SET file_name = IFNULL(?, file_name), image = IF(? IS NOT NULL, ?, image), status = 3 WHERE id = ?;";
 
     let docxContentBuffer = null;
     if (req.files['docxFile'] && req.files['docxFile'][0]) {
@@ -999,7 +999,6 @@ app.put('/submitOrder/:id', upload.fields([{ name: 'docxFile' }, { name: 'imageF
 
     con.query(sql, values, (err, result) => {
         if (err) {
-            console.error(err);
             return res.json({ Status: "Error", Error: "Error in running query" });
         }
 
@@ -1023,7 +1022,14 @@ app.get('/getOrderMusician/:id', (req, res) => {
         }
 
         if (result.length > 0) {
-            return res.json({ Status: "Success", data: result });
+            const orders = result[0];
+            const orderWithFiles = {
+                ...orders,
+                docxFile: orders.file_name,
+                imageFile: orders.image
+            };
+
+            return res.json({ Status: "Success", data: orderWithFiles });
         } else {
             return res.json({ Status: "Error", Error: "No records found in the beat table" });
         }

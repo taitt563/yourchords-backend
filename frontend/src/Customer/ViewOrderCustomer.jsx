@@ -72,13 +72,12 @@ function ViewOrderCustomer() {
                     <h2 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Order</h2>
                 </div>
                 <div className="row">
-                    <div className="col-md-4 order-md-2 " style={{ backgroundColor: "#EFFBEF", height: '270px', width: '420px' }}>
-                        <h4 className="text-center mb-3">
+                    <div className="col-md-4 order-md-2 " style={{ backgroundColor: "#EFFBEF", height: 'fit-content', width: '420px' }}>
+                        <h5 className="text-center mb-3">
                             <span>Notes</span>
-                        </h4>
+                        </h5>
                         <ul className="list-group mb-3">
                             <div className='notes' style={{ marginLeft: '50px' }}>
-                                <li>Posts are not duplicated</li>
                                 <li>Write the full name of the song</li>
                                 <li>Type in English or Vietnamese with accents</li>
                                 <li>Enter full lyrics and chords. </li>

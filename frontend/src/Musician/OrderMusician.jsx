@@ -96,11 +96,16 @@ function OrderMusician() {
                                         <button className='btn-accept' onClick={""}>
                                             Do it
                                         </button>
-                                    ) : (
-                                        <Button className='btn-accept' onClick={() => handleAccept(record.id)}>
-                                            Accept
-                                        </Button>
-                                    )}
+                                    ) : record.status === 3 ? (
+                                        <button className='btn-payment' onClick={""}>
+                                            Successfully completed
+                                        </button>
+                                    )
+                                        : (
+                                            <Button className='btn-accept' onClick={() => handleAccept(record.id)}>
+                                                Accept
+                                            </Button>
+                                        )}
                                 </>
                             )}
                         </>

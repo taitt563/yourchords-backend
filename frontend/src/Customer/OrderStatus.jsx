@@ -77,6 +77,10 @@ function OrderStatus() {
                         <button className='btn-payment'  >
                             Payment Successful
                         </button>
+                    ) : text === 3 && record.price !== null ? (
+                        <button className='btn-payment'  >
+                            Successfully completed
+                        </button>
                     ) : null}
                 </Space>
             ),
