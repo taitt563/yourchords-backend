@@ -970,7 +970,7 @@ app.put('/acceptOrder/:id', (req, res) => {
             return res.json({ Status: "Error", Error: "Error in running query" });
         }
         else {
-            return res.json({ Status: "Error", Error: "Error" });
+            return res.json({ Status: "Success" });
         }
     });
 });

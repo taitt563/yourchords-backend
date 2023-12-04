@@ -90,7 +90,7 @@ function OrderMusician() {
                                     {
                                         record.status === 0 ? (
                                             <button className='btn-accept' onClick={""}>
-                                                Declined
+                                                Reject
                                             </button>
                                         ) :
                                             record.status === 1 ? (
@@ -152,57 +152,29 @@ function OrderMusician() {
     const handlePriceChange = (itemId, newPrice) => {
         setOrderData((prevData) => {
             return prevData.map((item) =>
-                item.id === itemId && item.status === 0
+                (item.id === itemId && (item.status === 0 || item.status === null))
                     ? { ...item, price: newPrice }
                     : item
             );
         });
-        if (newPrice === "") {
+        if ((newPrice === "") || (orderData.find((item) => item.id === itemId)?.status !== 0 && orderData.find((item) => item.id === itemId)?.status !== null)) {
             setEditedItemId(null);
         } else {
             setEditedItemId(itemId);
         }
     };
-    // const handleSavePrice = async (itemId, newPrice) => {
-    //     try {
-    //         const orderToUpdate = orderData.find(item => item.id === itemId);
-    //         if (orderToUpdate && orderToUpdate.status === 0) {
-    //             const response = await axios.put(`${apiUrl}/updatePrice/${itemId}`, {
-    //                 newPrice: newPrice,
-    //             });
 
-    //             if (response.data.Status === 'Success') {
-    //                 setOrderData((prevData) => {
-    //                     return prevData.map((item) =>
-    //                         item.id === itemId ? { ...item, price: newPrice } : item
-    //                     );
-    //                 });
-
-    //                 if (orderToUpdate.status === 0) {
-    //                     handleAccept(itemId);
-    //                 }
-    //             } else {
-    //                 console.error('Failed to save price:', response.data.Error);
-    //             }
-    //         } else {
-    //             console.error('Invalid order status for price update');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error saving price:', error.message);
-    //     } finally {
-    //         setEditedItemId(null);
-    //     }
-    // };
 
     const handleSavePrice = async (itemId, newPrice) => {
         try {
             const orderToUpdate = orderData.find(item => item.id === itemId);
-            if (orderToUpdate && orderToUpdate.status === 0) {
+            if (orderToUpdate && (orderToUpdate.status === 0 || orderToUpdate.status === null)) {
                 const response = await axios.put(`${apiUrl}/updatePrice/${itemId}`, {
                     newPrice: newPrice,
                 });
 
                 if (response.data.Status === 'Success') {
+                    window.location.reload(true);
                     setOrderData((prevData) => {
                         return prevData.map((item) =>
                             item.id === itemId ? { ...item, price: newPrice } : item
