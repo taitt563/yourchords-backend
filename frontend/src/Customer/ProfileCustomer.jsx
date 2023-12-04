@@ -145,7 +145,7 @@ function ProfileCustomer() {
                                 <AccountCircleIcon fontSize="large" />
                         )
                         }
-                        <p>{data.email}</p>
+                        <p style={{ marginTop: '20px' }}>{data.email}</p>
 
                     </div>
                     <div className="mt-2">

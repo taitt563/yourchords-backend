@@ -18,7 +18,7 @@ function OrderStatus() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const columns = [
         {
-            title: 'OrderId',
+            title: 'Order ID',
             dataIndex: 'id',
             width: 100,
         },

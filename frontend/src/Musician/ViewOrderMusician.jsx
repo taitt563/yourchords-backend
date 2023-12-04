@@ -266,11 +266,17 @@ function ViewOrderMusician() {
                                             <b htmlFor="artist">Artist</b>
                                             <p>{order.artist_name}</p>
                                         </div>
-
-                                        <div className="mb-3">
-                                            <b htmlFor="duration" className="form-label">Duration</b>
-                                            <p style={{ color: 'red' }}>{moment(order.duration).format('YYYY-MM-DD  HH:mm:ss')}</p>
+                                        <div className="row">
+                                            <div className="col-md-6 mb-3">
+                                                <b htmlFor="duration" className="form-label">Duration</b>
+                                                <p style={{ color: 'red', fontWeight: 'bold' }}>{moment(order.duration).format('YYYY-MM-DD  HH:mm:ss')}</p>
+                                            </div>
+                                            <div className="col-md-6 mb-3">
+                                                <b htmlFor="duration" className="form-label">Date created:</b>
+                                                <p>{moment(order.created_at).format('YYYY-MM-DD  HH:mm:ss')}</p>
+                                            </div>
                                         </div>
+
 
                                         <div className="row">
                                             <div className="col-md-6 mb-3">
