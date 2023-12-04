@@ -10,6 +10,7 @@ import { Link } from '@mui/material';
 
 function OrderStatus() {
     const [orderData, setOrderData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const token = sessionStorage.getItem('token');
     const userId = token.split(':')[0];
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -27,11 +28,6 @@ function OrderStatus() {
         {
             title: 'Genre',
             dataIndex: 'genre',
-        },
-        {
-            title: 'Link',
-            dataIndex: 'audio_link',
-            width: 500,
         },
         {
             title: 'Description',
@@ -105,6 +101,7 @@ function OrderStatus() {
     useEffect(() => {
         const fetchOrderData = async () => {
             try {
+                setLoading(true);
                 const response = await axios.get(`${apiUrl}/getOrder`);
 
                 if (response.data.Status === 'Success') {
@@ -115,6 +112,9 @@ function OrderStatus() {
                 }
             } catch (error) {
                 console.error('Error fetching order data:', error.message);
+            }
+            finally {
+                setLoading(false);
             }
         };
         fetchOrderData();
@@ -149,27 +149,36 @@ function OrderStatus() {
     return (
         <>
             <SearchAppBar />
-            <div className='d-flex flex-column pt-2'>
-                <div className='d-flex flex-column pt-4'>
-                    <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Receive Order</h3>
+            {loading ? (
+                // Centered loading spinner
+                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
                 </div>
-                <div style={{ width: '90%', margin: '0 auto' }}>
-                    <Table
-                        columns={columns}
-                        dataSource={orderData.map(item => ({
-                            id: item.id,
-                            user_id: item.user_id,
-                            genre: item.genre,
-                            audio_link: item.audio_link,
-                            description: item.description,
-                            status: item.status,
-                            price: item.price,
-                            duration: item.duration,
+            )
+                :
+                <div className='d-flex flex-column pt-2'>
+                    <div className='d-flex flex-column pt-4'>
+                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Receive Order</h3>
+                    </div>
+                    <div style={{ width: '90%', margin: '0 auto' }}>
+                        <Table
+                            columns={columns}
+                            dataSource={orderData.map(item => ({
+                                id: item.id,
+                                user_id: item.user_id,
+                                genre: item.genre,
+                                description: item.description,
+                                status: item.status,
+                                price: item.price,
+                                duration: item.duration,
 
-                        }))}
-                    />
+                            }))}
+                        />
+                    </div>
                 </div>
-            </div>
+            }
         </>
     );
 }

@@ -31,27 +31,30 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static('public'));
-
-const con = mysql.createConnection({
+const con = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: '',
     database: 'your_chord',
     multipleStatements: true,
 });
+// const con = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     password: '',
+//     database: 'your_chord',
+//     multipleStatements: true,
+// });
 
-con.connect(function (err) {
-    if (err) {
-        console.log('Error in Connection');
-    } else {
-        console.log('Connected');
-    }
-});
+// con.connect(function (err) {
+//     if (err) {
+//         console.log('Error in Connection');
+//     } else {
+//         console.log('Connected');
+//     }
+// });
 
 const storage = multer.diskStorage({
-    // destination: (req, file, cb) => {
-    //     cb(null, 'public/images');
-    // },
     filename: (req, file, cb) => {
         cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname));
     },
@@ -981,21 +984,36 @@ app.put('/declineOrder/:id', (req, res) => {
             console.error(err);
             return res.json({ Status: "Error", Error: "Error in running query" });
         } else {
-            return res.json({ Status: "Error", Error: "Error" });
+            return res.json({ Status: "Success" });
         }
     });
 });
-app.put('/submitOrder/:id', upload.fields([{ name: 'docxFile' }, { name: 'imageFile' }]), async (req, res) => {
+app.put('/submitOrder/:id', upload.fields([{ name: 'docxFile' }, { name: 'imageFile' }, { name: 'videoFile' }]), async (req, res) => {
     const { id } = req.params;
-    const sql = "UPDATE beat SET file_name = IFNULL(?, file_name), image = IF(? IS NOT NULL, ?, image), status = 3 WHERE id = ?;";
+    const sql = "UPDATE beat SET file_name = IFNULL(?, file_name), image = IF(? IS NOT NULL, ?, image), video = IF(? IS NOT NULL, ?, video), status = 3 WHERE id = ?;";
 
     let docxContentBuffer = null;
     if (req.files['docxFile'] && req.files['docxFile'][0]) {
         docxContentBuffer = fs.readFileSync(req.files['docxFile'][0].path); // Read DOCX file
     }
 
+    let videoContentBuffer = null;
+    if (req.files['videoFile'] && req.files['videoFile'][0]) {
+        videoContentBuffer = fs.readFileSync(req.files['videoFile'][0].path); // Read video file
+    }
+
     const imageValue = req.body.image ? req.body.image : null;
-    const values = [docxContentBuffer, imageValue, imageValue, id];
+    const videoValue = videoContentBuffer ? videoContentBuffer : null;
+    const values = [docxContentBuffer, imageValue, imageValue, videoValue, videoValue, id];
+
+    // Clean up temporary files
+    if (req.files['docxFile'] && req.files['docxFile'][0]) {
+        fs.unlinkSync(req.files['docxFile'][0].path);
+    }
+
+    if (req.files['videoFile'] && req.files['videoFile'][0]) {
+        fs.unlinkSync(req.files['videoFile'][0].path);
+    }
 
     con.query(sql, values, (err, result) => {
         if (err) {
@@ -1003,12 +1021,13 @@ app.put('/submitOrder/:id', upload.fields([{ name: 'docxFile' }, { name: 'imageF
         }
 
         if (result.affectedRows > 0) {
-            return res.json({ Status: "Success", Message: "File name and status updated successfully" });
+            return res.json({ Status: "Success", Message: "File name, image, and video updated successfully" });
         } else {
-            return res.json({ Status: "Error", Error: "No records found or failed to update file name and status" });
+            return res.json({ Status: "Error", Error: "No records found or failed to update file name, image, and video" });
         }
     });
 });
+
 
 
 app.get('/getOrderMusician/:id', (req, res) => {
@@ -1026,7 +1045,9 @@ app.get('/getOrderMusician/:id', (req, res) => {
             const orderWithFiles = {
                 ...orders,
                 docxFile: orders.file_name,
-                imageFile: orders.image
+                imageFile: orders.image,
+                videoFile: orders.video
+
             };
 
             return res.json({ Status: "Success", data: orderWithFiles });
@@ -1050,7 +1071,9 @@ app.get('/getOrder/:id', (req, res) => {
             const orderWithFiles = {
                 ...order,
                 docxFile: order.file_name,
-                imageFile: order.image
+                imageFile: order.image,
+                videoFile: order.video
+
             };
 
             return res.json({ Status: "Success", data: orderWithFiles });

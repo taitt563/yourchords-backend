@@ -4,6 +4,7 @@ import SearchAppBar from '../component/SearchAppBar';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function OrderCustomer() {
   const [title, setTitle] = useState('');
@@ -15,6 +16,7 @@ function OrderCustomer() {
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const token = sessionStorage.getItem('token');
   const userId = token.split(':')[0];
+  const navigate = useNavigate();
 
   const handleConfirmOrder = async (event) => {
     event.preventDefault();
@@ -31,14 +33,12 @@ function OrderCustomer() {
       genre: genre,
       audio_link: link,
     };
-
-
     try {
       const response = await axios.post(`${apiUrl}/order/${userId}`, formData);
-
       if (response.data.Status === 'Success') {
-        window.location.reload(true)
+        navigate(`/orderStatus/${userId}`);
       }
+
     } catch (error) {
       console.error('Error confirming order:', error.message);
     }
@@ -59,12 +59,12 @@ function OrderCustomer() {
   return (
     <>
       <SearchAppBar />
-      <div className="container payment-container">
+      <div className="container payment-container" style={{ width: '1200px' }}>
         <div className="py-4 text-center">
           <h2 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Order</h2>
         </div>
         <div className="row">
-          <div className="col-md-4 order-md-2 mb-4" style={{ backgroundColor: "#EFFBEF", height: '270px', width: '420px' }}>
+          <div className="col-md-4 order-md-2 mb-4" style={{ backgroundColor: "#EFFBEF", height: 'fit-content', width: '350px', padding: '10px' }}>
             <h4 className="text-center mb-3">
               <span>Notes</span>
             </h4>

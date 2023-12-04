@@ -10,6 +10,8 @@ import moment from 'moment';
 function OrderMusician() {
     const [orderData, setOrderData] = useState([]);
     const [editedItemId, setEditedItemId] = useState(null);
+    const [loading, setLoading] = useState(true);
+
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const columns = [
         {
@@ -35,10 +37,7 @@ function OrderMusician() {
             title: 'Genre',
             dataIndex: 'genre',
         },
-        {
-            title: 'Link',
-            dataIndex: 'audio_link',
-        },
+
         {
             title: 'Description',
             dataIndex: 'description',
@@ -84,28 +83,34 @@ function OrderMusician() {
                         <>
                             {record.price === null ? (
                                 <button className='btn-decline' onClick={() => handleDecline(record.id)}>
-                                    Decline
+                                    Reject
                                 </button>
                             ) : (
                                 <>
-                                    {record.status === 1 ? (
-                                        <button className='btn-payment' onClick={""}>
-                                            Waiting for payment
-                                        </button>
-                                    ) : record.status === 2 ? (
-                                        <button className='btn-accept' onClick={""}>
-                                            Do it
-                                        </button>
-                                    ) : record.status === 3 ? (
-                                        <button className='btn-payment' onClick={""}>
-                                            Successfully completed
-                                        </button>
-                                    )
-                                        : (
-                                            <Button className='btn-accept' onClick={() => handleAccept(record.id)}>
-                                                Accept
-                                            </Button>
-                                        )}
+                                    {
+                                        record.status === 0 ? (
+                                            <button className='btn-accept' onClick={""}>
+                                                Declined
+                                            </button>
+                                        ) :
+                                            record.status === 1 ? (
+                                                <button className='btn-payment' onClick={""}>
+                                                    Waiting for payment
+                                                </button>
+                                            ) : record.status === 2 ? (
+                                                <button className='btn-accept' onClick={""}>
+                                                    Do it
+                                                </button>
+                                            ) : record.status === 3 ? (
+                                                <button className='btn-payment' onClick={""}>
+                                                    Successfully completed
+                                                </button>
+                                            )
+                                                : (
+                                                    <Button className='btn-accept' onClick={() => handleAccept(record.id)}>
+                                                        Accept
+                                                    </Button>
+                                                )}
                                 </>
                             )}
                         </>
@@ -128,6 +133,7 @@ function OrderMusician() {
     useEffect(() => {
         const fetchOrderData = async () => {
             try {
+                setLoading(true);
                 const response = await axios.get(`${apiUrl}/getOrder`);
                 if (response.data.Status === 'Success') {
                     setOrderData(response.data.data);
@@ -136,6 +142,9 @@ function OrderMusician() {
                 }
             } catch (error) {
                 console.error('Error fetching order data:', error.message);
+            }
+            finally {
+                setLoading(false);
             }
         };
         fetchOrderData();
@@ -247,27 +256,36 @@ function OrderMusician() {
     return (
         <>
             <SearchAppBar />
-            <div className='d-flex flex-column pt-2'>
-                <div className='d-flex flex-column pt-4'>
-                    <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Receive Order</h3>
+            {loading ? (
+                // Centered loading spinner
+                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
                 </div>
-                <div style={{ width: '90%', margin: '0 auto' }}>
-                    <Table
-                        columns={columns}
-                        dataSource={orderData.map(item => ({
-                            id: item.id,
-                            user_id: item.user_id,
-                            duration: item.duration,
-                            genre: item.genre,
-                            audio_link: item.audio_link,
-                            description: item.description,
-                            price: item.price,
-                            status: item.status,
+            )
+                :
+                <div className='d-flex flex-column pt-2'>
+                    <div className='d-flex flex-column pt-4'>
+                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Receive Order</h3>
+                    </div>
+                    <div style={{ width: '90%', margin: '0 auto' }}>
+                        <Table
+                            columns={columns}
+                            dataSource={orderData.map(item => ({
+                                id: item.id,
+                                user_id: item.user_id,
+                                duration: item.duration,
+                                genre: item.genre,
+                                description: item.description,
+                                price: item.price,
+                                status: item.status,
 
-                        }))}
-                    />
+                            }))}
+                        />
+                    </div>
                 </div>
-            </div>
+            }
         </>
     );
 }
