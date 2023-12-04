@@ -1082,6 +1082,35 @@ app.get('/getOrder/:id', (req, res) => {
         }
     });
 });
+//PAYPAL
+app.put('/updateOrderStatus/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const paymentDetails = req.body.paymentDetails;
+        const { status } = paymentDetails;
+        let sql = '';
+
+        if (status === 'COMPLETED') {
+            sql = 'UPDATE beat SET status = 2 WHERE id = ?';
+        }
+
+        con.query(sql, [id], (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ Status: 'Error', Error: 'Failed to update order status in the database' });
+            }
+            if (result.affectedRows > 0) {
+                return res.json({ Status: 'Success' });
+            } else {
+                return res.json({ Status: 'Error', Error: 'No records found with the provided ID' });
+            }
+        });
+    } catch (error) {
+        console.error('Error updating order status:', error);
+        res.status(500).json({ Status: 'Error', Error: 'Failed to update order status' });
+    }
+});
+
 
 
 

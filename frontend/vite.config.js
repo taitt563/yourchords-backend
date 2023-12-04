@@ -10,6 +10,9 @@ export default defineConfig({
   ],
   define: {
     'process.env.VITE_REACT_APP_API_URL': JSON.stringify(process.env.VITE_REACT_APP_API_URL)
+  },
+  optimizeDeps: {
+    exclude: ['js-big-decimal']
   }
 
 })
