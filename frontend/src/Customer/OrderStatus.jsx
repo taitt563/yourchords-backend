@@ -231,6 +231,7 @@ function OrderStatus() {
                         <Table
                             columns={columns}
                             dataSource={orderData.map(item => ({
+                                key: item.id,
                                 id: item.id,
                                 user_id: item.user_id,
                                 genre: item.genre,

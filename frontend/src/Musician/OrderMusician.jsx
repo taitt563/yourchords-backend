@@ -88,29 +88,24 @@ function OrderMusician() {
                             ) : (
                                 <>
                                     {
-                                        record.status === 0 ? (
-                                            <button className='btn-accept' onClick={""}>
-                                                Reject
+                                        record.status === 1 ? (
+                                            <button className='btn-payment'>
+                                                Waiting for payment
                                             </button>
-                                        ) :
-                                            record.status === 1 ? (
-                                                <button className='btn-payment' onClick={""}>
-                                                    Waiting for payment
-                                                </button>
-                                            ) : record.status === 2 ? (
-                                                <button className='btn-accept' onClick={""}>
-                                                    Do it
-                                                </button>
-                                            ) : record.status === 3 ? (
-                                                <button className='btn-payment' onClick={""}>
-                                                    Successfully completed
-                                                </button>
-                                            )
-                                                : (
-                                                    <Button className='btn-accept' onClick={() => handleAccept(record.id)}>
-                                                        Accept
-                                                    </Button>
-                                                )}
+                                        ) : record.status === 2 ? (
+                                            <button className='btn-accept'>
+                                                Do it
+                                            </button>
+                                        ) : record.status === 3 ? (
+                                            <button className='btn-payment'>
+                                                Successfully completed
+                                            </button>
+                                        )
+                                            : (
+                                                <Button className='btn-accept' onClick={() => handleAccept(record.id)}>
+                                                    Accept
+                                                </Button>
+                                            )}
                                 </>
                             )}
                         </>
@@ -245,6 +240,7 @@ function OrderMusician() {
                         <Table
                             columns={columns}
                             dataSource={orderData.map(item => ({
+                                key: item.id,
                                 id: item.id,
                                 user_id: item.user_id,
                                 duration: item.duration,
