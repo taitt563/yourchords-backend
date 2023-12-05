@@ -79,8 +79,8 @@ function OrderStatus() {
                             Payment Successful
                         </button>
                     ) : text === 3 && record.price !== null ? (
-                        <button className='btn-payment'>
-                            Successfully completed
+                        <button className='btn-accept'>
+                            Completed
                         </button>
                     ) : null}
                 </Space>
@@ -121,7 +121,9 @@ function OrderStatus() {
     }, [userId]);
     const PayPalButton = ({ orderId, orderPrice }) => {
         return (
-            <PayPalScriptProvider options={{ 'client-id': 'AZx7-3kAUBEPfhDdE7Nx-jEpv2_ZBcYY7d-vGwusLZay7L3gfoR4oU9tv8i6SHZIHvd_Vl6lkw0pB1CW' }}>
+            <PayPalScriptProvider options={{
+                'client-id': 'AZ6d9ffPLNuoZMCw12Io2dfXJyOj6SoYR6yvHLiCx_NPiJxfGaBbY59L8BAJ28BP2a2xuWDleYxE9aEk'
+            }}>
                 <PayPalButtons
                     createOrder={(data, actions) => {
                         return actions.order.create({
@@ -174,14 +176,14 @@ function OrderStatus() {
             console.log('Before PayPal API Call - Order ID:', orderId, 'Payment Details:', paymentDetails);
 
             const response = await axios.put(`${apiUrl}/updateOrderStatus/${orderId}`, {
-                status: 'COMPLETED', // Assuming 'COMPLETED' is the status after successful payment
+                status: 'COMPLETED',
                 paymentDetails: paymentDetails, // You may adjust this based on your backend requirements
             });
 
             // Log information about the PayPal transaction after making the API call
             console.log('After PayPal API Call - Response:', response);
             if (response.data.Status === 'Success') {
-                window.location.reload(true);
+                // window.location.reload(true);
 
                 const updatedOrderData = orderData.map(item => {
                     if (item.id === orderId) {

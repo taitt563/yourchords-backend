@@ -27,7 +27,7 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 import InfoContainer from '../component/InfoContainer';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCircle';
-
+import DvrIcon from '@mui/icons-material/Dvr';
 function DashboardCustomer() {
     const [data, setData] = useState([]);
     axios.defaults.withCredentials = true;
@@ -35,6 +35,7 @@ function DashboardCustomer() {
     const [openPlaylist, setOpenPlaylist] = useState(false);
     const [imageURL, setImageURL] = useState(null);
     const [openOrder, setOpenOrder] = useState(false);
+    const [openChord, setOpenChord] = useState(false);
     const [collapsed, setCollapsed] = useState(
         sessionStorage.getItem('dashboardCollapsed') === 'true' || false
     );
@@ -44,12 +45,22 @@ function DashboardCustomer() {
     const navigate = useNavigate();
     const handleClickPlaylist = () => {
         setOpenPlaylist(!openPlaylist);
-        setOpenOrder(false)
+        setOpenOrder(false);
+        setOpenChord(false);
     };
+
     const handleClickOrder = () => {
         setOpenOrder(!openOrder);
-        setOpenPlaylist(false)
+        setOpenPlaylist(false);
+        setOpenChord(false);
     };
+
+    const handleClickChord = () => {
+        setOpenChord(!openChord);
+        setOpenPlaylist(false);
+        setOpenOrder(false);
+    };
+
     const handleToggleCollapse = () => {
         const newCollapsedState = !collapsed;
         setCollapsed(newCollapsedState);
@@ -149,32 +160,54 @@ function DashboardCustomer() {
                                             width: '40%', paddingTop: '5px'
                                         }}>
                                             <ListItemButton style={{ borderRadius: '20px' }}
-                                                className={`dashboard-button ${activeButton === 'chord' ? 'clicked' : ''}`}
+                                                className={`dashboard-button ${activeButton === 'course' ? 'clicked' : ''}`}
                                                 onClick={(e) => {
-                                                    handleButtonClick(e, 'chord');
-                                                    navigate(`/chord`)
+                                                    handleButtonClick(e, 'course');
+                                                    navigate(`/course`)
                                                 }}>
+                                                <ListItemIcon>
+                                                    <DvrIcon color="primary" fontSize='medium' />
+                                                </ListItemIcon>
+                                                <ListItemText><span className="fontDashboard">Basic Course</span></ListItemText>
+                                            </ListItemButton>
+                                        </List>
+
+                                        <List sx={{ width: '40%', paddingTop: '5px' }}>
+                                            <ListItemButton onClick={handleClickChord} style={{ borderRadius: '20px' }} >
                                                 <ListItemIcon>
                                                     <GraphicEqIcon color="primary" fontSize='medium' />
                                                 </ListItemIcon>
                                                 <ListItemText><span className="fontDashboard">Chord</span></ListItemText>
+                                                {openChord ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
                                             </ListItemButton>
+                                            <Collapse in={openChord} timeout="auto" unmountOnExit>
+                                                <List sx={{ width: '100%', pl: 2 }}>
+                                                    <ListItemButton style={{ borderRadius: '20px' }}
+                                                        className={`dashboard-button ${activeButton === 'chord' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'chord');
+                                                            navigate(`/chord`)
+                                                        }}>
+                                                        <ListItemIcon>
+                                                            <QueueMusicIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                        <ListItemText><span className="fontDashboard">Search Scale</span></ListItemText>
+                                                    </ListItemButton>
+                                                    <ListItemButton style={{ borderRadius: '20px' }}
+                                                        className={`dashboard-button ${activeButton === 'searchChord' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'searchChord');
+                                                            navigate(`/searchChord`)
+                                                        }}>
+                                                        <ListItemIcon>
+                                                            <SearchIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                        <ListItemText><span className="fontDashboard">Search Chord</span></ListItemText>
+                                                    </ListItemButton>
+                                                </List>
+                                            </Collapse>
                                         </List>
-                                        <List sx={{
-                                            width: '40%', paddingTop: '5px'
-                                        }}>
-                                            <ListItemButton style={{ borderRadius: '20px' }}
-                                                className={`dashboard-button ${activeButton === 'searchChord' ? 'clicked' : ''}`}
-                                                onClick={(e) => {
-                                                    handleButtonClick(e, 'searchChord');
-                                                    navigate(`/searchChord`)
-                                                }}>
-                                                <ListItemIcon>
-                                                    <SearchIcon color="primary" fontSize='medium' />
-                                                </ListItemIcon>
-                                                <ListItemText><span className="fontDashboard">Search Chord</span></ListItemText>
-                                            </ListItemButton>
-                                        </List>
+
                                         <List sx={{ width: '40%', paddingTop: '5px' }}>
                                             <ListItemButton onClick={handleClickPlaylist} style={{ borderRadius: '20px' }} >
                                                 <ListItemIcon>
@@ -334,33 +367,55 @@ function DashboardCustomer() {
                                                 </ListItemButton>
                                             </List>
                                             <List sx={{
-                                                width: '60%', paddingTop: '20px'
+                                                width: '60%', paddingTop: '5px'
                                             }}>
-                                                <ListItemButton style={{ borderRadius: '50px' }}
-                                                    className={`dashboard-button ${activeButton === 'chord' ? 'clicked' : ''}`}
+                                                <ListItemButton style={{ borderRadius: '20px' }}
+                                                    className={`dashboard-button ${activeButton === 'course' ? 'clicked' : ''}`}
                                                     onClick={(e) => {
-                                                        handleButtonClick(e, 'chord');
-                                                        navigate(`/chord`)
+                                                        handleButtonClick(e, 'course');
+                                                        navigate(`/course`)
                                                     }}>
+                                                    <ListItemIcon>
+                                                        <DvrIcon color="primary" fontSize='medium' />
+                                                    </ListItemIcon>
+                                                </ListItemButton>
+                                            </List>
+
+                                            <List sx={{ width: '70%', paddingTop: '20px' }}>
+                                                <ListItemButton onClick={handleClickChord} style={{ borderRadius: '50px' }}>
                                                     <ListItemIcon>
                                                         <GraphicEqIcon color="primary" fontSize='medium' />
+                                                        {openChord ? <ExpandLess color="primary" fontSize='small' /> : <ExpandMore color="primary" fontSize='small' />}
+
                                                     </ListItemIcon>
                                                 </ListItemButton>
+                                                <Collapse in={openChord} timeout="auto" unmountOnExit>
+                                                    <List sx={{ width: '100%', pl: 1 }}>
+                                                        <ListItemButton style={{ borderRadius: '20px' }}
+                                                            className={`dashboard-button ${activeButton === 'chord' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'chord');
+                                                                navigate(`/chord`)
+                                                            }}>
+                                                            <ListItemIcon>
+                                                                <QueueMusicIcon color="primary" fontSize='medium' />
+                                                            </ListItemIcon>
+                                                        </ListItemButton>
+                                                        <ListItemButton style={{ borderRadius: '50px' }}
+                                                            className={`dashboard-button ${activeButton === 'searchChord' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'searchChord');
+                                                                navigate(`/searchChord`)
+                                                            }}>
+                                                            <ListItemIcon>
+                                                                <SearchIcon color="primary" fontSize='medium' />
+                                                            </ListItemIcon>
+                                                        </ListItemButton>
+                                                    </List>
+                                                </Collapse>
                                             </List>
-                                            <List sx={{
-                                                width: '60%', paddingTop: '20px'
-                                            }}>
-                                                <ListItemButton style={{ borderRadius: '50px' }}
-                                                    className={`dashboard-button ${activeButton === 'searchChord' ? 'clicked' : ''}`}
-                                                    onClick={(e) => {
-                                                        handleButtonClick(e, 'searchChord');
-                                                        navigate(`/searchChord`)
-                                                    }}>
-                                                    <ListItemIcon>
-                                                        <SearchIcon color="primary" fontSize='medium' />
-                                                    </ListItemIcon>
-                                                </ListItemButton>
-                                            </List>
+
+
                                             <List sx={{ width: '70%', paddingTop: '20px' }}>
                                                 <ListItemButton onClick={handleClickPlaylist} style={{ borderRadius: '50px' }}>
                                                     <ListItemIcon>

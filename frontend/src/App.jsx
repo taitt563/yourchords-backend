@@ -36,6 +36,7 @@ import RejectSong from './Musician/RejectSong'
 import SongBeatManager from './Musician/SongBeatManager'
 import ArtistMusician from './Musician/ArtistMusician'
 import ViewOrderMusician from './Musician/ViewOrderMusician'
+import ManageCourse from './Musician/ManageCourse'
 /////CUSTOMER
 import DashboardCustomer from './Customer/DashboardCustomer'
 import SongCustomer from './Customer/SongCustomer'
@@ -100,6 +101,7 @@ function App() {
           <Route path='/songMusician' element={<SongMusician />}></Route>
           <Route path='/rejectSong' element={<RejectSong />}></Route>
           <Route path='/viewOrderMusician/:id/' element={<ViewOrderMusician />}></Route>
+          <Route path='/manageCourse/:userId' element={<ManageCourse />}></Route>
 
         </Route>
         <Route path='/viewSongMusician/:id' element={<ViewSongMusician />}></Route>

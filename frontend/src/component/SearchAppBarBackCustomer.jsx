@@ -28,6 +28,7 @@ import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCircle';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import DvrIcon from '@mui/icons-material/Dvr';
 
 import axios from 'axios';
 const darkTheme = createTheme({
@@ -46,6 +47,7 @@ export default function SearchAppBarBackCustomer() {
     const [imageURL, setImageURL] = useState(null);
     const [openPlaylist, setOpenPlaylist] = useState(false);
     const [openOrder, setOpenOrder] = useState(false);
+    const [openChord, setOpenChord] = useState(false);
     const [activeButton, setActiveButton] = useState(
         localStorage.getItem('activeButtonCustomer')
     );
@@ -67,11 +69,20 @@ export default function SearchAppBarBackCustomer() {
     };
     const handleClickPlaylist = () => {
         setOpenPlaylist(!openPlaylist);
-        setOpenOrder(false)
+        setOpenOrder(false);
+        setOpenChord(false);
     };
+
     const handleClickOrder = () => {
         setOpenOrder(!openOrder);
-        setOpenPlaylist(false)
+        setOpenPlaylist(false);
+        setOpenChord(false);
+    };
+
+    const handleClickChord = () => {
+        setOpenChord(!openChord);
+        setOpenPlaylist(false);
+        setOpenOrder(false);
     };
     useEffect(() => {
         const token = sessionStorage.getItem('token');
@@ -238,6 +249,57 @@ export default function SearchAppBarBackCustomer() {
                                             </ListItemIcon>
                                             <ListItemText><span className="fontDashboard">Search Chord</span></ListItemText>
                                         </ListItemButton>
+                                    </List>
+                                    <List sx={{
+                                        paddingTop: '20px'
+                                    }}>
+                                        <ListItemButton style={{ borderRadius: '20px' }}
+                                            className={`dashboard-button ${activeButton === 'course' ? 'clicked' : ''}`}
+                                            onClick={(e) => {
+                                                handleButtonClick(e, 'course');
+                                                navigate(`/course`)
+                                            }}>
+                                            <ListItemIcon>
+                                                <DvrIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Basic Course</span></ListItemText>
+                                        </ListItemButton>
+                                    </List>
+
+                                    <List sx={{ paddingTop: '20px' }}>
+                                        <ListItemButton onClick={handleClickChord} style={{ borderRadius: '20px' }} >
+                                            <ListItemIcon>
+                                                <GraphicEqIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                            </ListItemIcon>
+                                            <ListItemText><span className="fontDashboard">Chord</span></ListItemText>
+                                            {openChord ? <ExpandLess style={{ color: '#0d6efd' }} fontSize='medium' /> : <ExpandMore style={{ color: '#0d6efd' }} fontSize='medium' />}
+                                        </ListItemButton>
+                                        <Collapse in={openChord} timeout="auto" unmountOnExit>
+                                            <List sx={{ width: '100%', pl: 2 }}>
+                                                <ListItemButton style={{ borderRadius: '20px' }}
+                                                    className={`dashboard-button ${activeButton === 'chord' ? 'clicked' : ''}`}
+                                                    onClick={(e) => {
+                                                        handleButtonClick(e, 'chord');
+                                                        navigate(`/chord`)
+                                                    }}>
+                                                    <ListItemIcon>
+                                                        <QueueMusicIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                                    </ListItemIcon>
+                                                    <ListItemText><span className="fontDashboard">Search Scale</span></ListItemText>
+                                                </ListItemButton>
+                                                <ListItemButton style={{ borderRadius: '20px' }}
+                                                    className={`dashboard-button ${activeButton === 'searchChord' ? 'clicked' : ''}`}
+                                                    onClick={(e) => {
+                                                        handleButtonClick(e, 'searchChord');
+                                                        navigate(`/searchChord`)
+                                                    }}>
+                                                    <ListItemIcon>
+                                                        <SearchIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                                    </ListItemIcon>
+                                                    <ListItemText><span className="fontDashboard">Search Chord</span></ListItemText>
+                                                </ListItemButton>
+                                            </List>
+                                        </Collapse>
                                     </List>
                                     <List sx={{ paddingTop: '20px' }}>
                                         <ListItemButton onClick={handleClickPlaylist} style={{ borderRadius: '20px' }}>

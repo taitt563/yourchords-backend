@@ -97,8 +97,8 @@ function OrderMusician() {
                                                 Do it
                                             </button>
                                         ) : record.status === 3 ? (
-                                            <button className='btn-payment'>
-                                                Successfully completed
+                                            <button className='btn-accept'>
+                                                Completed
                                             </button>
                                         )
                                             : (

@@ -26,6 +26,8 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import InfoContainer from '../component/InfoContainer';
+import DvrIcon from '@mui/icons-material/Dvr';
+
 function DashboardMusician() {
     const [data, setData] = useState([]);
     const [openSong, setOpenSong] = useState(false);
@@ -234,6 +236,21 @@ function DashboardMusician() {
                                                             </ListItemButton>
                                                         </List>
                                                     </Collapse>
+                                                </List>
+                                                <List sx={{
+                                                    width: '40%', paddingTop: '20px'
+                                                }}>
+                                                    <ListItemButton style={{ borderRadius: '20px' }}
+                                                        className={`dashboard-button ${activeButton === 'manageCourse' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'manageCourse');
+                                                            navigate(`/manageCourse/${profile.userId}`)
+                                                        }}>
+                                                        <ListItemIcon>
+                                                            <DvrIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                                        </ListItemIcon>
+                                                        <ListItemText><span className="fontDashboard">Manage Course</span></ListItemText>
+                                                    </ListItemButton>
                                                 </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
                                                     <ListItemButton style={{ borderRadius: '20px' }}

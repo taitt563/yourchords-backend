@@ -55,16 +55,15 @@ const con = mysql.createPool({
 // });
 
 const storage = multer.diskStorage({
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname));
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
     },
 });
 
 const upload = multer({
     storage: storage,
-    limits: {
-        fileSize: Infinity,
-    },
+    limits: { fileSize: 50 * 1024 * 1024 }, // Giới hạn kích thước tệp lên 50 MB
+
 });
 const storageChord = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -1110,6 +1109,51 @@ app.put('/updateOrderStatus/:id', async (req, res) => {
         res.status(500).json({ Status: 'Error', Error: 'Failed to update order status' });
     }
 });
+
+//COURSE
+
+app.post('/uploadCourse/:username', upload.fields([{ name: 'videoFile' }]), async (req, res) => {
+    try {
+        const { username } = req.params;
+        const { course_name, link } = req.body;
+
+        if (!course_name || (!req.files['videoFile'] && !link)) {
+            // Nếu thiếu dữ liệu cần thiết, trả về lỗi Bad Request
+            return res.status(400).json({ Status: 'Error', Error: 'Missing required data' });
+        }
+
+        let videoContentBuffer = null;
+
+        if (req.files['videoFile'] && req.files['videoFile'][0]) {
+            videoContentBuffer = fs.readFileSync(req.files['videoFile'][0].path);
+            // Clean up temporary files
+            fs.unlinkSync(req.files['videoFile'][0].path);
+        }
+
+        const sqlInsertCourse = 'INSERT INTO course (course_name, course_video, link, userId) VALUES (?, ?, ? , ?)';
+        const values = [course_name, videoContentBuffer, link, username];
+
+        con.query(sqlInsertCourse, values, (err, result) => {
+            if (err) {
+                console.error('Error running query:', err);
+                return res.status(500).json({ Status: 'Error', Error: 'Error in running query' });
+            }
+
+            if (result.affectedRows > 0) {
+                return res.status(200).json({ Status: 'Success', Message: 'File name, image, and video updated successfully' });
+            } else {
+                return res.status(500).json({ Status: 'Error', Error: 'No records found or failed to update file name, image, and video' });
+            }
+        });
+    } catch (error) {
+        console.error('Error in request:', error);
+        return res.status(500).json({ Status: 'Error', Error: 'Internal server error' });
+    }
+});
+
+
+
+
 
 
 
