@@ -1141,7 +1141,7 @@ app.post('/uploadCourse/:username', upload.fields([{ name: 'videoFile' }]), asyn
             fs.unlinkSync(req.files['videoFile'][0].path);
         }
 
-        const sqlInsertCourse = 'INSERT INTO course (course_name, course_video, link, upload_date, userId) VALUES (?, ?, ? , CURRENT_TIMESTAMP, ?)';
+        const sqlInsertCourse = 'INSERT INTO course (course_name, course_video, link, upload_date, userId, status) VALUES (?, ?, ? , CURRENT_TIMESTAMP, ? , 1)';
         const values = [course_name, videoContentBuffer, link, username];
 
         con.query(sqlInsertCourse, values, (err, result) => {
@@ -1193,7 +1193,22 @@ app.get('/requestCourse/:id', (req, res) => {
         }
     });
 });
-
+app.put('/acceptCourse/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "UPDATE course SET status = 2 Where id = ? ";
+    con.query(sql, [id], (err, result) => {
+        if (err) return res.json({ Error: " error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
+app.put('/rejectCourse/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "UPDATE course SET status = 0 Where id = ? ";
+    con.query(sql, [id], (err, result) => {
+        if (err) return res.json({ Error: "error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
 
 
 

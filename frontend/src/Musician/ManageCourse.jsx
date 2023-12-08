@@ -58,6 +58,7 @@ function ManageCourse() {
 
             if (updateResponse.data.Status === 'Success') {
                 console.log('Upload successfully');
+                window.location.reload(true)
             } else {
                 console.error('Failed to upload video');
             }

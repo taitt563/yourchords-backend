@@ -119,10 +119,10 @@ function RequestListCourse() {
         .filter((request) => {
             return (
                 search.trim() === '' &&
-                request.status === 0
+                request.status === 1
             ) || (
                     request.course_name.toLowerCase().includes(search.toLowerCase()) &&
-                    request.status === 0
+                    request.status === 1
                 );
         });
 
