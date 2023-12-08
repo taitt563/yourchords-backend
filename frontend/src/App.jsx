@@ -14,6 +14,7 @@ import CreateSong from './Admin/CreateSong'
 import Artist from './Customer/Artist'
 import ArtistAdmin from './Admin/ArtistAdmin'
 import RequestListCourse from './Admin/RequestListCourse'
+import ViewRequestCourse from './Admin/ViewRequestCourse'
 /////CHORDMANAGER
 import DashboardChordManager from './ChordManager/DashboardChordManager'
 import VerifySong from './ChordManager/VerifySong'
@@ -76,6 +77,7 @@ function App() {
           <Route path='/viewFeedback/:id' element={<ViewFeedback />}></Route>
           <Route path='/createSong' element={<CreateSong />}></Route>
           <Route path='/requestCourse' element={<RequestListCourse />}></Route>
+          <Route path='/viewRequestCourse/:id/' element={<ViewRequestCourse />}></Route>
 
         </Route>
         <Route path='/viewSong/:id' element={<ViewSong />}></Route>

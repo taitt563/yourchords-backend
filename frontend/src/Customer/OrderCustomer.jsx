@@ -165,10 +165,6 @@ function OrderCustomer() {
             </form>
           </div>
         </div>
-
-        <footer className="my-5 pt-5 text-muted text-center text-small">
-
-        </footer>
       </div>
     </>
   )

@@ -1141,7 +1141,7 @@ app.post('/uploadCourse/:username', upload.fields([{ name: 'videoFile' }]), asyn
             fs.unlinkSync(req.files['videoFile'][0].path);
         }
 
-        const sqlInsertCourse = 'INSERT INTO course (course_name, course_video, link, update_date, userId) VALUES (?, ?, ? , CURRENT_TIMESTAMP, ?)';
+        const sqlInsertCourse = 'INSERT INTO course (course_name, course_video, link, upload_date, userId) VALUES (?, ?, ? , CURRENT_TIMESTAMP, ?)';
         const values = [course_name, videoContentBuffer, link, username];
 
         con.query(sqlInsertCourse, values, (err, result) => {
@@ -1167,6 +1167,30 @@ app.get('/getCourse', async (req, res) => {
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Get history error in sql" });
         return res.json({ Status: "Success", Result: result })
+    });
+});
+app.get('/requestCourse/:id', (req, res) => {
+    const sql = "SELECT * FROM course WHERE id = ?;";
+    const id = req.params.id;
+
+    con.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.json({ Status: "Error", Error: "Error in running query" });
+        }
+
+        if (result.length > 0) {
+            const order = result[0];
+            const orderWithFiles = {
+                ...order,
+                videoFile: order.course_video
+
+            };
+
+            return res.json({ Status: "Success", data: orderWithFiles });
+        } else {
+            return res.json({ Status: "Error", Error: "No records found in the beat table" });
+        }
     });
 });
 

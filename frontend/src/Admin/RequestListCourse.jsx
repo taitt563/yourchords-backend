@@ -41,17 +41,22 @@ function RequestListCourse() {
     const [currentPage, setCurrentPage] = useState(1);
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     const primaryColor = '#F1F1FB';
     const itemsPerPage = 5;
 
     useEffect(() => {
+        setLoading(true);
+
         axios
             .get(`${apiUrl}/getCourse`)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     console.log(res.data.Result)
                     setData(res.data.Result);
+                    setLoading(false);
+
                 } else {
                     alert('Error');
                 }
@@ -176,13 +181,21 @@ function RequestListCourse() {
                     </AppBar>
                 </ThemeProvider>
             </Box>
+            {loading ? (
+                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            )
+                :
+                <>
+                    <div>
+                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold', marginTop: "50px" }}>REQUEST COURSE</h3>
+                    </div>
+                    <div className="px-2 py-4">
 
-            <div>
-                <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold', marginTop: "50px" }}>REQUEST COURSE</h3>
-            </div>
-            <div className="px-2 py-4">
-
-                {/* {isAcceptAccount && (
+                        {/* {isAcceptAccount && (
                     <Stack sx={{ width: '100%' }} spacing={2} >
                         <Alert severity="success">The course has been approved !</Alert>
                     </Stack>
@@ -192,127 +205,130 @@ function RequestListCourse() {
                         <Alert severity="error">The course has been denied approval !</Alert>
                     </Stack>
                 )} */}
-                <div className='mt-4 pd-left'>
-                    {filteredRequestCourse.length === 0 ? (
-                        <>
+                        <div className='mt-4 pd-left'>
+                            {filteredRequestCourse.length === 0 ? (
+                                <>
 
-                            <TableContainer component={Paper}>
-                                <Table>
-                                    <TableHead sx={{ backgroundColor: primaryColor }}>
-                                        <TableRow>
-                                            <TableCell>
-                                                <TableSortLabel><b>ID</b></TableSortLabel>
-                                            </TableCell>
-                                            <TableCell>
-                                                <TableSortLabel><b>Username</b></TableSortLabel>
-                                            </TableCell>
-                                            <TableCell>
-                                                <TableSortLabel
-                                                    active={orderBy === 'course_name'}
-                                                    direction={orderBy === 'course_name' ? order : 'asc'}
-                                                    onClick={() => handleSort('course_name')}><b>Course name</b></TableSortLabel>
-                                            </TableCell>
-                                            <TableCell>
-                                                <TableSortLabel
-                                                    active={orderBy === 'upload_date'}
-                                                    direction={orderBy === 'upload_date' ? order : 'asc'}
-                                                    onClick={() => handleSort('upload_date')}
-                                                >
-                                                    <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Upload date</b>
-                                                </TableSortLabel>
-                                            </TableCell>
-                                            <TableCell><b>Status</b></TableCell>
-                                            <TableCell><b>Action</b></TableCell>
-
-
-                                        </TableRow>
-                                    </TableHead>
-                                </Table>
-                            </TableContainer>
-                            <div>
-                                <p className="d-flex justify-content-center" style={{ color: '#0d6efd', paddingTop: '50px' }}>No result. Try again !</p>
-                            </div>
-                        </>
-                    ) : (
-
-                        <TableContainer component={Paper}>
-                            <Table>
-                                <TableHead sx={{ backgroundColor: primaryColor }}>
-                                    <TableRow>
-                                        <TableCell>
-                                            <TableSortLabel><b>ID</b></TableSortLabel>
-                                        </TableCell>
-                                        <TableCell>
-                                            <TableSortLabel><b>Username</b></TableSortLabel>
-                                        </TableCell>
-                                        <TableCell>
-                                            <TableSortLabel
-                                                active={orderBy === 'course_name'}
-                                                direction={orderBy === 'course_name' ? order : 'asc'}
-                                                onClick={() => handleSort('course_name')}><b>Course name</b></TableSortLabel>
-                                        </TableCell>
-                                        <TableCell>
-                                            <TableSortLabel
-                                                active={orderBy === 'upload_date'}
-                                                direction={orderBy === 'upload_date' ? order : 'asc'}
-                                                onClick={() => handleSort('upload_date')}
-                                            >
-                                                <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Upload date</b>
-                                            </TableSortLabel>
-                                        </TableCell>
-                                        <TableCell><b>Status</b></TableCell>
-                                        <TableCell><b>Action</b></TableCell>
+                                    <TableContainer component={Paper}>
+                                        <Table>
+                                            <TableHead sx={{ backgroundColor: primaryColor }}>
+                                                <TableRow>
+                                                    <TableCell>
+                                                        <TableSortLabel><b>ID</b></TableSortLabel>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <TableSortLabel><b>Username</b></TableSortLabel>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <TableSortLabel
+                                                            active={orderBy === 'course_name'}
+                                                            direction={orderBy === 'course_name' ? order : 'asc'}
+                                                            onClick={() => handleSort('course_name')}><b>Course name</b></TableSortLabel>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <TableSortLabel
+                                                            active={orderBy === 'upload_date'}
+                                                            direction={orderBy === 'upload_date' ? order : 'asc'}
+                                                            onClick={() => handleSort('upload_date')}
+                                                        >
+                                                            <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Upload date</b>
+                                                        </TableSortLabel>
+                                                    </TableCell>
+                                                    <TableCell><b>Status</b></TableCell>
+                                                    <TableCell><b>Action</b></TableCell>
 
 
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
-                                        currentItems.map((request, index) => (
-                                            <TableRow key={index} onClick={() => navigate(`/viewRequestCourse/${request.id}`)} style={{ cursor: 'pointer' }}>
-                                                <TableCell>{request.id}</TableCell>
-                                                <TableCell>{request.userId}</TableCell>
-                                                <TableCell>{request.course_name}</TableCell>
-                                                {request.upload_date !== null ?
-                                                    <TableCell>{moment(request.update_date).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
-                                                    : ""
-                                                }
-                                                <TableCell>Pending...</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                        </Table>
+                                    </TableContainer>
+                                    <div>
+                                        <p className="d-flex justify-content-center" style={{ color: '#0d6efd', paddingTop: '50px' }}>No result. Try again !</p>
+                                    </div>
+                                </>
+                            ) : (
+
+                                <TableContainer component={Paper}>
+                                    <Table>
+                                        <TableHead sx={{ backgroundColor: primaryColor }}>
+                                            <TableRow>
                                                 <TableCell>
-                                                    <CheckIcon
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            handleAcceptCourse(request.id)
-                                                        }}
-                                                        fontSize='large' color='success' />
-                                                    <CloseIcon
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            handleRejectCourse(request.id)
-                                                        }}
-                                                        fontSize='large' color='error' />
+                                                    <TableSortLabel><b>ID</b></TableSortLabel>
                                                 </TableCell>
+                                                <TableCell>
+                                                    <TableSortLabel><b>Username</b></TableSortLabel>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <TableSortLabel
+                                                        active={orderBy === 'course_name'}
+                                                        direction={orderBy === 'course_name' ? order : 'asc'}
+                                                        onClick={() => handleSort('course_name')}><b>Course name</b></TableSortLabel>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <TableSortLabel
+                                                        active={orderBy === 'upload_date'}
+                                                        direction={orderBy === 'upload_date' ? order : 'asc'}
+                                                        onClick={() => handleSort('upload_date')}
+                                                    >
+                                                        <b className="bi bi-calendar-day text-primary fs-5 pd-right"></b><b>Upload date</b>
+                                                    </TableSortLabel>
+                                                </TableCell>
+
+                                                <TableCell><b>Status</b></TableCell>
+                                                <TableCell><b>Action</b></TableCell>
+
+
                                             </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {
+                                                currentItems.map((request, index) => (
+                                                    <TableRow key={index} onClick={() => navigate(`/viewRequestCourse/${request.id}`)} style={{ cursor: 'pointer' }}>
+                                                        <TableCell>{request.id}</TableCell>
+                                                        <TableCell>{request.userId}</TableCell>
+                                                        <TableCell>{request.course_name}</TableCell>
+                                                        {request.upload_date !== null ?
+                                                            <TableCell>{moment(request.upload_date).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
+                                                            : <TableCell>Invalid Date</TableCell>
+                                                        }
+                                                        <TableCell>Pending...</TableCell>
+                                                        <TableCell>
+                                                            <CheckIcon
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleAcceptCourse(request.id)
+                                                                }}
+                                                                fontSize='large' color='success' />
+                                                            <CloseIcon
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleRejectCourse(request.id)
+                                                                }}
+                                                                fontSize='large' color='error' />
+                                                        </TableCell>
+                                                    </TableRow>
 
-                                        ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                                                ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
 
-                    )
-                    }
-                    <Stack spacing={2} direction="row" justifyContent="center" mt={3}>
-                        <Pagination
-                            count={totalPages}
-                            page={currentPage}
-                            onChange={(event, value) => setCurrentPage(value)}
-                            color="primary"
-                            size="large"
-                        />
-                    </Stack>
+                            )
+                            }
+                            <Stack spacing={2} direction="row" justifyContent="center" mt={3}>
+                                <Pagination
+                                    count={totalPages}
+                                    page={currentPage}
+                                    onChange={(event, value) => setCurrentPage(value)}
+                                    color="primary"
+                                    size="large"
+                                />
+                            </Stack>
 
-                </div>
-            </div >
+                        </div>
+                    </div>
+                </>
+            }
         </>
     );
 }
