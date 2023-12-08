@@ -29,6 +29,7 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCircle';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import DvrIcon from '@mui/icons-material/Dvr';
+import HistoryIcon from '@mui/icons-material/History';
 
 import axios from 'axios';
 const darkTheme = createTheme({
@@ -368,6 +369,18 @@ export default function SearchAppBarBackCustomer() {
                                                         <ListAltIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                                     </ListItemIcon>
                                                     <ListItemText><span className="fontDashboard">Order Status</span></ListItemText>
+
+                                                </ListItemButton>
+                                                <ListItemButton style={{ borderRadius: '20px' }}
+                                                    className={`dashboard-button ${activeButton === 'transactionHistory' ? 'clicked' : ''}`}
+                                                    onClick={(e) => {
+                                                        handleButtonClick(e, 'transactionHistory');
+                                                        navigate(`/transactionHistory/` + profile.userId)
+                                                    }}  >
+                                                    <ListItemIcon>
+                                                        <HistoryIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                                    </ListItemIcon>
+                                                    <ListItemText><span className="fontDashboard">Transaction History</span></ListItemText>
 
                                                 </ListItemButton>
                                             </List>

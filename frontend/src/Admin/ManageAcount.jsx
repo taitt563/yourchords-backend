@@ -298,7 +298,7 @@ function ManageAccount() {
                     borderColor: 'divider'
                 }}>
                     <TabList onChange={handleChange} centered>
-                        <Tab label="User" value="1" />
+                        <Tab label="Customer" value="1" />
                         <Tab label="Admin" value="2" />
                         <Tab label="Chord Manager" value="3" />
                         <Tab label="Musician" value="4" />
@@ -399,7 +399,7 @@ function ManageAccount() {
                                                         <TableCell><PersonIcon /></TableCell>
                                                         <TableCell>{userAccount.username}</TableCell>
                                                         {userAccount.role === 'user' &&
-                                                            <TableCell>User</TableCell>
+                                                            <TableCell>Customer</TableCell>
                                                         }
                                                         <TableCell>{moment(userAccount.registration_time).format('YYYY/MM/DD - HH:mm:ss')}</TableCell>
                                                         {userAccount.ban === 'Enable' ? (

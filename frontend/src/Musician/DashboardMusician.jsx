@@ -17,7 +17,7 @@ import Collapse from '@mui/material/Collapse';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCircle';
-import ListAltIcon from '@mui/icons-material/ListAlt';
+// import ListAltIcon from '@mui/icons-material/ListAlt';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import FlakyIcon from '@mui/icons-material/Flaky';
@@ -223,7 +223,7 @@ function DashboardMusician() {
                                                                 </ListItemIcon>
                                                                 <ListItemText><span className="fontDashboard">Order</span></ListItemText>
                                                             </ListItemButton>
-                                                            <ListItemButton style={{ borderRadius: '20px' }}
+                                                            {/* <ListItemButton style={{ borderRadius: '20px' }}
                                                                 className={`dashboard-button ${activeButton === 'transactionHistory' ? 'clicked' : ''}`}
                                                                 onClick={(e) => {
                                                                     handleButtonClick(e, 'transactionHistory');
@@ -233,7 +233,7 @@ function DashboardMusician() {
                                                                     <ListAltIcon color="primary" fontSize='medium' />
                                                                 </ListItemIcon>
                                                                 <ListItemText><span className="fontDashboard">Transaction History</span></ListItemText>
-                                                            </ListItemButton>
+                                                            </ListItemButton> */}
                                                         </List>
                                                     </Collapse>
                                                 </List>
@@ -378,7 +378,7 @@ function DashboardMusician() {
                                                                 <PlaylistAddCheckCircleIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
                                                         </ListItemButton>
-                                                        <ListItemButton style={{ borderRadius: '50px' }}
+                                                        {/* <ListItemButton style={{ borderRadius: '50px' }}
                                                             className={`dashboard-button ${activeButton === 'transactionHistory' ? 'clicked' : ''}`}
                                                             onClick={(e) => {
                                                                 handleButtonClick(e, 'transactionHistory');
@@ -387,7 +387,7 @@ function DashboardMusician() {
                                                             <ListItemIcon>
                                                                 <ListAltIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
-                                                        </ListItemButton>
+                                                        </ListItemButton> */}
                                                     </List>
                                                 </Collapse>
                                             </List>

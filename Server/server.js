@@ -1090,7 +1090,7 @@ app.put('/updateOrderStatus/:id', async (req, res) => {
         let sql = '';
 
         if (status === 'COMPLETED') {
-            sql = 'UPDATE beat SET status = 2 WHERE id = ?';
+            sql = 'UPDATE beat SET status = 2, date_payment = CURRENT_TIMESTAMP WHERE id = ?';
         }
 
         con.query(sql, [id], (err, result) => {
@@ -1109,6 +1109,17 @@ app.put('/updateOrderStatus/:id', async (req, res) => {
         res.status(500).json({ Status: 'Error', Error: 'Failed to update order status' });
     }
 });
+app.get('/history/:userId', async (req, res) => {
+    const user_Id = req.params.userId;
+
+    const sql = 'SELECT * FROM beat WHERE user_id = ? AND status >= 2';
+    con.query(sql, [user_Id], (err, result) => {
+        if (err) return res.json({ Error: "Get history error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    });
+});
+
+
 
 //COURSE
 

@@ -28,7 +28,6 @@ import EditSongMusician from './Musician/EditSongMusician'
 import ProfileMusician from './Musician/ProfileMusician'
 import ChordMusician from './Musician/ChordMusician'
 import ManageBeat from './Musician/ManageBeat'
-import TransactionHistory from './Musician/TransactionHistory'
 import OrderMusician from './Musician/OrderMusician'
 import CreateChord from './Musician/CreateChord'
 import SongMusician from './Musician/SongMusician'
@@ -56,6 +55,8 @@ import OrderCustomer from './Customer/OrderCustomer'
 import ViewFeedbackCustomerAll from './Customer/ViewFeedBackCustomerAll'
 import OrderStatus from './Customer/OrderStatus'
 import ViewOrderCustomer from './Customer/ViewOrderCustomer'
+import TransactionHistory from './Customer/TransactionHistory'
+
 function App() {
   return (
     <BrowserRouter>
@@ -95,7 +96,6 @@ function App() {
           <Route path='/profileMusician/:userId' element={<ProfileMusician />}></Route>
           <Route path='/chordMusician' element={<ChordMusician />}></Route>
           <Route path='/manageBeat' element={<ManageBeat />}></Route>
-          <Route path='/transactionHistory' element={<TransactionHistory />}></Route>
           <Route path='/orderMusician' element={<OrderMusician />}></Route>
           <Route path='/createChord' element={<CreateChord />}></Route>
           <Route path='/songMusician' element={<SongMusician />}></Route>
@@ -120,7 +120,7 @@ function App() {
           <Route path='/feedback/:userId' element={<Feedback />}></Route>
           <Route path='/viewFeedbackCustomer/:id' element={<ViewFeedbackCustomer />}></Route>
           <Route path='/viewFeedbackCustomerAll/:id' element={<ViewFeedbackCustomerAll />}></Route>
-
+          <Route path='/transactionHistory/:userId' element={<TransactionHistory />}></Route>
           <Route path='/beat/:user_id/' element={<Beat />}></Route>
           <Route path='/order/:user_id/' element={<OrderCustomer />}></Route>
           <Route path='/orderStatus/:user_id/' element={<OrderStatus />}></Route>

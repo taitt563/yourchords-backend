@@ -28,6 +28,7 @@ import InfoContainer from '../component/InfoContainer';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCircle';
 import DvrIcon from '@mui/icons-material/Dvr';
+import HistoryIcon from '@mui/icons-material/History';
 function DashboardCustomer() {
     const [data, setData] = useState([]);
     axios.defaults.withCredentials = true;
@@ -252,7 +253,7 @@ function DashboardCustomer() {
                                                 {openOrder ? <ExpandLess color="primary" fontSize='medium' /> : <ExpandMore color="primary" fontSize='medium' />}
 
                                             </ListItemButton>
-                                            <List sx={{ width: '100%', pl: 2 }}>
+                                            <List sx={{ width: '100%', pl: 1 }}>
 
                                                 <Collapse in={openOrder} timeout="auto" unmountOnExit>
                                                     <ListItemButton style={{ borderRadius: '20px' }}
@@ -276,6 +277,17 @@ function DashboardCustomer() {
                                                             <ListAltIcon color="primary" fontSize='medium' />
                                                         </ListItemIcon>
                                                         <ListItemText><span className="fontDashboard">Order Status</span></ListItemText>
+                                                    </ListItemButton>
+                                                    <ListItemButton style={{ borderRadius: '50px' }}
+                                                        className={`dashboard-button ${activeButton === 'transactionHistory' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'transactionHistory');
+                                                            navigate(`/transactionHistory/${profile.userId}`)
+                                                        }}  >
+                                                        <ListItemIcon>
+                                                            <HistoryIcon color="primary" fontSize='medium' />
+                                                        </ListItemIcon>
+                                                        <ListItemText><span className="fontDashboard">Transaction History</span></ListItemText>
                                                     </ListItemButton>
                                                 </Collapse>
                                             </List>
@@ -480,6 +492,16 @@ function DashboardCustomer() {
                                                             }}  >
                                                             <ListItemIcon>
                                                                 <ListAltIcon color="primary" fontSize='medium' />
+                                                            </ListItemIcon>
+                                                        </ListItemButton>
+                                                        <ListItemButton style={{ borderRadius: '50px' }}
+                                                            className={`dashboard-button ${activeButton === 'transactionHistory' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'transactionHistory');
+                                                                navigate(`/transactionHistory/${profile.userId}`)
+                                                            }}  >
+                                                            <ListItemIcon>
+                                                                <HistoryIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
                                                         </ListItemButton>
                                                     </List>
