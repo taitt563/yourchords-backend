@@ -1141,7 +1141,7 @@ app.post('/uploadCourse/:username', upload.fields([{ name: 'videoFile' }]), asyn
             fs.unlinkSync(req.files['videoFile'][0].path);
         }
 
-        const sqlInsertCourse = 'INSERT INTO course (course_name, course_video, link, userId) VALUES (?, ?, ? , ?)';
+        const sqlInsertCourse = 'INSERT INTO course (course_name, course_video, link, update_date, userId) VALUES (?, ?, ? , CURRENT_TIMESTAMP, ?)';
         const values = [course_name, videoContentBuffer, link, username];
 
         con.query(sqlInsertCourse, values, (err, result) => {
@@ -1161,7 +1161,14 @@ app.post('/uploadCourse/:username', upload.fields([{ name: 'videoFile' }]), asyn
         return res.status(500).json({ Status: 'Error', Error: 'Internal server error' });
     }
 });
+app.get('/getCourse', async (req, res) => {
 
+    const sql = 'SELECT * FROM course';
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Get history error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    });
+});
 
 
 

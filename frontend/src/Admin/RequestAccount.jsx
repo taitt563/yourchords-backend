@@ -161,11 +161,11 @@ function RequestAccount() {
     };
 
     const getStoredTabValue = () => {
-        return localStorage.getItem('selectedTab') || '1';
+        return localStorage.getItem('selectedTabRequest') || '1';
     };
 
     const setStoredTabValue = (newValue) => {
-        localStorage.setItem('selectedTab', newValue);
+        localStorage.setItem('selectedTabRequest', newValue);
     };
 
     useEffect(() => {

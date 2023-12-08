@@ -40,6 +40,10 @@ function ManageCourse() {
     const handleSubmitOrder = async () => {
         try {
             setIsSubmitting(true);
+            if (!getYouTubeVideoId(link)) {
+                setOpenErrorVideo(true);
+                return;
+            }
 
             const formData = new FormData();
             formData.append('videoFile', videoFile);
@@ -53,7 +57,6 @@ function ManageCourse() {
             });
 
             if (updateResponse.data.Status === 'Success') {
-
                 console.log('Upload successfully');
             } else {
                 console.error('Failed to upload video');
@@ -64,6 +67,7 @@ function ManageCourse() {
             setIsSubmitting(false);
         }
     };
+
 
     const getYouTubeVideoId = (url) => {
         const videoIdMatch = url.match(/[?&]v=([^&]+)/);
@@ -123,21 +127,22 @@ function ManageCourse() {
                                 required
                             />
                         </div>
-                        <YouTube
-                            videoId={getYouTubeVideoId(link)}
-                            opts={{
-                                origin: 'https://www.youtube.com',
-                                playerVars: {
-                                    autoplay: 1,
-                                    modestbranding: 1,
-                                },
-                            }}
-                        />
-
                         {videoFile && (
                             <video controls width="400" height="300">
                                 <source src={URL.createObjectURL(videoFile)} type="video/mp4" />
                             </video>
+                        )}
+                        {getYouTubeVideoId(link) && (
+                            <YouTube
+                                videoId={getYouTubeVideoId(link)}
+                                opts={{
+                                    origin: 'https://www.youtube.com',
+                                    playerVars: {
+                                        autoplay: 1,
+                                        modestbranding: 1,
+                                    },
+                                }}
+                            />
                         )}
                         <hr className="mb-4" />
                         <div className="d-flex justify-content-between">

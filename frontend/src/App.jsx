@@ -13,6 +13,7 @@ import RequestAccount from './Admin/RequestAccount'
 import CreateSong from './Admin/CreateSong'
 import Artist from './Customer/Artist'
 import ArtistAdmin from './Admin/ArtistAdmin'
+import RequestListCourse from './Admin/RequestListCourse'
 /////CHORDMANAGER
 import DashboardChordManager from './ChordManager/DashboardChordManager'
 import VerifySong from './ChordManager/VerifySong'
@@ -40,7 +41,6 @@ import ManageCourse from './Musician/ManageCourse'
 import DashboardCustomer from './Customer/DashboardCustomer'
 import SongCustomer from './Customer/SongCustomer'
 import ViewSongCustomer from './Customer/ViewSongCustomer'
-import Payment from './Customer/Payment'
 import ProfileCustomer from './Customer/ProfileCustomer'
 import Playlist from './Customer/Playlist'
 import CreatePlaylist from './Customer/CreatePlaylist'
@@ -75,6 +75,8 @@ function App() {
           <Route path='/manageFeedback/:userId' element={<ManageFeedback />}></Route>
           <Route path='/viewFeedback/:id' element={<ViewFeedback />}></Route>
           <Route path='/createSong' element={<CreateSong />}></Route>
+          <Route path='/requestCourse' element={<RequestListCourse />}></Route>
+
         </Route>
         <Route path='/viewSong/:id' element={<ViewSong />}></Route>
         <Route path='/artistAdmin/:id/:artist_id' element={<ArtistAdmin />}></Route>
@@ -112,7 +114,6 @@ function App() {
         {/* CUSTOMER ROLE */}
         <Route path='/' element={<DashboardCustomer />}>
           <Route path='/songCustomer/:userId' element={<SongCustomer />}></Route>
-          <Route path='/payment' element={<Payment />}></Route>
           <Route path='/profileCustomer/:userId' element={<ProfileCustomer />}></Route>
           <Route path='/createPlaylist/:userId' element={<CreatePlaylist />}></Route>
           <Route path='/playlist/:userId' element={<Playlist />}></Route>

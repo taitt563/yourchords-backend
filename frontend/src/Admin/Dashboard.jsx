@@ -22,6 +22,7 @@ import Collapse from '@mui/material/Collapse';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import InfoContainer from '../component/InfoContainer';
+import DvrIcon from '@mui/icons-material/Dvr';
 
 function Dashboard() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -186,6 +187,21 @@ function Dashboard() {
                                                         </List>
                                                     </Collapse>
                                                 </List>
+                                                <List sx={{
+                                                    width: '40%', paddingTop: '20px'
+                                                }}>
+                                                    <ListItemButton style={{ borderRadius: '20px' }}
+                                                        className={`dashboard-button ${activeButton === 'requestCourse' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'requestCourse');
+                                                            navigate(`/requestCourse`)
+                                                        }}>
+                                                        <ListItemIcon>
+                                                            <DvrIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                                        </ListItemIcon>
+                                                        <ListItemText><span className="fontDashboard">Course</span></ListItemText>
+                                                    </ListItemButton>
+                                                </List>
                                                 <List sx={{ width: '40%', paddingTop: '20px' }}>
                                                     <ListItemButton style={{ borderRadius: '20px' }}
                                                         className={`dashboard-button ${activeButton === 'manageFeedback' ? 'clicked' : ''}`}
@@ -302,6 +318,20 @@ function Dashboard() {
                                                             </ListItemButton>
                                                         </List>
                                                     </Collapse>
+                                                </List>
+                                                <List sx={{
+                                                    width: '60%', paddingTop: '20px'
+                                                }}>
+                                                    <ListItemButton style={{ borderRadius: '50px' }}
+                                                        className={`dashboard-button ${activeButton === 'requestCourse' ? 'clicked' : ''}`}
+                                                        onClick={(e) => {
+                                                            handleButtonClick(e, 'requestCourse');
+                                                            navigate(`/requestCourse`)
+                                                        }}>
+                                                        <ListItemIcon>
+                                                            <DvrIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                                        </ListItemIcon>
+                                                    </ListItemButton>
                                                 </List>
                                                 <List sx={{ width: '60%', paddingTop: '20px' }}>
                                                     <ListItemButton
