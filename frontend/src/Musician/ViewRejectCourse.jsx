@@ -21,7 +21,7 @@ function ViewRejectCourse() {
     const [editedData, setEditedData] = useState({
         course_name: '',
         link: '',
-        videoFile: null, // Added field for the selected video file
+        videoFile: null,
     });
 
     const navigate = useNavigate();
@@ -207,13 +207,13 @@ function ViewRejectCourse() {
                                             </video>
                                         )}
                                     </div>
-                                    <div className="col-md-12 mb-3 d-flex justify-content-center">
 
+                                    <div className="col-md-12 order-md-1 mb-3 d-flex justify-content-center">
                                         {editMode && (
                                             <div className="mb-3 file-upload">
                                                 <label htmlFor="videoFile" className="file-upload-label">
                                                     Upload Video
-                                                    <div className="upload-container">
+                                                    <div className="upload-container" style={{ minWidth: `${videoFile ? 640 : 0}px`, maxWidth: '640px', overflow: 'hidden' }}>
                                                         <input
                                                             type="file"
                                                             id="videoFile"
