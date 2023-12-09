@@ -102,10 +102,11 @@ function ViewRequestCourse() {
                                             <YouTube
                                                 videoId={getYouTubeVideoId(order.link)}
                                                 opts={{
-                                                    origin: window.location.origin,
+                                                    // origin: 'http://localhost:5173',
                                                     playerVars: {
                                                         modestbranding: 1,
                                                     },
+                                                    host: 'https://www.youtube-nocookie.com',
                                                 }}
                                             />
                                         )}

@@ -1216,8 +1216,65 @@ app.delete('/deleteCourse/:id', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
+app.put('/updateCourse/:id', upload.fields([{ name: 'videoFile' }]), (req, res) => {
+    const id = req.params.id;
+    const { course_name, link } = req.body;
 
+    let videoContentBuffer = null;
 
+    if (req.files['videoFile'] && req.files['videoFile'][0]) {
+        videoContentBuffer = fs.readFileSync(req.files['videoFile'][0].path);
+        // Clean up temporary files
+        fs.unlinkSync(req.files['videoFile'][0].path);
+    }
+
+    const selectSql = `
+        SELECT course_name, link, course_video
+        FROM course
+        WHERE id = ?;
+    `;
+    con.query(selectSql, [id], (selectErr, selectResult) => {
+        if (selectErr) {
+            console.error('Error running SELECT query:', selectErr);
+            return res.status(500).json({ Status: 'Error', Error: 'Error in running SELECT query' });
+        }
+
+        if (selectResult.length === 0) {
+            return res.status(500).json({ Status: 'Error', Error: 'No records found for the given ID' });
+        }
+
+        const currentCourse = selectResult[0];
+        let updateStatus = 0;
+
+        if (course_name !== currentCourse.course_name || link !== currentCourse.link || videoContentBuffer !== null) {
+            updateStatus = 1;
+        }
+
+        const updateSql = `
+            UPDATE course
+            SET 
+                course_name = ?,
+                link = ?,
+                course_video = IFNULL(?, course_video),
+                status = ?
+            WHERE id = ?;
+        `;
+        const values = [course_name, link, videoContentBuffer, updateStatus, id];
+
+        con.query(updateSql, values, (updateErr, updateResult) => {
+            if (updateErr) {
+                console.error('Error running UPDATE query:', updateErr);
+                return res.status(500).json({ Status: 'Error', Error: 'Error in running UPDATE query' });
+            }
+
+            if (updateResult.affectedRows > 0) {
+                return res.status(200).json({ Status: 'Success', Message: 'Course updated successfully' });
+            } else {
+                return res.status(500).json({ Status: 'Error', Error: 'No records found or failed to update course' });
+            }
+        });
+    });
+});
 
 
 

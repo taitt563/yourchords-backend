@@ -16,6 +16,13 @@ function ViewRejectCourse() {
     const [videoFile, setVideoFile] = useState(null);
     const { id } = useParams();
     const [loading, setLoading] = useState(true);
+    const [videoFileName, setVideoFileName] = useState(null);
+    const [editMode, setEditMode] = useState(false);
+    const [editedData, setEditedData] = useState({
+        course_name: '',
+        link: '',
+        videoFile: null, // Added field for the selected video file
+    });
 
     const navigate = useNavigate();
     useEffect(() => {
@@ -27,25 +34,91 @@ function ViewRejectCourse() {
 
                 if (order) {
                     setRequestData([order]);
-
                     setVideoFile(order.videoFile);
+                    setEditedData({
+                        course_name: order.course_name,
+                        link: order.link,
+                    });
                 }
             } catch (error) {
                 console.error('Error fetching request data:', error.message);
-            }
-            finally {
+            } finally {
                 setLoading(false);
             }
         };
 
         fetchOrderData();
-    }, [apiUrl, userId]);
-
+    }, [apiUrl, userId, id]);
 
     const handleClose = () => {
-        navigate(`/rejectCourse/${userId}`)
+        navigate(`/rejectCourse/${userId}`);
     };
 
+    const handleEdit = () => {
+        setEditMode(true);
+    };
+
+    const handleSave = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('course_name', editedData.course_name);
+
+            // Validate and update link only if the YouTube video is valid
+            if (validateYouTubeLink(editedData.link)) {
+                formData.append('link', editedData.link);
+            } else {
+                alert('Invalid YouTube link. Please provide a valid YouTube link.');
+                return; // Prevent further execution
+            }
+
+            // Check if a new video file is selected
+            if (editedData.videoFile) {
+                formData.append('videoFile', editedData.videoFile);
+            }
+
+            const response = await axios.put(`${apiUrl}/updateCourse/${id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            if (response.data.Status === 'Success') {
+                window.location.reload();
+            } else {
+                alert('Error updating course');
+            }
+        } catch (error) {
+            console.error('Error updating course:', error.message);
+            alert('Error updating course');
+        }
+    };
+
+    // Function to validate YouTube link
+    const validateYouTubeLink = (link) => {
+        const videoId = getYouTubeVideoId(link);
+        return videoId !== null;
+    };
+
+
+
+    const handleCancelEdit = () => {
+        setEditMode(false);
+    };
+
+    const handleInputChange = (e) => {
+        if (e.target.name === 'videoFile') {
+            setEditedData({
+                ...editedData,
+                videoFile: e.target.files[0],
+            });
+            setVideoFileName(e.target.files[0]?.name);
+        } else {
+            setEditedData({
+                ...editedData,
+                [e.target.name]: e.target.value,
+            });
+        }
+    };
 
     const generateBlobUrl = (data, mimeType) => {
         const blob = new Blob([data], { type: mimeType });
@@ -55,6 +128,14 @@ function ViewRejectCourse() {
         const videoIdMatch = url.match(/[?&]v=([^&]+)/);
         return videoIdMatch ? videoIdMatch[1] : null;
     };
+    const handleVideoChange = (e) => {
+        setEditedData({
+            ...editedData,
+            videoFile: e.target.files[0], // Update the videoFile field
+        });
+        setVideoFileName(e.target.files[0]?.name); // Set the video file name
+    };
+
 
     return (
         <>
@@ -78,7 +159,16 @@ function ViewRejectCourse() {
                                 <div className="row">
                                     <div className="col-md-6 text-start pe-4">
                                         <b htmlFor="title" style={{ marginLeft: '100px' }}>Course name:</b>
-                                        <p style={{ marginLeft: '100px' }}>{order.course_name}</p>
+                                        <p style={{ marginLeft: '100px' }}>{editMode ? (
+                                            <input
+                                                type="text"
+                                                name="course_name"
+                                                value={editedData.course_name}
+                                                onChange={handleInputChange}
+                                            />
+                                        ) : (
+                                            order.course_name
+                                        )}</p>
                                     </div>
                                     <div className="col-md-6 text-end pe-4">
                                         <b htmlFor="duration" className="form-label" style={{ marginRight: '100px' }}>Poster / Uploader:</b>
@@ -89,7 +179,19 @@ function ViewRejectCourse() {
                                     <div className="col-md-6 text-start pe-4">
                                         <b htmlFor="cc-link" className="text-start" style={{ marginLeft: '100px' }}>Link youtube</b>
                                         <br />
-                                        <Link href={order.link} style={{ marginLeft: '100px' }} underline='hover'>{order.link.substring(0, 40)}...</Link>
+                                        {editMode ? (
+                                            <input
+                                                type="text"
+                                                name="link"
+                                                value={editedData.link}
+                                                onChange={handleInputChange}
+                                                style={{ marginLeft: '100px', width: '80%', padding: '8px' }}
+                                            />
+                                        ) : (
+                                            <Link href={editMode ? editedData.link : order.link} style={{ marginLeft: '100px' }} underline='hover'>
+                                                {editMode ? editedData.link.substring(0, 40) : order.link.substring(0, 40)}...
+                                            </Link>
+                                        )}
                                     </div>
                                     <div className="col-md-6 text-end pe-4">
                                         <b htmlFor="duration" className="form-label text-start" style={{ marginRight: '100px' }}>Date created:</b>
@@ -98,14 +200,15 @@ function ViewRejectCourse() {
                                 </div>
                                 <div className="row">
                                     <div className="col-md-12 mb-3 d-flex justify-content-center">
-                                        {getYouTubeVideoId(order.link) && (
+                                        {getYouTubeVideoId(editMode ? editedData.link : order.link) && (
                                             <YouTube
-                                                videoId={getYouTubeVideoId(order.link)}
+                                                videoId={getYouTubeVideoId(editMode ? editedData.link : order.link)}
                                                 opts={{
-                                                    origin: window.location.origin,
+                                                    // origin: 'http://localhost:5173',
                                                     playerVars: {
                                                         modestbranding: 1,
                                                     },
+                                                    host: 'https://www.youtube-nocookie.com',
                                                 }}
                                             />
                                         )}
@@ -119,14 +222,51 @@ function ViewRejectCourse() {
                                             </video>
                                         )}
                                     </div>
+                                    <div className="col-md-12 mb-3 d-flex justify-content-center">
+
+                                        {editMode && (
+                                            <div className="mb-3 file-upload">
+                                                <label htmlFor="videoFile" className="file-upload-label">
+                                                    Upload Video
+                                                    <div className="upload-container">
+                                                        <input
+                                                            type="file"
+                                                            id="videoFile"
+                                                            accept="video/*"
+                                                            onChange={handleVideoChange}
+                                                            required
+                                                        />
+                                                        <span className="upload-icon">&#x1F4F7;</span>
+                                                        <span className="upload-text">{videoFileName ? videoFileName : 'Choose a file...'}</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        )}
+                                    </div>
+
+
+
+
                                 </div>
                                 <hr className="mb-4" />
-                                <div className="row">
-                                    <div className="col-md-12 mb-3 d-flex justify-content-center">
-                                        <button className="btn btn-primary" onClick={handleClose}>
-                                            Close
+                                <div className="d-flex justify-content-between">
+                                    {editMode ? (
+                                        <>
+                                            <button className="btn btn-primary" onClick={handleSave}>
+                                                Save
+                                            </button>
+                                            <button className="btn btn-secondary" onClick={handleCancelEdit}>
+                                                Cancel
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <button className="btn btn-primary" onClick={handleEdit}>
+                                            Edit
                                         </button>
-                                    </div>
+                                    )}
+                                    <button className="btn btn-primary" onClick={handleClose}>
+                                        Close
+                                    </button>
                                 </div>
                             </div>
                         ))}

@@ -137,11 +137,11 @@ function ManageCourse() {
                             <YouTube
                                 videoId={getYouTubeVideoId(link)}
                                 opts={{
-                                    origin: window.location.origin,
+                                    // origin: 'http://localhost:5173',
                                     playerVars: {
-                                        autoplay: 1,
                                         modestbranding: 1,
                                     },
+                                    host: 'https://www.youtube-nocookie.com',
                                 }}
                             />
                         )}
