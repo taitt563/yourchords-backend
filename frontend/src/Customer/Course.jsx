@@ -26,7 +26,6 @@ function Course() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [loading, setLoading] = useState(true);
     const itemsPerPage = 5;
-
     useEffect(() => {
         setLoading(true);
         axios
@@ -54,10 +53,10 @@ function Course() {
         .filter((request) => {
             return (
                 search.trim() === '' &&
-                request.status === 1
+                request.status === 2
             ) || (
                     request.course_name.toLowerCase().includes(search.toLowerCase()) &&
-                    request.status === 1
+                    request.status === 2
                 );
         });
     const indexOfLastItem = currentPage * itemsPerPage;

@@ -12,7 +12,6 @@ import {
     Paper,
     TableSortLabel,
 } from '@mui/material';
-// import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -32,7 +31,7 @@ const darkTheme = createTheme({
 });
 import { Button } from 'antd';
 
-function RequestListCourse() {
+function RejectCourse() {
     const [search, setSearch] = useState('');
     const [data, setData] = useState([]);
     const [orderBy, setOrderBy] = useState("username");
@@ -41,7 +40,8 @@ function RequestListCourse() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
-
+    const token = sessionStorage.getItem('token');
+    const userId = token.split(':')[0];
     const primaryColor = '#F1F1FB';
     const itemsPerPage = 5;
 
@@ -68,21 +68,13 @@ function RequestListCourse() {
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(field);
     };
-    const handleAcceptCourse = (id) => {
+
+    const handleDeleteCourse = (id) => {
         axios
-            .put(`${apiUrl}/acceptCourse/` + id)
+            .delete(`${apiUrl}/deleteCourse/` + id)
             .then((res) => {
                 if (res.data.Status === 'Success') {
-                    window.location.reload(true);
-                }
-            })
-            .catch((err) => console.log(err));
-    };
-    const handleRejectCourse = (id) => {
-        axios
-            .put(`${apiUrl}/rejectCourse/` + id)
-            .then((res) => {
-                if (res.data.Status === 'Success') {
+                    console.log(res.data.Status)
                     window.location.reload(true);
                 }
             })
@@ -118,10 +110,10 @@ function RequestListCourse() {
         .filter((request) => {
             return (
                 search.trim() === '' &&
-                request.status === 1
+                request.status === 0 && request.userId === userId
             ) || (
                     request.course_name.toLowerCase().includes(search.toLowerCase()) &&
-                    request.status === 1
+                    request.status === 0 && request.userId === userId
                 );
         });
 
@@ -282,7 +274,7 @@ function RequestListCourse() {
                                         <TableBody>
                                             {
                                                 currentItems.map((request, index) => (
-                                                    <TableRow key={index} onClick={() => navigate(`/viewRequestCourse/${request.id}`)} style={{ cursor: 'pointer' }}>
+                                                    <TableRow key={index} onClick={() => navigate(`/viewRejectCourse/${request.id}`)} style={{ cursor: 'pointer' }}>
                                                         <TableCell>{request.id}</TableCell>
                                                         <TableCell>{request.userId}</TableCell>
                                                         <TableCell>{request.course_name}</TableCell>
@@ -294,19 +286,16 @@ function RequestListCourse() {
                                                         <TableCell>
                                                             <Button
                                                                 style={{ width: '100px', textAlign: 'center', backgroundColor: '#28a745', color: '#fff', borderRadius: '40px' }}
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    handleAcceptCourse(request.id);
-                                                                }}>
-                                                                Accept
+                                                            >
+                                                                Edit
                                                             </Button>
                                                             <Button
                                                                 style={{ width: '100px', textAlign: 'center', backgroundColor: '#dc3545', color: '#fff', marginLeft: '5px', borderRadius: '40px' }}
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();
-                                                                    handleRejectCourse(request.id);
+                                                                    handleDeleteCourse(request.id);
                                                                 }}>
-                                                                Decline
+                                                                Delete
                                                             </Button>
                                                         </TableCell>
                                                     </TableRow>
@@ -336,4 +325,4 @@ function RequestListCourse() {
     );
 }
 
-export default RequestListCourse;
+export default RejectCourse;

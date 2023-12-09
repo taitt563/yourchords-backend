@@ -1208,6 +1208,14 @@ app.put('/rejectCourse/:id', (req, res) => {
         return res.json({ Status: "Success", Result: result })
     })
 })
+app.delete('/deleteCourse/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "Delete FROM course WHERE id = ?";
+    con.query(sql, [id], (err, result) => {
+        if (err) return res.json({ Error: "delete song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
 
 
 

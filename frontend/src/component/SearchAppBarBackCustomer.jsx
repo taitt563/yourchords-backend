@@ -222,36 +222,6 @@ export default function SearchAppBarBackCustomer() {
                                         <ListItemText><span className="fontDashboard">Song</span></ListItemText>
                                     </ListItemButton>
                                     <List sx={{
-                                        paddingTop: '20px',
-                                    }}>
-                                        <ListItemButton style={{ borderRadius: '20px' }}
-                                            className={`dashboard-button ${activeButton === 'chord' ? 'clicked' : ''}`}
-                                            onClick={(e) => {
-                                                handleButtonClick(e, 'chord');
-                                                navigate(`/chord`)
-                                            }}>
-                                            <ListItemIcon>
-                                                <GraphicEqIcon style={{ color: '#0d6efd' }} fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Chord</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
-                                    <List sx={{
-                                        paddingTop: '20px'
-                                    }}>
-                                        <ListItemButton style={{ borderRadius: '20px' }}
-                                            className={`dashboard-button ${activeButton === 'searchChord' ? 'clicked' : ''}`}
-                                            onClick={(e) => {
-                                                handleButtonClick(e, 'searchChord');
-                                                navigate(`/searchChord`)
-                                            }}>
-                                            <ListItemIcon>
-                                                <SearchIcon style={{ color: '#0d6efd' }} fontSize='medium' />
-                                            </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Search Chord</span></ListItemText>
-                                        </ListItemButton>
-                                    </List>
-                                    <List sx={{
                                         paddingTop: '20px'
                                     }}>
                                         <ListItemButton style={{ borderRadius: '20px' }}
@@ -266,7 +236,6 @@ export default function SearchAppBarBackCustomer() {
                                             <ListItemText><span className="fontDashboard">Basic Course</span></ListItemText>
                                         </ListItemButton>
                                     </List>
-
                                     <List sx={{ paddingTop: '20px' }}>
                                         <ListItemButton onClick={handleClickChord} style={{ borderRadius: '20px' }} >
                                             <ListItemIcon>
