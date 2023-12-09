@@ -62,16 +62,6 @@ function ViewRejectCourse() {
         try {
             const formData = new FormData();
             formData.append('course_name', editedData.course_name);
-
-            // Validate and update link only if the YouTube video is valid
-            if (validateYouTubeLink(editedData.link)) {
-                formData.append('link', editedData.link);
-            } else {
-                alert('Invalid YouTube link. Please provide a valid YouTube link.');
-                return; // Prevent further execution
-            }
-
-            // Check if a new video file is selected
             if (editedData.videoFile) {
                 formData.append('videoFile', editedData.videoFile);
             }
@@ -93,11 +83,6 @@ function ViewRejectCourse() {
         }
     };
 
-    // Function to validate YouTube link
-    const validateYouTubeLink = (link) => {
-        const videoId = getYouTubeVideoId(link);
-        return videoId !== null;
-    };
 
 
 
@@ -131,9 +116,9 @@ function ViewRejectCourse() {
     const handleVideoChange = (e) => {
         setEditedData({
             ...editedData,
-            videoFile: e.target.files[0], // Update the videoFile field
+            videoFile: e.target.files[0],
         });
-        setVideoFileName(e.target.files[0]?.name); // Set the video file name
+        setVideoFileName(e.target.files[0]?.name);
     };
 
 
@@ -243,22 +228,18 @@ function ViewRejectCourse() {
                                             </div>
                                         )}
                                     </div>
-
-
-
-
                                 </div>
                                 <hr className="mb-4" />
                                 <div className="d-flex justify-content-between">
                                     {editMode ? (
-                                        <>
-                                            <button className="btn btn-primary" onClick={handleSave}>
+                                        <div className="d-flex">
+                                            <button className="btn btn-primary mr-2" onClick={handleSave}>
                                                 Save
                                             </button>
-                                            <button className="btn btn-secondary" onClick={handleCancelEdit}>
+                                            <button className="btn btn-secondary" style={{ marginLeft: '10px' }} onClick={handleCancelEdit}>
                                                 Cancel
                                             </button>
-                                        </>
+                                        </div>
                                     ) : (
                                         <button className="btn btn-primary" onClick={handleEdit}>
                                             Edit
