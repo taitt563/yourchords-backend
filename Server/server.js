@@ -1162,8 +1162,7 @@ app.post('/uploadCourse/:username', upload.fields([{ name: 'videoFile' }]), asyn
     }
 });
 app.get('/getCourse', async (req, res) => {
-
-    const sql = 'SELECT * FROM course';
+    const sql = 'SELECT *, course_video AS videoFile FROM course';
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Get history error in sql" });
         return res.json({ Status: "Success", Result: result })

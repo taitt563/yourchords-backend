@@ -102,7 +102,7 @@ function ViewRequestCourse() {
                                             <YouTube
                                                 videoId={getYouTubeVideoId(order.link)}
                                                 opts={{
-                                                    origin: 'https://www.youtube.com',
+                                                    origin: window.location.origin,
                                                     playerVars: {
                                                         modestbranding: 1,
                                                     },
@@ -114,7 +114,7 @@ function ViewRequestCourse() {
                                 <div className="row">
                                     <div className="col-md-12 mb-3 d-flex justify-content-center">
                                         {videoFile && (
-                                            <video controls width="650" height="400">
+                                            <video controls width="640" height="400">
                                                 <source src={generateBlobUrl(new Uint8Array(videoFile.data).buffer, 'video/*')} type="video/mp4" />
                                             </video>
                                         )}

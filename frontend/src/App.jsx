@@ -57,6 +57,7 @@ import ViewFeedbackCustomerAll from './Customer/ViewFeedBackCustomerAll'
 import OrderStatus from './Customer/OrderStatus'
 import ViewOrderCustomer from './Customer/ViewOrderCustomer'
 import TransactionHistory from './Customer/TransactionHistory'
+import Course from './Customer/Course'
 
 function App() {
   return (
@@ -128,6 +129,7 @@ function App() {
           <Route path='/order/:user_id/' element={<OrderCustomer />}></Route>
           <Route path='/orderStatus/:user_id/' element={<OrderStatus />}></Route>
           <Route path='/viewOrderCustomer/:id/' element={<ViewOrderCustomer />}></Route>
+          <Route path='/course' element={<Course />}></Route>
 
         </Route>
         <Route path='/songBeat/:user_id/:beat_type' element={<SongBeat />}></Route>
@@ -135,6 +137,7 @@ function App() {
         <Route path='/searchChord' element={<SearchChord />}></Route>
         <Route path='/viewSongCustomer/:id' element={<ViewSongCustomer />}></Route>
         <Route path='/artist/:id/:artist_id' element={<Artist />}></Route>
+
 
 
       </Routes>

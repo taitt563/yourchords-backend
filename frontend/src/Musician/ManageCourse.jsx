@@ -137,7 +137,7 @@ function ManageCourse() {
                             <YouTube
                                 videoId={getYouTubeVideoId(link)}
                                 opts={{
-                                    origin: 'https://www.youtube.com',
+                                    origin: window.location.origin,
                                     playerVars: {
                                         autoplay: 1,
                                         modestbranding: 1,
