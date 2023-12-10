@@ -13,6 +13,11 @@ export default defineConfig({
   },
   optimizeDeps: {
     exclude: ['js-big-decimal']
-  }
+  },
+  resolve: {
+    alias: {
+      moment: 'moment/moment.js', // Điều này có thể thay đổi tùy thuộc vào cách bạn đã cài đặt MomentJS
+    },
+  },
 
 })

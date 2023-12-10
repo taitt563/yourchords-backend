@@ -8,7 +8,7 @@ import Modal from '@mui/material/Modal';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Typography from '@mui/material/Typography';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import moment from 'moment'
+import moment from 'moment';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
