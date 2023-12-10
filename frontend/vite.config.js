@@ -16,8 +16,13 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      moment: 'moment/moment.js', // Điều này có thể thay đổi tùy thuộc vào cách bạn đã cài đặt MomentJS
+      moment: 'moment/moment.js',
       '@mui/lab/TabContext': '@mui/lab/TabContext',
+      '@mui/system': '@mui/system',
+      '@mui/material': '@mui/material',
+      '@mui/styled-engine': '@mui/styled-engine',
+      '@mui/icons-material': '@mui/icons-material',
+      '@mui/lab': '@mui/lab',
     },
   },
 
