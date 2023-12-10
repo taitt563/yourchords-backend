@@ -5,10 +5,10 @@ import InputBase from '@mui/material/InputBase';
 import { Link } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import SearchAppBarBackCustomer from '../component/SearchAppBarBackCustomer';
-import finger_1 from '../../../Server/public/finger/finger_1.png'
-import finger_2 from '../../../Server/public/finger/finger_2.png'
-import finger_3 from '../../../Server/public/finger/finger_3.png'
-import finger_4 from '../../../Server/public/finger/finger_4.png'
+import finger_1 from '../../src/assets/finger/finger_1.png'
+import finger_2 from '../../src/assets/finger/finger_2.png'
+import finger_3 from '../../src/assets/finger/finger_3.png'
+import finger_4 from '../../src/assets/finger/finger_4.png'
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';

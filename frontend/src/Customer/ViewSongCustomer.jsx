@@ -22,10 +22,10 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import finger_1 from '../../../Server/public/finger/finger_1.png'
-import finger_2 from '../../../Server/public/finger/finger_2.png'
-import finger_3 from '../../../Server/public/finger/finger_3.png'
-import finger_4 from '../../../Server/public/finger/finger_4.png'
+import finger_1 from '../../src/assets/finger/finger_1.png'
+import finger_2 from '../../src/assets/finger/finger_2.png'
+import finger_3 from '../../src/assets/finger/finger_3.png'
+import finger_4 from '../../src/assets/finger/finger_4.png'
 import Tooltip from '@material-ui/core/Tooltip';
 import InfoContainer from "../component/InfoContainer";
 function ViewSongCustomer() {
