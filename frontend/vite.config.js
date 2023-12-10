@@ -23,6 +23,7 @@ export default defineConfig({
       '@mui/styled-engine': '@mui/styled-engine',
       '@mui/icons-material': '@mui/icons-material',
       '@mui/lab': '@mui/lab',
+      "@material-ui/core": "@material-ui/core"
     },
   },
 
