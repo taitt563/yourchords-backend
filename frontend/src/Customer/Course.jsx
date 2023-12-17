@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import YouTube from 'react-youtube';
-import Stack from '@mui/material/Stack';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,7 +8,8 @@ import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import HeadsetIcon from '@mui/icons-material/Headset';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Pagination from '@mui/material/Pagination';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
@@ -22,10 +22,16 @@ const darkTheme = createTheme({
 function Course() {
     const [search, setSearch] = useState('');
     const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [loading, setLoading] = useState(true);
-    const itemsPerPage = 5;
+    const [selectedCourse, setSelectedCourse] = useState(null);
+    const handleTabChange = (event, newValue) => {
+        setSelectedCourse(newValue);
+    };
+
+    useEffect(() => {
+        setSelectedCourse(null);
+    }, [search]);
     useEffect(() => {
         setLoading(true);
         axios
@@ -34,12 +40,14 @@ function Course() {
                 if (res.data.Status === 'Success') {
                     setData(res.data.Result);
                     setLoading(false);
+                    setSelectedCourse(res.data.Result.length > 0 ? 0 : null);
                 } else {
                     alert('Error');
                 }
             })
             .catch((err) => console.log(err));
     }, []);
+
 
     const generateBlobUrl = (data, mimeType) => {
         const blob = new Blob([data], { type: mimeType });
@@ -59,10 +67,6 @@ function Course() {
                     request.status === 2
                 );
         });
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredRequestCourse.slice(indexOfFirstItem, indexOfLastItem);
-    const totalPages = Math.ceil(filteredRequestCourse.length / itemsPerPage);
     return (
         <>
             <Box sx={{ top: 0, position: 'sticky', zIndex: '3' }}>
@@ -122,54 +126,62 @@ function Course() {
                     <div>
                         <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold', marginTop: "50px" }}>Course</h3>
                     </div>
-                    {currentItems.map((order, index) => (
-                        <div key={index} style={{ background: '#ffffff', padding: '20px', margin: '20px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-                            <div className="mt-4" style={{ display: 'flex', flexDirection: 'row' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                        <Tabs
+                            orientation="vertical"
+                            value={selectedCourse}
+                            onChange={handleTabChange}
+                            sx={{
+                                position: 'flex',
+                                right: 10,
+                                borderRight: 1,
+                                borderColor: 'divider',
+                                width: '15%',
+                                height: '43vh',
+                                overflowY: 'auto',
+                            }}>
+                            {filteredRequestCourse.map((course, index) => (
+                                <Tab key={index} label={<b>{course.course_name}</b>} />
+                            ))}
+                        </Tabs>
 
-                                <div className="col-md-6" style={{ padding: '20px' }}>
-                                    <p style={{ marginLeft: '200px' }}><b>Course name:</b> {order.course_name}</p>
+                        <Box sx={{ width: '55%', margin: 'auto' }}>
+                            {selectedCourse !== null && (
+                                <div>
+                                    <h3 style={{ color: '#0d6efd', fontWeight: 'bold', marginTop: '50px' }}>
+                                        {filteredRequestCourse[selectedCourse].course_name}
+                                    </h3>
+                                    <p>
+                                        <b>Poster:</b> {filteredRequestCourse[selectedCourse].userId}
+                                    </p>
+                                    {getYouTubeVideoId(filteredRequestCourse[selectedCourse].link) && (
+                                        <YouTube
+                                            videoId={getYouTubeVideoId(filteredRequestCourse[selectedCourse].link)}
+                                            opts={{
+                                                playerVars: {
+                                                    modestbranding: 1,
+                                                },
+                                                host: 'https://www.youtube-nocookie.com',
+                                            }}
+                                        />
+                                    )}
+
+                                    {filteredRequestCourse[selectedCourse].videoFile && (
+                                        <video controls width="640" height="400" controlsList="nodownload">
+                                            <source
+                                                src={generateBlobUrl(
+                                                    new Uint8Array(filteredRequestCourse[selectedCourse].videoFile.data).buffer,
+                                                    'video/*'
+                                                )}
+                                                type="video/mp4"
+                                            />
+                                        </video>
+                                    )}
                                 </div>
-                                <div className="col-md-6" style={{ padding: '20px' }}>
-                                    <p style={{ marginLeft: '200px' }}><b>Poster:</b> {order.userId}</p>
-                                </div>
-                            </div>
-                            <div className="col-md-12 mb-3 d-flex justify-content-center">
-                                {getYouTubeVideoId(order.link) && (
-                                    <YouTube
-                                        videoId={getYouTubeVideoId(order.link)}
-                                        opts={{
-                                            // origin: 'http://localhost:5173',
-                                            playerVars: {
-                                                modestbranding: 1,
-                                            },
-                                            host: 'https://www.youtube-nocookie.com',
-                                        }}
-                                    />
+                            )}
+                        </Box>
+                    </Box>
 
-
-                                )}
-                            </div>
-                            {order.videoFile && <hr style={{ width: '70%', margin: 'auto' }} className="mb-4" />}
-                            <div className="col-md-12 d-flex justify-content-center">
-                                {order.videoFile && (
-                                    <video controls width="640" height="400" controlsList="nodownload">
-                                        <source src={generateBlobUrl(new Uint8Array(order.videoFile.data).buffer, 'video/*')} type="video/mp4" />
-                                    </video>
-                                )}
-                            </div>
-
-                        </div>
-
-                    ))}
-                    <Stack spacing={2} direction="row" justifyContent="center" mt={3}>
-                        <Pagination
-                            count={totalPages}
-                            page={currentPage}
-                            onChange={(event, value) => setCurrentPage(value)}
-                            color="primary"
-                            size="large"
-                        />
-                    </Stack>
 
                 </>
             }
