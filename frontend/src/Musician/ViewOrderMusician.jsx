@@ -115,7 +115,7 @@ function ViewOrderMusician() {
             });
 
             if (updateResponse.data.Status === 'Success') {
-                console.log('Order submitted successfully');
+                navigate("/orderMusician")
             } else {
                 console.error('Failed to submit order');
             }
