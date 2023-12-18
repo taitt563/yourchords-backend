@@ -62,6 +62,8 @@ function ViewRejectCourse() {
         try {
             const formData = new FormData();
             formData.append('course_name', editedData.course_name);
+            formData.append('link', editedData.link);
+
             if (editedData.videoFile) {
                 formData.append('videoFile', editedData.videoFile);
             }
