@@ -121,9 +121,9 @@ function ViewRequestCourse() {
                                         )}
                                     </div>
                                 </div>
-                                <hr className="mb-4" />
+                                <hr className="mb-3" />
                                 <div className="row">
-                                    <div className="col-md-12 mb-3 d-flex justify-content-center">
+                                    <div>
                                         <button className="btn btn-primary" onClick={handleClose}>
                                             Close
                                         </button>
