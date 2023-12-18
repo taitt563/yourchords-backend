@@ -10,6 +10,7 @@ import HeadsetIcon from '@mui/icons-material/Headset';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
@@ -126,22 +127,29 @@ function Course() {
                     <div>
                         <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold', marginTop: "50px" }}>Course</h3>
                     </div>
-                    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', marginLeft: '50px' }}>
                         <Tabs
                             orientation="vertical"
                             value={selectedCourse}
                             onChange={handleTabChange}
                             sx={{
                                 position: 'flex',
-                                right: 10,
                                 borderRight: 1,
                                 borderColor: 'divider',
-                                width: '15%',
-                                height: '43vh',
-                                overflowY: 'auto',
-                            }}>
+                                width: '20%',
+                                height: '66vh',
+                            }}
+                        >
                             {filteredRequestCourse.map((course, index) => (
-                                <Tab key={index} label={<b>{course.course_name}</b>} />
+                                <Tab
+                                    key={index}
+                                    label={
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            {selectedCourse === index && <PlayCircleIcon style={{ marginRight: '8px' }} />}
+                                            <b>{course.course_name}</b>
+                                        </div>
+                                    }
+                                />
                             ))}
                         </Tabs>
 
