@@ -4,11 +4,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import HeadsetIcon from '@mui/icons-material/Headset';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
 
 export default function AppBarLogin() {
-    const navigate = useNavigate();
     const darkTheme = createTheme({
         palette: {
             mode: 'dark',
@@ -18,18 +15,7 @@ export default function AppBarLogin() {
         },
     });
 
-    const handleOpenHome = (event) => {
-        event.preventDefault();
-        navigate("/home")
-    }
-    const handleOpenContact = (event) => {
-        event.preventDefault();
-        navigate("/contact")
-    }
-    const handleOpenAboutMe = (event) => {
-        event.preventDefault();
-        navigate("/aboutme")
-    }
+
     return (
         <>
             <Box sx={{ flexGrow: 1, top: 0, position: "sticky", zIndex: '3' }}>
@@ -60,25 +46,6 @@ export default function AppBarLogin() {
 
                                 <b>YOUR CHORD</b>
                             </Typography>
-                            <Button
-                                onClick={handleOpenHome}
-                                sx={{ my: 2, color: '#0d6efd', display: 'block' }}
-                            >
-                                <b>Home</b>
-                            </Button>
-                            <Button
-                                onClick={handleOpenAboutMe}
-                                sx={{ my: 2, color: '#0d6efd', display: 'block' }}
-                            >
-                                <b>About</b>
-                            </Button>
-                            <Button
-                                onClick={handleOpenContact}
-                                sx={{ my: 2, color: '#0d6efd', display: 'block' }}
-                            >
-                                <b>Contact</b>
-                            </Button>
-
                         </Toolbar>
                     </AppBar>
                 </ThemeProvider>
