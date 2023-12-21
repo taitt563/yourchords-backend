@@ -132,6 +132,53 @@ app.post('/login', (req, res) => {
         });
     });
 });
+app.post('/reset-password', (req, res) => {
+    const username = req.body.username;
+    const currentPassword = req.body.currentPassword;
+    const newPassword = req.body.newPassword;
+
+    // Check if the current password matches the stored password
+    const checkPasswordQuery = 'SELECT * FROM user_acc WHERE username = ?';
+    con.query(checkPasswordQuery, [username], (err, results) => {
+        if (err) {
+            return res.json({ Status: 'Error', Error: 'Error checking current password' });
+        }
+
+        if (results.length === 0) {
+            return res.json({ Status: 'Error', Error: 'User not found' });
+        }
+
+        const user = results[0];
+
+        bcrypt.compare(currentPassword, user.password, (err, response) => {
+            if (err) {
+                return res.json({ Status: 'Error', Error: 'Error comparing passwords' });
+            }
+
+            if (response) {
+                // Hash the new password
+                bcrypt.hash(newPassword, 10, (err, hashedPassword) => {
+                    if (err) {
+                        return res.json({ Status: 'Error', Error: 'Error hashing the new password' });
+                    }
+
+                    // Update the password in the database
+                    const updatePasswordQuery = 'UPDATE user_acc SET password = ? WHERE username = ?';
+                    con.query(updatePasswordQuery, [hashedPassword, username], (err, results) => {
+                        if (err) {
+                            return res.json({ Status: 'Error', Error: 'Error updating the password in the database' });
+                        }
+
+                        return res.json({ Status: 'Success', Message: 'Password reset successfully' });
+                    });
+                });
+            } else {
+                return res.json({ Status: 'Error', Error: 'Current password is incorrect' });
+            }
+        });
+    });
+});
+
 app.get('/logout', (req, res) => {
     res.clearCookie('token');
     return res.json({ Status: "Success" });
