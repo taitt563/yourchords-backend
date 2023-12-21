@@ -180,10 +180,11 @@ function Login() {
                                     <div
                                         style={{
                                             textAlign: 'right',
-                                            marginTop: '5px', // Adjust the margin as needed
+                                            marginTop: '10px', // Adjust the margin as needed
+                                            paddingLeft: '300px', // Add padding to the right
                                         }}
                                     >
-                                        <Link className='font' onClick={() => setShowResetPassword(true)}>Forgot Password?</Link>
+                                        <Link className='font' onClick={() => setShowResetPassword(true)}>Change Password</Link>
                                     </div>
                                     <button>Sign In</button>
                                 </>
