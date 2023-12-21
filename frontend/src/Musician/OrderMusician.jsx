@@ -29,7 +29,7 @@ function OrderMusician() {
             width: 200,
             render: (text) => (
                 <Space size="middle">
-                    {text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : 'N/A'}
+                    {text ? moment(text).format('YYYY-MM-DD') : 'N/A'}
                 </Space>
             ),
         },
@@ -71,7 +71,7 @@ function OrderMusician() {
             dataIndex: 'status',
             render: (text, record) => (
                 <Space size="middle">
-                    {isExpired(record) ? (
+                    {isExpired(record) && text !== 3 ? (
                         <button className='btn-decline'  >
                             Expired
                         </button>
@@ -93,7 +93,7 @@ function OrderMusician() {
                                                 Waiting for payment
                                             </button>
                                         ) : record.status === 2 ? (
-                                            <button className='btn-accept'>
+                                            <button className='btn-do'>
                                                 Do it
                                             </button>
                                         ) : record.status === 3 ? (

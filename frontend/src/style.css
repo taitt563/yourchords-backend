@@ -1256,6 +1256,14 @@ textarea {
     border-radius: 16px;
 }
 
+.btn-do {
+    width: 100px;
+    padding: 3px 10px;
+    border: transparent;
+    background-color: #FFD700;
+    border-radius: 16px;
+}
+
 .btn-decline {
     width: 100px;
     text-align: center;

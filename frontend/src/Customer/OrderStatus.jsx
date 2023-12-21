@@ -46,7 +46,7 @@ function OrderStatus() {
             width: 200,
             render: (text) => (
                 <Space size="middle">
-                    {text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : 'N/A'}
+                    {text ? moment(text).format('YYYY-MM-DD') : 'N/A'}
                 </Space>
             ),
         },
@@ -55,7 +55,7 @@ function OrderStatus() {
             dataIndex: 'status',
             render: (text, record) => (
                 <Space size="middle">
-                    {isExpired(record) ? (
+                    {isExpired(record) && text !== 3 ? (
                         <button className='btn-decline' style={{ width: '100px', textAlign: 'center' }}>
                             Expired
                         </button>

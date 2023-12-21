@@ -268,7 +268,11 @@ function ViewOrderMusician() {
                                         <div className="row">
                                             <div className="col-md-6 mb-3">
                                                 <b htmlFor="duration" className="form-label">Duration</b>
-                                                <p style={{ color: 'red', fontWeight: 'bold' }}>{moment(order.duration).format('YYYY-MM-DD  HH:mm:ss')}</p>
+                                                {isExpired(order) && order.status !== 3 ?
+                                                    <p style={{ color: 'red', fontWeight: 'bold' }}>{moment(order.duration).format('YYYY-MM-DD')}</p>
+                                                    :
+                                                    <p style={{ color: 'green', fontWeight: 'bold' }}>{moment(order.duration).format('YYYY-MM-DD')}</p>
+                                                }
                                             </div>
                                             <div className="col-md-6 mb-3">
                                                 <b htmlFor="duration" className="form-label">Date created:</b>
@@ -368,7 +372,7 @@ function ViewOrderMusician() {
 
                                         <hr className="mb-4" />
                                         <div className="d-flex justify-content-between">
-                                            {isExpired(order) ? (
+                                            {isExpired(order) && order.status !== 3 ? (
                                                 <button className="btn btn-danger" style={{ width: '1000px' }} onClick={() => navigate("/orderMusician")}>
                                                     Expired
                                                 </button>

@@ -48,7 +48,7 @@ function OrderCustomer() {
     const selectedDate = new Date(date);
     const timeDifference = selectedDate - currentDate;
 
-    if (timeDifference >= 24 * 60 * 60 * 1000) {
+    if (timeDifference >= 24 * 60 * 1000) {
       setDuration(date);
     } else {
       console.error('Selected duration must be at least 24 hours from the current date and time.');
@@ -116,15 +116,12 @@ function OrderCustomer() {
                     id="duration"
                     selected={duration}
                     onChange={handleDurationChange}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="yyyy-MM-dd HH:mm:ss"
+                    dateFormat="yyyy-MM-dd"
                     className="form-control"
                     minDate={new Date()}
                     required
                   />
+
                   <div >
                     <span className="input-group-text bg-primary  text-white">
                       <i className="bi-calendar-day"></i>
