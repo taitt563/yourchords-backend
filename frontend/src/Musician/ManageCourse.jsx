@@ -15,6 +15,8 @@ function ManageCourse() {
     const [videoFile, setVideoFile] = useState(null);
     const [videoFileName, setVideoFileName] = useState(null);
     const [openErrorVideo, setOpenErrorVideo] = useState(false);
+    // const [openYoutubeVideoErr, setOpenYoutubeVideoErr] = useState(false);
+
     const [courseName, setCourseName] = useState('');
     const [link, setLink] = useState('');
 
@@ -40,10 +42,10 @@ function ManageCourse() {
     const handleSubmitOrder = async () => {
         try {
             setIsSubmitting(true);
-            if (!getYouTubeVideoId(link)) {
-                setOpenErrorVideo(true);
-                return;
-            }
+            // if (!getYouTubeVideoId(link)) {
+            //     setOpenYoutubeVideoErr(true);
+            //     return;
+            // }
 
             const formData = new FormData();
             formData.append('videoFile', videoFile);
@@ -83,8 +85,16 @@ function ManageCourse() {
                         <Alert severity="error">
                             Invalid file type. Please upload a video.
                         </Alert>
+
                     </Stack>
                 )}
+                {/* {openYoutubeVideoErr && (
+                    <Stack sx={{ width: '100%' }} spacing={2}>
+                        <Alert severity="error">
+                            Invalid link youtube. Please try again.
+                        </Alert>
+                    </Stack>
+                )} */}
                 <div className="py-4 text-center">
                     <h2 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Upload your course</h2>
                 </div>

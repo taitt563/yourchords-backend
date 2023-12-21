@@ -1176,7 +1176,6 @@ app.post('/uploadCourse/:username', upload.fields([{ name: 'videoFile' }]), asyn
         const { course_name, link } = req.body;
 
         if (!course_name || (!req.files['videoFile'] && !link)) {
-            // Nếu thiếu dữ liệu cần thiết, trả về lỗi Bad Request
             return res.status(400).json({ Status: 'Error', Error: 'Missing required data' });
         }
 
