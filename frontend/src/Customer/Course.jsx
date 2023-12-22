@@ -49,7 +49,6 @@ function Course() {
             .catch((err) => console.log(err));
     }, []);
 
-
     const generateBlobUrl = (data, mimeType) => {
         const blob = new Blob([data], { type: mimeType });
         return URL.createObjectURL(blob);
@@ -61,12 +60,9 @@ function Course() {
     const filteredRequestCourse = data
         .filter((request) => {
             return (
-                search.trim() === '' &&
-                request.status === 2
-            ) || (
-                    request.course_name.toLowerCase().includes(search.toLowerCase()) &&
-                    request.status === 2
-                );
+                (search.trim() === '' && request.status === 2) ||
+                (request.course_name.toLowerCase().includes(search.toLowerCase()) && request.status === 2)
+            );
         });
     return (
         <>
@@ -107,7 +103,7 @@ function Course() {
                             <input
                                 type="text"
                                 className="input-box"
-                                placeholder="Search.."
+                                placeholder="Search..."
                                 onChange={(e) => setSearch(e.target.value)}
                             />
                             <SearchIcon className="inputIcon" />
@@ -116,18 +112,18 @@ function Course() {
                 </ThemeProvider>
             </Box>
             {loading ? (
-                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+                <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
                     <div className="spinner-border text-primary" role="status">
                         <span className="visually-hidden">Loading...</span>
                     </div>
+                    <p>Loading...</p>
                 </div>
-            )
-                :
+            ) : (
                 <>
                     <div>
-                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold', marginTop: "50px" }}>Course</h3>
+                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold', marginTop: '50px' }}>Course</h3>
                     </div>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', marginLeft: '50px' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', marginLeft: '10px' }}>
                         <Tabs
                             orientation="vertical"
                             value={selectedCourse}
@@ -145,14 +141,15 @@ function Course() {
                                     key={index}
                                     label={
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            {selectedCourse === index && <PlayCircleIcon style={{ marginRight: '8px' }} />}
+                                            {selectedCourse === index && (
+                                                <PlayCircleIcon style={{ marginRight: '8px' }} />
+                                            )}
                                             <b>{course.course_name}</b>
                                         </div>
                                     }
                                 />
                             ))}
                         </Tabs>
-
                         <Box sx={{ width: '55%', margin: 'auto' }}>
                             {selectedCourse !== null && (
                                 <div>
@@ -162,37 +159,48 @@ function Course() {
                                     <p>
                                         <b>Poster:</b> {filteredRequestCourse[selectedCourse].userId}
                                     </p>
-                                    {getYouTubeVideoId(filteredRequestCourse[selectedCourse].link) && (
-                                        <YouTube
-                                            videoId={getYouTubeVideoId(filteredRequestCourse[selectedCourse].link)}
-                                            opts={{
-                                                playerVars: {
-                                                    modestbranding: 1,
-                                                },
-                                                host: 'https://www.youtube-nocookie.com',
-                                            }}
-                                        />
-                                    )}
 
-                                    {filteredRequestCourse[selectedCourse].videoFile && (
-                                        <video controls width="640" height="400" controlsList="nodownload">
-                                            <source
-                                                src={generateBlobUrl(
-                                                    new Uint8Array(filteredRequestCourse[selectedCourse].videoFile.data).buffer,
-                                                    'video/*'
+                                    <div style={{
+                                        width: 'fit-content',
+                                        backgroundColor: '#0d6efd',
+                                        padding: '10px',
+                                        borderRadius: '10px',
+                                        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                                    }}>
+                                        {getYouTubeVideoId(filteredRequestCourse[selectedCourse].link) && (
+                                            <YouTube
+                                                videoId={getYouTubeVideoId(
+                                                    filteredRequestCourse[selectedCourse].link
                                                 )}
-                                                type="video/mp4"
+                                                opts={{
+                                                    playerVars: {
+                                                        modestbranding: 1,
+                                                    },
+                                                    host: 'https://www.youtube-nocookie.com',
+                                                }}
                                             />
-                                        </video>
-                                    )}
+                                        )}
+
+                                        {filteredRequestCourse[selectedCourse].videoFile && (
+                                            <video controls width="640" height="400" controlsList="nodownload">
+                                                <source
+                                                    src={generateBlobUrl(
+                                                        new Uint8Array(
+                                                            filteredRequestCourse[selectedCourse].videoFile.data
+                                                        ).buffer,
+                                                        'video/*'
+                                                    )}
+                                                    type="video/mp4"
+                                                />
+                                            </video>
+                                        )}
+                                    </div>
                                 </div>
                             )}
                         </Box>
                     </Box>
-
-
                 </>
-            }
+            )}
         </>
     );
 }
