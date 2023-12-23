@@ -7,7 +7,7 @@ import { Link } from '@mui/material';
 import moment from 'moment';
 
 
-function OrderMusician() {
+function OrderMusicianAccept() {
     const [orderData, setOrderData] = useState([]);
     const [editedItemId, setEditedItemId] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -132,20 +132,21 @@ function OrderMusician() {
                 setLoading(true);
                 const response = await axios.get(`${apiUrl}/getOrder`);
                 if (response.data.Status === 'Success') {
-                    const filteredData = response.data.data.filter(item => item.musician_id === null);
+                    // Lọc chỉ những đơn hàng có musician_id là null
+                    const filteredData = response.data.data.filter(item => item.musician_id === userId);
                     setOrderData(filteredData);
                 } else {
                     console.error('Failed to fetch order data:', response.data.Error);
                 }
             } catch (error) {
                 console.error('Error fetching order data:', error.message);
-            }
-            finally {
+            } finally {
                 setLoading(false);
             }
         };
         fetchOrderData();
     }, []);
+
     const handlePriceChange = (itemId, newPrice) => {
         setOrderData((prevData) => {
             return prevData.map((item) =>
@@ -259,4 +260,4 @@ function OrderMusician() {
         </>
     );
 }
-export default OrderMusician;
+export default OrderMusicianAccept;

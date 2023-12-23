@@ -1006,11 +1006,11 @@ app.put('/payment/:id', (req, res) => {
         }
     });
 });
-app.put('/acceptOrder/:id', (req, res) => {
-    const { id } = req.params;
-    const sql = "UPDATE beat SET status = 1 WHERE id = ?;";
+app.put('/acceptOrder/:id/:userId', (req, res) => {
+    const { id, userId } = req.params;
+    const sql = "UPDATE beat SET status = 1, musician_id = ?  WHERE id = ?;";
 
-    con.query(sql, [id], (err, result) => {
+    con.query(sql, [userId, id], (err, result) => {
         if (err) {
             console.error(err);
             return res.json({ Status: "Error", Error: "Error in running query" });

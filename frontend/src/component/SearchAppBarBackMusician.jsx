@@ -30,6 +30,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import FlakyIcon from '@mui/icons-material/Flaky';
 import MusicOffIcon from '@mui/icons-material/MusicOff';
 import axios from 'axios';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 
 const darkTheme = createTheme({
     palette: {
@@ -284,6 +285,17 @@ export default function SearchAppBarBackMusican() {
                                                         <PlaylistAddCheckCircleIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                                     </ListItemIcon>
                                                     <ListItemText><span className="fontDashboard">Order</span></ListItemText>
+                                                </ListItemButton>
+                                                <ListItemButton style={{ borderRadius: '20px' }}
+                                                    className={`dashboard-button ${activeButton === 'orderMusicianAccept' ? 'clicked' : ''}`}
+                                                    onClick={(e) => {
+                                                        handleButtonClick(e, 'orderMusicianAccept');
+                                                        navigate(`/orderMusicianAccept/${profile.userId}`)
+                                                    }}  >
+                                                    <ListItemIcon>
+                                                        <BookmarkAddedIcon style={{ color: '#0d6efd' }} fontSize='medium' />
+                                                    </ListItemIcon>
+                                                    <ListItemText><span className="fontDashboard">Your Order</span></ListItemText>
                                                 </ListItemButton>
                                                 <ListItemButton style={{ borderRadius: '20px' }}
                                                     className={`dashboard-button ${activeButton === 'transactionHistory' ? 'clicked' : ''}`}

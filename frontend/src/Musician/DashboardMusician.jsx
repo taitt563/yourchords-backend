@@ -28,7 +28,7 @@ import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDiss
 import InfoContainer from '../component/InfoContainer';
 import DvrIcon from '@mui/icons-material/Dvr';
 import AddIcon from '@mui/icons-material/Add';
-
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 function DashboardMusician() {
     const [data, setData] = useState([]);
     const [openSong, setOpenSong] = useState(false);
@@ -229,7 +229,18 @@ function DashboardMusician() {
                                                             <ListItemIcon>
                                                                 <PlaylistAddCheckCircleIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
-                                                            <ListItemText><span className="fontDashboard">Order</span></ListItemText>
+                                                            <ListItemText><span className="fontDashboard">List Order</span></ListItemText>
+                                                        </ListItemButton>
+                                                        <ListItemButton style={{ borderRadius: '20px' }}
+                                                            className={`dashboard-button ${activeButton === 'orderMusicianAccept' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'orderMusicianAccept');
+                                                                navigate(`/orderMusicianAccept/${profile.userId}`)
+                                                            }}  >
+                                                            <ListItemIcon>
+                                                                <BookmarkAddedIcon color="primary" fontSize='medium' />
+                                                            </ListItemIcon>
+                                                            <ListItemText><span className="fontDashboard">Your Order</span></ListItemText>
                                                         </ListItemButton>
                                                         {/* <ListItemButton style={{ borderRadius: '20px' }}
                                                                 className={`dashboard-button ${activeButton === 'transactionHistory' ? 'clicked' : ''}`}
@@ -405,6 +416,16 @@ function DashboardMusician() {
                                                             }}  >
                                                             <ListItemIcon>
                                                                 <PlaylistAddCheckCircleIcon color="primary" fontSize='medium' />
+                                                            </ListItemIcon>
+                                                        </ListItemButton>
+                                                        <ListItemButton style={{ borderRadius: '50px' }}
+                                                            className={`dashboard-button ${activeButton === 'orderMusicianAccept' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'orderMusicianAccept');
+                                                                navigate(`/orderMusicianAccept/${profile.userId}`)
+                                                            }}  >
+                                                            <ListItemIcon>
+                                                                <BookmarkAddedIcon color="primary" fontSize='medium' />
                                                             </ListItemIcon>
                                                         </ListItemButton>
                                                         {/* <ListItemButton style={{ borderRadius: '50px' }}
