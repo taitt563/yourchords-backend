@@ -3,8 +3,8 @@ import SearchAppBar from '../component/SearchAppBar';
 import { Space, Table, Input, Button } from 'antd';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from '@mui/material';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 
 function OrderMusician() {
@@ -44,7 +44,7 @@ function OrderMusician() {
             dataIndex: 'description',
         },
         {
-            title: 'Price',
+            title: 'Price ($)',
             dataIndex: 'price',
             width: 200,
             render: (text, record) => (
@@ -58,7 +58,7 @@ function OrderMusician() {
                     {editedItemId === record.id ? (
                         <Button
                             type="primary"
-                            onClick={() => handleSavePrice(record.id, record.price)}
+                            onClick={() => handleSavePrice(record.id, record.price, userId)}
                             style={{ marginTop: '10px' }}
                         >
                             Save
@@ -97,16 +97,13 @@ function OrderMusician() {
                                             <button className='btn-do'>
                                                 Do it
                                             </button>
-                                        ) : record.status === 3 ? (
+                                        ) : record.status === 3 && (
                                             <button className='btn-accept'>
                                                 Completed
                                             </button>
                                         )
-                                            : (
-                                                <Button className='btn-accept' onClick={() => handleAccept(record.id, userId)}>
-                                                    Accept
-                                                </Button>
-                                            )}
+
+                                    }
                                 </>
                             )}
                         </>
@@ -119,7 +116,7 @@ function OrderMusician() {
             render: (text, record) => (
                 <Space size="middle">
                     <Button type="primary" style={{ borderRadius: '40px' }}>
-                        <Link href={`/viewOrderMusician/${record.id}`}>View</Link>
+                        <Link to={`/viewOrderMusician/${record.id}`} style={{ textDecoration: 'none', cursor: 'pointer' }}>View</Link>
                     </Button>
                 </Space >
             ),
@@ -162,11 +159,11 @@ function OrderMusician() {
     };
 
 
-    const handleSavePrice = async (itemId, newPrice) => {
+    const handleSavePrice = async (itemId, newPrice, userId) => {
         try {
             const orderToUpdate = orderData.find(item => item.id === itemId);
             if (orderToUpdate && (orderToUpdate.status === 0 || orderToUpdate.status === null)) {
-                const response = await axios.put(`${apiUrl}/updatePrice/${itemId}`, {
+                const response = await axios.put(`${apiUrl}/acceptOrder/${itemId}/${userId}`, {
                     newPrice: newPrice,
                 });
 
@@ -178,9 +175,9 @@ function OrderMusician() {
                         );
                     });
 
-                    if (orderToUpdate.status === 0) {
-                        handleAccept(itemId);
-                    }
+                    // if (orderToUpdate.status === 0) {
+                    //     handleAccept(itemId);
+                    // }
                 } else {
                     console.error('Failed to save price:', response.data.Error);
                 }
@@ -195,17 +192,16 @@ function OrderMusician() {
     };
 
 
-    // Sửa hàm handleAccept trong mã frontend
-    const handleAccept = (itemId, userId) => {
-        axios
-            .put(`${apiUrl}/acceptOrder/${itemId}/${userId}`)
-            .then((res) => {
-                if (res.data.Status === 'Success') {
-                    console.log("success")
-                }
-            })
-            .catch((err) => console.log(err));
-    };
+    // const handleAccept = (itemId, userId) => {
+    //     axios
+    //         .put(`${apiUrl}/acceptOrder/${itemId}/${userId}`)
+    //         .then((res) => {
+    //             if (res.data.Status === 'Success') {
+    //                 console.log("success")
+    //             }
+    //         })
+    //         .catch((err) => console.log(err));
+    // };
 
     const handleDecline = (itemId) => {
         axios
@@ -221,16 +217,17 @@ function OrderMusician() {
         const currentDate = moment();
         const durationDate = moment(record.duration);
 
-        return currentDate.isAfter(durationDate);
+        return currentDate.isAfter(durationDate) && record.status !== 3;
     };
     return (
         <>
             <SearchAppBar />
             {loading ? (
-                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+                <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
                     <div className="spinner-border text-primary" role="status">
                         <span className="visually-hidden">Loading...</span>
                     </div>
+                    <p>Loading...</p>
                 </div>
             )
                 :

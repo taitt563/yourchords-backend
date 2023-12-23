@@ -1008,15 +1008,20 @@ app.put('/payment/:id', (req, res) => {
 });
 app.put('/acceptOrder/:id/:userId', (req, res) => {
     const { id, userId } = req.params;
-    const sql = "UPDATE beat SET status = 1, musician_id = ?  WHERE id = ?;";
+    const { newPrice } = req.body;
 
-    con.query(sql, [userId, id], (err, result) => {
+    const sql = "UPDATE beat SET price = ?, musician_id = ?,  status = 1 WHERE id = ?;";
+
+    con.query(sql, [newPrice, userId, id], (err, result) => {
         if (err) {
             console.error(err);
             return res.json({ Status: "Error", Error: "Error in running query" });
         }
-        else {
-            return res.json({ Status: "Success" });
+
+        if (result.affectedRows > 0) {
+            return res.json({ Status: "Success", Message: "Price updated successfully" });
+        } else {
+            return res.json({ Status: "Error", Error: "No records found or failed to update price" });
         }
     });
 });
