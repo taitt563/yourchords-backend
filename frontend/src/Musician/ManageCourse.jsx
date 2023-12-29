@@ -139,7 +139,7 @@ function ManageCourse() {
                             />
                         </div>
                         {videoFile && (
-                            <video controls width="400" height="300">
+                            <video controls width="640" height="300">
                                 <source src={URL.createObjectURL(videoFile)} type="video/mp4" />
                             </video>
                         )}
