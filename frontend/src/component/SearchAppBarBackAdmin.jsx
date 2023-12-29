@@ -276,7 +276,7 @@ export default function SearchAppBarBackAdmin() {
                                             <ListItemIcon>
                                                 <DvrIcon style={{ color: '#0d6efd' }} fontSize='medium' />
                                             </ListItemIcon>
-                                            <ListItemText><span className="fontDashboard">Course</span></ListItemText>
+                                            <ListItemText><span className="fontDashboard">Request Course</span></ListItemText>
                                         </ListItemButton>
                                     </List>
                                     <List sx={{ paddingTop: '20px' }}>
