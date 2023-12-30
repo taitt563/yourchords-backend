@@ -306,7 +306,7 @@ function ManageAccount() {
                 </Box>
                 <TabPanel value="1">
                     <div>
-                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>USER ACCOUNT MANAGEMENT</h3>
+                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>CUSTOMER ACCOUNT MANAGEMENT</h3>
                     </div>
                     <div className="px-2 py-4">
                         {isDeleted && (
