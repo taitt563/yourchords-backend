@@ -1066,17 +1066,21 @@ app.put('/submitOrder/:id', upload.fields([{ name: 'docxFile' }, { name: 'imageF
         fs.unlinkSync(req.files['videoFile'][0].path);
     }
 
-    con.query(sql, values, (err, result) => {
-        if (err) {
-            return res.json({ Status: "Error", Error: "Error in running query" });
-        }
+    if (docxContentBuffer || imageValue || videoValue) {
+        con.query(sql, values, (err, result) => {
+            if (err) {
+                return res.json({ Status: "Error", Error: "Error in running query" });
+            }
 
-        if (result.affectedRows > 0) {
-            return res.json({ Status: "Success", Message: "File name, image, and video updated successfully" });
-        } else {
-            return res.json({ Status: "Error", Error: "No records found or failed to update file name, image, and video" });
-        }
-    });
+            if (result.affectedRows > 0) {
+                return res.json({ Status: "Success", Message: "File name, image, and video updated successfully" });
+            } else {
+                return res.json({ Status: "Error", Error: "No records found or failed to update file name, image, and video" });
+            }
+        });
+    } else {
+        return res.json({ Status: "Success", Message: "No changes detected" });
+    }
 });
 
 
