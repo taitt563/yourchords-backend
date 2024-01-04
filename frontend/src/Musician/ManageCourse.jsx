@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchAppBar from '../component/SearchAppBar';
 import axios from 'axios';
@@ -18,8 +17,8 @@ function ManageCourse() {
     const [courseName, setCourseName] = useState('');
     const [link, setLink] = useState('');
     const [atLeastOneSelected, setAtLeastOneSelected] = useState(false);
+    const [uploadSuccess, setUploadSuccess] = useState(false);
 
-    const navigate = useNavigate();
 
     const handleVideoChange = (event) => {
         const file = event.target.files[0];
@@ -41,6 +40,7 @@ function ManageCourse() {
     const handleSubmitOrder = async () => {
         try {
             setIsSubmitting(true);
+
             if (!courseName) {
                 alert('Please enter the course name.');
                 return;
@@ -66,8 +66,11 @@ function ManageCourse() {
             });
 
             if (updateResponse.data.Status === 'Success') {
-                console.log('Upload successfully');
-                window.location.reload(true);
+                setUploadSuccess(true);
+                setTimeout(() => {
+                    setUploadSuccess(false);
+                    window.location.reload(true);
+                }, 3000);
             } else {
                 console.error('Failed to upload video');
             }
@@ -98,6 +101,13 @@ function ManageCourse() {
                     <Stack sx={{ width: '100%' }} spacing={2}>
                         <Alert severity="error">
                             Please select at least one: upload a video or provide a YouTube link.
+                        </Alert>
+                    </Stack>
+                )}
+                {uploadSuccess && (
+                    <Stack sx={{ width: '100%' }} spacing={2}>
+                        <Alert severity="success">
+                            Upload successfully !
                         </Alert>
                     </Stack>
                 )}
@@ -164,9 +174,6 @@ function ManageCourse() {
                         <div className="d-flex justify-content-between">
                             <button className="btn btn-primary" onClick={handleSubmitOrder}>
                                 {isSubmitting ? 'Submitting...' : 'Submit Video'}
-                            </button>
-                            <button className="btn btn-primary" onClick={() => navigate("/orderMusician")}>
-                                Close
                             </button>
                         </div>
                     </div>
