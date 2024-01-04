@@ -1045,12 +1045,12 @@ app.put('/submitOrder/:id', upload.fields([{ name: 'docxFile' }, { name: 'imageF
 
     let docxContentBuffer = null;
     if (req.files['docxFile'] && req.files['docxFile'][0]) {
-        docxContentBuffer = fs.readFileSync(req.files['docxFile'][0].path); // Read DOCX file
+        docxContentBuffer = fs.readFileSync(req.files['docxFile'][0].path);
     }
 
     let videoContentBuffer = null;
     if (req.files['videoFile'] && req.files['videoFile'][0]) {
-        videoContentBuffer = fs.readFileSync(req.files['videoFile'][0].path); // Read video file
+        videoContentBuffer = fs.readFileSync(req.files['videoFile'][0].path);
     }
 
     const imageValue = req.body.image ? req.body.image : null;
