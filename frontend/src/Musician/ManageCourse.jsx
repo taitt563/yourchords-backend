@@ -15,10 +15,9 @@ function ManageCourse() {
     const [videoFile, setVideoFile] = useState(null);
     const [videoFileName, setVideoFileName] = useState(null);
     const [openErrorVideo, setOpenErrorVideo] = useState(false);
-    // const [openYoutubeVideoErr, setOpenYoutubeVideoErr] = useState(false);
-
     const [courseName, setCourseName] = useState('');
     const [link, setLink] = useState('');
+    const [atLeastOneSelected, setAtLeastOneSelected] = useState(false);
 
     const navigate = useNavigate();
 
@@ -42,10 +41,18 @@ function ManageCourse() {
     const handleSubmitOrder = async () => {
         try {
             setIsSubmitting(true);
-            // if (!getYouTubeVideoId(link)) {
-            //     setOpenYoutubeVideoErr(true);
-            //     return;
-            // }
+            if (!courseName) {
+                alert('Please enter the course name.');
+                return;
+            }
+
+            if (!videoFile && !getYouTubeVideoId(link)) {
+                setAtLeastOneSelected(true);
+                setTimeout(() => {
+                    setAtLeastOneSelected(false);
+                }, 3000);
+                return;
+            }
 
             const formData = new FormData();
             formData.append('videoFile', videoFile);
@@ -60,7 +67,7 @@ function ManageCourse() {
 
             if (updateResponse.data.Status === 'Success') {
                 console.log('Upload successfully');
-                window.location.reload(true)
+                window.location.reload(true);
             } else {
                 console.error('Failed to upload video');
             }
@@ -85,16 +92,15 @@ function ManageCourse() {
                         <Alert severity="error">
                             Invalid file type. Please upload a video.
                         </Alert>
-
                     </Stack>
                 )}
-                {/* {openYoutubeVideoErr && (
+                {atLeastOneSelected && !videoFile && !getYouTubeVideoId(link) && (
                     <Stack sx={{ width: '100%' }} spacing={2}>
                         <Alert severity="error">
-                            Invalid link youtube. Please try again.
+                            Please select at least one: upload a video or provide a YouTube link.
                         </Alert>
                     </Stack>
-                )} */}
+                )}
                 <div className="py-4 text-center">
                     <h2 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Upload your course</h2>
                 </div>
@@ -147,7 +153,6 @@ function ManageCourse() {
                             <YouTube
                                 videoId={getYouTubeVideoId(link)}
                                 opts={{
-                                    // origin: 'http://localhost:5173',
                                     playerVars: {
                                         modestbranding: 1,
                                     },
