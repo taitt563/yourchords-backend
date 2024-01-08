@@ -163,10 +163,13 @@ function Course() {
                                     <div style={{
                                         width: 'fit-content',
                                         backgroundColor: '#0d6efd',
-                                        padding: '10px',
-                                        borderRadius: '10px',
-                                        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                                        padding: '2px',
+                                        borderRadius: '5px',
+                                        paddingTop: '8px',
+                                        paddingLeft: '8px',
+                                        paddingRight: '8px',
                                     }}>
+
                                         {getYouTubeVideoId(filteredRequestCourse[selectedCourse].link) && (
                                             <YouTube
                                                 videoId={getYouTubeVideoId(
