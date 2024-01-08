@@ -1,5 +1,5 @@
 import './style.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from "axios";
 import { Link, useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
@@ -26,6 +26,9 @@ function Login() {
 
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    useEffect(() => {
+        localStorage.clear();
+    }, []);
     const handleSubmit = (event) => {
         event.preventDefault();
         axios.post(`${apiUrl}/login`, values)
@@ -96,7 +99,6 @@ function Login() {
                 console.error(err);
             });
     };
-
 
     return (
         <>
