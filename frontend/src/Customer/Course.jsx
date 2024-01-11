@@ -35,8 +35,7 @@ function Course() {
     }, [search]);
     useEffect(() => {
         setLoading(true);
-        axios
-            .get(`${apiUrl}/getCourse`)
+        axios.get(`${apiUrl}/getCourse`)
             .then((res) => {
                 if (res.data.Status === 'Success') {
                     setData(res.data.Result);
@@ -61,7 +60,9 @@ function Course() {
         .filter((request) => {
             return (
                 (search.trim() === '' && request.status === 2) ||
-                (request.course_name.toLowerCase().includes(search.toLowerCase()) && request.status === 2)
+                (request.course_name &&
+                    request.course_name.toLowerCase().includes(search.toLowerCase()) &&
+                    request.status === 2)
             );
         });
     return (
@@ -118,12 +119,14 @@ function Course() {
                     </div>
                     <p>Loading...</p>
                 </div>
-            ) : (
+            )
+                :
                 <>
                     <div>
-                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold', marginTop: '50px' }}>Course</h3>
+                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold', marginTop: "50px" }}>Course</h3>
                     </div>
                     <Box sx={{ display: 'flex', flexDirection: 'row', marginLeft: '10px' }}>
+
                         <Tabs
                             orientation="vertical"
                             value={selectedCourse}
@@ -133,48 +136,43 @@ function Course() {
                                 borderRight: 1,
                                 borderColor: 'divider',
                                 width: '20%',
-                                height: '66vh',
-                            }}
-                        >
+                                height: '65vh',
+                            }}>
                             {filteredRequestCourse.map((course, index) => (
                                 <Tab
                                     key={index}
                                     label={
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            {selectedCourse === index && (
-                                                <PlayCircleIcon style={{ marginRight: '8px' }} />
-                                            )}
+                                            {selectedCourse === index && <PlayCircleIcon style={{ marginRight: '8px' }} />}
                                             <b>{course.course_name}</b>
                                         </div>
                                     }
                                 />
                             ))}
                         </Tabs>
+
                         <Box sx={{ width: '55%', margin: 'auto' }}>
-                            {selectedCourse !== null && (
+                            {selectedCourse !== null && filteredRequestCourse.length > 0 && selectedCourse < filteredRequestCourse.length && (
                                 <div>
-                                    <h3 style={{ color: '#0d6efd', fontWeight: 'bold', marginTop: '50px' }}>
+                                    <h3 style={{ fontWeight: 'bold', marginTop: '50px' }}>
                                         {filteredRequestCourse[selectedCourse].course_name}
                                     </h3>
                                     <p>
-                                        <b>Poster:</b> {filteredRequestCourse[selectedCourse].userId}
+                                        <span>Author:</span> {filteredRequestCourse[selectedCourse].userId}
                                     </p>
+
 
                                     <div style={{
                                         width: 'fit-content',
-                                        backgroundColor: '#0d6efd',
-                                        padding: '2px',
+                                        border: '3px solid #0d6efd',
                                         borderRadius: '5px',
-                                        paddingTop: '8px',
-                                        paddingLeft: '8px',
-                                        paddingRight: '8px',
+                                        paddingTop: '7px',
+                                        paddingLeft: '7px',
+                                        paddingRight: '7px',
                                     }}>
-
                                         {getYouTubeVideoId(filteredRequestCourse[selectedCourse].link) && (
                                             <YouTube
-                                                videoId={getYouTubeVideoId(
-                                                    filteredRequestCourse[selectedCourse].link
-                                                )}
+                                                videoId={getYouTubeVideoId(filteredRequestCourse[selectedCourse].link)}
                                                 opts={{
                                                     playerVars: {
                                                         modestbranding: 1,
@@ -188,9 +186,7 @@ function Course() {
                                             <video controls width="640" height="400" controlsList="nodownload">
                                                 <source
                                                     src={generateBlobUrl(
-                                                        new Uint8Array(
-                                                            filteredRequestCourse[selectedCourse].videoFile.data
-                                                        ).buffer,
+                                                        new Uint8Array(filteredRequestCourse[selectedCourse].videoFile.data).buffer,
                                                         'video/*'
                                                     )}
                                                     type="video/mp4"
@@ -203,7 +199,7 @@ function Course() {
                         </Box>
                     </Box>
                 </>
-            )}
+            }
         </>
     );
 }
