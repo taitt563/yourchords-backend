@@ -1,15 +1,15 @@
 
 import SearchAppBar from '../component/SearchAppBar';
-import { Space, Table, Input, Button } from 'antd';
+import { Space, Table, Button } from 'antd';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 
-function OrderMusicianAccept() {
+function OrderHistory() {
     const [orderData, setOrderData] = useState([]);
-    const [editedItemId, setEditedItemId] = useState(null);
+    // const [editedItemId, setEditedItemId] = useState(null);
     const [loading, setLoading] = useState(true);
     const token = sessionStorage.getItem('token');
     const userId = token.split(':')[0];
@@ -39,32 +39,28 @@ function OrderMusicianAccept() {
             dataIndex: 'genre',
         },
         {
-            title: 'Price',
+            title: 'Price ($)',
             dataIndex: 'price',
             width: 200,
-            render: (text, record) => (
-                <div>
-                    {record.status === 3 || isExpired(record) ?
-                        <span>{text}</span>
-                        :
-                        <Input
-                            type="number"
-                            value={text}
-                            onChange={(e) => handlePriceChange(record.id, e.target.value)}
-                            placeholder='$'
-                        />
-                    }
-                    {editedItemId === record.id ? (
-                        <Button
-                            type="primary"
-                            onClick={() => handleSavePrice(record.id, record.price, userId)}
-                            style={{ marginTop: '10px' }}
-                        >
-                            Save
-                        </Button>
-                    ) : null}
-                </div>
-            ),
+            // render: (text, record) => (
+            //     <div>
+            //         <Input
+            //             type="number"
+            //             value={text}
+            //             onChange={(e) => handlePriceChange(record.id, e.target.value)}
+            //             placeholder='$'
+            //         />
+            //         {editedItemId === record.id ? (
+            //             <Button
+            //                 type="primary"
+            //                 onClick={() => handleSavePrice(record.id, record.price, userId)}
+            //                 style={{ marginTop: '10px' }}
+            //             >
+            //                 Save
+            //             </Button>
+            //         ) : null}
+            //     </div>
+            // ),
         },
         {
             title: 'Status',
@@ -101,6 +97,7 @@ function OrderMusicianAccept() {
                                                 Completed
                                             </button>
                                         )
+
                                     }
                                 </>
                             )}
@@ -116,75 +113,81 @@ function OrderMusicianAccept() {
                     <Button type="primary" style={{ borderRadius: '40px' }}>
                         <Link to={`/viewOrderMusician/${record.id}`} style={{ textDecoration: 'none', cursor: 'pointer' }}>View</Link>
                     </Button>
-                </Space >
+                </Space>
             ),
         },
     ];
 
     useEffect(() => {
-        const fetchOrderData = async () => {
-            try {
-                setLoading(true);
-                const response = await axios.get(`${apiUrl}/getOrder`);
-                if (response.data.Status === 'Success') {
-                    // Lọc chỉ những đơn hàng có musician_id là null
-                    const filteredData = response.data.data.filter(item => item.musician_id === userId);
-                    setOrderData(filteredData);
-                } else {
-                    console.error('Failed to fetch order data:', response.data.Error);
+        setLoading(true);
+        axios.get(`${apiUrl}/historyMusician/${userId}`)
+            .then((res) => {
+                if (res.data.Status === 'Success') {
+                    setOrderData(res.data.Result);
                 }
-            } catch (error) {
-                console.error('Error fetching order data:', error.message);
-            } finally {
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+            .finally(() => {
                 setLoading(false);
-            }
-        };
-        fetchOrderData();
+            });
     }, []);
+    // const handlePriceChange = (itemId, newPrice) => {
+    //     setOrderData((prevData) => {
+    //         return prevData.map((item) =>
+    //             (item.id === itemId && (item.status === 0 || item.status === null))
+    //                 ? { ...item, price: newPrice }
+    //                 : item
+    //         );
+    //     });
+    //     if ((newPrice === "") || (orderData.find((item) => item.id === itemId)?.status !== 0 && orderData.find((item) => item.id === itemId)?.status !== null)) {
+    //         setEditedItemId(null);
+    //     } else {
+    //         setEditedItemId(itemId);
+    //     }
+    // };
 
-    const handlePriceChange = (itemId, newPrice) => {
-        setOrderData((prevData) => {
-            return prevData.map((item) =>
-                (item.id === itemId && (item.status === 0 || item.status === null))
-                    ? { ...item, price: newPrice }
-                    : item
-            );
-        });
-        if ((newPrice === "") || (orderData.find((item) => item.id === itemId)?.status !== 0 && orderData.find((item) => item.id === itemId)?.status !== null)) {
-            setEditedItemId(null);
-        } else {
-            setEditedItemId(itemId);
-        }
-    };
+
+    // const handleSavePrice = async (itemId, newPrice, userId) => {
+    //     try {
+    //         const orderToUpdate = orderData.find(item => item.id === itemId);
+    //         if (orderToUpdate && (orderToUpdate.status === null)) {
+    //             const response = await axios.put(`${apiUrl}/acceptOrder/${itemId}/${userId}`, {
+    //                 newPrice: newPrice,
+    //             });
+
+    //             if (response.data.Status === 'Success') {
+    //                 window.location.reload(true);
+    //                 setOrderData((prevData) => {
+    //                     return prevData.map((item) =>
+    //                         item.id === itemId ? { ...item, price: newPrice } : item
+    //                     );
+    //                 });
+    //             } else {
+    //                 console.error('Failed to save price:', response.data.Error);
+    //             }
+    //         } else {
+    //             console.error('Invalid order status for price update');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error saving price:', error.message);
+    //     } finally {
+    //         setEditedItemId(null);
+    //     }
+    // };
 
 
-    const handleSavePrice = async (itemId, newPrice, userId) => {
-        try {
-            const orderToUpdate = orderData.find(item => item.id === itemId);
-            if (orderToUpdate && (orderToUpdate.status === 0 || orderToUpdate.status === null)) {
-                const response = await axios.put(`${apiUrl}/acceptOrder/${itemId}/${userId}`, {
-                    newPrice: newPrice,
-                });
-
-                if (response.data.Status === 'Success') {
-                    window.location.reload(true);
-                    setOrderData((prevData) => {
-                        return prevData.map((item) =>
-                            item.id === itemId ? { ...item, price: newPrice } : item
-                        );
-                    });
-                } else {
-                    console.error('Failed to save price:', response.data.Error);
-                }
-            } else {
-                console.error('Invalid order status for price update');
-            }
-        } catch (error) {
-            console.error('Error saving price:', error.message);
-        } finally {
-            setEditedItemId(null);
-        }
-    };
+    // const handleAccept = (itemId) => {
+    //     axios
+    //         .put(`${apiUrl}/acceptOrder/${itemId}/`)
+    //         .then((res) => {
+    //             if (res.data.Status === 'Success') {
+    //                 console.log("success")
+    //             }
+    //         })
+    //         .catch((err) => console.log(err));
+    // };
 
     const handleDecline = (itemId) => {
         axios
@@ -200,7 +203,7 @@ function OrderMusicianAccept() {
         const currentDate = moment();
         const durationDate = moment(record.duration);
 
-        return currentDate.isAfter(durationDate);
+        return currentDate.isAfter(durationDate) && record.status !== 3;
     };
     return (
         <>
@@ -216,7 +219,7 @@ function OrderMusicianAccept() {
                 :
                 <div className='d-flex flex-column pt-2'>
                     <div className='d-flex flex-column pt-4'>
-                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Receive Order</h3>
+                        <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold' }}>Order History</h3>
                     </div>
                     <div style={{ width: '90%', margin: '0 auto' }}>
                         <Table
@@ -239,4 +242,4 @@ function OrderMusicianAccept() {
         </>
     );
 }
-export default OrderMusicianAccept;
+export default OrderHistory;

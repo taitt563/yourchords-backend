@@ -29,6 +29,7 @@ import InfoContainer from '../component/InfoContainer';
 import DvrIcon from '@mui/icons-material/Dvr';
 import AddIcon from '@mui/icons-material/Add';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import HistoryIcon from '@mui/icons-material/History';
 function DashboardMusician() {
     const [data, setData] = useState([]);
     const [openSong, setOpenSong] = useState(false);
@@ -242,6 +243,17 @@ function DashboardMusician() {
                                                             </ListItemIcon>
                                                             <ListItemText><span className="fontDashboard">Your Order</span></ListItemText>
                                                         </ListItemButton>
+                                                        <ListItemButton style={{ borderRadius: '20px' }}
+                                                            className={`dashboard-button ${activeButton === 'orderHistory' ? 'clicked' : ''}`}
+                                                            onClick={(e) => {
+                                                                handleButtonClick(e, 'orderHistory');
+                                                                navigate(`/orderHistory/${profile.userId}`)
+                                                            }}  >
+                                                            <ListItemIcon>
+                                                                <HistoryIcon color="primary" fontSize='medium' />
+                                                            </ListItemIcon>
+                                                            <ListItemText><span className="fontDashboard">History</span></ListItemText>
+                                                        </ListItemButton>
                                                         {/* <ListItemButton style={{ borderRadius: '20px' }}
                                                                 className={`dashboard-button ${activeButton === 'transactionHistory' ? 'clicked' : ''}`}
                                                                 onClick={(e) => {
@@ -256,6 +268,7 @@ function DashboardMusician() {
                                                     </List>
                                                 </Collapse>
                                             </List>
+
 
                                             <List sx={{ width: '40%', paddingTop: '20px' }}>
                                                 <ListItemButton onClick={handleClickCourse} style={{ borderRadius: '20px' }}>

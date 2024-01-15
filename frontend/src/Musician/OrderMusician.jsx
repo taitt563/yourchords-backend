@@ -38,11 +38,6 @@ function OrderMusician() {
             title: 'Genre',
             dataIndex: 'genre',
         },
-
-        {
-            title: 'Description',
-            dataIndex: 'description',
-        },
         {
             title: 'Price ($)',
             dataIndex: 'price',
@@ -81,32 +76,28 @@ function OrderMusician() {
                             Declined
                         </button>
                     ) : (
-                        <>
-                            {record.price === null ? (
-                                <button className='btn-decline' onClick={() => handleDecline(record.id)}>
-                                    Reject
-                                </button>
-                            ) : (
-                                <>
-                                    {
-                                        record.status === 1 ? (
-                                            <button className='btn-payment'>
-                                                Waiting for payment
-                                            </button>
-                                        ) : record.status === 2 ? (
-                                            <button className='btn-do'>
-                                                Do it
-                                            </button>
-                                        ) : record.status === 3 && (
-                                            <button className='btn-accept'>
-                                                Completed
-                                            </button>
-                                        )
 
-                                    }
-                                </>
-                            )}
-                        </>
+                        (
+                            <>
+                                {
+                                    record.status === 1 ? (
+                                        <button className='btn-payment'>
+                                            Waiting for payment
+                                        </button>
+                                    ) : record.status === 2 ? (
+                                        <button className='btn-do'>
+                                            Do task
+                                        </button>
+                                    ) : record.status === 3 && (
+                                        <button className='btn-accept'>
+                                            Completed
+                                        </button>
+                                    )
+
+                                }
+                            </>
+                        )
+
                     )}
                 </Space>
             ),
@@ -129,7 +120,7 @@ function OrderMusician() {
                 setLoading(true);
                 const response = await axios.get(`${apiUrl}/getOrder`);
                 if (response.data.Status === 'Success') {
-                    const filteredData = response.data.data.filter(item => item.musician_id === null);
+                    const filteredData = response.data.data.filter(item => item.musician_id === null && item.status === null && !isExpired(item));
                     setOrderData(filteredData);
                 } else {
                     console.error('Failed to fetch order data:', response.data.Error);
@@ -162,7 +153,7 @@ function OrderMusician() {
     const handleSavePrice = async (itemId, newPrice, userId) => {
         try {
             const orderToUpdate = orderData.find(item => item.id === itemId);
-            if (orderToUpdate && (orderToUpdate.status === 0 || orderToUpdate.status === null)) {
+            if (orderToUpdate && (orderToUpdate.status === null)) {
                 const response = await axios.put(`${apiUrl}/acceptOrder/${itemId}/${userId}`, {
                     newPrice: newPrice,
                 });
@@ -192,9 +183,9 @@ function OrderMusician() {
     };
 
 
-    // const handleAccept = (itemId, userId) => {
+    // const handleAccept = (itemId) => {
     //     axios
-    //         .put(`${apiUrl}/acceptOrder/${itemId}/${userId}`)
+    //         .put(`${apiUrl}/acceptOrder/${itemId}/`)
     //         .then((res) => {
     //             if (res.data.Status === 'Success') {
     //                 console.log("success")
@@ -203,16 +194,16 @@ function OrderMusician() {
     //         .catch((err) => console.log(err));
     // };
 
-    const handleDecline = (itemId) => {
-        axios
-            .put(`${apiUrl}/declineOrder/` + itemId)
-            .then((res) => {
-                if (res.data.Status === 'Success') {
-                    window.location.reload(true);
-                }
-            })
-            .catch((err) => console.log(err));
-    };
+    // const handleDecline = (itemId) => {
+    //     axios
+    //         .put(`${apiUrl}/declineOrder/` + itemId)
+    //         .then((res) => {
+    //             if (res.data.Status === 'Success') {
+    //                 window.location.reload(true);
+    //             }
+    //         })
+    //         .catch((err) => console.log(err));
+    // };
     const isExpired = (record) => {
         const currentDate = moment();
         const durationDate = moment(record.duration);

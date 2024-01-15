@@ -1,10 +1,10 @@
 
 import SearchAppBar from '../component/SearchAppBar';
-import { Space, Table, Button } from 'antd';
+import { Space, Table, Button, message, Modal } from 'antd';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import { Link } from '@mui/material';
+import { Link } from 'react-router-dom'
 // import PayPalButton from '../../PaypalButton';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import PropTypes from 'prop-types';
@@ -16,6 +16,20 @@ function OrderStatus() {
     const token = sessionStorage.getItem('token');
     const userId = token.split(':')[0];
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+    const handleDelete = async (recordId) => {
+        try {
+            const response = await axios.delete(`${apiUrl}/deleteOrder/${recordId}`);
+
+            if (response.data.Status === 'Success') {
+                setOrderData((prevOrderData) => prevOrderData.filter(item => item.id !== recordId));
+                message.success('Order deleted successfully');
+            } else {
+                message.error('Failed to delete order');
+            }
+        } catch (error) {
+            message.error('An error occurred while deleting the order');
+        }
+    };
     const columns = [
         {
             title: 'Order ID',
@@ -29,10 +43,6 @@ function OrderStatus() {
         {
             title: 'Genre',
             dataIndex: 'genre',
-        },
-        {
-            title: 'Description',
-            dataIndex: 'description',
         },
         {
             title: 'Price ($)',
@@ -54,45 +64,69 @@ function OrderStatus() {
             dataIndex: 'status',
             render: (text, record) => (
                 <Space size="middle">
-                    {isExpired(record) && text !== 3 ? (
-                        <button className='btn-decline' style={{ width: '100px', textAlign: 'center' }}>
-                            Expired
-                        </button>
-                    ) : text === null ? (
-                        <p style={{ width: '100px', textAlign: 'center' }}>
-                            In process...
-                        </p>
-                    ) : text === 0 ? (
-                        <button className='btn-decline' style={{ width: '100px', textAlign: 'center' }}>
-                            Declined
-                        </button>
-                    ) : text === 1 && record.price !== null ? (
-                        <>
-                            <PayPalButton orderId={String(record.id)} orderPrice={record.price} />
-                            <Button className='btn-decline' style={{ width: '100px', textAlign: 'center' }} onClick={() => handleDecline(record.id)}>
-                                Decline
-                            </Button>
-                        </>
-                    ) : text === 2 && record.price !== null ? (
-                        <button className='btn-payment'  >
-                            Payment Successful
-                        </button>
-                    ) : text === 3 && record.price !== null ? (
+                    {text === 3 && record.price !== null ? (
                         <button className='btn-accept'>
                             Completed
                         </button>
-                    ) : null}
+                    ) : (
+                        <>
+                            {isExpired(record) && text !== 3 ? (
+                                <button className='btn-decline' style={{ width: '100px', textAlign: 'center' }}>
+                                    Expired
+                                </button>
+                            ) : text === null ? (
+                                <p style={{ width: '100px', textAlign: 'center' }}>
+                                    In process...
+                                </p>
+                            ) : text === 0 ? (
+                                <button className='btn-decline' style={{ width: '100px', textAlign: 'center' }}>
+                                    Declined
+                                </button>
+                            ) : text === 1 && record.price !== null ? (
+                                <>
+                                    <PayPalButton orderId={String(record.id)} orderPrice={record.price} />
+                                    <Button className='btn-decline' style={{ width: '100px', textAlign: 'center' }} onClick={() => handleDecline(record.id)}>
+                                        Decline
+                                    </Button>
+                                </>
+                            ) : text === 2 && record.price !== null ? (
+                                <button className='btn-payment'  >
+                                    Payment Successful
+                                </button>
+                            ) : null}
+                        </>
+                    )}
                 </Space>
             ),
         },
-
         {
             title: 'Actions',
             render: (text, record) => (
                 <Space size="middle">
                     <Button type="primary" style={{ borderRadius: '40px' }}>
-                        <Link href={`/viewOrderCustomer/${record.id}`}>View</Link>
+                        <Link to={`/viewOrderCustomer/${record.id}`} style={{ textDecoration: 'none' }}>View</Link>
                     </Button>
+                    {record.status === null || record.status === 0 && !isExpired(record) &&
+                        <Button
+                            onClick={() => {
+                                Modal.confirm({
+                                    title: 'Confirm Deletion',
+                                    content: 'Are you sure you want to delete this order?',
+                                    onOk() {
+                                        handleDelete(record.id);
+                                    },
+                                    onCancel() {
+                                        console.log('Cancel');
+                                    },
+                                });
+                            }}
+                            type="primary"
+                            danger
+                            style={{ borderRadius: '40px' }}
+                        >
+                            Delete
+                        </Button>
+                    }
                 </Space >
             ),
         },
@@ -154,7 +188,7 @@ function OrderStatus() {
         const currentDate = moment();
         const durationDate = moment(record.duration);
 
-        return currentDate.isAfter(durationDate);
+        return currentDate.isAfter(durationDate) && record.status !== 3;
     };
     // const handlePayment = (itemId) => {
     //     axios
@@ -171,19 +205,16 @@ function OrderStatus() {
 
     const handlePaymentConfirmation = async (orderId, paymentDetails) => {
         try {
-            // Log information about the PayPal transaction before making the API call
             console.log('Before PayPal API Call - Order ID:', orderId, 'Payment Details:', paymentDetails);
 
             const response = await axios.put(`${apiUrl}/updateOrderStatus/${orderId}`, {
                 status: 'COMPLETED',
-                paymentDetails: paymentDetails, // You may adjust this based on your backend requirements
+                paymentDetails: paymentDetails,
             });
 
-            // Log information about the PayPal transaction after making the API call
             console.log('After PayPal API Call - Response:', response);
             if (response.data.Status === 'Success') {
-                // window.location.reload(true);
-
+                window.location.reload(true);
                 const updatedOrderData = orderData.map(item => {
                     if (item.id === orderId) {
                         item.status = 2;
@@ -216,10 +247,11 @@ function OrderStatus() {
         <>
             <SearchAppBar />
             {loading ? (
-                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+                <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
                     <div className="spinner-border text-primary" role="status">
                         <span className="visually-hidden">Loading...</span>
                     </div>
+                    <p>Loading...</p>
                 </div>
             )
                 :

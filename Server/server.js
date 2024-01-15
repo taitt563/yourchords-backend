@@ -933,6 +933,14 @@ app.post('/feedbackCustomer', (req, res) => {
 
 
 //ORDER CUSTOMER
+app.delete('/deleteOrder/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "Delete FROM beat WHERE id = ?";
+    con.query(sql, [id], (err, result) => {
+        if (err) return res.json({ Error: "delete song error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    })
+})
 app.post('/order/:userId', (req, res) => {
     const sql = "INSERT INTO beat (user_id, song_name, artist_name , lyric , genre , audio_link, duration, created_at) VALUES (?, ? , ? , ? , ?, ?, ?, CURRENT_TIMESTAMP);";
     const { song_name, artist_name, lyric, genre, audio_link, duration } = req.body;
@@ -1171,6 +1179,15 @@ app.get('/history/:userId', async (req, res) => {
     const sql = 'SELECT * FROM beat WHERE user_id = ? AND status >= 2';
     con.query(sql, [user_Id], (err, result) => {
         if (err) return res.json({ Error: "Get history error in sql" });
+        return res.json({ Status: "Success", Result: result })
+    });
+});
+app.get('/historyMusician/:userId', async (req, res) => {
+    const user_Id = req.params.userId;
+
+    const sql = 'SELECT * FROM beat WHERE musician_id = ? AND status = 3';
+    con.query(sql, [user_Id], (err, result) => {
+        if (err) return res.json({ Error: "Get error in sql" });
         return res.json({ Status: "Success", Result: result })
     });
 });
