@@ -22,6 +22,7 @@ export default function Feedback() {
     const [data, setData] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [imageURL, setImageURL] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [newFeedback, setNewFeedback] = useState({
         comment: '',
         rating: 5,
@@ -53,11 +54,13 @@ export default function Feedback() {
         setValue(storedTabValue);
 
         const fetchData = async () => {
+            setLoading(true);
             try {
                 if (value === '1') {
                     // Fetch all feedback
                     const response = await axios.get(`${apiUrl}/getFeedback`);
                     if (response.data.Status === 'Success') {
+                        setLoading(false);
                         setData(response.data.Result);
                         if (response.data.Result.length > 0) {
                             const profileImages = response.data.Result.map(data => `${data.image}`);
@@ -70,6 +73,7 @@ export default function Feedback() {
                     // Fetch user-specific feedback
                     const response = await axios.get(`${apiUrl}/getFeedback/` + userId);
                     if (response.data.Status === 'Success') {
+                        setLoading(false);
                         setData(response.data.Result);
                         if (response.data.Result.length > 0) {
                             const profileImages = response.data.Result.map(data => `${data.image}`);
@@ -214,198 +218,210 @@ export default function Feedback() {
                     <h3 className="profile-header" style={{ color: '#0d6efd' }}><b>Feedback to us</b></h3>
 
                 </div>
-                <TabContext value={value}>
-                    <Box sx={{
-                        borderBottom: 1,
-                        borderColor: 'divider'
-                    }}>
-                        <TabList onChange={handleChange} centered>
-                            <Tab label="All" value="1" />
-                            <Tab label="My feedback" value="2" />
-                        </TabList>
-                    </Box>
-                    <TabPanel value="1">
-                        {/* LIST TODAY */}
-                        <div style={{ borderRadius: '20px', border: '1px solid #ccc', margin: '10px' }}>
-                            <ListItem>
-                                <ListItemText primary="Today" style={{ color: '#0d6efd' }} />
-                            </ListItem>
-                            <List sx={{ mb: 2 }} >
-                                <div className="mt-4 pd-left">
-                                    {!renderTableRows('today').some(row => row !== null) ?
-                                        (
-
-                                            <div className="text-center"><b>No comment available</b></div>
-                                        )
-                                        :
-                                        <table className='custom-table table'>
-                                            <thead>
-                                                <tr>
-                                                    <th></th>
-                                                    <th>Date</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {renderTableRows('today')}
-                                            </tbody>
-                                        </table>
-                                    }
-                                </div>
-                            </List>
-                            {/* LIST RECENTLY */}
-                            <ListItem>
-                                <ListItemText primary="Recently" style={{ color: '#0d6efd' }} />
-                            </ListItem>
-                            <List sx={{ mb: 2 }}>
-                                <div className="mt-4 pd-left">
-                                    {!renderTableRows('recently').some(row => row !== null) ?
-                                        (
-
-                                            <div className="text-center"><em>No comment available</em></div>
-                                        )
-                                        :
-                                        <table className='custom-table table'>
-                                            <thead>
-                                                <tr>
-                                                    <th></th>
-                                                    <th>Date</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {renderTableRows('recently')}
-                                            </tbody>
-                                        </table>
-                                    }
-                                </div>
-                            </List>
+                {loading ? (
+                    <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="visually-hidden">Loading...</span>
                         </div>
+                        <p>Loading...</p>
+                    </div>
+                )
+                    :
+                    <>
+                        <TabContext value={value}>
+                            <Box sx={{
+                                borderBottom: 1,
+                                borderColor: 'divider'
+                            }}>
+                                <TabList onChange={handleChange} centered>
+                                    <Tab label="All" value="1" />
+                                    <Tab label="My feedback" value="2" />
+                                </TabList>
+                            </Box>
+                            <TabPanel value="1">
+                                {/* LIST TODAY */}
+                                <div style={{ borderRadius: '20px', border: '1px solid #ccc', margin: '10px' }}>
+                                    <ListItem>
+                                        <ListItemText primary="Today" style={{ color: '#0d6efd' }} />
+                                    </ListItem>
+                                    <List sx={{ mb: 2 }} >
+                                        <div className="mt-4 pd-left">
+                                            {!renderTableRows('today').some(row => row !== null) ?
+                                                (
 
-                    </TabPanel>
+                                                    <div className="text-center"><b>No comment available</b></div>
+                                                )
+                                                :
+                                                <table className='custom-table table'>
+                                                    <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>Date</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {renderTableRows('today')}
+                                                    </tbody>
+                                                </table>
+                                            }
+                                        </div>
+                                    </List>
+                                    {/* LIST RECENTLY */}
+                                    <ListItem>
+                                        <ListItemText primary="Recently" style={{ color: '#0d6efd' }} />
+                                    </ListItem>
+                                    <List sx={{ mb: 2 }}>
+                                        <div className="mt-4 pd-left">
+                                            {!renderTableRows('recently').some(row => row !== null) ?
+                                                (
 
-
-                    <TabPanel value="2">
-                        {/* LIST TODAY */}
-                        <div style={{ borderRadius: '20px', border: '1px solid #ccc', margin: '10px' }}>
-                            <ListItem>
-                                <ListItemText primary="Today" style={{ color: '#0d6efd' }} />
-                            </ListItem>
-                            <List sx={{ mb: 2 }} >
-                                <div className="mt-4 pd-left">
-                                    {!renderTableRows('today').some(row => row !== null) ?
-                                        (
-
-                                            <div className="text-center"><b>No comment available</b></div>
-                                        )
-                                        :
-                                        <table className='custom-table table'>
-                                            <thead>
-                                                <tr>
-                                                    <th></th>
-                                                    <th>Date</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {renderTableRows('today')}
-                                            </tbody>
-                                        </table>
-                                    }
+                                                    <div className="text-center"><b>No comment available</b></div>
+                                                )
+                                                :
+                                                <table className='custom-table table'>
+                                                    <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>Date</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {renderTableRows('recently')}
+                                                    </tbody>
+                                                </table>
+                                            }
+                                        </div>
+                                    </List>
                                 </div>
 
-                            </List>
-                            {/* LIST RECENTLY */}
-                            <ListItem>
-                                <ListItemText primary="Recently" style={{ color: '#0d6efd' }} />
-                            </ListItem>
-                            <List sx={{ mb: 2 }}>
-                                <div className="mt-4 pd-left">
-                                    {!renderTableRows('recently').some(row => row !== null) ?
-                                        (
+                            </TabPanel>
 
-                                            <div className="text-center"><em>No comment available</em></div>
-                                        )
-                                        :
-                                        <table className='custom-table table'>
-                                            <thead>
-                                                <tr>
-                                                    <th></th>
-                                                    <th>Date</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {renderTableRows('recently')}
-                                            </tbody>
-                                        </table>
-                                    }
-                                </div>
-                                {/* Modal for creating new feedback */}
-                                <Modal open={isModalOpen} onClose={closeModal}>
-                                    <Box
-                                        sx={{
-                                            position: 'absolute',
-                                            top: '50%',
-                                            left: '50%',
-                                            transform: 'translate(-50%, -50%)',
-                                            width: 400,
-                                            bgcolor: 'background.paper',
-                                            boxShadow: 24,
-                                            p: 4,
-                                        }}
-                                    >
-                                        <h2 style={{ color: '#0d6efd' }}>New Feedback</h2>
 
-                                        <form>
-                                            <TextField
-                                                name="comment"
-                                                label="Comment"
-                                                variant="outlined"
-                                                margin="normal"
-                                                fullWidth
-                                                value={newFeedback.comment}
-                                                onChange={handleFormChange}
-                                                required
-                                            />
-                                            <Rating
-                                                name="rating"
-                                                value={newFeedback.rating}
-                                                onChange={handleRatingChange}
-                                                getLabelText={getLabelText}
-                                                precision={0.5}
-                                                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                                                onChangeActive={(event, newHover) => {
-                                                    setHover(newHover);
+                            <TabPanel value="2">
+                                {/* LIST TODAY */}
+                                <div style={{ borderRadius: '20px', border: '1px solid #ccc', margin: '10px' }}>
+                                    <ListItem>
+                                        <ListItemText primary="Today" style={{ color: '#0d6efd' }} />
+                                    </ListItem>
+                                    <List sx={{ mb: 2 }} >
+                                        <div className="mt-4 pd-left">
+                                            {!renderTableRows('today').some(row => row !== null) ?
+                                                (
 
-                                                }}
-                                            />
-                                            <Box sx={{ ml: 2 }}>{labels[hover]}</Box>
+                                                    <div className="text-center"><b>No comment available</b></div>
+                                                )
+                                                :
+                                                <table className='custom-table table'>
+                                                    <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>Date</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {renderTableRows('today')}
+                                                    </tbody>
+                                                </table>
+                                            }
+                                        </div>
 
-                                            <br />
-                                            <Button
-                                                variant="contained"
-                                                onClick={handleFeedbackSubmission}
+                                    </List>
+                                    {/* LIST RECENTLY */}
+                                    <ListItem>
+                                        <ListItemText primary="Recently" style={{ color: '#0d6efd' }} />
+                                    </ListItem>
+                                    <List sx={{ mb: 2 }}>
+                                        <div className="mt-4 pd-left">
+                                            {!renderTableRows('recently').some(row => row !== null) ?
+                                                (
+
+                                                    <div className="text-center"><b>No comment available</b></div>
+                                                )
+                                                :
+                                                <table className='custom-table table'>
+                                                    <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>Date</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {renderTableRows('recently')}
+                                                    </tbody>
+                                                </table>
+                                            }
+                                        </div>
+                                        {/* Modal for creating new feedback */}
+                                        <Modal open={isModalOpen} onClose={closeModal}>
+                                            <Box
                                                 sx={{
-                                                    display: 'flex',
-                                                    justifyContent: 'center',
-                                                    marginTop: 2,
+                                                    position: 'absolute',
+                                                    top: '50%',
+                                                    left: '50%',
+                                                    transform: 'translate(-50%, -50%)',
+                                                    width: 400,
+                                                    bgcolor: 'background.paper',
+                                                    boxShadow: 24,
+                                                    p: 4,
                                                 }}
                                             >
-                                                Submit Feedback
-                                            </Button>
-                                        </form>
-                                    </Box>
-                                </Modal>
+                                                <h2 style={{ color: '#0d6efd' }}>New Feedback</h2>
 
-                            </List>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <Button variant={'contained'} onClick={openModal}>Send Feedback</Button>
-                        </div>
-                    </TabPanel>
-                </TabContext>
-            </React.Fragment >
+                                                <form>
+                                                    <TextField
+                                                        name="comment"
+                                                        label="Comment"
+                                                        variant="outlined"
+                                                        margin="normal"
+                                                        fullWidth
+                                                        value={newFeedback.comment}
+                                                        onChange={handleFormChange}
+                                                        required
+                                                    />
+                                                    <Rating
+                                                        name="rating"
+                                                        value={newFeedback.rating}
+                                                        onChange={handleRatingChange}
+                                                        getLabelText={getLabelText}
+                                                        precision={0.5}
+                                                        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                                        onChangeActive={(event, newHover) => {
+                                                            setHover(newHover);
+
+                                                        }}
+                                                    />
+                                                    <Box sx={{ ml: 2 }}>{labels[hover]}</Box>
+
+                                                    <br />
+                                                    <Button
+                                                        variant="contained"
+                                                        onClick={handleFeedbackSubmission}
+                                                        sx={{
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            marginTop: 2,
+                                                        }}
+                                                    >
+                                                        Submit Feedback
+                                                    </Button>
+                                                </form>
+                                            </Box>
+                                        </Modal>
+
+                                    </List>
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <Button variant={'contained'} onClick={openModal}>Send Feedback</Button>
+                                </div>
+                            </TabPanel>
+                        </TabContext>
+                    </>
+                }
+            </React.Fragment>
         </>
     );
 }
