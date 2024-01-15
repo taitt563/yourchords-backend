@@ -11,6 +11,9 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
@@ -26,10 +29,10 @@ function Course() {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const [loading, setLoading] = useState(true);
     const [selectedCourse, setSelectedCourse] = useState(null);
+    const [tabVisible, setTabVisible] = useState(true);
     const handleTabChange = (event, newValue) => {
         setSelectedCourse(newValue);
     };
-
     useEffect(() => {
         setSelectedCourse(null);
     }, [search]);
@@ -125,31 +128,53 @@ function Course() {
                     <div>
                         <h3 className="d-flex justify-content-center" style={{ color: '#0d6efd', fontWeight: 'bold', marginTop: "50px" }}>Course</h3>
                     </div>
+
                     <Box sx={{ display: 'flex', flexDirection: 'row', marginLeft: '10px' }}>
 
-                        <Tabs
-                            orientation="vertical"
-                            value={selectedCourse}
-                            onChange={handleTabChange}
-                            sx={{
-                                position: 'flex',
+                        {tabVisible && (
+                            <Tabs
+                                orientation="vertical"
+                                value={selectedCourse}
+                                onChange={handleTabChange}
+                                sx={{
+                                    position: 'flex',
+                                    borderRight: 1,
+                                    borderTop: 1,
+                                    borderBottom: 1,
+                                    borderBottomRightRadius: '20px',
+                                    borderColor: 'divider',
+                                    width: '22%',
+                                    height: '65vh',
+                                    flexShrink: 0,
+                                }}>
+                                {filteredRequestCourse.map((course, index) => (
+                                    <Tab
+                                        key={index}
+                                        label={
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                {selectedCourse === index && <PlayCircleIcon style={{ marginRight: '8px' }} />}
+                                                <b>{course.course_name}</b>
+                                            </div>
+                                        }
+                                        style={{ borderTopRightRadius: '20px', borderBottomRightRadius: '20px' }}
+                                    />
+                                ))}
+                            </Tabs>
+                        )}
+                        <button
+                            onClick={() => setTabVisible(!tabVisible)}
+                            style={{
+                                height: '49px',
                                 borderRight: 1,
-                                borderColor: 'divider',
-                                width: '20%',
-                                height: '65vh',
+                                borderTop: 1,
+                                borderBottom: 1,
+                                borderLeft: tabVisible ? 1 : null,
+                                borderColor: tabVisible ? "" : "#0d6efd",
+                                borderTopRightRadius: '4px',
+                                borderBottomRightRadius: '4px',
                             }}>
-                            {filteredRequestCourse.map((course, index) => (
-                                <Tab
-                                    key={index}
-                                    label={
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            {selectedCourse === index && <PlayCircleIcon style={{ marginRight: '8px' }} />}
-                                            <b>{course.course_name}</b>
-                                        </div>
-                                    }
-                                />
-                            ))}
-                        </Tabs>
+                            {tabVisible ? <ChevronLeftIcon sx={{ '&:hover': { transform: 'scale(1.2)' } }} style={{ fontSize: 28, color: '#0d6efd' }} /> : <ChevronRightIcon sx={{ '&:hover': { transform: 'scale(1.2)' } }} style={{ fontSize: 28, color: '#0d6efd' }} />}
+                        </button>
 
                         <Box sx={{ width: '55%', margin: 'auto' }}>
                             {selectedCourse !== null && filteredRequestCourse.length > 0 && selectedCourse < filteredRequestCourse.length && (
@@ -160,8 +185,6 @@ function Course() {
                                     <p>
                                         <span>Author:</span> {filteredRequestCourse[selectedCourse].userId}
                                     </p>
-
-
                                     <div style={{
                                         width: 'fit-content',
                                         border: '3px solid #0d6efd',
