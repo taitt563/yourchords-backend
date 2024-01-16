@@ -65,109 +65,67 @@ function ViewRequestCourse() {
                     </div>
                     <p>Loading...</p>
                 </div>
-            )
-                : (
-                    <div className="container payment-container" style={{ width: '1200px', height: 'fit-content' }}>
-                        {requestData.map((order, index) => (
-                            <div key={index}>
-                                <div className="py-4 text-center">
-                                    <h2 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Request Course</h2>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-6 text-start pe-4">
-                                        {/* Left side */}
-                                        <div>
-                                            <b htmlFor="title">Course name:</b>
-                                            <p>{order.course_name}</p>
-
-                                            <b htmlFor="cc-link" className="text-start">Link youtube</b>
-                                            <br />
-                                            {order.link !== "" ?
-                                                <Link to={order.link} style={{ textDecoration: 'none' }}>{order.link.substring(0, 50)}...</Link>
-                                                : "None"
-                                            }
-                                            <br />
-                                            <div style={{ marginTop: '10px' }}>
-                                                <b htmlFor="duration" className="form-label text-start">Date created:</b>
-                                                <p>{moment(order.upload_date).format('YYYY-MM-DD  HH:mm:ss')}</p>
-                                                <b htmlFor="duration" className="form-label">Poster / Uploader:</b>
-                                                <p>{order.userId}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6 text-end">
-                                        {getYouTubeVideoId(order.link) && (
-                                            <YouTube
-                                                videoId={getYouTubeVideoId(order.link)}
-                                                opts={{
-                                                    playerVars: {
-                                                        modestbranding: 1,
-                                                    },
-                                                    width: 580,
-                                                    host: 'https://www.youtube-nocookie.com',
-                                                }}
-                                            />
-                                        )}
-
-                                        {videoFile && (
-                                            <video controls width="580" height="400">
-                                                <source src={generateBlobUrl(new Uint8Array(videoFile.data).buffer, 'video/*')} type="video/mp4" />
-                                            </video>
-                                        )}
-                                    </div>
-                                    {/* <div className="col-md-6 text-end pe-4">
-                                        {getYouTubeVideoId(order.link) && (
-                                            <YouTube
-                                                videoId={getYouTubeVideoId(order.link)}
-                                                opts={{
-                                                    playerVars: {
-                                                        modestbranding: 1,
-                                                    },
-                                                    host: 'https://www.youtube-nocookie.com',
-                                                }}
-                                            />
-                                        )}
-                                        {videoFile && (
-                                            <video controls width="640" height="400">
-                                                <source src={generateBlobUrl(new Uint8Array(videoFile.data).buffer, 'video/*')} type="video/mp4" />
-                                            </video>
-                                        )}
-                                    </div> */}
-                                </div>
-                                {/* <div className="row">
-                                    <div className="col-md-6 mb-3 d-flex justify-content-center">
-                                        {getYouTubeVideoId(order.link) && (
-                                            <YouTube
-                                                videoId={getYouTubeVideoId(order.link)}
-                                                opts={{
-                                                    playerVars: {
-                                                        modestbranding: 1,
-                                                    },
-                                                    host: 'https://www.youtube-nocookie.com',
-                                                }}
-                                            />
-                                        )}
-                                    </div>
-                                    <div className="col-md-6 mb-3 d-flex justify-content-center">
-                                        {videoFile && (
-                                            <video controls width="640" height="400">
-                                                <source src={generateBlobUrl(new Uint8Array(videoFile.data).buffer, 'video/*')} type="video/mp4" />
-                                            </video>
-                                        )}
-                                    </div>
-                                </div> */}
-                                <hr className="mb-3" />
-                                <div className="row">
+            ) : (
+                <div className="container payment-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
+                    {requestData.map((order, index) => (
+                        <div key={index} className="mb-4">
+                            <div className="py-4 text-center">
+                                <h2 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Request Course</h2>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-6">
                                     <div>
-                                        <button className="btn btn-primary" onClick={handleClose}>
-                                            Close
-                                        </button>
+                                        <b htmlFor="title">Course name:</b>
+                                        <p>{order.course_name}</p>
+
+                                        <b htmlFor="cc-link">Link youtube:</b>
+                                        <br />
+                                        {order.link !== "" ? (
+                                            <Link to={order.link} style={{ textDecoration: 'none' }}>
+                                                {order.link.substring(0, 50)}...
+                                            </Link>
+                                        ) :
+                                            "None"
+                                        }
+                                        <br />
+                                        <b htmlFor="duration">Date created:</b>
+                                        <p>{moment(order.upload_date).format('YYYY-MM-DD HH:mm:ss')}</p>
+                                        <b htmlFor="duration">Poster / Uploader:</b>
+                                        <p>{order.userId}</p>
                                     </div>
+                                </div>
+                                <div className="col-md-6 text-end">
+                                    {getYouTubeVideoId(order.link) && (
+                                        <YouTube
+                                            videoId={getYouTubeVideoId(order.link)}
+                                            opts={{
+                                                playerVars: {
+                                                    modestbranding: 1,
+                                                },
+                                                width: '100%',
+                                                host: 'https://www.youtube-nocookie.com',
+                                            }}
+                                        />
+                                    )}
+
+                                    {videoFile && (
+                                        <video controls width="100%" height="400">
+                                            <source
+                                                src={generateBlobUrl(new Uint8Array(videoFile.data).buffer, 'video/*')}
+                                                type="video/mp4"
+                                            />
+                                        </video>
+                                    )}
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                )}
+                            <hr className="mb-3" />
+                            <button className="btn btn-primary" onClick={handleClose}>
+                                Close
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            )}
         </>
     );
 }
