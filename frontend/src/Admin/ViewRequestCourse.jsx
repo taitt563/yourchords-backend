@@ -79,7 +79,7 @@ function ViewRequestCourse() {
                                         <b htmlFor="title">Course name:</b>
                                         <p>{order.course_name}</p>
                                         <div style={{ paddingTop: '20px' }}>
-                                            <b htmlFor="cc-link" className="text-start">Link youtube</b>
+                                            <b htmlFor="cc-link" className="text-start">Link YouTube:</b>
                                             <br />
                                             <Link to={order.link} style={{ textDecoration: 'none' }}>{order.link.substring(0, 50)}...</Link>
                                         </div>
