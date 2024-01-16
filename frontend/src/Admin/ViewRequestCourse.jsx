@@ -73,25 +73,25 @@ function ViewRequestCourse() {
                                 <h2 style={{ color: '#0d6efd', fontWeight: 'bold' }}>Request Course</h2>
                             </div>
                             <div className="row">
-                                <div className="col-md-6">
+                                <div className="col-md-6 text-start pe-4">
+                                    {/* Left side */}
                                     <div>
                                         <b htmlFor="title">Course name:</b>
                                         <p>{order.course_name}</p>
-
-                                        <b htmlFor="cc-link">Link youtube:</b>
+                                        <div style={{ paddingTop: '20px' }}>
+                                            <b htmlFor="cc-link" className="text-start">Link youtube</b>
+                                            <br />
+                                            <Link to={order.link} style={{ textDecoration: 'none' }}>{order.link.substring(0, 50)}...</Link>
+                                        </div>
                                         <br />
-                                        {order.link !== "" ? (
-                                            <Link to={order.link} style={{ textDecoration: 'none' }}>
-                                                {order.link.substring(0, 50)}...
-                                            </Link>
-                                        ) :
-                                            "None"
-                                        }
-                                        <br />
-                                        <b htmlFor="duration">Date created:</b>
-                                        <p>{moment(order.upload_date).format('YYYY-MM-DD HH:mm:ss')}</p>
-                                        <b htmlFor="duration">Poster / Uploader:</b>
-                                        <p>{order.userId}</p>
+                                        <div style={{ marginTop: '10px' }}>
+                                            <b htmlFor="duration" className="form-label text-start">Date created:</b>
+                                            <p>{moment(order.upload_date).format('YYYY-MM-DD  HH:mm:ss')}</p>
+                                        </div>
+                                        <div style={{ paddingTop: '20px' }}>
+                                            <b htmlFor="duration" className="form-label">Poster / Uploader:</b>
+                                            <p>{order.userId}</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="col-md-6 text-end">
