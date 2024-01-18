@@ -13,6 +13,7 @@ import Tabs from '@mui/material/Tabs';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import Scrollbars from 'react-custom-scrollbars';
 
 const darkTheme = createTheme({
     palette: {
@@ -130,36 +131,36 @@ function Course() {
                     </div>
 
                     <Box sx={{ display: 'flex', flexDirection: 'row', marginLeft: '10px' }}>
-
                         {tabVisible && (
-                            <Tabs
-                                orientation="vertical"
-                                value={selectedCourse}
-                                onChange={handleTabChange}
-                                sx={{
-                                    position: 'flex',
-                                    borderRight: 1,
-                                    borderTop: 1,
-                                    borderBottom: 1,
-                                    borderBottomRightRadius: '20px',
-                                    borderColor: 'divider',
-                                    width: '22%',
-                                    height: '65vh',
-                                    flexShrink: 0,
-                                }}>
-                                {filteredRequestCourse.map((course, index) => (
-                                    <Tab
-                                        key={index}
-                                        label={
-                                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                {selectedCourse === index && <PlayCircleIcon style={{ marginRight: '8px' }} />}
-                                                <b>{course.course_name}</b>
-                                            </div>
-                                        }
-                                        style={{ borderTopRightRadius: '20px', borderBottomRightRadius: '20px' }}
-                                    />
-                                ))}
-                            </Tabs>
+
+                            <Scrollbars style={{ width: '22%', height: '70vh' }}>
+                                <Tabs
+                                    orientation="vertical"
+                                    value={selectedCourse}
+                                    onChange={handleTabChange}
+                                    sx={{
+                                        position: 'flex',
+                                        borderRight: 1,
+                                        borderTop: 1,
+                                        borderBottom: 1,
+                                        borderBottomRightRadius: '20px',
+                                        borderColor: 'divider',
+                                        height: '70vh',
+                                    }}>
+                                    {filteredRequestCourse.map((course, index) => (
+                                        <Tab
+                                            key={index}
+                                            label={
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    {selectedCourse === index && <PlayCircleIcon style={{ marginRight: '8px' }} />}
+                                                    <b>{course.course_name}</b>
+                                                </div>
+                                            }
+                                            style={{ borderTopRightRadius: '20px', borderBottomRightRadius: '20px' }}
+                                        />
+                                    ))}
+                                </Tabs>
+                            </Scrollbars>
                         )}
                         <button
                             onClick={() => setTabVisible(!tabVisible)}
