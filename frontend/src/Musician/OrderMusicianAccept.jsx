@@ -37,6 +37,10 @@ function OrderMusicianAccept() {
         {
             title: 'Genre',
             dataIndex: 'genre',
+            render: (text) => {
+                const genre = text.charAt(0).toUpperCase() + text.slice(1);
+                return genre;
+            },
         },
         {
             title: 'Price',

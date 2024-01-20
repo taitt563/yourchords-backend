@@ -37,6 +37,10 @@ function OrderMusician() {
         {
             title: 'Genre',
             dataIndex: 'genre',
+            render: (text) => {
+                const genre = text.charAt(0).toUpperCase() + text.slice(1);
+                return genre;
+            },
         },
         {
             title: 'Price ($)',
@@ -76,28 +80,24 @@ function OrderMusician() {
                             Declined
                         </button>
                     ) : (
+                        <>
+                            {
+                                record.status === 1 ? (
+                                    <button className='btn-payment'>
+                                        Waiting for payment
+                                    </button>
+                                ) : record.status === 2 ? (
+                                    <button className='btn-do'>
+                                        Do task
+                                    </button>
+                                ) : record.status === 3 && (
+                                    <button className='btn-accept'>
+                                        Completed
+                                    </button>
+                                )
 
-                        (
-                            <>
-                                {
-                                    record.status === 1 ? (
-                                        <button className='btn-payment'>
-                                            Waiting for payment
-                                        </button>
-                                    ) : record.status === 2 ? (
-                                        <button className='btn-do'>
-                                            Do task
-                                        </button>
-                                    ) : record.status === 3 && (
-                                        <button className='btn-accept'>
-                                            Completed
-                                        </button>
-                                    )
-
-                                }
-                            </>
-                        )
-
+                            }
+                        </>
                     )}
                 </Space>
             ),
